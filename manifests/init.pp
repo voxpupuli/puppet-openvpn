@@ -10,7 +10,7 @@ class openvpn {
             ensure     => running,
             hasrestart => true,
             hasstatus  => true,
-            require    => Exec["/etc/default/openvpn concatenation"];
+            require    => Exec["concat_/etc/default/openvpn"];
     }
     file {
         "/etc/openvpn":
@@ -22,11 +22,23 @@ class openvpn {
             ensure  => directory,
             require => File["/etc/openvpn"];
     }
-    common::concatfilepart {
-        "00-etc-default-openvpn header":
-            ensure  => present,
-            content => template("openvpn/etc-default-openvpn.erb"),
-            notify  => Service["openvpn"],
-            file    => "/etc/default/openvpn";
+
+    include concat::setup
+
+    concat {
+        "/etc/default/openvpn":
+            owner  => root,
+            group  => root,
+            mode   => 644,
+            warn   => true,
+            notify => Service["openvpn"];
     }
+
+    concat::fragment {
+        "openvpn.default.header":
+            content => template("openvpn/etc-default-openvpn.erb"),
+            target  => "/etc/default/openvpn",
+            order   => 01;
+    }
+
 }

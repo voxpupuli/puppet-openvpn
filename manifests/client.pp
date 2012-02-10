@@ -121,10 +121,22 @@ define openvpn::client($server, $remote_host = $fqdn) {
             cwd         => "/etc/openvpn/${server}/download-configs/",
             command     => "rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
             refreshonly => true,
-            subscribe   => Exec["/etc/openvpn/${server}/download-configs/${name}/${name}.conf concatenation"],
             require     => [ File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
                             File["/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt"],
                             File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.key"],
                             File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt"] ];
     }
+
+
+    concat {
+        [ "/etc/openvpn/${server}/client-configs/${name}", "/etc/openvpn/${server}/download-configs/${name}/${name}.conf" ]:
+            owner   => root,
+            group   => root,
+            mode    => 644,
+            warn    => true,
+            force   => true,
+            notify  => Exec["tar the thing ${server} with ${name}"],
+            require => [ File["/etc/openvpn"], File["/etc/openvpn/${server}/download-configs/${name}"] ];
+    }
+
 }

@@ -29,7 +29,7 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             content => template("openvpn/vars.erb"),
             require => Exec["copy easy-rsa to openvpn config folder ${name}"];
     }
-    
+
     exec {
         "generate dh param ${name}":
             command  => ". ./vars && ./clean-all && ./build-dh",
@@ -37,14 +37,14 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             creates  => "/etc/openvpn/${name}/easy-rsa/keys/dh1024.pem",
             provider => "shell",
             require  => File["/etc/openvpn/${name}/easy-rsa/vars"];
-        
+
         "initca ${name}":
             command  => ". ./vars && ./pkitool --initca",
             cwd      => "/etc/openvpn/${name}/easy-rsa",
             creates  => "/etc/openvpn/${name}/easy-rsa/keys/ca.key",
             provider => "shell",
             require  => Exec["generate dh param ${name}"];
-        
+
         "generate server cert ${name}":
             command  => ". ./vars && ./pkitool --server server",
             cwd      => "/etc/openvpn/${name}/easy-rsa",
@@ -82,11 +82,22 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             require => Exec["generate dh param ${name}"],
             server  => "${name}";
     }
-    
-    common::concatfilepart {
-        "etc-default-openvpn autostart for ${name}":
-            ensure  => present,
+
+    concat::fragment {
+        "openvpn.default.autostart.${name}":
             content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
-            file    => "/etc/default/openvpn";
+            target  => "/etc/default/openvpn",
+            order   => 10;
     }
+
+    concat {
+        "/etc/openvpn/${name}.conf":
+            owner   => root,
+            group   => root,
+            mode    => 644,
+            warn    => true,
+            require => File["/etc/openvpn"],
+            notify  => Service["openvpn"];
+    }
+
 }
