@@ -14,23 +14,23 @@ define openvpn::client($server, $remote_host = $fqdn) {
         "/etc/openvpn/${server}/download-configs/${name}":
             ensure  => directory,
             require => File["/etc/openvpn/${server}/download-configs"];
-        
+
         "/etc/openvpn/${server}/download-configs/${name}/keys":
             ensure  => directory,
             require => File["/etc/openvpn/${server}/download-configs/${name}"];
-        
+
         "/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt":
             ensure => link,
             target => "/etc/openvpn/${server}/easy-rsa/keys/${name}.crt",
             require => [ Exec["generate certificate for ${name} in context of ${server}"],
                          File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
-        
+
         "/etc/openvpn/${server}/download-configs/${name}/keys/${name}.key":
             ensure => link,
             target => "/etc/openvpn/${server}/easy-rsa/keys/${name}.key",
             require => [ Exec["generate certificate for ${name} in context of ${server}"],
                          File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
-        
+
         "/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt":
             ensure => link,
             target => "/etc/openvpn/${server}/easy-rsa/keys/ca.crt",
