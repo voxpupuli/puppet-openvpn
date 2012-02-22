@@ -3,6 +3,11 @@
 define openvpn::server($country, $province, $city, $organization, $email) {
     include openvpn
 
+    $easyrsa_source = $operatingsystem ? {
+      'centos' => '/usr/share/doc/openvpn-2.2.0/easy-rsa/2.0',
+      default => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+    }
+
     file {
         "/etc/openvpn/${name}":
             ensure => directory,
@@ -19,9 +24,15 @@ define openvpn::server($country, $province, $city, $organization, $email) {
 
     exec {
         "copy easy-rsa to openvpn config folder ${name}":
-            command => "cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/${name}/easy-rsa",
+            command => "/bin/cp -r ${easyrsa_source} /etc/openvpn/${name}/easy-rsa",
             creates => "/etc/openvpn/${name}/easy-rsa",
+            notify => Exec["fix_easyrsa_file_permissions"],
             require => File["/etc/openvpn/${name}"];
+    }
+    exec {
+        "fix_easyrsa_file_permissions":
+            refreshonly => "true",
+            command => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*";
     }
     file {
         "/etc/openvpn/${name}/easy-rsa/vars":
