@@ -19,7 +19,7 @@ define openvpn::server($country, $province, $city, $organization, $email) {
 
     exec {
         "copy easy-rsa to openvpn config folder ${name}":
-            command => "cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/${name}/easy-rsa",
+            command => "/bin/cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/${name}/easy-rsa",
             creates => "/etc/openvpn/${name}/easy-rsa",
             require => File["/etc/openvpn/${name}"];
     }

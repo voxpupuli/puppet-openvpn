@@ -119,7 +119,7 @@ define openvpn::client($server, $remote_host = $fqdn) {
     exec {
         "tar the thing ${server} with ${name}":
             cwd         => "/etc/openvpn/${server}/download-configs/",
-            command     => "rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
+            command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
             refreshonly => true,
             require     => [ File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
                             File["/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt"],
