@@ -5,6 +5,11 @@ OpenVPN module for puppet including client config/cert creation (tarball to down
 ## Dependencies
   - [puppet-concat](https://github.com/ripienaar/puppet-concat)
 
+## Supported OS
+  - Debian Squeeze (should, as it works on Ubuntu Lucid)
+  - Ubuntu 10.4 (other untested)
+  - CentOS
+
 ## Example
 
     # add a server instance
