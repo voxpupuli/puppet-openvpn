@@ -10,15 +10,15 @@ define openvpn::server($country, $province, $city, $organization, $email) {
 
     file {
         "/etc/openvpn/${name}":
-            ensure => directory,
+            ensure  => directory,
             require => Package["openvpn"];
     }
     file {
         "/etc/openvpn/${name}/client-configs":
-            ensure => directory,
+            ensure  => directory,
             require => File["/etc/openvpn/${name}"];
         "/etc/openvpn/${name}/download-configs":
-            ensure => directory,
+            ensure  => directory,
             require => File["/etc/openvpn/${name}"];
     }
 
@@ -26,13 +26,13 @@ define openvpn::server($country, $province, $city, $organization, $email) {
         "copy easy-rsa to openvpn config folder ${name}":
             command => "/bin/cp -r ${easyrsa_source} /etc/openvpn/${name}/easy-rsa",
             creates => "/etc/openvpn/${name}/easy-rsa",
-            notify => Exec["fix_easyrsa_file_permissions"],
+            notify  => Exec["fix_easyrsa_file_permissions"],
             require => File["/etc/openvpn/${name}"];
     }
     exec {
         "fix_easyrsa_file_permissions":
             refreshonly => "true",
-            command => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*";
+            command     => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*";
     }
     file {
         "/etc/openvpn/${name}/easy-rsa/vars":
