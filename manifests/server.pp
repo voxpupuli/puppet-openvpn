@@ -8,6 +8,11 @@ define openvpn::server($country, $province, $city, $organization, $email) {
       default => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
     }
 
+    $link_openssl_cnf = $lsbdistcodename ? {
+      'precise' => true,
+      default => false
+    }
+
     file {
         "/etc/openvpn/${name}":
             ensure  => directory,
@@ -20,6 +25,18 @@ define openvpn::server($country, $province, $city, $organization, $email) {
         "/etc/openvpn/${name}/download-configs":
             ensure  => directory,
             require => File["/etc/openvpn/${name}"];
+    }
+
+    openvpn::option {
+        "client-config-dir ${name}":
+            key     => 'client-config-dir',
+            value   => "/etc/openvpn/${name}/client-configs",
+            server  => $name,
+            require => File["/etc/openvpn/${name}"];
+        "mode ${name}":
+            key    => 'mode',
+            value  => 'server',
+            server => $name;
     }
 
     exec {
@@ -41,6 +58,17 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             require => Exec["copy easy-rsa to openvpn config folder ${name}"];
     }
 
+    file {
+      "/etc/openvpn/${name}/easy-rsa/openssl.cnf":
+        require => Exec["copy easy-rsa to openvpn config folder ${name}"];
+    }
+    if $link_openssl_cnf == true {
+        File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] {
+            ensure => link,
+            target => "/etc/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf"
+        }
+    }
+
     exec {
         "generate dh param ${name}":
             command  => ". ./vars && ./clean-all && ./build-dh",
@@ -54,7 +82,7 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             cwd      => "/etc/openvpn/${name}/easy-rsa",
             creates  => "/etc/openvpn/${name}/easy-rsa/keys/ca.key",
             provider => "shell",
-            require  => Exec["generate dh param ${name}"];
+            require  => [ Exec["generate dh param ${name}"], File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] ];
 
         "generate server cert ${name}":
             command  => ". ./vars && ./pkitool --server server",
