@@ -7,7 +7,7 @@ OpenVPN module for puppet including client config/cert creation (tarball to down
 
 ## Supported OS
   - Debian Squeeze (should, as it works on Ubuntu Lucid)
-  - Ubuntu 10.4 (other untested)
+  - Ubuntu 10.4, 12.04 (other untested)
   - CentOS
 
 ## Example
@@ -67,10 +67,6 @@ OpenVPN module for puppet including client config/cert creation (tarball to down
             key    => "server",
             value  => "10.10.10.0 255.255.255.0",
             server => "server1";
-        "client-config-dir server1":
-            key    => "client-config-dir",
-            value  => "/etc/openvpn/server1/client-configs",
-            server => "server1";
         "lport server1":
             key    => "lport",
             value  => "1194",
@@ -117,4 +113,4 @@ OpenVPN module for puppet including client config/cert creation (tarball to down
             server => "server1";
     }
 
-Don't forget the sysctl directive 'net.ipv4.ip_forward'!
+Don't forget the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ```net.ipv4.ip_forward```!
