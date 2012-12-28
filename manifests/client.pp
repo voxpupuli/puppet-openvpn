@@ -6,7 +6,7 @@ define openvpn::client($server, $remote_host = $fqdn) {
             command  => ". ./vars && ./pkitool ${name}",
             cwd      => "/etc/openvpn/${server}/easy-rsa",
             creates  => "/etc/openvpn/${server}/easy-rsa/keys/${name}.crt",
-            provider => "shell",
+            provider => 'shell',
             require  => Exec["generate server cert ${server}"];
     }
 
@@ -20,98 +20,98 @@ define openvpn::client($server, $remote_host = $fqdn) {
             require => File["/etc/openvpn/${server}/download-configs/${name}"];
 
         "/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt":
-            ensure => link,
-            target => "/etc/openvpn/${server}/easy-rsa/keys/${name}.crt",
+            ensure  => link,
+            target  => "/etc/openvpn/${server}/easy-rsa/keys/${name}.crt",
             require => [ Exec["generate certificate for ${name} in context of ${server}"],
-                         File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
+                          File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
 
         "/etc/openvpn/${server}/download-configs/${name}/keys/${name}.key":
-            ensure => link,
-            target => "/etc/openvpn/${server}/easy-rsa/keys/${name}.key",
+            ensure  => link,
+            target  => "/etc/openvpn/${server}/easy-rsa/keys/${name}.key",
             require => [ Exec["generate certificate for ${name} in context of ${server}"],
-                         File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
+                          File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
 
         "/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt":
-            ensure => link,
-            target => "/etc/openvpn/${server}/easy-rsa/keys/ca.crt",
+            ensure  => link,
+            target  => "/etc/openvpn/${server}/easy-rsa/keys/ca.crt",
             require => [ Exec["generate certificate for ${name} in context of ${server}"],
-                         File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
+                          File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
     }
 
 
     openvpn::option {
         "ca ${server} with ${name}":
-            key    => "ca",
-            value  => "keys/ca.crt",
+            key    => 'ca',
+            value  => 'keys/ca.crt',
             client => $name,
             server => $server;
         "cert ${server} with ${name}":
-            key    => "cert",
+            key    => 'cert',
             value  => "keys/${name}.crt",
             client => $name,
             server => $server;
         "key ${server} with ${name}":
-            key    => "key",
+            key    => 'key',
             value  => "keys/${name}.key",
             client => $name,
             server => $server;
         "client ${server} with ${name}":
-            key    => "client",
+            key    => 'client',
             client => $name,
             server => $server;
         "dev ${server} with ${name}":
-            key    => "dev",
-            value  => "tun",
+            key    => 'dev',
+            value  => 'tun',
             client => $name,
             server => $server;
         "proto ${server} with ${name}":
-            key    => "proto",
-            value  => "tcp",
+            key    => 'proto',
+            value  => 'tcp',
             client => $name,
             server => $server;
         "remote ${server} with ${name}":
-            key    => "remote",
+            key    => 'remote',
             value  => "${remote_host} 1194",
             client => $name,
             server => $server;
         "resolv-retry ${server} with ${name}":
-            key    => "resolv-retry",
-            value  => "infinite",
+            key    => 'resolv-retry',
+            value  => 'infinite',
             client => $name,
             server => $server;
         "nobind ${server} with ${name}":
-            key    => "nobind",
+            key    => 'nobind',
             client => $name,
             server => $server;
         "persist-key ${server} with ${name}":
-            key    => "persist-key",
+            key    => 'persist-key',
             client => $name,
             server => $server;
         "persist-tun ${server} with ${name}":
-            key    => "persist-tun",
+            key    => 'persist-tun',
             client => $name,
             server => $server;
         "mute-replay-warnings ${server} with ${name}":
-            key    => "mute-replay-warnings",
+            key    => 'mute-replay-warnings',
             client => $name,
             server => $server;
         "ns-cert-type ${server} with ${name}":
-            key    => "ns-cert-type",
-            value  => "server",
+            key    => 'ns-cert-type',
+            value  => 'server',
             client => $name,
             server => $server;
         "comp-lzo ${server} with ${name}":
-            key    => "comp-lzo",
+            key    => 'comp-lzo',
             client => $name,
             server => $server;
         "verb ${server} with ${name}":
-            key    => "verb",
-            value  => "3",
+            key    => 'verb',
+            value  => '3',
             client => $name,
             server => $server;
         "mute ${server} with ${name}":
-            key    => "mute",
-            value  => "20",
+            key    => 'mute',
+            value  => '20',
             client => $name,
             server => $server;
     }
@@ -136,7 +136,7 @@ define openvpn::client($server, $remote_host = $fqdn) {
             warn    => true,
             force   => true,
             notify  => Exec["tar the thing ${server} with ${name}"],
-            require => [ File["/etc/openvpn"], File["/etc/openvpn/${server}/download-configs/${name}"] ];
+            require => [ File['/etc/openvpn'], File["/etc/openvpn/${server}/download-configs/${name}"] ];
     }
 
 }

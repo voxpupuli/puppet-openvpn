@@ -2,42 +2,42 @@
 
 class openvpn {
     package {
-        "openvpn":
+        'openvpn':
             ensure => installed;
     }
     service {
-        "openvpn":
+        'openvpn':
             ensure     => running,
             hasrestart => true,
             hasstatus  => true,
-            require    => Exec["concat_/etc/default/openvpn"];
+            require    => Exec['concat_/etc/default/openvpn'];
     }
     file {
-        "/etc/openvpn":
+        '/etc/openvpn':
             ensure  => directory,
-            require => Package["openvpn"];
+            require => Package['openvpn'];
     }
     file {
-        "/etc/openvpn/keys":
+        '/etc/openvpn/keys':
             ensure  => directory,
-            require => File["/etc/openvpn"];
+            require => File['/etc/openvpn'];
     }
 
     include concat::setup
 
     concat {
-        "/etc/default/openvpn":
+        '/etc/default/openvpn':
             owner  => root,
             group  => root,
             mode   => 644,
             warn   => true,
-            notify => Service["openvpn"];
+            notify => Service['openvpn'];
     }
 
     concat::fragment {
-        "openvpn.default.header":
-            content => template("openvpn/etc-default-openvpn.erb"),
-            target  => "/etc/default/openvpn",
+        'openvpn.default.header':
+            content => template('openvpn/etc-default-openvpn.erb'),
+            target  => '/etc/default/openvpn',
             order   => 01;
     }
 

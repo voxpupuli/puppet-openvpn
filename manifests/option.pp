@@ -1,12 +1,12 @@
 # option.pp
 
-define openvpn::option($key, $value = "", $server, $client = "", $csc = false) {
+define openvpn::option($key, $server, $value = '', $client = '', $csc = false) {
     $content = $value ? {
-        ""      => "${key}",
+        ''      => $key,
         default => "${key} ${value}"
     }
 
-    if $client == "" {
+    if $client == '' {
         $path = "/etc/openvpn/${server}.conf"
     } else {
         if $csc {
