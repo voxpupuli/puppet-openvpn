@@ -3,14 +3,14 @@
 define openvpn::server($country, $province, $city, $organization, $email) {
     include openvpn
 
-    $easyrsa_source = $::operatingsystem ? {
-      'centos' => '/usr/share/doc/openvpn-2.2.0/easy-rsa/2.0',
+    $easyrsa_source = $operatingsystem ? {
+      'centos' => '/usr/share/doc/openvpn-2.2.2/easy-rsa/2.0',
       default => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
     }
 
-    $link_openssl_cnf = $::lsbdistcodename ? {
-      'precise' => true,
-      default => false
+    $link_openssl_cnf = $::osfamily ? {
+      /(Ubuntu|RedHat)/ => true,
+      default           => false
     }
 
     file {
@@ -120,6 +120,17 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             value   => "/etc/openvpn/${name}/keys/dh1024.pem",
             require => Exec["generate dh param ${name}"],
             server  => $name;
+            
+        "proto ${name}":
+            key     => 'proto',
+            value   => 'tcp',
+            require => Exec["generate dh param ${name}"],
+            server  => $name;
+            
+        "comp-lzo ${name}":
+            key     => 'comp-lzo',
+            require => Exec["generate dh param ${name}"],
+            server  => $name;            
     }
 
     concat::fragment {
