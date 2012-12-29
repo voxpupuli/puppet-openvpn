@@ -3,9 +3,9 @@
 define openvpn::server($country, $province, $city, $organization, $email) {
     include openvpn
 
-    $easyrsa_source = $operatingsystem ? {
-      'centos' => '/usr/share/doc/openvpn-2.2.2/easy-rsa/2.0',
-      default => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+    $easyrsa_source = $::osfamily ? {
+      'RedHat'  => '/usr/share/doc/openvpn-2.2.2/easy-rsa/2.0',
+      default   => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
     }
 
     $link_openssl_cnf = $::osfamily ? {
@@ -34,9 +34,9 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             server  => $name,
             require => File["/etc/openvpn/${name}"];
         "mode ${name}":
-            key    => 'mode',
-            value  => 'server',
-            server => $name;
+            key     => 'mode',
+            value   => 'server',
+            server  => $name;
     }
 
     exec {

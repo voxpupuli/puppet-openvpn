@@ -22,19 +22,19 @@ define openvpn::client($server, $remote_host = $fqdn) {
         "/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt":
             ensure  => link,
             target  => "/etc/openvpn/${server}/easy-rsa/keys/${name}.crt",
-            require => [ Exec["generate certificate for ${name} in context of ${server}"],
+            require => [  Exec["generate certificate for ${name} in context of ${server}"],
                           File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
 
         "/etc/openvpn/${server}/download-configs/${name}/keys/${name}.key":
             ensure  => link,
             target  => "/etc/openvpn/${server}/easy-rsa/keys/${name}.key",
-            require => [ Exec["generate certificate for ${name} in context of ${server}"],
+            require => [  Exec["generate certificate for ${name} in context of ${server}"],
                           File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
 
         "/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt":
             ensure  => link,
             target  => "/etc/openvpn/${server}/easy-rsa/keys/ca.crt",
-            require => [ Exec["generate certificate for ${name} in context of ${server}"],
+            require => [  Exec["generate certificate for ${name} in context of ${server}"],
                           File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
     }
 
@@ -121,10 +121,10 @@ define openvpn::client($server, $remote_host = $fqdn) {
             cwd         => "/etc/openvpn/${server}/download-configs/",
             command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
             refreshonly => true,
-            require     => [ File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
-                            File["/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt"],
-                            File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.key"],
-                            File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt"] ];
+            require     => [  File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
+                              File["/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt"],
+                              File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.key"],
+                              File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt"] ];
     }
 
 
