@@ -3,20 +3,20 @@
 define openvpn::server($country, $province, $city, $organization, $email) {
     include openvpn
 
-    $easyrsa_source = $operatingsystem ? {
-      'centos' => '/usr/share/doc/openvpn-2.2.0/easy-rsa/2.0',
-      default => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+    $easyrsa_source = $::osfamily ? {
+      'RedHat'  => '/usr/share/doc/openvpn-2.2.2/easy-rsa/2.0',
+      default   => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
     }
 
-    $link_openssl_cnf = $lsbdistcodename ? {
-      'precise' => true,
-      default => false
+    $link_openssl_cnf = $::osfamily ? {
+      /(Debian|RedHat)/ => true,
+      default           => false
     }
 
     file {
         "/etc/openvpn/${name}":
             ensure  => directory,
-            require => Package["openvpn"];
+            require => Package['openvpn'];
     }
     file {
         "/etc/openvpn/${name}/client-configs":
@@ -34,27 +34,27 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             server  => $name,
             require => File["/etc/openvpn/${name}"];
         "mode ${name}":
-            key    => 'mode',
-            value  => 'server',
-            server => $name;
+            key     => 'mode',
+            value   => 'server',
+            server  => $name;
     }
 
     exec {
         "copy easy-rsa to openvpn config folder ${name}":
             command => "/bin/cp -r ${easyrsa_source} /etc/openvpn/${name}/easy-rsa",
             creates => "/etc/openvpn/${name}/easy-rsa",
-            notify  => Exec["fix_easyrsa_file_permissions"],
+            notify  => Exec['fix_easyrsa_file_permissions'],
             require => File["/etc/openvpn/${name}"];
     }
     exec {
-        "fix_easyrsa_file_permissions":
-            refreshonly => "true",
+        'fix_easyrsa_file_permissions':
+            refreshonly => true,
             command     => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*";
     }
     file {
         "/etc/openvpn/${name}/easy-rsa/vars":
             ensure  => present,
-            content => template("openvpn/vars.erb"),
+            content => template('openvpn/vars.erb'),
             require => Exec["copy easy-rsa to openvpn config folder ${name}"];
     }
 
@@ -71,24 +71,24 @@ define openvpn::server($country, $province, $city, $organization, $email) {
 
     exec {
         "generate dh param ${name}":
-            command  => ". ./vars && ./clean-all && ./build-dh",
+            command  => '. ./vars && ./clean-all && ./build-dh',
             cwd      => "/etc/openvpn/${name}/easy-rsa",
             creates  => "/etc/openvpn/${name}/easy-rsa/keys/dh1024.pem",
-            provider => "shell",
+            provider => 'shell',
             require  => File["/etc/openvpn/${name}/easy-rsa/vars"];
 
         "initca ${name}":
-            command  => ". ./vars && ./pkitool --initca",
+            command  => '. ./vars && ./pkitool --initca',
             cwd      => "/etc/openvpn/${name}/easy-rsa",
             creates  => "/etc/openvpn/${name}/easy-rsa/keys/ca.key",
-            provider => "shell",
+            provider => 'shell',
             require  => [ Exec["generate dh param ${name}"], File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] ];
 
         "generate server cert ${name}":
-            command  => ". ./vars && ./pkitool --server server",
+            command  => '. ./vars && ./pkitool --server server',
             cwd      => "/etc/openvpn/${name}/easy-rsa",
             creates  => "/etc/openvpn/${name}/easy-rsa/keys/server.key",
-            provider => "shell",
+            provider => 'shell',
             require  => Exec["initca ${name}"];
     }
 
@@ -101,31 +101,42 @@ define openvpn::server($country, $province, $city, $organization, $email) {
 
     openvpn::option {
         "ca ${name}":
-            key     => "ca",
+            key     => 'ca',
             value   => "/etc/openvpn/${name}/keys/ca.crt",
             require => Exec["initca ${name}"],
-            server  => "${name}";
+            server  => $name;
         "cert ${name}":
-            key     => "cert",
+            key     => 'cert',
             value   => "/etc/openvpn/${name}/keys/server.crt",
             require => Exec["generate server cert ${name}"],
-            server  => "${name}";
+            server  => $name;
         "key ${name}":
-            key     => "key",
+            key     => 'key',
             value   => "/etc/openvpn/${name}/keys/server.key",
             require => Exec["generate server cert ${name}"],
-            server  => "${name}";
+            server  => $name;
         "dh ${name}":
-            key     => "dh",
+            key     => 'dh',
             value   => "/etc/openvpn/${name}/keys/dh1024.pem",
             require => Exec["generate dh param ${name}"],
-            server  => "${name}";
+            server  => $name;
+            
+        "proto ${name}":
+            key     => 'proto',
+            value   => 'tcp',
+            require => Exec["generate dh param ${name}"],
+            server  => $name;
+            
+        "comp-lzo ${name}":
+            key     => 'comp-lzo',
+            require => Exec["generate dh param ${name}"],
+            server  => $name;            
     }
 
     concat::fragment {
         "openvpn.default.autostart.${name}":
             content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
-            target  => "/etc/default/openvpn",
+            target  => '/etc/default/openvpn',
             order   => 10;
     }
 
@@ -135,8 +146,8 @@ define openvpn::server($country, $province, $city, $organization, $email) {
             group   => root,
             mode    => 644,
             warn    => true,
-            require => File["/etc/openvpn"],
-            notify  => Service["openvpn"];
+            require => File['/etc/openvpn'],
+            notify  => Service['openvpn'];
     }
 
 }
