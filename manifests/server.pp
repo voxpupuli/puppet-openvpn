@@ -9,7 +9,7 @@ define openvpn::server($country, $province, $city, $organization, $email) {
     }
 
     $link_openssl_cnf = $::osfamily ? {
-      /(Ubuntu|RedHat)/ => true,
+      /(Debian|RedHat)/ => true,
       default           => false
     }
 
