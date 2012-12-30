@@ -8,6 +8,7 @@ class openvpn {
     service {
         'openvpn':
             ensure     => running,
+            enable     => true,
             hasrestart => true,
             hasstatus  => true,
             require    => Exec['concat_/etc/default/openvpn'];

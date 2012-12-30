@@ -1,6 +1,6 @@
 # client.pp
 
-define openvpn::client($server, $remote_host = $fqdn) {
+define openvpn::client($server, $remote_host = $::fqdn) {
     exec {
         "generate certificate for ${name} in context of ${server}":
             command  => ". ./vars && ./pkitool ${name}",
