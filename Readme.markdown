@@ -114,3 +114,10 @@ OpenVPN module for puppet including client config/cert creation (tarball to down
     }
 
 Don't forget the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ```net.ipv4.ip_forward```!
+
+
+# Contributors
+
+These fine folks helped to get this far with this module:
+* [@jlk](https://github.com/jlk)
+* [@jlambert121](https://github.com/jlambert121)
