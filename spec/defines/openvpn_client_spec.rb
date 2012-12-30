@@ -23,16 +23,6 @@ describe 'openvpn::client', :type => :define do
     'command' => '/bin/rm test_client.tar.gz; tar --exclude=\*.conf.d -chzvf test_client.tar.gz test_client'
   ) }
 
-
-  #    exec {
-  #        "tar the thing ${server} with ${name}":
-  #            cwd         => "/etc/openvpn/${server}/download-configs/",
-  #            command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
-  #    }
-  #
-  #
-
-
   it { should contain_openvpn__option('ca test_server with test_client').with(
     'server'  => 'test_server', 
     'client'  => 'test_client',
