@@ -5,12 +5,12 @@ define openvpn::client(
   $dev = 'tun',
   $mute = '20',
   $mute_replay_warnings = true,
-  $nobind = true
+  $nobind = true,
   $ns_cert_type = 'server',
   $persist_key = true,
   $persist_tun = true,
   $port = '1194',
-  $proto = 'tcp'
+  $proto = 'tcp',
   $remote_host = $::fqdn,
   $resolve_retry = 'infinite',
   $verb = '3',

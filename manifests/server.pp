@@ -6,7 +6,7 @@ define openvpn::server(
   $city, 
   $organization, 
   $email,
-  $compression = 'comp-lzo'
+  $compression = 'comp-lzo',
   $port = '1194',
   $proto = 'tcp',
 ) {
