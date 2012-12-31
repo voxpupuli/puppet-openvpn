@@ -1,0 +1,9 @@
+mode server
+client-config-dir /etc/openvpn/<%= scope.lookupvar('name') %>/client-configs
+ca /etc/openvpn/<%= scope.lookupvar('name') %>/keys/ca.crt
+cert /etc/openvpn/<%= scope.lookupvar('name') %>/keys/server.crt
+key /etc/openvpn/<%= scope.lookupvar('name') %>/keys/server.key
+dh /etc/openvpn/<%= scope.lookupvar('name') %>/keys/dh1024.pem
+proto <%= scope.lookupvar('proto') %>
+port <%= scope.lookupvar('port') %>
+<%= scope.lookupvar('compression') %>
