@@ -9,6 +9,15 @@ define openvpn::server(
   $compression = 'comp-lzo',
   $port = '1194',
   $proto = 'tcp',
+  $group = 'nobody',
+  $user = 'nobody',
+  $logfile = "${name}/openvpn.log",
+  $status-log = "${name}/openvpn-status.log",
+  $dev = 'tun0',
+  $local = $::ipaddress_eth0,
+  $ipp = false,
+  $server = "${network_eth0} ${netmask_eth0}",
+  $push = []
 ) {
     include openvpn
 

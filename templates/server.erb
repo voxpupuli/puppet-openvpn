@@ -7,3 +7,16 @@ dh /etc/openvpn/<%= scope.lookupvar('name') %>/keys/dh1024.pem
 proto <%= scope.lookupvar('proto') %>
 port <%= scope.lookupvar('port') %>
 <%= scope.lookupvar('compression') %>
+group <%= scope.lookupvar('group') %>
+user <%= scope.lookupvar('user') %>
+log-append <%= scope.lookupvar('logfile') %>
+status <%= scope.lookupvar('status-log') %>
+dev <%= scope.lookupvar('dev') %>
+local <%= scope.lookupvar('local') %>
+<% if scope.lookupvar('ipp') %>
+ifconfig-pool-persist <%= scope.lookupvar('name') %>/vpn-ipp.txt
+<% end %>
+server <%= scope.lookupvar('server') %>
+<% scope.lookupvar('push').each do |item| %>
+push <%= item %>
+<% end %>
