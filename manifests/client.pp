@@ -2,6 +2,7 @@
 
 define openvpn::client(
   $server,
+  $compression = 'comp-lzo',
   $dev = 'tun',
   $mute = '20',
   $mute_replay_warnings = true,
@@ -12,7 +13,7 @@ define openvpn::client(
   $port = '1194',
   $proto = 'tcp',
   $remote_host = $::fqdn,
-  $resolve_retry = 'infinite',
+  $resolv_retry = 'infinite',
   $verb = '3',
 ) {
     exec {
@@ -50,10 +51,17 @@ define openvpn::client(
             target  => "/etc/openvpn/${server}/easy-rsa/keys/ca.crt",
             require => [  Exec["generate certificate for ${name} in context of ${server}"],
                           File["/etc/openvpn/${server}/download-configs/${name}/keys"] ];
+
+        "/etc/openvpn/${server}/download-configs/${name}/${name}.conf":
+            owner   => root,
+            group   => root,
+            mode    => '0444',
+            content => template('openvpn/client.erb'),
+            notify  => Exec["tar the thing ${server} with ${name}"];                          
     }
 
     concat {
-        [ "/etc/openvpn/${server}/client-configs/${name}", "/etc/openvpn/${server}/download-configs/${name}/${name}.conf" ]:
+        "/etc/openvpn/${server}/client-configs/${name}":
             owner   => root,
             group   => root,
             mode    => 644,
@@ -61,12 +69,6 @@ define openvpn::client(
             force   => true,
             notify  => Exec["tar the thing ${server} with ${name}"],
             require => [ File['/etc/openvpn'], File["/etc/openvpn/${server}/download-configs/${name}"] ];
-    }
-    
-    concat::fragment {
-        "openvpn.${server}.client.${name}":
-            target  => "/etc/openvpn/${server}/download-configs/${name}/${name}.conf",
-            content => "${content}\n";
     }
     
     exec {

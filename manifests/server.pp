@@ -12,11 +12,11 @@ define openvpn::server(
   $group = 'nobody',
   $user = 'nobody',
   $logfile = "${name}/openvpn.log",
-  $status-log = "${name}/openvpn-status.log",
+  $status_log = "${name}/openvpn-status.log",
   $dev = 'tun0',
   $local = $::ipaddress_eth0,
   $ipp = false,
-  $server = "${network_eth0} ${netmask_eth0}",
+  $server = "${::network_eth0} ${::netmask_eth0}",
   $push = []
 ) {
     include openvpn
@@ -103,20 +103,13 @@ define openvpn::server(
             target  => '/etc/default/openvpn',
             order   => 10;
     }
-
-    concat {
-        "/etc/openvpn/${name}.conf":
-            owner   => root,
-            group   => root,
-            mode    => 644,
-            warn    => true,
-            require => File['/etc/openvpn'],
-            notify  => Service['openvpn'];
-    }
-
-    concat::fragment {
-        "openvpn.${server}.${name}":
-            target  => "/etc/openvpn/${name}.conf",
-            content => template('openvpn/server.erb')
+    
+    file {
+      "/etc/openvpn/${name}.conf":
+        owner   => root,
+        group   => root,
+        mode    => '0444',
+        content => template('openvpn/server.erb'),
+        notify  => Service['openvpn'];
     }
 }
