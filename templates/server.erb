@@ -6,17 +6,21 @@ key /etc/openvpn/<%= scope.lookupvar('name') %>/keys/server.key
 dh /etc/openvpn/<%= scope.lookupvar('name') %>/keys/dh1024.pem
 proto <%= scope.lookupvar('proto') %>
 port <%= scope.lookupvar('port') %>
+<% if scope.lookupvar('compression') != '' -%>
 <%= scope.lookupvar('compression') %>
+<% end -%>
 group <%= scope.lookupvar('group') %>
 user <%= scope.lookupvar('user') %>
 log-append <%= scope.lookupvar('logfile') %>
 status <%= scope.lookupvar('status_log') %>
 dev <%= scope.lookupvar('dev') %>
+<% if scope.lookupvar('local') != '' -%>
 local <%= scope.lookupvar('local') %>
-<% if scope.lookupvar('ipp') %>
+<% end -%>
+<% if scope.lookupvar('ipp') -%>
 ifconfig-pool-persist <%= scope.lookupvar('name') %>/vpn-ipp.txt
-<% end %>
+<% end -%>
 server <%= scope.lookupvar('server') %>
-<% scope.lookupvar('push').each do |item| %>
+<% scope.lookupvar('push').each do |item| -%>
 push <%= item %>
-<% end %>
+<% end -%>
