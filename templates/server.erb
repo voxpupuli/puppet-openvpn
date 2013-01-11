@@ -11,7 +11,9 @@ port <%= scope.lookupvar('port') %>
 <% end -%>
 group <%= scope.lookupvar('group') %>
 user <%= scope.lookupvar('user') %>
+<% if logfile != '' -%>
 log-append <%= scope.lookupvar('logfile') %>
+<% end -%>
 status <%= scope.lookupvar('status_log') %>
 dev <%= scope.lookupvar('dev') %>
 <% if scope.lookupvar('local') != '' -%>
@@ -20,7 +22,9 @@ local <%= scope.lookupvar('local') %>
 <% if scope.lookupvar('ipp') -%>
 ifconfig-pool-persist <%= scope.lookupvar('name') %>/vpn-ipp.txt
 <% end -%>
+<% if scope.lookupvar('server') != '' -%>
 server <%= scope.lookupvar('server') %>
+<% end -%>
 <% scope.lookupvar('push').each do |item| -%>
 push <%= item %>
 <% end -%>

@@ -46,7 +46,8 @@
 #
 # [*logfile*]
 #   String.  Logfile for this openvpn server
-#   Default: "${name}/openvpn.log"
+#   Default: ''
+#   Options:  '' (syslog) or log file name
 #
 # [*port*]
 #   Integer.  The port the openvpn server service is running on
@@ -67,7 +68,7 @@
 #
 # [*server*]
 #   String.  Network to assign client addresses out of
-#   Default: $::network_eth0 $::netmask_eth0
+#   Default: None.  Required in tun mode, not in tap mode
 #
 # [*push*]
 #   Array.  Options to push out to the client.  This can include routes, DNS
@@ -109,7 +110,7 @@ define openvpn::server(
   $proto = 'tcp',
   $status_log = "${name}/openvpn-status.log",
   $user = 'nobody',
-  $server = "${::network_eth0} ${::netmask_eth0}",
+  $server = '',
   $push = []
 ) {
   
@@ -195,11 +196,13 @@ define openvpn::server(
             require => Exec["copy easy-rsa to openvpn config folder ${name}"];
     }
 
-    concat::fragment {
+    if $::osfamily == 'Debian' {
+      concat::fragment {
         "openvpn.default.autostart.${name}":
-            content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
-            target  => '/etc/default/openvpn',
-            order   => 10;
+          content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
+          target  => '/etc/default/openvpn',
+          order   => 10;
+      }
     }
     
     file {
