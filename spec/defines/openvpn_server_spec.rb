@@ -38,12 +38,6 @@ describe 'openvpn::server', :type => :define do
     it { should contain_exec('generate dh param test_server') }
     it { should contain_exec('initca test_server') }
     it { should contain_exec('generate server cert test_server') }
-
-    # Configure to start vpn session
-    it { should contain_concat__fragment('openvpn.default.autostart.test_server').with(
-      'content' => "AUTOSTART=\"$AUTOSTART test_server\"\n",
-      'target'  => '/etc/default/openvpn'
-    )}
   
     # VPN server config file itself
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
@@ -61,7 +55,6 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^status\s+test_server\/openvpn\-status\.log$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dev\s+tun0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+1\.2\.3\.4$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^server\s+1\.2\.3\.0\s+255\.255\.255\.0$/) }
   end
   
   context "creating a server setting all parameters" do
@@ -152,6 +145,12 @@ describe 'openvpn::server', :type => :define do
     
     it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
       'command' => '/bin/cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
+    )}
+    
+    # Configure to start vpn session
+    it { should contain_concat__fragment('openvpn.default.autostart.test_server').with(
+      'content' => "AUTOSTART=\"$AUTOSTART test_server\"\n",
+      'target'  => '/etc/default/openvpn'
     )}
 
   end

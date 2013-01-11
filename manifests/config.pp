@@ -14,9 +14,10 @@
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
 #
 class openvpn::config {
-  include concat::setup
 
   if $::osfamily == 'Debian' {
+    include concat::setup
+    
     concat {
       '/etc/default/openvpn':
         owner  => root,
