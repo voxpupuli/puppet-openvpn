@@ -24,3 +24,11 @@ mute-replay-warnings
 ns-cert-type server
 verb <%= scope.lookupvar('verb') %>
 mute <%= scope.lookupvar('mute') %>
+<% if scope.lookupvar('iroute') != '' -%>
+<%   scope.lookupvar('iroute').to_a.each do |route| -%>
+iroute <%= route %>
+<%    end -%>
+<% end -%>
+<% if scope.lookupvar('ifconfig_push') != '' -%>
+ifconfig-push <%= scope.lookupvar('ifconfig_push') %>
+<% end -%>
