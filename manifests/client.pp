@@ -20,12 +20,6 @@
 #   Default: tun
 #   Options: tun (routed connections), tap (bridged connections)
 #
-# [*ifconfig_push*]
-#   String. Interface IP to be pushed to the client
-#
-# [*iroute*]
-#   String or Array.  List of iroutes to be announced to the server
-#
 # [*mute*]
 #   Integer.  Set log mute level
 #   Default: 20
@@ -94,8 +88,6 @@ define openvpn::client(
   $server,
   $compression = 'comp-lzo',
   $dev = 'tun',
-  $ifconfig_push = '',
-  $iroute = '',
   $mute = '20',
   $mute_replay_warnings = true,
   $nobind = true,

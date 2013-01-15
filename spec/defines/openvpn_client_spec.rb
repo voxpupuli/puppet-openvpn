@@ -59,8 +59,6 @@ describe 'openvpn::client', :type => :define do
       'server'                => 'test_server',
       'compression'           => 'comp-something',
       'dev'                   => 'tap',
-      'ifconfig_push'         => '10.10.9.1 255.255.255.0',
-      'iroute'                => [ '10.10.10.0 255.255.255.0', '10.10.11.0 255.255.255.0' ],
       'mute'                  => 10,
       'mute_replay_warnings'  => false,
       'nobind'                => false,
@@ -85,9 +83,6 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^resolv-retry\s+2m$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verb\s+1$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^mute\s+10$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^iroute\s+10\.10\.10\.0\s+255\.255\.255\.0$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^iroute\s+10\.10\.11\.0\s+255\.255\.255\.0$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ifconfig-push\s+10\.10\.9\.1\s+255\.255\.255\.0$/)}
   end
 
 end
