@@ -1,0 +1,26 @@
+client
+ca keys/ca.crt
+cert keys/<%= scope.lookupvar('name') %>.crt
+key keys/<%= scope.lookupvar('name') %>.key
+dev <%= scope.lookupvar('dev') %>
+proto <%= scope.lookupvar('proto') %>
+remote <%= scope.lookupvar('remote_host') %> <%= scope.lookupvar('port') %>
+<% if scope.lookupvar('compression') != '' -%>
+<%= scope.lookupvar('compression') %>
+<% end -%>
+resolv-retry <%= scope.lookupvar('resolv_retry') %>
+<% if scope.lookupvar('nobind') -%>
+nobind
+<% end -%>
+<% if scope.lookupvar('persist_key') -%>
+persist-key
+<% end -%>
+<% if scope.lookupvar('persist_tun') -%>
+persist-tun
+<% end -%>
+<% if scope.lookupvar('mute_replay_warnings') -%>
+mute-replay-warnings
+<% end -%>
+ns-cert-type server
+verb <%= scope.lookupvar('verb') %>
+mute <%= scope.lookupvar('mute') %>

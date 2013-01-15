@@ -6,8 +6,7 @@
 #
 # === Examples
 #
-# * Installation:
-#     class { 'openvpn': }
+# This class should not be directly invoked
 #
 #
 # === Authors
@@ -16,12 +15,16 @@
 # * John Kinsella <mailto:jlkinsel@gmail.com>
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
 #
-class openvpn {
+class openvpn::install {
 
-  class {'openvpn::install': } ->
-  class {'openvpn::config': } ~>
-  class {'openvpn::service': } ->
-  Class['openvpn']
+  package {
+    'openvpn':
+      ensure => installed;
+  }
 
-
+  file {
+    [ '/etc/openvpn', '/etc/openvpn/keys' ]:
+      ensure  => directory,
+      require => Package['openvpn'];
+  }
 }
