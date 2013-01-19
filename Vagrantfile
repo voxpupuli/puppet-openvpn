@@ -24,6 +24,10 @@ Vagrant::Config.run do |config|
 
   config.vm.define :server_centos do |c|
     c.vm.box = 'centos63'
+
+    c.vm.provision :shell, :inline => 'if [ ! -f rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm ]; then wget -q http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm; fi'
+    c.vm.provision :shell, :inline => 'yum install -y rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm || exit 0'
+
     server_config c
   end
 
