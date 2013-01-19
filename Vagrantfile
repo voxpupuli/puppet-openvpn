@@ -20,6 +20,7 @@ Vagrant::Config.run do |config|
   config.vm.define :server_ubuntu do |c|
     c.vm.box = 'precise64'
     server_config c
+    c.vm.network :hostonly, '10.255.255.10'
   end
 
   config.vm.define :server_centos do |c|
@@ -29,11 +30,13 @@ Vagrant::Config.run do |config|
     c.vm.provision :shell, :inline => 'yum install -y rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm || exit 0'
 
     server_config c
+    c.vm.network :hostonly, '10.255.255.11'
   end
 
   config.vm.define :client_ubuntu do |c|
     c.vm.box = 'precise64'
     client_config c
+    c.vm.network :hostonly, '10.255.255.20'
   end
 
 end
