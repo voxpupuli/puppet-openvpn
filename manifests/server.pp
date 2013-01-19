@@ -107,7 +107,7 @@ define openvpn::server(
   $local = $::ipaddress_eth0,
   $logfile = false,
   $port = '1194',
-  $proto = 'tcp',
+  $proto = 'tcp-server',
   $status_log = "${name}/openvpn-status.log",
   $user = 'nobody',
   $server = '',

@@ -46,7 +46,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/test_server\/keys\/server.crt$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys\/server.key$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh1024.pem$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+tcp$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+tcp-server$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^port\s+1194$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^comp-lzo$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nobody$/) }
