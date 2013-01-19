@@ -30,9 +30,13 @@
 #   Default: tun
 #   Options: tun (routed connections), tap (bridged connections)
 #
+# [*user*]
+#   String.  Group to drop privileges to after startup
+#   Default: nobody
+#
 # [*group*]
 #   String.  User to drop privileges to after startup
-#   Default: nobody
+#   Default: depends on your $::osfamily
 #
 # [*ipp*]
 #   Boolean.  Persist ifconfig information to a file to retain client IP
@@ -61,10 +65,6 @@
 # [*status_log*]
 #   String.  Logfile for periodic dumps of the vpn service status
 #   Default: "${name}/openvpn-status.log"
-#
-# [*user*]
-#   String.  Group to drop privileges to after startup
-#   Default: nobody
 #
 # [*server*]
 #   String.  Network to assign client addresses out of
@@ -102,7 +102,8 @@ define openvpn::server(
   $email,
   $compression = 'comp-lzo',
   $dev = 'tun0',
-  $group = 'nobody',
+  $user = 'nobody',
+  $group = false,
   $ipp = false,
   $ip_pool = [],
   $local = $::ipaddress_eth0,
@@ -110,7 +111,6 @@ define openvpn::server(
   $port = '1194',
   $proto = 'tcp',
   $status_log = "${name}/openvpn-status.log",
-  $user = 'nobody',
   $server = '',
   $push = []
 ) {
@@ -133,6 +133,11 @@ define openvpn::server(
     $tls_server = $proto ? {
       /tcp/ => true,
       default      => false
+    }
+
+    $group_to_set = $group ? {
+      false   => $openvpn::params::group,
+      default => $group
     }
 
     file {

@@ -17,7 +17,8 @@ describe 'openvpn::server', :type => :define do
       :ipaddress_eth0 => '1.2.3.4',
       :network_eth0   => '1.2.3.0',
       :netmask_eth0   => '255.255.255.0',
-      :concat_basedir => '/var/lib/puppet/concat'
+      :concat_basedir => '/var/lib/puppet/concat',
+      :osfamily       => 'anything_else'
     } }
 
     # Files associated with a server config
@@ -50,7 +51,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-server$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^port\s+1194$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^comp-lzo$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nobody$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^user\s+nobody$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^log\-append\s+test_server\/openvpn\.log$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^status\s+test_server\/openvpn\-status\.log$/) }
@@ -127,6 +128,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
       'command' => '/bin/cp -r /usr/share/doc/openvpn-2.2.2/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
     )}
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nobody$/) }
 
   end
 
@@ -156,6 +158,7 @@ describe 'openvpn::server', :type => :define do
       'target'  => '/etc/default/openvpn'
     )}
 
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
 
   end
 
