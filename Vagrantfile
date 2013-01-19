@@ -17,17 +17,17 @@ end
 
 Vagrant::Config.run do |config|
 
-  config.vm.define :ubuntu_server do |c|
+  config.vm.define :server_ubuntu do |c|
     c.vm.box = 'precise64'
     server_config c
   end
 
-  config.vm.define :centos_server do |c|
+  config.vm.define :server_centos do |c|
     c.vm.box = 'centos63'
     server_config c
   end
 
-  config.vm.define :ubuntu_client do |c|
+  config.vm.define :client_ubuntu do |c|
     c.vm.box = 'precise64'
     client_config c
   end
