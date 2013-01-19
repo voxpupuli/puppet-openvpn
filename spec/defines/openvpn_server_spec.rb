@@ -51,7 +51,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^comp-lzo$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nobody$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^user\s+nobody$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^log\-append\s+test_server\/openvpn\.log$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^log\-append\s+test_server\/openvpn\.log$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^status\s+test_server\/openvpn\-status\.log$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dev\s+tun0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+1\.2\.3\.4$/) }

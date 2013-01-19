@@ -46,8 +46,8 @@
 #
 # [*logfile*]
 #   String.  Logfile for this openvpn server
-#   Default: ''
-#   Options:  '' (syslog) or log file name
+#   Default: false
+#   Options: false (syslog) or log file name
 #
 # [*port*]
 #   Integer.  The port the openvpn server service is running on
@@ -105,7 +105,7 @@ define openvpn::server(
   $group = 'nobody',
   $ipp = true,
   $local = $::ipaddress_eth0,
-  $logfile = "${name}/openvpn.log",
+  $logfile = false,
   $port = '1194',
   $proto = 'tcp',
   $status_log = "${name}/openvpn-status.log",

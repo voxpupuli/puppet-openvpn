@@ -11,7 +11,7 @@ port <%= scope.lookupvar('port') %>
 <% end -%>
 group <%= scope.lookupvar('group') %>
 user <%= scope.lookupvar('user') %>
-<% if logfile != '' -%>
+<% if logfile -%>
 log-append <%= scope.lookupvar('logfile') %>
 <% end -%>
 status <%= scope.lookupvar('status_log') %>
