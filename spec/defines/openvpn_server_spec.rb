@@ -103,6 +103,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^server\s+2\.3\.4\.0\s+255\.255\.0\.0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^push\s+dhcp-option\s+DNS\s+172\.31\.0\.30$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^push\s+route\s+172\.31\.0\.0\s+255\.255\.0\.0$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client-config-dir /etc/openvpnv/test_server/client-configs$}) }
   end
 
   context "when RedHat based machine" do
