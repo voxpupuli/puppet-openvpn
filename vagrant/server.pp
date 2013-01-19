@@ -6,4 +6,9 @@ node default {
     organization => "example.org",
     email        => "root@example.org";
   }
+
+  openvpn::client { 'client1':
+    server => 'winterthur';
+  }
+
 }
