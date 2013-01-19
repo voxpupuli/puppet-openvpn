@@ -120,19 +120,9 @@ define openvpn::server(
     Openvpn::Server[$name] ~>
     Class['openvpn::service']
 
-    $easyrsa_source = $::osfamily ? {
-      'RedHat'  => '/usr/share/doc/openvpn-2.2.2/easy-rsa/2.0',
-      default   => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
-    }
-
-    $link_openssl_cnf = $::osfamily ? {
-      /(Debian|RedHat)/ => true,
-      default           => false
-    }
-
     $tls_server = $proto ? {
-      /tcp/ => true,
-      default      => false
+      /tcp/   => true,
+      default => false
     }
 
     $group_to_set = $group ? {
@@ -147,7 +137,7 @@ define openvpn::server(
 
     exec {
         "copy easy-rsa to openvpn config folder ${name}":
-            command => "/bin/cp -r ${easyrsa_source} /etc/openvpn/${name}/easy-rsa",
+            command => "/bin/cp -r ${openvpn::params::easyrsa_source} /etc/openvpn/${name}/easy-rsa",
             creates => "/etc/openvpn/${name}/easy-rsa",
             notify  => Exec["fix_easyrsa_file_permissions_${name}"],
             require => File["/etc/openvpn/${name}"];
@@ -170,7 +160,7 @@ define openvpn::server(
       "/etc/openvpn/${name}/easy-rsa/openssl.cnf":
         require => Exec["copy easy-rsa to openvpn config folder ${name}"];
     }
-    if $link_openssl_cnf == true {
+    if $openvpn::params::link_openssl_cnf == true {
         File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] {
             ensure => link,
             target => "/etc/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf"
