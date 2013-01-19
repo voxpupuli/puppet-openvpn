@@ -95,10 +95,10 @@
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
 #
 define openvpn::server(
-  $country, 
-  $province, 
-  $city, 
-  $organization, 
+  $country,
+  $province,
+  $city,
+  $organization,
   $email,
   $compression = 'comp-lzo',
   $dev = 'tun0',
@@ -113,7 +113,7 @@ define openvpn::server(
   $server = '',
   $push = []
 ) {
-  
+
   include openvpn
     Class['openvpn::install'] ->
     Openvpn::Server[$name] ~>
@@ -141,13 +141,13 @@ define openvpn::server(
             notify  => Exec["fix_easyrsa_file_permissions_${name}"],
             require => File["/etc/openvpn/${name}"];
     }
-    
+
     exec {
         "fix_easyrsa_file_permissions_${name}":
             refreshonly => true,
             command     => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*";
     }
-    
+
     file {
         "/etc/openvpn/${name}/easy-rsa/vars":
             ensure  => present,
@@ -204,7 +204,7 @@ define openvpn::server(
           order   => 10;
       }
     }
-    
+
     file {
       "/etc/openvpn/${name}.conf":
         owner   => root,
