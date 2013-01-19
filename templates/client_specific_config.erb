@@ -1,0 +1,10 @@
+<% scope.lookupvar('iroute').each do |route| -%>
+iroute <%= route %>
+<% end -%>
+<% if ifconfig = scope.lookupvar('ifconfig') -%>
+ifconfig-push <%= ifconfig %>
+<% end -%>
+<% scope.lookupvar('dhcp_options').each do |option| -%>
+push dhcp-option <%= option %>
+<% end -%>
+
