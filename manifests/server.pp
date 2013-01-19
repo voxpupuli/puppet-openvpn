@@ -37,7 +37,7 @@
 # [*ipp*]
 #   Boolean.  Persist ifconfig information to a file to retain client IP
 #     addresses between sessions
-#   Default: true
+#   Default: false
 #
 # [*local*]
 #   String.  Interface for openvpn to bind to.
@@ -103,11 +103,12 @@ define openvpn::server(
   $compression = 'comp-lzo',
   $dev = 'tun0',
   $group = 'nobody',
-  $ipp = true,
+  $ipp = false,
+  $ip_pool = [],
   $local = $::ipaddress_eth0,
   $logfile = false,
   $port = '1194',
-  $proto = 'tcp-server',
+  $proto = 'tcp',
   $status_log = "${name}/openvpn-status.log",
   $user = 'nobody',
   $server = '',
@@ -127,6 +128,11 @@ define openvpn::server(
     $link_openssl_cnf = $::osfamily ? {
       /(Debian|RedHat)/ => true,
       default           => false
+    }
+
+    $tls_server = $proto ? {
+      /tcp/ => true,
+      default      => false
     }
 
     file {

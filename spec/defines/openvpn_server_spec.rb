@@ -47,6 +47,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys\/server.key$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh1024.pem$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+tcp-server$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-server$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^port\s+1194$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^comp-lzo$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nobody$/) }
@@ -55,6 +56,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^status\s+test_server\/openvpn\-status\.log$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dev\s+tun0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+1\.2\.3\.4$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ifconfig-pool-persist/) }
   end
 
   context "creating a server setting all parameters" do
@@ -91,7 +93,8 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/test_server\/keys\/server.crt$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys\/server.key$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh1024.pem$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+udp$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+udp-server$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+tls-server$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^port\s+123$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^fake_compression$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+someone$/) }
@@ -152,6 +155,7 @@ describe 'openvpn::server', :type => :define do
       'content' => "AUTOSTART=\"$AUTOSTART test_server\"\n",
       'target'  => '/etc/default/openvpn'
     )}
+
 
   end
 
