@@ -1,5 +1,5 @@
 name    'luxflux-openvpn'
-version '1.0.2'
+version '2.0.0'
 source 'https://github.com/luxflux/puppet-openvpn'
 author 'luxflux'
 license 'UNKNOWN'
