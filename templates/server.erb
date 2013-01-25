@@ -1,0 +1,33 @@
+mode server
+client-config-dir /etc/openvpn/<%= scope.lookupvar('name') %>/client-configs
+ca /etc/openvpn/<%= scope.lookupvar('name') %>/keys/ca.crt
+cert /etc/openvpn/<%= scope.lookupvar('name') %>/keys/server.crt
+key /etc/openvpn/<%= scope.lookupvar('name') %>/keys/server.key
+dh /etc/openvpn/<%= scope.lookupvar('name') %>/keys/dh1024.pem
+proto <%= scope.lookupvar('proto') %>-server
+port <%= scope.lookupvar('port') %>
+<% if scope.lookupvar('tls_server') -%>
+tls-server
+<% end -%>
+<% if scope.lookupvar('compression') != '' -%>
+<%= scope.lookupvar('compression') %>
+<% end -%>
+group <%= scope.lookupvar('group_to_set') %>
+user <%= scope.lookupvar('user') %>
+<% if scope.lookupvar('logfile') -%>
+log-append <%= scope.lookupvar('logfile') %>
+<% end -%>
+status <%= scope.lookupvar('status_log') %>
+dev <%= scope.lookupvar('dev') %>
+<% if scope.lookupvar('local') != '' -%>
+local <%= scope.lookupvar('local') %>
+<% end -%>
+<% if scope.lookupvar('ipp') -%>
+ifconfig-pool-persist <%= scope.lookupvar('name') %>/vpn-ipp.txt
+<% end -%>
+<% if scope.lookupvar('server') != '' -%>
+server <%= scope.lookupvar('server') %>
+<% end -%>
+<% scope.lookupvar('push').each do |item| -%>
+push <%= item %>
+<% end -%>
