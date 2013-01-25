@@ -1,14 +1,20 @@
 # OpenVPN Puppet module
 
-OpenVPN module for puppet including client config/cert creation (tarball to download)
+Puppet module to manage OpenVPN servers
+
+## Features:
+
+* Client-specific rules and access policies
+* Generated client configurations and SSL-Certificates
+* Downloadable client configurations and SSL-Certificates for easy client configuration
+* Support for multiple server instances
+
+Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
+
 
 ## Dependencies
   - [puppet-concat](https://github.com/ripienaar/puppet-concat)
 
-## Supported OS
-  - Debian Squeeze (should, as it works on Ubuntu Lucid)
-  - Ubuntu 10.4, 12.04 (other untested)
-  - CentOS, RedHat
 
 ## Example
 
