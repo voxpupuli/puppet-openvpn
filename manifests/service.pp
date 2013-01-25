@@ -13,6 +13,18 @@
 # * John Kinsella <mailto:jlkinsel@gmail.com>
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
 #
+# === License
+#
+# Copyright 2013 Raffael Schmid, <raffael@yux.ch>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# lied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 class openvpn::service {
   service {
     'openvpn':
