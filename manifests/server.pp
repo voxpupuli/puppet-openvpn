@@ -166,6 +166,11 @@ define openvpn::server(
     }
 
     file {
+        "/etc/openvpn/${name}/easy-rsa/revoked":
+            ensure  => directory,
+            require => Exec["copy easy-rsa to openvpn config folder ${name}"];
+    }
+    file {
         "/etc/openvpn/${name}/easy-rsa/vars":
             ensure  => present,
             content => template('openvpn/vars.erb'),
