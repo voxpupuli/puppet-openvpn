@@ -29,7 +29,8 @@
 #     'vpn_client':
 #       server       => 'contractors',
 #       iroute       => ['10.0.1.0 255.255.255.0'],
-#       ifconfig     => '10.10.10.2 255.255.255.0',
+# see http://openvpn.net/index.php/open-source/documentation/howto.html#policy for an explanation on choices of IP.
+#       ifconfig     => '10.10.10.1 10.10.10.2',
 #       dhcp_options => ['DNS 8.8.8.8']
 #    }
 #
