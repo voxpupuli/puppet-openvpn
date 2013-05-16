@@ -1,10 +1,13 @@
 # == Define: openvpn::client_specific_config
 #
 # This define configures options which will be pushed by the server to a
-# specific client only.
+# specific client only. This feature is explained here:
 #  http://openvpn.net/index.php/open-source/documentation/howto.html#policy
 #
 # === Parameters
+#
+# All the parameters are explained in the openvpn documentation:
+#   http://openvpn.net/index.php/open-source/documentation/howto.html#policy
 #
 # [*server*]
 #   String.  Name of the corresponding openvpn endpoint
@@ -29,7 +32,7 @@
 #     'vpn_client':
 #       server       => 'contractors',
 #       iroute       => ['10.0.1.0 255.255.255.0'],
-#       ifconfig     => '10.10.10.2 255.255.255.0',
+#       ifconfig     => '10.10.10.1 10.10.10.2',
 #       dhcp_options => ['DNS 8.8.8.8']
 #    }
 #
