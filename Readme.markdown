@@ -36,7 +36,7 @@ Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
   openvpn::client { 'client2':
     server   => 'winterthur'
   }
-  
+
   openvpn::client_specific_config { 'client1':
     server => 'winterthur',
     ifconfig => '10.200.200.50 255.255.255.0'
@@ -51,3 +51,4 @@ Don't forget the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ``
 These fine folks helped to get this far with this module:
 * [@jlambert121](https://github.com/jlambert121)
 * [@jlk](https://github.com/jlk)
+* [@elisiano](https://github.com/elisiano)
