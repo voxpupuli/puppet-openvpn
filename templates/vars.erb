@@ -12,7 +12,7 @@
 # This variable should point to
 # the top level of the easy-rsa
 # tree.
-export EASY_RSA="/etc/openvpn/<%= name %>/easy-rsa"
+export EASY_RSA="/etc/openvpn/<%= @name %>/easy-rsa"
 
 #
 # This variable should point to
@@ -61,9 +61,8 @@ export KEY_EXPIRE=3650
 # These are the default values for fields
 # which will be placed in the certificate.
 # Don't leave any of these fields blank.
-export KEY_COUNTRY="<%= country %>"
-export KEY_PROVINCE="<%= province %>"
-export KEY_CITY="<%= city %>"
-export KEY_ORG="<%= organization %>"
-export KEY_EMAIL="<%= email %>"
-
+export KEY_COUNTRY="<%= @country %>"
+export KEY_PROVINCE="<%= @province %>"
+export KEY_CITY="<%= @city %>"
+export KEY_ORG="<%= @organization %>"
+export KEY_EMAIL="<%= @email %>"
