@@ -166,6 +166,11 @@ define openvpn::server(
     }
 
     file {
+        "/etc/openvpn/${name}/easy-rsa/revoked":
+            ensure  => directory,
+            require => Exec["copy easy-rsa to openvpn config folder ${name}"];
+    }
+    file {
         "/etc/openvpn/${name}/easy-rsa/vars":
             ensure  => present,
             content => template('openvpn/vars.erb'),
@@ -211,6 +216,22 @@ define openvpn::server(
             ensure  => link,
             target  => "/etc/openvpn/${name}/easy-rsa/keys",
             require => Exec["copy easy-rsa to openvpn config folder ${name}"];
+    }
+
+    exec {
+        "create crl.pem on ${name}":
+            command   => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' openssl ca -gencrl -out /etc/openvpn/${name}/crl.pem -config /etc/openvpn/${name}/easy-rsa/openssl.cnf",
+            cwd       => "/etc/openvpn/${name}/easy-rsa",
+            creates   => "/etc/openvpn/${name}/crl.pem",
+            provider  => 'shell',
+            require => Exec["generate server cert ${name}"];
+    }
+
+    file {
+        "/etc/openvpn/${name}/easy-rsa/keys/crl.pem":
+            ensure  => link,
+            target  => "/etc/openvpn/${name}/crl.pem",
+            require => Exec["create crl.pem on ${name}"];
     }
 
     if $::osfamily == 'Debian' {
