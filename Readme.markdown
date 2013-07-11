@@ -21,11 +21,11 @@ Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
 ```puppet
   # add a server instance
   openvpn::server { 'winterthur':
-    country      => "CH",
-    province     => "ZH",
-    city         => "Winterthur",
-    organization => "example.org",
-    email        => "root@example.org",
+    country      => 'CH',
+    province     => 'ZH',
+    city         => 'Winterthur',
+    organization => 'example.org',
+    email        => 'root@example.org',
     server       => '10.200.200.0 255.255.255.0'
   }
 
