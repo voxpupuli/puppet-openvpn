@@ -40,5 +40,4 @@ class openvpn {
   class {'openvpn::service': } ->
   Class['openvpn']
 
-
 }
