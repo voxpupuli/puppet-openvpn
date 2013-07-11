@@ -175,8 +175,7 @@ define openvpn::client(
                               File["/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt"],
                               File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.key"],
                               File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt"] ],
-            notify => Exec["generate ${name}.ovpn in ${server}"];
-
+            notify      => Exec["generate ${name}.ovpn in ${server}"];
     }
 
     exec {
@@ -190,6 +189,4 @@ define openvpn::client(
                           File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt"],
         ],
     }
-
-
 }
