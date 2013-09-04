@@ -8,4 +8,4 @@ description 'Puppet module to manage OpenVPN servers'
 project_page 'https://github.com/luxflux/puppet-openvpn'
 
 ## Add dependencies, if any:
-dependency 'ripienaar/concat'
+dependency 'ripienaar/concat', '0.2.0'
