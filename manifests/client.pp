@@ -179,4 +179,9 @@ define openvpn::client(
                         File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt"],
                       ],
   }
+
+  file { "/etc/openvpn/${server}/download-configs/${name}.ovpn":
+    mode    => '0400',
+    require => Exec["generate ${name}.ovpn in ${server}"],
+  }
 }
