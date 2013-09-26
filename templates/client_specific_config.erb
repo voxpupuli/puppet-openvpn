@@ -7,4 +7,6 @@ ifconfig-push <%= ifconfig %>
 <% scope.lookupvar('dhcp_options').each do |option| -%>
 push dhcp-option <%= option %>
 <% end -%>
-
+<% if @redirect_gateway -%>
+push redirect-gateway def1
+<% end %>

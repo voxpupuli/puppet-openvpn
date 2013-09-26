@@ -25,6 +25,10 @@
 #   Array.  DHCP options to push to the client.
 #   Default: []
 #
+# [*redirect_gateway]
+#   Array.  Redirect all traffic to gateway
+#   Default: false
+#
 #
 # === Examples
 #
@@ -62,9 +66,10 @@
 #
 define openvpn::client_specific_config(
   $server,
-  $iroute       = [],
-  $ifconfig     = false,
-  $dhcp_options = []
+  $iroute           = [],
+  $ifconfig         = false,
+  $dhcp_options     = [],
+  $redirect_gateway = false
 ) {
 
   Openvpn::Server[$server] ->
