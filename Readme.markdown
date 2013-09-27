@@ -52,3 +52,4 @@ These fine folks helped to get this far with this module:
 * [@jlambert121](https://github.com/jlambert121)
 * [@jlk](https://github.com/jlk)
 * [@elisiano](https://github.com/elisiano)
+* [@shaftoe](https://github.com/shaftoe)
