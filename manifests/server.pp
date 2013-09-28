@@ -75,6 +75,9 @@
 #     servers, DNS search domains, and many other options.
 #   Default: []
 #
+# [*topology*]
+#   String. Define the network topology type
+#   Default: subnet
 #
 # === Examples
 #
@@ -128,7 +131,8 @@ define openvpn::server(
   $proto = 'tcp',
   $status_log = "${name}/openvpn-status.log",
   $server = '',
-  $push = []
+  $push = [],
+  $topology = 'subnet'
 ) {
 
   include openvpn
