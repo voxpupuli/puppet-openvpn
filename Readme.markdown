@@ -13,7 +13,7 @@ Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
 
 
 ## Dependencies
-  - [puppet-concat](https://github.com/ripienaar/puppet-concat)
+  - [puppetlabs-concat 1.0.0+](https://github.com/puppetlabs/puppet-concat)
 
 
 ## Example
