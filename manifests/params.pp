@@ -26,13 +26,13 @@ class openvpn::params {
       if($::operatingsystemmajrelease >= 6) { # Redhat/Centos >= 6
         # http://docs.puppetlabs.com/references/latest/function.html#versioncmp
         if(versioncmp($::operatingsystemrelease, '6.4') < 0) { # Version < 6.4
-          $easyrsa_source='/usr/share/openvpn/easy-rsa/2.0'
+          $easyrsa_source = '/usr/share/openvpn/easy-rsa/2.0'
         }
         else { # Version >= 6.4
           package { 'easy-rsa':
             ensure => installed,
           }
-          $easyrsa_source='/usr/share/easy-rsa/2.0/'
+          $easyrsa_source = '/usr/share/easy-rsa/2.0'
         }
       }
       else { # Redhat/CentOS < 6
