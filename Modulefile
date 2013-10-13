@@ -1,4 +1,4 @@
-name    'luxflux-openvpn'
+name 'luxflux-openvpn'
 version '2.1.0'
 source 'https://github.com/luxflux/puppet-openvpn'
 author 'luxflux'
@@ -8,4 +8,4 @@ description 'Puppet module to manage OpenVPN servers'
 project_page 'https://github.com/luxflux/puppet-openvpn'
 
 ## Add dependencies, if any:
-dependency 'ripienaar/concat', '0.2.0'
+dependency 'puppetlabs/concat', '>= 1.0.0'
