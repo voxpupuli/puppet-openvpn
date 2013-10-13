@@ -13,7 +13,7 @@ describe 'openvpn::server', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let (:facts) { {
+    let(:facts) { {
       :ipaddress_eth0 => '1.2.3.4',
       :network_eth0   => '1.2.3.0',
       :netmask_eth0   => '255.255.255.0',
@@ -81,7 +81,7 @@ describe 'openvpn::server', :type => :define do
       'push'          => [ 'dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0' ]
     } }
 
-    let (:facts) { {
+    let(:facts) { {
       :ipaddress_eth0 => '1.2.3.4',
       :network_eth0   => '1.2.3.0',
       :netmask_eth0   => '255.255.255.0',
@@ -118,16 +118,41 @@ describe 'openvpn::server', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let(:facts) { { :osfamily => 'RedHat', :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) { { :osfamily => 'RedHat',
+                    :concat_basedir => '/var/lib/puppet/concat',
+                    :operatingsystemmajrelease => 6,
+                    :operatingsystemrelease => '6.4' } }
+
+    context "until version 6.0" do
+      before do
+        facts[:operatingsystemmajrelease] = 5
+        facts[:operatingsystemrelease] = '5.1'
+      end
+      it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
+        'command' => '/bin/cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
+      )}
+    end
+
+    context "from 6.0 to 6.4" do
+      before do
+        facts[:operatingsystemmajrelease] = 6
+        facts[:operatingsystemrelease] = '6.3'
+      end
+      it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
+        'command' => '/bin/cp -r /usr/share/openvpn/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
+      )}
+    end
+
+    it { should contain_package('easy-rsa').with('ensure' => 'installed') }
+    it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
+      'command' => '/bin/cp -r /usr/share/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
+    )}
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').with(
       'ensure'  => 'link',
       'target'  => '/etc/openvpn/test_server/easy-rsa/openssl-1.0.0.cnf'
     )}
 
-    it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
-      'command' => '/bin/cp -r /usr/share/doc/openvpn-2.2.2/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
-    )}
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nobody$/) }
 
   end
