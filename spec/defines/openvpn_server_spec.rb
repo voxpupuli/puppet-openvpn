@@ -13,7 +13,7 @@ describe 'openvpn::server', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let (:facts) { {
+    let(:facts) { {
       :ipaddress_eth0 => '1.2.3.4',
       :network_eth0   => '1.2.3.0',
       :netmask_eth0   => '255.255.255.0',
@@ -81,7 +81,7 @@ describe 'openvpn::server', :type => :define do
       'push'          => [ 'dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0' ]
     } }
 
-    let (:facts) { {
+    let(:facts) { {
       :ipaddress_eth0 => '1.2.3.4',
       :network_eth0   => '1.2.3.0',
       :netmask_eth0   => '255.255.255.0',
