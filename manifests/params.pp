@@ -40,7 +40,7 @@ class openvpn::params {
       }
     }
     default: { # Debian/Ubuntu
-      $easyrsa_rource = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+      $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
     }
   }
 
