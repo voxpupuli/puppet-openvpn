@@ -10,3 +10,5 @@ push dhcp-option <%= option %>
 <% if @redirect_gateway -%>
 push redirect-gateway def1
 <% end %>
+<% if scope.lookupvar('push').each do |option| -%>
+<% end %>
