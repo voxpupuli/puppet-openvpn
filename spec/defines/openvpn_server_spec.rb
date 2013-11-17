@@ -167,6 +167,17 @@ describe 'openvpn::server', :type => :define do
     } }
 
     let(:facts) { { :osfamily => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
+    
+    context "when jessie/sid" do
+      before do
+        facts[:operatingsystemmajrelease] = 'jessie/sid'
+      end
+      it { should contain_package('easy-rsa').with('ensure' => 'installed') }
+      it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
+      'command' => '/bin/cp -r /usr/share/easy-rsa/ /etc/openvpn/test_server/easy-rsa'
+    )}
+   end
+
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').with(
       'ensure'  => 'link',
