@@ -41,14 +41,14 @@ class openvpn::params {
     }
     default: { # Debian/Ubuntu
       if($::operatingsystemmajrelease == 'jessie/sid'){
-	package { 'easy-rsa':
+      package { 'easy-rsa':
             ensure => installed,
           }
-          $easyrsa_source = '/usr/share/easy-rsa/'	
-	}
-     else {
-      	  $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
-	}
+      $easyrsa_source = '/usr/share/easy-rsa/'
+      }
+      else {
+      $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+      }
     }
   }
 
