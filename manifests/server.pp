@@ -229,9 +229,18 @@ define openvpn::server(
 
   file {
     "/etc/openvpn/${name}.conf":
-      owner   => root,
-      group   => root,
+      owner   => 'root',
+      group   => 'root',
       mode    => '0444',
       content => template('openvpn/server.erb');
   }
+
+  file { "/usr/local/bin/show_vpn_${name}":
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0750',
+    content => "#!/bin/bash
+cat /etc/openvpn/${name}/openvpn-status.log",
+  }
+
 }
