@@ -1,3 +1,4 @@
 pkg
 spec/fixtures
 .vagrant
+.gitconfig
