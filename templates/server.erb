@@ -35,3 +35,6 @@ server <%= scope.lookupvar('server') %>
 <% scope.lookupvar('push').each do |item| -%>
 push <%= item %>
 <% end -%>
+<% scope.lookupvar('route').each do |item| -%>
+route <%= item %>
+<% end -%>
