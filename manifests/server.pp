@@ -76,8 +76,8 @@
 #   Default: []
 #
 # [*route*]
-#   Array.  Add route to routing table after connection is established.  
-#     Multiple routes can be specified. 
+#   Array.  Add route to routing table after connection is established.
+#     Multiple routes can be specified.
 #   Default: []
 #
 #
