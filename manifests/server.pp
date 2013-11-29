@@ -75,6 +75,11 @@
 #     servers, DNS search domains, and many other options.
 #   Default: []
 #
+# [*route*]
+#   Array.  Add route to routing table after connection is established.  
+#     Multiple routes can be specified. 
+#   Default: []
+#
 #
 # === Examples
 #
@@ -128,7 +133,8 @@ define openvpn::server(
   $proto = 'tcp',
   $status_log = "${name}/openvpn-status.log",
   $server = '',
-  $push = []
+  $push = [],
+  $route = []
 ) {
 
   include openvpn
