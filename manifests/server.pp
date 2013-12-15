@@ -80,6 +80,11 @@
 #     Multiple routes can be specified.
 #   Default: []
 #
+# [*keepalive*]
+#   String.  Add keepalive directive (ping and ping-restart) to server.
+#     Should match the form "n m".
+#   Default: None
+#
 #
 # === Examples
 #
@@ -134,7 +139,8 @@ define openvpn::server(
   $status_log = "${name}/openvpn-status.log",
   $server = '',
   $push = [],
-  $route = []
+  $route = [],
+  $keepalive = ''
 ) {
 
   include openvpn

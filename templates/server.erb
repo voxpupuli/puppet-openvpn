@@ -38,3 +38,6 @@ push <%= item %>
 <% scope.lookupvar('route').each do |item| -%>
 route <%= item %>
 <% end -%>
+<% if scope.lookupvar('keepalive') != '' -%>
+keepalive <%= scope.lookupvar('keepalive') %>
+<% end -%>
