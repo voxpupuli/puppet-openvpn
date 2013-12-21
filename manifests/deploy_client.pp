@@ -23,7 +23,7 @@ class openvpn::deploy_client (
   }
 
   $keys = ['ca.crt', "${clientname}.crt", "${clientname}.key"]
-  $keys.foreach { |$x|
+  each($keys) |$x| {
     file { "/etc/openvpn/keys/${x}":
       ensure  => link,
       target  => "/etc/openvpn/${clientname}/keys/${x}",
