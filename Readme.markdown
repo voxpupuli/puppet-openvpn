@@ -2,14 +2,19 @@
 
 Puppet module to manage OpenVPN servers
 
-## Features:
+## Features
 
 * Client-specific rules and access policies
 * Generated client configurations and SSL-Certificates
 * Downloadable client configurations and SSL-Certificates for easy client configuration
 * Support for multiple server instances
 
-Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
+## Supported OS
+
+* Ubuntu
+* Debian
+* CentOS
+* RedHat
 
 
 ## Dependencies
