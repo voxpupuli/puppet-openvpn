@@ -40,7 +40,7 @@ class openvpn::params {
       }
     }
     default: { # Debian/Ubuntu
-      if($::operatingsystemmajrelease == 'jessie/sid'){
+      if($::operatingsystemmajrelease == 'jessie/sid' or $::lsbdistdescription == 'Ubuntu 13.10'){
       package { 'easy-rsa':
             ensure => installed,
           }
