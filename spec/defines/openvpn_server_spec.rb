@@ -80,7 +80,8 @@ describe 'openvpn::server', :type => :define do
       'server'        => '2.3.4.0 255.255.0.0',
       'push'          => [ 'dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0' ],
       'route'         => [ '192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0' ],
-      'keepalive'     => '10 120'
+      'keepalive'     => '10 120',
+      'topology'      => 'subnet',
     } }
 
     let(:facts) { {
@@ -112,6 +113,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route\s+192.168.30.0\s+255.255.255.0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route\s+192.168.35.0\s+255.255.0.0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^keepalive\s+10\s+120$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^topology\s+subnet$/) }
   end
 
   context "when RedHat based machine" do
@@ -172,7 +174,7 @@ describe 'openvpn::server', :type => :define do
     } }
 
     let(:facts) { { :osfamily => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
-    
+
     context "when jessie/sid" do
       before do
         facts[:operatingsystemmajrelease] = 'jessie/sid'

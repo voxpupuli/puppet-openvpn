@@ -41,3 +41,6 @@ route <%= item %>
 <% if scope.lookupvar('keepalive') != '' -%>
 keepalive <%= scope.lookupvar('keepalive') %>
 <% end -%>
+<% if scope.lookupvar('topology') != '' -%>
+topology <%= scope.lookupvar('topology') %>
+<% end -%>
