@@ -27,27 +27,20 @@ class openvpn::params {
         # http://docs.puppetlabs.com/references/latest/function.html#versioncmp
         if(versioncmp($::operatingsystemrelease, '6.4') < 0) { # Version < 6.4
           $easyrsa_source = '/usr/share/openvpn/easy-rsa/2.0'
-        }
-        else { # Version >= 6.4
-          package { 'easy-rsa':
-            ensure => installed,
-          }
+        } else { # Version >= 6.4
+          $additional_packages = ['easy-rsa']
           $easyrsa_source = '/usr/share/easy-rsa/2.0'
         }
-      }
-      else { # Redhat/CentOS < 6
+      } else { # Redhat/CentOS < 6
         $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
       }
     }
     default: { # Debian/Ubuntu
       if($::operatingsystemmajrelease == 'jessie/sid' or $::lsbdistdescription == 'Ubuntu 13.10'){
-      package { 'easy-rsa':
-            ensure => installed,
-          }
-      $easyrsa_source = '/usr/share/easy-rsa/'
-      }
-      else {
-      $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+        $additional_packages = ['easy-rsa']
+        $easyrsa_source = '/usr/share/easy-rsa/'
+      } else {
+        $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
       }
     }
   }

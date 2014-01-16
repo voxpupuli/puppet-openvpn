@@ -33,10 +33,8 @@
 #
 class openvpn::install {
 
-  package {
-    'openvpn':
-      ensure => installed;
-  }
+  ensure_packages('openvpn')
+  ensure_packages($::openvpn::params::additional_packages)
 
   file {
     [ '/etc/openvpn', '/etc/openvpn/keys' ]:
