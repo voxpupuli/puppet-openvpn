@@ -46,6 +46,14 @@ Puppet module to manage OpenVPN servers
     server => 'winterthur',
     ifconfig => '10.200.200.50 255.255.255.0'
   }
+
+  # a revoked client
+  openvpn::client { 'client3':
+    server => 'winterthur',
+  }
+  openvpn::revoke { 'client3':
+    server => 'winterthur',
+  }
 ```
 
 Don't forget the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ```net.ipv4.ip_forward```!
