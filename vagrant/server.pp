@@ -20,4 +20,12 @@ node default {
   openvpn::client { 'client2':
     server => 'winterthur';
   }
+
+  openvpn::client { 'client3':
+    server => 'winterthur';
+  }
+
+  openvpn::revoke { 'client3':
+    server => 'winterthur';
+  }
 }

@@ -26,7 +26,9 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/client-configs').with('ensure' => 'directory')}
     it { should contain_file('/etc/openvpn/test_server/download-configs').with('ensure' => 'directory')}
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars')}
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/revoked').with('ensure' => 'directory')}
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf')}
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').with('target' => '/etc/openvpn/test_server/crl.pem')}
     it { should contain_file('/etc/openvpn/test_server/keys').with(
       'ensure'  => 'link',
       'target'  => '/etc/openvpn/test_server/easy-rsa/keys'
@@ -39,6 +41,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_exec('generate dh param test_server') }
     it { should contain_exec('initca test_server') }
     it { should contain_exec('generate server cert test_server') }
+    it { should contain_exec('create crl.pem on test_server') }
 
     # VPN server config file itself
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
@@ -58,6 +61,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dev\s+tun0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+1\.2\.3\.4$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ifconfig-pool-persist/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$/) }
   end
 
   context "creating a server setting all parameters" do
