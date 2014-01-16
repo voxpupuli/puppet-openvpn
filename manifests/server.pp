@@ -163,8 +163,10 @@ define openvpn::server(
   }
 
   file {
-    ["/etc/openvpn/${name}", "/etc/openvpn/${name}/client-configs", "/etc/openvpn/${name}/download-configs" ]:
-      ensure  => directory;
+    [ "/etc/openvpn/${name}",
+      "/etc/openvpn/${name}/client-configs",
+      "/etc/openvpn/${name}/download-configs" ]:
+        ensure  => directory;
   }
 
   exec {
@@ -213,7 +215,8 @@ define openvpn::server(
       cwd      => "/etc/openvpn/${name}/easy-rsa",
       creates  => "/etc/openvpn/${name}/easy-rsa/keys/ca.key",
       provider => 'shell',
-      require  => [ Exec["generate dh param ${name}"], File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] ];
+      require  => [ Exec["generate dh param ${name}"],
+                    File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] ];
 
     "generate server cert ${name}":
       command  => '. ./vars && ./pkitool --server server',
