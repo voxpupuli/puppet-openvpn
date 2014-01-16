@@ -108,8 +108,8 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dev\s+tun1$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+2\.3\.4\.5$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^server\s+2\.3\.4\.0\s+255\.255\.0\.0$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^push\s+dhcp-option\s+DNS\s+172\.31\.0\.30$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^push\s+route\s+172\.31\.0\.0\s+255\.255\.0\.0$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^push\s+"dhcp-option\s+DNS\s+172\.31\.0\.30"$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^push\s+"route\s+172\.31\.0\.0\s+255\.255\.0\.0"$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route\s+192.168.30.0\s+255.255.255.0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route\s+192.168.35.0\s+255.255.0.0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^keepalive\s+10\s+120$/) }
