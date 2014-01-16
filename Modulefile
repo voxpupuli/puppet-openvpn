@@ -9,4 +9,4 @@ project_page 'https://github.com/luxflux/puppet-openvpn'
 
 ## Add dependencies, if any:
 dependency 'puppetlabs/concat', '>= 1.0.0'
-dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/stdlib', '>= 1.0.0'
