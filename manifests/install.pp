@@ -33,7 +33,7 @@
 #
 class openvpn::install {
 
-  ensure_packages('openvpn')
+  ensure_packages(['openvpn'])
   ensure_packages($::openvpn::params::additional_packages)
 
   file {
