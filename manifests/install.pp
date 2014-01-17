@@ -34,7 +34,10 @@
 class openvpn::install {
 
   ensure_packages(['openvpn'])
-  ensure_packages($::openvpn::params::additional_packages)
+  if $::openvpn::params::additional_packages != undef {
+    ensure_packages( any2array($::openvpn::params::additional_packages) )
+  }
+
 
   file {
     [ '/etc/openvpn', '/etc/openvpn/keys' ]:
