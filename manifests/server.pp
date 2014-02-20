@@ -93,6 +93,10 @@
 #   String. Define the network topology type
 #   Default: net30
 #
+# [*c2c*]
+#   Boolean.  Enable client to client visibility
+#   Default: false
+#
 # === Examples
 #
 #   openvpn::client {
@@ -150,6 +154,7 @@ define openvpn::server(
   $keepalive = '',
   $ssl_key_size = 1024,
   $topology = 'net30',
+  $c2c = false,
 ) {
 
   include openvpn
