@@ -44,7 +44,7 @@ Puppet module to manage OpenVPN servers
 
   openvpn::client_specific_config { 'client1':
     server => 'winterthur',
-    ifconfig => '10.200.200.50 255.255.255.0'
+    ifconfig => '10.200.200.50 10.200.200.51'
   }
 
   # a revoked client

@@ -45,3 +45,6 @@ keepalive <%= scope.lookupvar('keepalive') %>
 <% if scope.lookupvar('topology') != '' -%>
 topology <%= scope.lookupvar('topology') %>
 <% end -%>
+<% if scope.lookupvar('c2c') -%>
+client-to-client
+<% end -%>
