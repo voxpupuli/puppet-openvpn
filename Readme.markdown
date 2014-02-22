@@ -61,10 +61,4 @@ Don't forget the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ``
 
 # Contributors
 
-These fine folks helped to get this far with this module:
-* [@jlambert121](https://github.com/jlambert121)
-* [@jlk](https://github.com/jlk)
-* [@elisiano](https://github.com/elisiano)
-* [@shaftoe](https://github.com/shaftoe)
-* [@CtrlC-Root](https://github.com/CtrlC-Root)
-* [@jjtorroglosa](https://github.com/jjtorroglosa)
+[These fine folks](https://github.com/luxflux/puppet-openvpn/graphs/contributors) helped to get this far with this module.
