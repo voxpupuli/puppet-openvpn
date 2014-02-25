@@ -97,6 +97,14 @@
 #   Boolean.  Enable client to client visibility
 #   Default: false
 #
+# [*tcp-nodelay*]
+#   Boolean, Enable/Disable.
+#   Default: false
+#
+# [*ccd-exclusive*]
+#   Boolean, Enable/Disable.
+#   Default: false
+#
 # === Examples
 #
 #   openvpn::client {
@@ -155,6 +163,8 @@ define openvpn::server(
   $ssl_key_size = 1024,
   $topology = 'net30',
   $c2c = false,
+  $tcp_nodelay = false,
+  $ccd_exclusive = false,
 ) {
 
   include openvpn
