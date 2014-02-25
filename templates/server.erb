@@ -54,4 +54,7 @@ tcp-nodelay
 <% if scope.lookupvar('ccd_exclusive') -%>
 ccd-exclusive
 <% end -%>
+<% if scope.lookupvar('pam') -%>
+plugin /usr/lib/openvpn/openvpn-auth-pam.so login
+<% end -%>
 

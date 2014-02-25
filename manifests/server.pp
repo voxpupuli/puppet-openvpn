@@ -105,6 +105,10 @@
 #   Boolean, Enable/Disable.
 #   Default: false
 #
+# [*pam*]
+#   Boolean, Enable/Disable.
+#   Default: false
+#
 # === Examples
 #
 #   openvpn::client {
