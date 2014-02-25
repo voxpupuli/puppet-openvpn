@@ -169,6 +169,7 @@ define openvpn::server(
   $c2c = false,
   $tcp_nodelay = false,
   $ccd_exclusive = false,
+  $pam = false,
 ) {
 
   include openvpn
