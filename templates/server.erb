@@ -48,3 +48,13 @@ topology <%= scope.lookupvar('topology') %>
 <% if scope.lookupvar('c2c') -%>
 client-to-client
 <% end -%>
+<% if scope.lookupvar('tcp_nodelay') -%>
+tcp-nodelay
+<% end -%>
+<% if scope.lookupvar('ccd_exclusive') -%>
+ccd-exclusive
+<% end -%>
+<% if scope.lookupvar('pam') -%>
+plugin /usr/lib/openvpn/openvpn-auth-pam.so login
+<% end -%>
+
