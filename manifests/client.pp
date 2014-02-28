@@ -111,7 +111,7 @@ define openvpn::client(
   $persist_tun = true,
   $port = '1194',
   $proto = 'tcp',
-  $remote_host = $::fqdn,
+  $remote_host = $server,
   $resolv_retry = 'infinite',
   $verb = '3',
 ) {
