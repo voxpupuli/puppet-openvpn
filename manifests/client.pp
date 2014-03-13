@@ -65,6 +65,9 @@
 #   Integer.  Level of logging verbosity
 #   Default: 3
 #
+# [*pam*]
+#   Boolean, Enable/Disable.
+#   Default: false
 #
 # === Examples
 #
@@ -114,6 +117,7 @@ define openvpn::client(
   $remote_host = $::fqdn,
   $resolv_retry = 'infinite',
   $verb = '3',
+  $pam = 'false',
 ) {
 
   Openvpn::Server[$server] ->
