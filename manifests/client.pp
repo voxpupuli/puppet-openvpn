@@ -117,7 +117,7 @@ define openvpn::client(
   $remote_host = $::fqdn,
   $resolv_retry = 'infinite',
   $verb = '3',
-  $pam = 'false',
+  $pam = false,
 ) {
 
   Openvpn::Server[$server] ->
