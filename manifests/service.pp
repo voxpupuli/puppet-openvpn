@@ -29,9 +29,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn::service {
+define openvpn::service {
   service {
-    'openvpn':
+    "openvpn@${name}":
       ensure     => running,
       enable     => true,
       hasrestart => true,

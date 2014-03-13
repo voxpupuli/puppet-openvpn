@@ -174,8 +174,7 @@ define openvpn::server(
 
   include openvpn
   Class['openvpn::install'] ->
-  Openvpn::Server[$name] ~>
-  Class['openvpn::service']
+  Openvpn::Server[$name]
 
   $tls_server = $proto ? {
     /tcp/   => true,
@@ -295,5 +294,9 @@ define openvpn::server(
       group   => root,
       mode    => '0444',
       content => template('openvpn/server.erb');
+  }
+
+  if $openvpn::params::systemd_style_service == true {
+    openvpn::service { $name: }
   }
 }

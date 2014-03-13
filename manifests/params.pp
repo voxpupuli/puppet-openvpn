@@ -45,6 +45,14 @@ class openvpn::params {
     }
   }
 
+  case $::osfamily {
+    default: {
+      if($::operatingsystemmajrelease == 'jessie/sid') {
+        $systemd_style_service = true
+      }
+    }
+  }
+
   $link_openssl_cnf = $::osfamily ? {
     /(Debian|RedHat)/ => true,
     default           => false
