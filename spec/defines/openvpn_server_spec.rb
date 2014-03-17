@@ -38,7 +38,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
       'command' => '/bin/cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
     )}
-    it { should contain_exec('generate dh param test_server') }
+    it { should contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh1024.pem') }
     it { should contain_exec('initca test_server') }
     it { should contain_exec('generate server cert test_server') }
     it { should contain_exec('create crl.pem on test_server') }
@@ -86,6 +86,7 @@ describe 'openvpn::server', :type => :define do
       'route'         => [ '192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0' ],
       'keepalive'     => '10 120',
       'topology'      => 'subnet',
+      'ssl_key_size'  => 2048,
     } }
 
     let(:facts) { {
@@ -100,7 +101,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/test_server\/keys\/ca.crt$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/test_server\/keys\/server.crt$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys\/server.key$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh1024.pem$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh2048.pem$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+udp$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+tls-server$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^port\s+123$/) }
@@ -118,6 +119,8 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route\s+192.168.35.0\s+255.255.0.0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^keepalive\s+10\s+120$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^topology\s+subnet$/) }
+
+    it { should contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh2048.pem') }
   end
 
   context "when RedHat based machine" do
