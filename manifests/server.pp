@@ -237,7 +237,7 @@ define openvpn::server(
     "generate dh param ${name}":
       command  => '. ./vars && ./clean-all && ./build-dh',
       cwd      => "/etc/openvpn/${name}/easy-rsa",
-      creates  => "/etc/openvpn/${name}/easy-rsa/keys/dh1024.pem",
+      creates  => "/etc/openvpn/${name}/easy-rsa/keys/dh${ssl_key_size}.pem",
       provider => 'shell',
       require  => File["/etc/openvpn/${name}/easy-rsa/vars"];
 
