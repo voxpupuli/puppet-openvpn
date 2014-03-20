@@ -48,3 +48,6 @@ topology <%= scope.lookupvar('topology') %>
 <% if scope.lookupvar('c2c') -%>
 client-to-client
 <% end -%>
+<% if scope.lookupvar('management') -%>
+management <%= scope.lookupvar('management_ip') %> <%= scope.lookupvar('management_port') %>
+<% end -%>

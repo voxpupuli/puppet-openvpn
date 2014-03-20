@@ -97,6 +97,18 @@
 #   Boolean.  Enable client to client visibility
 #   Default: false
 #
+# [*management*]
+#   Boolean.  Enable management interface
+#   Default: false
+#
+# [*management_ip*]
+#   String.  IP address where the management interface will listen
+#   Default: localhost
+#
+# [*management_port*]
+#   String.  Port where the management interface will listen
+#   Default: 7505
+#
 # === Examples
 #
 #   openvpn::client {
@@ -155,6 +167,9 @@ define openvpn::server(
   $ssl_key_size = 1024,
   $topology = 'net30',
   $c2c = false,
+  $management = false,
+  $management_ip = 'localhost',
+  $management_port = 7505,
 ) {
 
   include openvpn
