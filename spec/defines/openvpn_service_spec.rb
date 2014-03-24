@@ -1,6 +1,6 @@
 require 'spec_helper'
- 
-describe 'openvpn::service', :type => :class do
+
+describe 'openvpn::service', :type => :define do
 
   let (:facts) { { :concat_basedir => '/var/lib/puppet/concat' } }
 
