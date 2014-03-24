@@ -66,27 +66,30 @@ describe 'openvpn::server', :type => :define do
 
   context "creating a server setting all parameters" do
     let(:params) { {
-      'country'       => 'CO',
-      'province'      => 'ST',
-      'city'          => 'Some City',
-      'organization'  => 'example.org',
-      'email'         => 'testemail@example.org',
-      'compression'   => 'fake_compression',
-      'port'          => '123',
-      'proto'         => 'udp',
-      'group'         => 'someone',
-      'user'          => 'someone',
-      'logfile'       => '/var/log/openvpn/test_server.log',
-      'status_log'    => '/var/log/openvpn/test_server_status.log',
-      'dev'           => 'tun1',
-      'local'         => '2.3.4.5',
-      'ipp'           => true,
-      'server'        => '2.3.4.0 255.255.0.0',
-      'push'          => [ 'dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0' ],
-      'route'         => [ '192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0' ],
-      'keepalive'     => '10 120',
-      'topology'      => 'subnet',
-      'ssl_key_size'  => 2048,
+      'country'         => 'CO',
+      'province'        => 'ST',
+      'city'            => 'Some City',
+      'organization'    => 'example.org',
+      'email'           => 'testemail@example.org',
+      'compression'     => 'fake_compression',
+      'port'            => '123',
+      'proto'           => 'udp',
+      'group'           => 'someone',
+      'user'            => 'someone',
+      'logfile'         => '/var/log/openvpn/test_server.log',
+      'status_log'      => '/var/log/openvpn/test_server_status.log',
+      'dev'             => 'tun1',
+      'local'           => '2.3.4.5',
+      'ipp'             => true,
+      'server'          => '2.3.4.0 255.255.0.0',
+      'push'            => [ 'dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0' ],
+      'route'           => [ '192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0' ],
+      'keepalive'       => '10 120',
+      'topology'        => 'subnet',
+      'ssl_key_size'    => 2048,
+      'management'      => true,
+      'management_ip'   => '1.3.3.7',
+      'management_port' => 1337,
     } }
 
     let(:facts) { {
@@ -119,6 +122,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route\s+192.168.35.0\s+255.255.0.0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^keepalive\s+10\s+120$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^topology\s+subnet$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^management\s+1.3.3.7 1337$/) }
 
     it { should contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh2048.pem') }
   end

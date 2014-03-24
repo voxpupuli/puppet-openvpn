@@ -109,6 +109,18 @@
 #   Boolean, Enable/Disable.
 #   Default: false
 #
+# [*management*]
+#   Boolean.  Enable management interface
+#   Default: false
+#
+# [*management_ip*]
+#   String.  IP address where the management interface will listen
+#   Default: localhost
+#
+# [*management_port*]
+#   String.  Port where the management interface will listen
+#   Default: 7505
+#
 # === Examples
 #
 #   openvpn::client {
@@ -170,6 +182,9 @@ define openvpn::server(
   $tcp_nodelay = false,
   $ccd_exclusive = false,
   $pam = false,
+  $management = false,
+  $management_ip = 'localhost',
+  $management_port = 7505,
 ) {
 
   include openvpn

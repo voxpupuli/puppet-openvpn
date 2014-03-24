@@ -57,4 +57,6 @@ ccd-exclusive
 <% if scope.lookupvar('pam') -%>
 plugin /usr/lib/openvpn/openvpn-auth-pam.so login
 <% end -%>
-
+<% if scope.lookupvar('management') -%>
+management <%= scope.lookupvar('management_ip') %> <%= scope.lookupvar('management_port') %>
+<% end -%>
