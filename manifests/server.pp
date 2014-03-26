@@ -148,9 +148,17 @@
 #   String. LDAP password for ldapbinddn
 #   Default: None
 #
-# [*ldapbasedn*]
+# [*ldapubasedn*]
 #   String. Place in the LDAP tree to look for users
 #   Default: None
+#
+# [*ldapgbasedn*]
+#   String. Place in the LDAP tree to look for groups
+#   Default: None
+#
+# [*ldapgmember*]
+#   Boolean. If defined use group block in ldap.conf
+#   Default: false
 #
 # [*ldapfilter*]
 #   String. Group SearchFilter for LDAP accounts
@@ -231,7 +239,9 @@ define openvpn::server(
   $ldapserver = '',
   $ldapbinddn = '',
   $ldapbindpass = '',
-  $ldapbasedn = '',
+  $ldapubasedn = '',
+  $ldapgbasedn = '',
+  $ldapgmember = false,
   $ldapfilter = '',
   $ldapmemberatr = '',
 ) {

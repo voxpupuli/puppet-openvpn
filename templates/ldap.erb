@@ -12,13 +12,15 @@
 </LDAP>
 
 <Authorization>
-  BaseDN <%= scope.lookupvar('ldapbasedn') %>
+  BaseDN <%= scope.lookupvar('ldapubasedn') %>
   SearchFilter "(&(sAMAccountName=%u))"
-  RequireGroup true
+  RequireGroup <%= scope.lookupvar('ldapgmember') %>
 
+<% if scope.lookupvar('ldapgmember') == true -%>
   <Group>
-    BaseDN <%= scope.lookupvar('ldapbasedn') %>
+    BaseDN <%= scope.lookupvar('ldapgbasedn') %>
     SearchFilter <%= scope.lookupvar('ldapfilter') %>
     MemberAttribute <%= scope.lookupvar('ldapmemberatr') %>
   </Group>
+<% end -%>
 </Authorization>
