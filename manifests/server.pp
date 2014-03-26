@@ -228,7 +228,8 @@ define openvpn::server(
   Class['openvpn::service']
 
   if $ldapenabled == true {
-    $additional_packages = ['openvpn-auth-ldap']
+    Package {'openvpn-auth-ldap'}:
+      ensure => installed,
   }
 
   $tls_server = $proto ? {
