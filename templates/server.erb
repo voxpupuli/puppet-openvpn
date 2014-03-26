@@ -57,4 +57,8 @@ ccd-exclusive
 <% if scope.lookupvar('pam') -%>
 plugin /usr/lib/openvpn/openvpn-auth-pam.so login
 <% end -%>
+<% if scope.lookupvar('ldapenabled') == true -%>
+plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so "/etc/openvpn/auth/ldap.conf"
+username-as-common-name
+<% end -%>
 
