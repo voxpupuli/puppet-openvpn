@@ -228,7 +228,7 @@ define openvpn::server(
   Class['openvpn::service']
 
   if $ldapenabled == true {
-    Package {'openvpn-auth-ldap'}:
+    package {'openvpn-auth-ldap'}:
       ensure => installed,
   }
 
@@ -355,7 +355,8 @@ define openvpn::server(
     file {
       '/etc/openvpn/auth/ldap.conf':
         ensure  => present,
-        content => template('openvpn/ldap.erb');
+        content => template('openvpn/ldap.erb'),
+        require => Package["openvpn-auth-ldap"],
     }
   }
 }
