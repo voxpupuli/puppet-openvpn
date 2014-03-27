@@ -70,6 +70,10 @@
 #   String.  Network to assign client addresses out of
 #   Default: None.  Required in tun mode, not in tap mode
 #
+# [*server_bridge*]
+#   String. Server configuration to comply with existing DHCP server
+#   Default: None.
+#
 # [*push*]
 #   Array.  Options to push out to the client.  This can include routes, DNS
 #     servers, DNS search domains, and many other options.
@@ -173,6 +177,7 @@ define openvpn::server(
   $proto = 'tcp',
   $status_log = "${name}/openvpn-status.log",
   $server = '',
+  $server_bridge = '',
   $push = [],
   $route = [],
   $keepalive = '',

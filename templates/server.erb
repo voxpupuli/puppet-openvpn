@@ -33,6 +33,9 @@ ifconfig-pool-persist <%= scope.lookupvar('name') %>/vpn-ipp.txt
 <% if scope.lookupvar('server') != '' -%>
 server <%= scope.lookupvar('server') %>
 <% end -%>
+<% if scope.lookupvar('server_bridge') != '' -%>
+server-bridge <%= scope.lookupvar('server_bridge') %>
+<% end -%>
 <% scope.lookupvar('push').each do |item| -%>
 push "<%= item %>"
 <% end -%>
