@@ -121,6 +121,10 @@
 #   String.  Port where the management interface will listen
 #   Default: 7505
 #
+# [*up*]
+#   String,  Script which we want to run when openvpn server starts
+#   Default: None
+#
 # === Examples
 #
 #   openvpn::client {
@@ -185,6 +189,7 @@ define openvpn::server(
   $management = false,
   $management_ip = 'localhost',
   $management_port = 7505,
+  $up = '',
 ) {
 
   include openvpn
