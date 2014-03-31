@@ -127,6 +127,45 @@
 #
 # [*up*]
 #   String,  Script which we want to run when openvpn server starts
+#
+# [*ldap_enabled*]
+#   Boolean. If ldap is enabled, do stuff
+#   Default: false
+#
+# [*userascommon*]
+#   Boolean. If true then set username-as-common-name
+#   Default: false
+#
+# [*ldap_server*]
+#   String. URL of LDAP server. ie. ldap://URL:PORT
+#   Default: None
+#
+# [*ldap_binddn*]
+#   String. LDAP DN to bind as
+#   Default: None
+#
+# [*ldap_bindpass*]
+#   String. LDAP password for ldapbinddn
+#   Default: None
+#
+# [*ldap_u_basedn*]
+#   String. Place in the LDAP tree to look for users
+#   Default: None
+#
+# [*ldap_g_basedn*]
+#   String. Place in the LDAP tree to look for groups
+#   Default: None
+#
+# [*ldap_gmember*]
+#   Boolean. If defined use group block in ldap.conf
+#   Default: false
+#
+# [*ldap_filter*]
+#   String. Group SearchFilter for LDAP accounts
+#   Default: None
+#
+# [*ldap_memberatr*]
+#   String. Attribute for MemberAttribute. Used with ldapfilter
 #   Default: None
 #
 # === Examples
@@ -195,12 +234,28 @@ define openvpn::server(
   $management_ip = 'localhost',
   $management_port = 7505,
   $up = '',
+  $ldap_enabled = false,
+  $userascommon = false,
+  $ldap_server = '',
+  $ldap_binddn = '',
+  $ldap_bindpass = '',
+  $ldap_u_basedn = '',
+  $ldap_g_basedn = '',
+  $ldap_gmember = false,
+  $ldap_filter = '',
+  $ldap_memberatr = '',
 ) {
 
   include openvpn
   Class['openvpn::install'] ->
   Openvpn::Server[$name] ~>
   Class['openvpn::service']
+
+  if $ldap_enabled == true {
+    package {'openvpn-auth-ldap':
+      ensure => installed,
+    }
+  }
 
   $tls_server = $proto ? {
     /tcp/   => true,
@@ -320,5 +375,13 @@ define openvpn::server(
       group   => root,
       mode    => '0444',
       content => template('openvpn/server.erb');
+  }
+  if $ldap_enabled == true {
+    file {
+      '/etc/openvpn/auth/ldap.conf':
+        ensure  => present,
+        content => template('openvpn/ldap.erb'),
+        require => Package["openvpn-auth-ldap"],
+    }
   }
 }
