@@ -25,6 +25,6 @@ ns-cert-type server
 verb <%= scope.lookupvar('verb') %>
 mute <%= scope.lookupvar('mute') %>
 <% if scope.lookupvar('pam') -%>
-<% if scope.lookupvar('ldapenabled') == true -%>
+<% if scope.lookupvar('authuserpass') == true -%>
 auth-user-pass
 <% end -%>

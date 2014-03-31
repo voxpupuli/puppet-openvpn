@@ -67,6 +67,9 @@
 #
 # [*pam*]
 #   Boolean, Enable/Disable.
+#
+# [*authuserpass*]
+#   Boolean. Set if username and password required
 #   Default: false
 #
 # === Examples
@@ -118,6 +121,7 @@ define openvpn::client(
   $resolv_retry = 'infinite',
   $verb = '3',
   $pam = false,
+  $authuserpass = false,
 ) {
 
   Openvpn::Server[$server] ->
