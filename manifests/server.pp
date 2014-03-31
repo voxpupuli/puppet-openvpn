@@ -127,6 +127,37 @@
 #
 # [*up*]
 #   String,  Script which we want to run when openvpn server starts
+#
+# [*ldapenabled*]
+#   Boolean. If ldap is enabled, do stuff
+#   Default: false
+#
+# [*userascommon*]
+#   Boolean. If true then set username-as-common-name
+#   Default: false
+#
+# [*ldapserver*]
+#   String. FQDN of LDAP server
+#   Default: None
+#
+# [*ldapbinddn*]
+#   String. LDAP DN to bind as
+#   Default: None
+#
+# [*ldapbindpass*]
+#   String. LDAP password for ldapbinddn
+#   Default: None
+#
+# [*ldapbasedn*]
+#   String. Place in the LDAP tree to look for users
+#   Default: None
+#
+# [*ldapfilter*]
+#   String. Group SearchFilter for LDAP accounts
+#   Default: None
+#
+# [*ldapmemberatr*]
+#   String. Attribute for MemberAttribute. Used with ldapfilter
 #   Default: None
 #
 # === Examples
@@ -195,12 +226,24 @@ define openvpn::server(
   $management_ip = 'localhost',
   $management_port = 7505,
   $up = '',
+  $ldapenabled = false,
+  $userascommon = false,
+  $ldapserver = '',
+  $ldapbinddn = '',
+  $ldapbindpass = '',
+  $ldapbasedn = '',
+  $ldapfilter = '',
+  $ldapmemberatr = '',
 ) {
 
   include openvpn
   Class['openvpn::install'] ->
   Openvpn::Server[$name] ~>
   Class['openvpn::service']
+
+  if $ldapenabled == true {
+    $additional_packages = ['openvpn-ldap']
+  }
 
   $tls_server = $proto ? {
     /tcp/   => true,
@@ -320,5 +363,12 @@ define openvpn::server(
       group   => root,
       mode    => '0444',
       content => template('openvpn/server.erb');
+  }
+  if $ldapenabled == true {
+    file {
+      '/etc/openvpn/auth/ldap.conf':
+        ensure  => present,
+        content => template('openvpn/ldap.erb');
+    }
   }
 }

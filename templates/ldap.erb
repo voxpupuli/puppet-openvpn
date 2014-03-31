@@ -1,0 +1,24 @@
+<LDAP>
+  URL <%= scope.lookupvar('ldapserver') %>
+  BindDN <%= scope.lookupvar('ldapbinddn') %>
+  Password <%= scope.lookupvar('ldapbindpass') %>
+  Timeout 15
+  TLSEnable no
+  FollowReferrals no
+  TLSCACertFile /usr/local/etc/ssl/ca.pem
+  TLSCACertDir /etc/ssl/certs
+  TLSCertFile /usr/local/etc/ssl/client-cert.pem
+  TLSKeyFile /usr/local/etc/ssl/client-key.pem
+</LDAP>
+
+<Authorization>
+  BaseDN <%= scope.lookupvar('ldapbasedn') %>
+  SearchFilter "(&(sAMAccountName=%u))"
+  RequireGroup true
+
+  <Group>
+    BaseDN <%= scope.lookupvar('ldapbasedn') %>
+    SearchFilter <%= scope.lookupvar('ldapfilter') %>
+    MemberAttribute <%= scope.lookupvar('ldapmemberatr') %>
+  </Group>
+</Authorization>
