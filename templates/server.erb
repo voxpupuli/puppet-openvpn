@@ -60,3 +60,7 @@ plugin /usr/lib/openvpn/openvpn-auth-pam.so login
 <% if scope.lookupvar('management') -%>
 management <%= scope.lookupvar('management_ip') %> <%= scope.lookupvar('management_port') %>
 <% end -%>
+<% if scope.lookupvar('up') != ''-%>
+script-security 2
+up <%= scope.lookupvar('up') %>
+<% end -%>
