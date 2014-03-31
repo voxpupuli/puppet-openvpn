@@ -230,10 +230,13 @@ define openvpn::server(
   $tcp_nodelay = false,
   $ccd_exclusive = false,
   $pam = false,
+<<<<<<< HEAD
   $management = false,
   $management_ip = 'localhost',
   $management_port = 7505,
   $up = '',
+=======
+>>>>>>> e83ff2fa6f63bdc8072ff5601d604f63b8acbfd7
   $ldapenabled = false,
   $userascommon = false,
   $ldapserver = '',
