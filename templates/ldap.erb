@@ -1,7 +1,7 @@
 <LDAP>
-  URL <%= scope.lookupvar('ldapserver') %>
-  BindDN <%= scope.lookupvar('ldapbinddn') %>
-  Password <%= scope.lookupvar('ldapbindpass') %>
+  URL <%= scope.lookupvar('ldap_server') %>
+  BindDN <%= scope.lookupvar('ldap_binddn') %>
+  Password <%= scope.lookupvar('ldap_bindpass') %>
   Timeout 15
   TLSEnable no
   FollowReferrals no
@@ -12,15 +12,15 @@
 </LDAP>
 
 <Authorization>
-  BaseDN <%= scope.lookupvar('ldapubasedn') %>
+  BaseDN <%= scope.lookupvar('ldap_u_basedn') %>
   SearchFilter "(&(sAMAccountName=%u))"
-  RequireGroup <%= scope.lookupvar('ldapgmember') %>
+  RequireGroup <%= scope.lookupvar('ldap_gmember') %>
 
-<% if scope.lookupvar('ldapgmember') == true -%>
+<% if scope.lookupvar('ldap_gmember') == true -%>
   <Group>
-    BaseDN <%= scope.lookupvar('ldapgbasedn') %>
-    SearchFilter <%= scope.lookupvar('ldapfilter') %>
-    MemberAttribute <%= scope.lookupvar('ldapmemberatr') %>
+    BaseDN <%= scope.lookupvar('ldap_g_basedn') %>
+    SearchFilter <%= scope.lookupvar('ldap_filter') %>
+    MemberAttribute <%= scope.lookupvar('ldap_memberatr') %>
   </Group>
 <% end -%>
 </Authorization>

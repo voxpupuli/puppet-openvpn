@@ -128,7 +128,7 @@
 # [*up*]
 #   String,  Script which we want to run when openvpn server starts
 #
-# [*ldapenabled*]
+# [*ldap_enabled*]
 #   Boolean. If ldap is enabled, do stuff
 #   Default: false
 #
@@ -136,35 +136,35 @@
 #   Boolean. If true then set username-as-common-name
 #   Default: false
 #
-# [*ldapserver*]
-#   String. FQDN of LDAP server
+# [*ldap_server*]
+#   String. URL of LDAP server. ie. ldap://URL:PORT
 #   Default: None
 #
-# [*ldapbinddn*]
+# [*ldap_binddn*]
 #   String. LDAP DN to bind as
 #   Default: None
 #
-# [*ldapbindpass*]
+# [*ldap_bindpass*]
 #   String. LDAP password for ldapbinddn
 #   Default: None
 #
-# [*ldapubasedn*]
+# [*ldap_u_basedn*]
 #   String. Place in the LDAP tree to look for users
 #   Default: None
 #
-# [*ldapgbasedn*]
+# [*ldap_g_basedn*]
 #   String. Place in the LDAP tree to look for groups
 #   Default: None
 #
-# [*ldapgmember*]
+# [*ldap_gmember*]
 #   Boolean. If defined use group block in ldap.conf
 #   Default: false
 #
-# [*ldapfilter*]
+# [*ldap_filter*]
 #   String. Group SearchFilter for LDAP accounts
 #   Default: None
 #
-# [*ldapmemberatr*]
+# [*ldap_memberatr*]
 #   String. Attribute for MemberAttribute. Used with ldapfilter
 #   Default: None
 #
@@ -230,23 +230,20 @@ define openvpn::server(
   $tcp_nodelay = false,
   $ccd_exclusive = false,
   $pam = false,
-<<<<<<< HEAD
   $management = false,
   $management_ip = 'localhost',
   $management_port = 7505,
   $up = '',
-=======
->>>>>>> e83ff2fa6f63bdc8072ff5601d604f63b8acbfd7
-  $ldapenabled = false,
+  $ldap_enabled = false,
   $userascommon = false,
-  $ldapserver = '',
-  $ldapbinddn = '',
-  $ldapbindpass = '',
-  $ldapubasedn = '',
-  $ldapgbasedn = '',
-  $ldapgmember = false,
-  $ldapfilter = '',
-  $ldapmemberatr = '',
+  $ldap_server = '',
+  $ldap_binddn = '',
+  $ldap_bindpass = '',
+  $ldap_u_basedn = '',
+  $ldap_g_basedn = '',
+  $ldap_gmember = false,
+  $ldap_filter = '',
+  $ldap_memberatr = '',
 ) {
 
   include openvpn
@@ -254,7 +251,7 @@ define openvpn::server(
   Openvpn::Server[$name] ~>
   Class['openvpn::service']
 
-  if $ldapenabled == true {
+  if $ldap_enabled == true {
     package {'openvpn-auth-ldap'}:
       ensure => installed,
   }
@@ -378,7 +375,7 @@ define openvpn::server(
       mode    => '0444',
       content => template('openvpn/server.erb');
   }
-  if $ldapenabled == true {
+  if $ldap_enabled == true {
     file {
       '/etc/openvpn/auth/ldap.conf':
         ensure  => present,
