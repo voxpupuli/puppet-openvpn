@@ -41,8 +41,8 @@ class openvpn::install {
   file { '/etc/openvpn':
     ensure  => directory,
     require => Package['openvpn'],
-    recurse => true,
-    purge   => true,
+    recurse => $::openvpn::cleanup,
+    purge   => $::openvpn::cleanup,
   }
 
   file { '/etc/openvpn/keys':
