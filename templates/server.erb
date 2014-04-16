@@ -48,8 +48,20 @@ keepalive <%= scope.lookupvar('keepalive') %>
 <% if scope.lookupvar('topology') != '' -%>
 topology <%= scope.lookupvar('topology') %>
 <% end -%>
+<% if scope.lookupvar('verb') != '' -%>
+verb <%= scope.lookupvar('verb') %>
+<% end -%>
+<% if scope.lookupvar('cipher') != '' -%>
+cipher <%= scope.lookupvar('cipher') %>
+<% end -%>
 <% if scope.lookupvar('c2c') -%>
 client-to-client
+<% end -%>
+<% if scope.lookupvar('persist_key') -%>
+persist-key
+<% end -%>
+<% if scope.lookupvar('persist_tun') -%>
+persist-tun
 <% end -%>
 <% if scope.lookupvar('tcp_nodelay') -%>
 tcp-nodelay
