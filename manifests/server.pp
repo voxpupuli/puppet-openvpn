@@ -251,7 +251,6 @@ define openvpn::server(
   Openvpn::Server[$name] ~>
   Class['openvpn::service']
 
-
   $tls_server = $proto ? {
     /tcp/   => true,
     default => false
