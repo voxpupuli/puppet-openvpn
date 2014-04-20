@@ -66,7 +66,7 @@
 #   Default: 3
 #
 # [*pam*]
-#   Boolean, Enable/Disable.
+#   DEPRECATED: Boolean, Enable/Disable.
 #
 # [*authuserpass*]
 #   Boolean. Set if username and password required
@@ -123,6 +123,8 @@ define openvpn::client(
   $pam = false,
   $authuserpass = false,
 ) {
+
+  warn('Using $pam is deprecated. Use $authuserpass instead!')
 
   Openvpn::Server[$server] ->
   Openvpn::Client[$name]
