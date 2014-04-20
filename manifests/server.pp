@@ -264,6 +264,7 @@ define openvpn::server(
 
   file {
     [ "/etc/openvpn/${name}",
+      "/etc/openvpn/${name}/auth",
       "/etc/openvpn/${name}/client-configs",
       "/etc/openvpn/${name}/download-configs" ]:
         ensure  => directory;
@@ -373,7 +374,7 @@ define openvpn::server(
   }
   if $ldap_enabled == true {
     file {
-      '/etc/openvpn/auth/ldap.conf':
+      "/etc/openvpn/${name}/auth/ldap.conf":
         ensure  => present,
         content => template('openvpn/ldap.erb'),
         require => Package["openvpn-auth-ldap"],
