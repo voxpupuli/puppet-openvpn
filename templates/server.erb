@@ -68,6 +68,6 @@ script-security 2
 up <%= scope.lookupvar('up') %>
 <% end -%>
 <% if scope.lookupvar('ldap_enabled') == true -%>
-plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so "/etc/openvpn/<%= name %>/auth/ldap.conf"
+plugin <%= scope.lookupvar('openvpn::params::ldap_auth_plugin_location') %> "/etc/openvpn/<%= name %>/auth/ldap.conf"
 username-as-common-name
 <% end -%>

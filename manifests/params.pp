@@ -30,6 +30,7 @@ class openvpn::params {
         } else { # Version >= 6.4
           $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
           $easyrsa_source = '/usr/share/easy-rsa/2.0'
+          $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
         }
       } else { # Redhat/CentOS < 6
         $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
@@ -39,6 +40,7 @@ class openvpn::params {
       if($::operatingsystemmajrelease == 'jessie/sid' or $::lsbdistdescription == 'Ubuntu 13.10'){
         $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
         $easyrsa_source = '/usr/share/easy-rsa/'
+        $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
       } else {
         $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
       }
