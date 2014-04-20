@@ -124,7 +124,7 @@ define openvpn::client(
   $authuserpass = false,
 ) {
 
-  warn('Using $pam is deprecated. Use $authuserpass instead!')
+  warning('Using $pam is deprecated. Use $authuserpass instead!')
 
   Openvpn::Server[$server] ->
   Openvpn::Client[$name]
