@@ -174,7 +174,6 @@ define openvpn::server(
   $user = 'nobody',
   $group = false,
   $ipp = false,
-  $ip_pool = [],
   $local = $::ipaddress_eth0,
   $logfile = false,
   $port = '1194',
