@@ -128,12 +128,12 @@
 # [*up*]
 #   String,  Script which we want to run when openvpn server starts
 #
-# [*ldap_enabled*]
-#   Boolean. If ldap is enabled, do stuff
 # [*username_as_common_name*]
 #   Boolean. If true then set username-as-common-name
 #   Default: false
 #
+# [*ldap_enabled*]
+#   Boolean. If ldap is enabled, do stuff
 #   Default: false
 #
 # [*ldap_server*]
@@ -152,6 +152,10 @@
 #   String. Place in the LDAP tree to look for users
 #   Default: None
 #
+# [*ldap_u_filter*]
+#   String. User SearchFilter for LDAP accounts
+#   Default: None
+#
 # [*ldap_g_basedn*]
 #   String. Place in the LDAP tree to look for groups
 #   Default: None
@@ -160,12 +164,32 @@
 #   Boolean. If defined use group block in ldap.conf
 #   Default: false
 #
-# [*ldap_filter*]
+# [*ldap_g_filter*]
 #   String. Group SearchFilter for LDAP accounts
 #   Default: None
 #
 # [*ldap_memberatr*]
 #   String. Attribute for MemberAttribute. Used with ldapfilter
+#   Default: None
+#
+# [*ldap_tls_enable*]
+#   Boolean. Enable TLS for the LDAP authentication
+#   Default: false
+#
+# [*ldap_tls_ca_cert_file*]
+#   String. LDAP TLS authentication: path to the CA certificate.
+#   Default: None
+#
+# [*ldap_tls_ca_cert_dir*]
+#   String. LDAP TLS authentication: path to the CA certificates.
+#   Default: None
+#
+# [*ldap_tls_client_cert_file*]
+#   String. LDAP TLS authentication: path to the tls client certificate
+#   Default: None
+#
+# [*ldap_tls_client_key_file*]
+#   String. LDAP TLS authentication: path to the tls client key
 #   Default: None
 #
 # === Examples
@@ -241,8 +265,14 @@ define openvpn::server(
   $ldap_u_basedn = '',
   $ldap_g_basedn = '',
   $ldap_gmember = false,
-  $ldap_filter = '',
+  $ldap_u_filter = '',
+  $ldap_g_filter = '',
   $ldap_memberatr = '',
+  $ldap_tls_enable = false,
+  $ldap_tls_ca_cert_file = '',
+  $ldap_tls_ca_cert_dir  = '',
+  $ldap_tls_client_cert_file = '',
+  $ldap_tls_client_key_file  = '',
 ) {
 
   include openvpn

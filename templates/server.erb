@@ -67,8 +67,9 @@ management <%= scope.lookupvar('management_ip') %> <%= scope.lookupvar('manageme
 script-security 2
 up <%= scope.lookupvar('up') %>
 <% end -%>
-<% if scope.lookupvar('ldap_enabled') == true -%>
-plugin <%= scope.lookupvar('openvpn::params::ldap_auth_plugin_location') %> "/etc/openvpn/<%= name %>/auth/ldap.conf"
 <% if scope.lookupvar('username_as_common_name') -%>
 username-as-common-name
+<% end -%>
+<% if scope.lookupvar('ldap_enabled') == true -%>
+plugin <%= scope.lookupvar('::openvpn::params::ldap_auth_plugin_location') %> "/etc/openvpn/<%= name %>/auth/ldap.conf"
 <% end -%>
