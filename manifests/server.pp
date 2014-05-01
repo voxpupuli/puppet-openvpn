@@ -130,10 +130,10 @@
 #
 # [*ldap_enabled*]
 #   Boolean. If ldap is enabled, do stuff
+# [*username_as_common_name*]
+#   Boolean. If true then set username-as-common-name
 #   Default: false
 #
-# [*userascommon*]
-#   Boolean. If true then set username-as-common-name
 #   Default: false
 #
 # [*ldap_server*]
@@ -233,8 +233,8 @@ define openvpn::server(
   $management_ip = 'localhost',
   $management_port = 7505,
   $up = '',
+  $username_as_common_name = false,
   $ldap_enabled = false,
-  $userascommon = false,
   $ldap_server = '',
   $ldap_binddn = '',
   $ldap_bindpass = '',
