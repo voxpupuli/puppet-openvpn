@@ -4,6 +4,14 @@ describe 'openvpn::server', :type => :define do
 
   let(:title) { 'test_server' }
 
+  let(:facts) { {
+    :ipaddress_eth0 => '1.2.3.4',
+    :network_eth0   => '1.2.3.0',
+    :netmask_eth0   => '255.255.255.0',
+    :concat_basedir => '/var/lib/puppet/concat',
+    :osfamily       => 'anything_else'
+  } }
+
   context "creating a server with the minimum parameters" do
     let(:params) { {
       'country'       => 'CO',
@@ -13,18 +21,11 @@ describe 'openvpn::server', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let(:facts) { {
-      :ipaddress_eth0 => '1.2.3.4',
-      :network_eth0   => '1.2.3.0',
-      :netmask_eth0   => '255.255.255.0',
-      :concat_basedir => '/var/lib/puppet/concat',
-      :osfamily       => 'anything_else'
-    } }
-
     # Files associated with a server config
     it { should contain_file('/etc/openvpn/test_server').with('ensure' => 'directory')}
     it { should contain_file('/etc/openvpn/test_server/client-configs').with('ensure' => 'directory')}
     it { should contain_file('/etc/openvpn/test_server/download-configs').with('ensure' => 'directory')}
+    it { should contain_file('/etc/openvpn/test_server/auth').with('ensure' => 'directory')}
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars')}
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/revoked').with('ensure' => 'directory')}
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf')}
@@ -213,6 +214,62 @@ describe 'openvpn::server', :type => :define do
     )}
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
+
+  end
+
+  context 'ldap' do
+    before do
+      facts[:osfamily] = 'Debian'
+      facts[:operatingsystemmajrelease] = 'jessie/sid'
+    end
+    let(:params) { {
+      'country'       => 'CO',
+      'province'      => 'ST',
+      'city'          => 'Some City',
+      'organization'  => 'example.org',
+      'email'         => 'testemail@example.org',
+
+      'username_as_common_name' => true,
+
+      'ldap_enabled'   => true,
+      'ldap_server'    => 'ldaps://ldap.example.org:636',
+      'ldap_binddn'    => 'dn=root,dc=example,dc=org',
+      'ldap_bindpass'  => 'secret password',
+      'ldap_u_basedn'  => 'ou=people,dc=example,dc=org',
+      'ldap_u_filter'  => 'call me user filter',
+      'ldap_g_basedn'  => 'ou=groups,dc=example,dc=org',
+      'ldap_gmember'   => true,
+      'ldap_g_filter'  => 'call me group filter',
+      'ldap_memberatr' => 'iCanTyping',
+
+      'ldap_tls_enable'           => true,
+      'ldap_tls_ca_cert_file'     => '/somewhere/ca.crt',
+      'ldap_tls_ca_cert_dir'      => '/etc/ssl/certs',
+      'ldap_tls_client_cert_file' => '/somewhere/client.crt',
+      'ldap_tls_client_key_file'  => '/somewhere/client.key',
+    } }
+
+    it { should contain_package('openvpn-auth-ldap').with('ensure' => 'present') }
+
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+URL ldaps://ldap\.example\.org:636$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+BindDN dn=root,dc=example,dc=org$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+Password secret password$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+BaseDN ou=people,dc=example,dc=org$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+SearchFilter "call me user filter"$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+RequireGroup true$}) }
+
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+BaseDN ou=groups,dc=example,dc=org$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+SearchFilter "call me group filter"$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+MemberAttribute iCanTyping$}) }
+
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSEnable yes$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSCACertFile /somewhere/ca.crt$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSCACertDir /etc/ssl/certs$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSCertFile /somewhere/client.crt$}) }
+    it { should contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSKeyFile /somewhere/client.key$}) }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib/openvpn/openvpn-auth-ldap.so "/etc/openvpn/test_server/auth/ldap.conf"$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^username-as-common-name$}) }
 
   end
 

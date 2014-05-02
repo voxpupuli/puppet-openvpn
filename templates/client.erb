@@ -24,6 +24,6 @@ mute-replay-warnings
 ns-cert-type server
 verb <%= scope.lookupvar('verb') %>
 mute <%= scope.lookupvar('mute') %>
-<% if scope.lookupvar('pam') -%>
+<% if scope.lookupvar('pam') || scope.lookupvar('authuserpass') -%>
 auth-user-pass
 <% end -%>
