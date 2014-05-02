@@ -8,6 +8,7 @@ Puppet module to manage OpenVPN servers
 * Generated client configurations and SSL-Certificates
 * Downloadable client configurations and SSL-Certificates for easy client configuration
 * Support for multiple server instances
+* Support for LDAP-Authentication
 
 ## Supported OS
 
@@ -56,7 +57,7 @@ Puppet module to manage OpenVPN servers
   }
 ```
 
-Don't forget the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ```net.ipv4.ip_forward```!
+Don't forget the sysctl directive ```net.ipv4.ip_forward```!
 
 
 # Contributors
