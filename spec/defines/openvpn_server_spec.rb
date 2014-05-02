@@ -9,7 +9,9 @@ describe 'openvpn::server', :type => :define do
     :network_eth0   => '1.2.3.0',
     :netmask_eth0   => '255.255.255.0',
     :concat_basedir => '/var/lib/puppet/concat',
-    :osfamily       => 'anything_else'
+    :osfamily       => 'Debian',
+    :lsbdistid      => 'Ubuntu',
+    :lsbdistrelease => '12.04',
   } }
 
   context "creating a server with the minimum parameters" do
@@ -97,7 +99,8 @@ describe 'openvpn::server', :type => :define do
       :ipaddress_eth0 => '1.2.3.4',
       :network_eth0   => '1.2.3.0',
       :netmask_eth0   => '255.255.255.0',
-      :concat_basedir => '/var/lib/puppet/concat'
+      :concat_basedir => '/var/lib/puppet/concat',
+      :osfamily       => 'Debian',
     } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
@@ -185,17 +188,37 @@ describe 'openvpn::server', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let(:facts) { { :osfamily => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) { { :osfamily => 'Debian', :lsbdistid => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
 
-    context "when jessie/sid" do
-      before do
-        facts[:operatingsystemmajrelease] = 'jessie/sid'
-      end
+    shared_examples_for 'a newer version than wheezy' do
       it { should contain_package('easy-rsa').with('ensure' => 'present') }
       it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
-      'command' => '/bin/cp -r /usr/share/easy-rsa/ /etc/openvpn/test_server/easy-rsa'
-    )}
-   end
+        'command' => '/bin/cp -r /usr/share/easy-rsa/ /etc/openvpn/test_server/easy-rsa'
+      )}
+    end
+    context "when jessie/sid" do
+      before do
+        facts[:lsbdistid] = 'Debian'
+        facts[:lsbdistrelease] = '8.0.1'
+      end
+      it_behaves_like 'a newer version than wheezy'
+    end
+
+    context 'when ubuntu 13.10' do
+      before do
+        facts[:lsbdistid] = 'Ubuntu'
+        facts[:lsbdistrelease] = '13.10'
+      end
+      it_behaves_like 'a newer version than wheezy'
+    end
+
+    context 'when ubuntu 14.04' do
+      before do
+        facts[:lsbdistid] = 'Ubuntu'
+        facts[:lsbdistrelease] = '14.04'
+      end
+      it_behaves_like 'a newer version than wheezy'
+    end
 
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').with(
@@ -220,7 +243,8 @@ describe 'openvpn::server', :type => :define do
   context 'ldap' do
     before do
       facts[:osfamily] = 'Debian'
-      facts[:operatingsystemmajrelease] = 'jessie/sid'
+      facts[:lsbdistid] = 'Debian'
+      facts[:lsbdistrelease] = '8.0.0'
     end
     let(:params) { {
       'country'       => 'CO',

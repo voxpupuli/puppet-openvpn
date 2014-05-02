@@ -3,7 +3,13 @@ require 'spec_helper'
 describe 'openvpn::revoke', :type => :define do
   let(:title) { 'test_client' }
   let(:params) { { 'server' => 'test_server' } }
-  let(:facts) { { :fqdn => 'somehost', :concat_basedir => '/var/lib/puppet/concat' } }
+  let(:facts) { {
+    :fqdn           => 'somehost',
+    :concat_basedir => '/var/lib/puppet/concat',
+    :osfamily       => 'Debian',
+    :lsbdistid      => 'Ubuntu',
+    :lsbdistrelease => '12.04',
+  } }
   let(:pre_condition) do
     [
       'openvpn::server { "test_server":
