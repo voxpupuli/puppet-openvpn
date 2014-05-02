@@ -1,9 +1,15 @@
 require 'spec_helper'
- 
+
 describe 'openvpn::client', :type => :define do
   let(:title) { 'test_client' }
   let(:params) { { 'server' => 'test_server' } }
-  let(:facts) { { :fqdn => 'somehost', :concat_basedir => '/var/lib/puppet/concat' } }
+  let(:facts) { {
+    :fqdn           => 'somehost',
+    :concat_basedir => '/var/lib/puppet/concat',
+    :osfamily       => 'Debian',
+    :lsbdistid      => 'Ubuntu',
+    :lsbdistrelease => '12.04',
+  } }
   let(:pre_condition) do
     'openvpn::server { "test_server":
       country       => "CO",
@@ -26,7 +32,7 @@ describe 'openvpn::client', :type => :define do
       'target'  => "/etc/openvpn/test_server/easy-rsa/keys/#{file}"
     )}
   end
-  
+
   it { should contain_exec('tar the thing test_server with test_client').with(
     'cwd'     => '/etc/openvpn/test_server/download-configs/',
     'command' => '/bin/rm test_client.tar.gz; tar --exclude=\*.conf.d -chzvf test_client.tar.gz test_client'
@@ -34,7 +40,6 @@ describe 'openvpn::client', :type => :define do
 
   context "setting the minimum parameters" do
     let(:params) { { 'server' => 'test_server' } }
-    let(:facts) { { :fqdn => 'somehost', :concat_basedir => '/var/lib/puppet/concat' } }
 
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^client$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/ca\.crt$/)}
@@ -55,7 +60,7 @@ describe 'openvpn::client', :type => :define do
   end
 
   context "setting all of the parameters" do
-    let(:params) { { 
+    let(:params) { {
       'server'                => 'test_server',
       'compression'           => 'comp-something',
       'dev'                   => 'tap',
@@ -70,7 +75,13 @@ describe 'openvpn::client', :type => :define do
       'resolv_retry'          => '2m',
       'verb'                  => '1'
     } }
-    let(:facts) { { :fqdn => 'somehost', :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) { {
+      :fqdn           => 'somehost',
+      :concat_basedir => '/var/lib/puppet/concat',
+      :osfamily       => 'Debian',
+      :lsbdistid      => 'Ubuntu',
+      :lsbdistrelease => '12.04',
+    } }
 
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^client$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/ca\.crt$/)}
