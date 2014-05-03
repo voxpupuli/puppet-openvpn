@@ -1,8 +1,8 @@
 mode server
 client-config-dir /etc/openvpn/<%= scope.lookupvar('name') %>/client-configs
 ca /etc/openvpn/<%= scope.lookupvar('name') %>/keys/ca.crt
-cert /etc/openvpn/<%= scope.lookupvar('name') %>/keys/server.crt
-key /etc/openvpn/<%= scope.lookupvar('name') %>/keys/server.key
+cert /etc/openvpn/<%= scope.lookupvar('name') %>/keys/<%= scope.lookupvar('common_name') %>.crt
+key /etc/openvpn/<%= scope.lookupvar('name') %>/keys/<%= scope.lookupvar('common_name') %>.key
 dh /etc/openvpn/<%= scope.lookupvar('name') %>/keys/dh<%= scope.lookupvar('ssl_key_size') %>.pem
 crl-verify /etc/openvpn/<%= scope.lookupvar('name') %>/crl.pem
 <% if scope.lookupvar('proto') == 'tcp' -%>

@@ -20,6 +20,10 @@
 # [*email*]
 #   String.  Email address to be used for the SSL certificate
 #
+# [*common_name*]
+#   String.  Common name to be used for the SSL certificate
+#   Default: server
+#
 # [*compression*]
 #   String.  Which compression algorithim to use
 #   Default: comp-lzo
@@ -232,6 +236,7 @@ define openvpn::server(
   $city,
   $organization,
   $email,
+  $common_name = 'server',
   $compression = 'comp-lzo',
   $dev = 'tun0',
   $user = 'nobody',
@@ -354,9 +359,9 @@ define openvpn::server(
                     File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] ];
 
     "generate server cert ${name}":
-      command  => '. ./vars && ./pkitool --server server',
+      command  => ". ./vars && ./pkitool --server ${common_name}",
       cwd      => "/etc/openvpn/${name}/easy-rsa",
-      creates  => "/etc/openvpn/${name}/easy-rsa/keys/server.key",
+      creates  => "/etc/openvpn/${name}/easy-rsa/keys/${common_name}.key",
       provider => 'shell',
       require  => Exec["initca ${name}"];
   }
