@@ -70,6 +70,10 @@
 #   String.  Network to assign client addresses out of
 #   Default: None.  Required in tun mode, not in tap mode
 #
+# [*server_ipv6*]
+#   String.  IPv6 network to assign client addresses out of
+#   Default: None.
+#
 # [*server_bridge*]
 #   String. Server configuration to comply with existing DHCP server
 #   Default: None.
@@ -243,6 +247,7 @@ define openvpn::server(
   $proto = 'tcp',
   $status_log = "${name}/openvpn-status.log",
   $server = '',
+  $server_ipv6 = '',
   $server_bridge = '',
   $push = [],
   $route = [],
