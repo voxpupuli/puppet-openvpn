@@ -94,6 +94,7 @@ describe 'openvpn::server', :type => :define do
       'management'      => true,
       'management_ip'   => '1.3.3.7',
       'management_port' => 1337,
+      'common_name'     => 'mylittlepony',
     } }
 
     let(:facts) { {
@@ -105,19 +106,19 @@ describe 'openvpn::server', :type => :define do
     } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^client\-config\-dir\s+\/etc\/openvpn\/test_server\/client\-configs$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/test_server\/keys\/ca.crt$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/test_server\/keys\/server.crt$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys\/server.key$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh2048.pem$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client-config-dir\s+/etc/openvpn/test_server/client-configs$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ca\s+/etc/openvpn/test_server/keys/ca.crt$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^cert\s+/etc/openvpn/test_server/keys/mylittlepony.crt$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^key\s+/etc/openvpn/test_server/keys/mylittlepony.key$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dh\s+/etc/openvpn/test_server/keys/dh2048.pem$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+udp$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^proto\s+tls-server$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^port\s+123$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^fake_compression$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+someone$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^user\s+someone$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^log\-append\s+\/var\/log\/openvpn\/test_server\.log$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^status\s+\/var\/log\/openvpn\/test_server_status\.log$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^log\-append\s+/var/log/openvpn/test_server\.log$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^status\s+/var/log/openvpn/test_server_status\.log$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dev\s+tun1$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+2\.3\.4\.5$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^server\s+2\.3\.4\.0\s+255\.255\.0\.0$/) }
