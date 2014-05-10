@@ -60,6 +60,8 @@ Puppet module to manage OpenVPN servers
 Don't forget the sysctl directive ```net.ipv4.ip_forward```!
 
 
-# Contributors
+# Contributions
 
-[These fine folks](https://github.com/luxflux/puppet-openvpn/graphs/contributors) helped to get this far with this module.
+Pull requests are very welcome. Join [these fine folks](https://github.com/luxflux/puppet-openvpn/graphs/contributors) who already helped to get this far with this module.
+
+Make sure to add tests to your pull request. **Contributions will not be accepted without tests.**
