@@ -65,6 +65,17 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+1\.2\.3\.4$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ifconfig-pool-persist/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$/) }
+
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/verb/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/cipher/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/persist-key/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/persist-tun/) }
+
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export CA_EXPIRE=3650$/) }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export KEY_EXPIRE=3650$/) }
+    it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/KEY_CN/) }
+    it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/KEY_NAME/) }
+    it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/KEY_OU/) }
   end
 
   context "creating a server setting all parameters" do
@@ -95,6 +106,15 @@ describe 'openvpn::server', :type => :define do
       'management_ip'   => '1.3.3.7',
       'management_port' => 1337,
       'common_name'     => 'mylittlepony',
+      'ca_expire'       => 365,
+      'key_expire'      => 365,
+      'key_cn'          => 'yolo',
+      'key_name'        => 'burp',
+      'key_ou'          => 'NSA',
+      'verb'            => 'mute',
+      'cipher'          => 'DES-CBC',
+      'persist_key'     => true,
+      'persist_tun'     => true,
     } }
 
     let(:facts) { {
@@ -130,6 +150,16 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^keepalive\s+10\s+120$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^topology\s+subnet$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^management\s+1.3.3.7 1337$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^verb mute$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cipher DES-CBC$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-key$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-tun$/) }
+
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export CA_EXPIRE=365$/) }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export KEY_EXPIRE=365$/) }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export KEY_CN="yolo"$/) }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export KEY_NAME="burp"$/) }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export KEY_OU="NSA"$/) }
 
     it { should contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh2048.pem') }
   end

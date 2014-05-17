@@ -53,10 +53,10 @@ export PKCS11_PIN="dummy"
 export KEY_SIZE=<%= @ssl_key_size %>
 
 # In how many days should the root CA key expire?
-export CA_EXPIRE=3650
+export CA_EXPIRE=<%= @ca_expire %>
 
 # In how many days should certificates expire?
-export KEY_EXPIRE=3650
+export KEY_EXPIRE=<%= @key_expire %>
 
 # These are the default values for fields
 # which will be placed in the certificate.
@@ -66,3 +66,12 @@ export KEY_PROVINCE="<%= @province %>"
 export KEY_CITY="<%= @city %>"
 export KEY_ORG="<%= @organization %>"
 export KEY_EMAIL="<%= @email %>"
+<% if @key_cn != '' -%>
+export KEY_CN="<%= @key_cn %>"
+<% end -%>
+<% if @key_name != '' -%>
+export KEY_NAME="<%= @key_name %>"
+<% end -%>
+<% if @key_ou != '' -%>
+export KEY_OU="<%= @key_ou %>"
+<% end -%>

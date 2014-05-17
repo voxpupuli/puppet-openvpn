@@ -200,6 +200,44 @@
 #   String. LDAP TLS authentication: path to the tls client key
 #   Default: None
 #
+# [*verb*]
+#   Integer.  Level of logging verbosity
+#   Default: 3
+#
+# [*cipher*]
+#   String,  Cipher to use for packet encryption
+#   Default: None
+#
+# [*persist_key*]
+#   Boolean.  Try to retain access to resources that may be unavailable
+#     because of privilege downgrades
+#   Default: false
+#
+# [*persist_tun*]
+#   Boolean.  Try to retain access to resources that may be unavailable
+#     because of privilege downgrades
+#   Default: false
+#
+# [*key_expire*]
+#   String.  The number of days to certify the server certificate for
+#   Default: 3650
+#
+# [*ca_expire*]
+#   String.  The number of days to certify the CA certificate for
+#   Default: 3650
+#
+# [*key_name*]
+#   String.  Value for name_default variable in openssl.cnf (and KEY_NAME in vars)
+#   Default: None
+#
+# [*key_ou*]
+#   String.  Value for organizationalUnitName_default variable in openssl.cnf (and KEY_OU in vars)
+#   Default: None
+#
+# [*key_cn*]
+#   String.  Value for commonName_default variable in openssl.cnf (and KEY_CN in vars)
+#   Default: None
+#
 # === Examples
 #
 #   openvpn::client {
@@ -283,6 +321,15 @@ define openvpn::server(
   $ldap_tls_ca_cert_dir  = '',
   $ldap_tls_client_cert_file = '',
   $ldap_tls_client_key_file  = '',
+  $ca_expire = 3650,
+  $key_expire = 3650,
+  $key_cn = '',
+  $key_name = '',
+  $key_ou = '',
+  $verb = '',
+  $cipher = '',
+  $persist_key = false,
+  $persist_tun = false,
 ) {
 
   include openvpn
