@@ -380,7 +380,7 @@ define openvpn::server(
 
   exec {
     "create crl.pem on ${name}":
-      command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' openssl ca -gencrl -out /etc/openvpn/${name}/crl.pem -config /etc/openvpn/${name}/easy-rsa/openssl.cnf",
+      command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out /etc/openvpn/${name}/crl.pem -config /etc/openvpn/${name}/easy-rsa/openssl.cnf",
       cwd      => "/etc/openvpn/${name}/easy-rsa",
       creates  => "/etc/openvpn/${name}/crl.pem",
       provider => 'shell',
