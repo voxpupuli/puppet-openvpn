@@ -227,15 +227,15 @@
 #   Default: 3650
 #
 # [*key_name*]
-#   String,  Value for name_default variable in openssl.cnf (and KEY_NAME in vars)
+#   String.  Value for name_default variable in openssl.cnf (and KEY_NAME in vars)
 #   Default: None
 #
 # [*key_ou*]
-#   String,  Value for organizationalUnitName_default variable in openssl.cnf (and KEY_OU in vars)
+#   String.  Value for organizationalUnitName_default variable in openssl.cnf (and KEY_OU in vars)
 #   Default: None
 #
 # [*key_cn*]
-#   String,  Value for commonName_default variable in openssl.cnf (and KEY_CN in vars)
+#   String.  Value for commonName_default variable in openssl.cnf (and KEY_CN in vars)
 #   Default: None
 #
 # === Examples
