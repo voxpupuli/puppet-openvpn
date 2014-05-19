@@ -1,5 +1,10 @@
 # Changelog
 
+## Next version
+
+* Do not include deprecated `concat::setup` anymore ([#71](https://github.com/luxflux/puppet-openvpn/pull/71))
+* Only warn about pam deprecation if it's used ([#72](https://github.com/luxflux/puppet-openvpn/pull/72))
+
 ## 2.4.0
 
 ### Bugfixes
