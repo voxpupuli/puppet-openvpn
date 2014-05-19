@@ -7,7 +7,7 @@ describe 'openvpn::config', :type => :class do
   context "on Debian based machines" do
     let (:facts) { { :osfamily => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
 
-    if { should not contain_class('concat::setup') }
+    it { should not contain_class('concat::setup') }
     it { should contain_concat('/etc/default/openvpn') }
     it { should contain_concat__fragment('openvpn.default.header') }
   end
