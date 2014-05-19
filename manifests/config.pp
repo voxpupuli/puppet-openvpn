@@ -32,8 +32,6 @@
 class openvpn::config {
 
   if $::osfamily == 'Debian' {
-    include concat::setup
-
     concat {
       '/etc/default/openvpn':
         owner  => root,
