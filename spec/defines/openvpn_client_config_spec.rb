@@ -6,8 +6,10 @@ describe 'openvpn::client::config', :type => :define do
     'remote_host' => 'somehost',
     'path' => '/etc/openvpn/test_client.conf',
   } }
-  let(:facts) { { :concat_basedir => '/var/lib/puppet/concat' } }
+  let(:facts) { { :osfamily => 'Debian', :lsbdistid => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
 
+  it { should contain_file('/etc/openvpn/test_client.conf').that_requires('Class[openvpn::install]') }
+  it { should contain_file('/etc/openvpn/test_client.conf').that_notifies('Class[openvpn::service]') }
 
   params_hash = { 'path' => '/etc/openvpn/test_client.conf' }
 

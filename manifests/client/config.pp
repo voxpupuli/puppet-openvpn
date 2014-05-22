@@ -135,11 +135,14 @@ define openvpn::client::config (
   $authuserpass = false,
   $shared_secret = '',
 ) {
+  include '::openvpn'
+
 
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')
   }
 
+  Class['::openvpn::install'] ->
   file { "${path}":
         ensure => $ensure,
         owner   => root,
@@ -147,6 +150,7 @@ define openvpn::client::config (
         mode    => '0444',
         content => template('openvpn/client.erb'),
         require => Class ['::openvpn::install'],
-  }
+  } ~>
+  Class['::openvpn::service']
 
 }
