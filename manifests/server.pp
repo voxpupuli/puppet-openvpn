@@ -308,6 +308,7 @@ define openvpn::server(
   $management_ip = 'localhost',
   $management_port = 7505,
   $up = '',
+  $down = '',
   $username_as_common_name = false,
   $ldap_enabled = false,
   $ldap_server = '',
