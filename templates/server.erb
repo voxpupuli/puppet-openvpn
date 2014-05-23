@@ -82,10 +82,10 @@ management <%= scope.lookupvar('management_ip') %> <%= scope.lookupvar('manageme
 script-security 2
 <% end -%>
 <% if scope.lookupvar('up') != '' -%>
-up <%= scope.lookupvar('up') %>
+up "<%= scope.lookupvar('up') %>"
 <% end -%>
 <% if scope.lookupvar('down') != '' -%>
-down <%= scope.lookupvar('down') %>
+down "<%= scope.lookupvar('down') %>"
 <% end -%>
 <% if scope.lookupvar('username_as_common_name') -%>
 username-as-common-name
