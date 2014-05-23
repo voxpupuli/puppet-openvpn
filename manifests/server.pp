@@ -136,6 +136,9 @@
 # [*up*]
 #   String,  Script which we want to run when openvpn server starts
 #
+# [*down*]
+#   String,  Script which we want to run when openvpn server stops
+#
 # [*username_as_common_name*]
 #   Boolean. If true then set username-as-common-name
 #   Default: false
