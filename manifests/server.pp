@@ -136,6 +136,9 @@
 # [*up*]
 #   String,  Script which we want to run when openvpn server starts
 #
+# [*down*]
+#   String,  Script which we want to run when openvpn server stops
+#
 # [*username_as_common_name*]
 #   Boolean. If true then set username-as-common-name
 #   Default: false
@@ -305,6 +308,7 @@ define openvpn::server(
   $management_ip = 'localhost',
   $management_port = 7505,
   $up = '',
+  $down = '',
   $username_as_common_name = false,
   $ldap_enabled = false,
   $ldap_server = '',
