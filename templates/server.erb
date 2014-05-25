@@ -78,9 +78,14 @@ plugin /usr/lib/openvpn/openvpn-auth-pam.so login
 <% if scope.lookupvar('management') -%>
 management <%= scope.lookupvar('management_ip') %> <%= scope.lookupvar('management_port') %>
 <% end -%>
-<% if scope.lookupvar('up') != ''-%>
+<% if scope.lookupvar('up') != '' or scope.lookupvar('down') != ''-%>
 script-security 2
-up <%= scope.lookupvar('up') %>
+<% end -%>
+<% if scope.lookupvar('up') != '' -%>
+up "<%= scope.lookupvar('up') %>"
+<% end -%>
+<% if scope.lookupvar('down') != '' -%>
+down "<%= scope.lookupvar('down') %>"
 <% end -%>
 <% if scope.lookupvar('username_as_common_name') -%>
 username-as-common-name
