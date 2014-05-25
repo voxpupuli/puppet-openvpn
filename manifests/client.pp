@@ -1,7 +1,11 @@
 # == Define: openvpn::client
 #
 # This define creates the client certs for a specified openvpn server as well
-# as creating a tarball that can be directly imported into openvpn clients
+# as creating a tarball that can be directly imported into openvpn clients. It
+# also passes client parameters through to openvpn::client::config to create
+# a client configuration file that will be bundled with the tarball. To just
+# generate a client configuration file without certs or anything else call
+# openvpn::client::config directly.
 #
 #
 # === Parameters
@@ -10,67 +14,16 @@
 #   String.  Name of the corresponding openvpn endpoint
 #   Required
 #
-# [*compression*]
-#   String.  Which compression algorithim to use
-#   Default: comp-lzo
-#   Options: comp-lzo or '' (disable compression)
-#
-# [*dev*]
-#   String.  Device method
-#   Default: tun
-#   Options: tun (routed connections), tap (bridged connections)
-#
-# [*mute*]
-#   Integer.  Set log mute level
-#   Default: 20
-#
-# [*mute_replay_warnings*]
-#   Boolean.  Silence duplicate packet warnings (common on wireless networks)
-#   Default: true
-#
-# [*nobind*]
-#   Boolean.  Whether or not to bind to a specific port number
-#   Default: true
-#
-# [*persist_key*]
-#   Boolean.  Try to retain access to resources that may be unavailable
-#     because of privilege downgrades
-#   Default: true
-#
-# [*persist_tun*]
-#   Boolean.  Try to retain access to resources that may be unavailable
-#     because of privilege downgrades
-#   Default: true
-#
-# [*port*]
-#   Integer.  The port the openvpn server service is running on
-#   Default: 1194
-#
-# [*proto*]
-#   String.  What IP protocol is being used.
-#   Default: tcp
-#   Options: tcp or udp
+# See openvpn::client::config for client configuration parameters
 #
 # [*remote_host*]
 #   String.  The IP or hostname of the openvpn server service
-#   Default: FQDN
-#
-# [*resolv_retry*]
-#   Integer/String. How many seconds should the openvpn client try to resolve
-#     the server's hostname
-#   Default: infinite
-#   Options: Integer or infinite
-#
-# [*verb*]
-#   Integer.  Level of logging verbosity
-#   Default: 3
-#
-# [*pam*]
-#   DEPRECATED: Boolean, Enable/Disable.
-#
-# [*authuserpass*]
-#   Boolean. Set if username and password required
-#   Default: false
+#   Default: FQDN of host if not explicitly declared.
+# NOTE: When invoked through openvpn::client remote_host defaults to the
+#   FQDN of the host it is invoked on. When invoked directly through
+#   openvpn::client::config it is assumed that you are creating an openvpn
+#   configuration file somewhere other than the server so the remote_host
+#   must be explicitly declared.
 #
 # === Examples
 #
@@ -89,6 +42,7 @@
 # * Raffael Schmid <mailto:raffael@yux.ch>
 # * John Kinsella <mailto:jlkinsel@gmail.com>
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
+# * John Bowman <mailto:jbowman@macprofessionals.com>
 #
 # === License
 #
@@ -108,25 +62,22 @@
 #
 define openvpn::client(
   $server,
-  $compression = 'comp-lzo',
-  $dev = 'tun',
-  $mute = '20',
-  $mute_replay_warnings = true,
-  $nobind = true,
-  $persist_key = true,
-  $persist_tun = true,
-  $port = '1194',
-  $proto = 'tcp',
+  $compression = undef,
+  $dev = undef,
+  $mute = undef,
+  $mute_replay_warnings = undef,
+  $nobind = undef,
+  $persist_key = undef,
+  $persist_tun = undef,
+  $port = undef,
+  $proto = undef,
   $remote_host = $::fqdn,
-  $resolv_retry = 'infinite',
-  $verb = '3',
-  $pam = false,
-  $authuserpass = false,
+  $resolv_retry = undef,
+  $verb = undef,
+  $pam = undef,
+  $authuserpass = undef,
+  $shared_secret = undef,
 ) {
-
-  if $pam {
-    warning('Using $pam is deprecated. Use $authuserpass instead!')
-  }
 
   Openvpn::Server[$server] ->
   Openvpn::Client[$name]
@@ -158,14 +109,28 @@ define openvpn::client(
       ensure  => link,
       target  => "/etc/openvpn/${server}/easy-rsa/keys/ca.crt",
       require => Exec["generate certificate for ${name} in context of ${server}"];
-
-    "/etc/openvpn/${server}/download-configs/${name}/${name}.conf":
-      owner   => root,
-      group   => root,
-      mode    => '0444',
-      content => template('openvpn/client.erb'),
-      notify  => Exec["tar the thing ${server} with ${name}"];
   }
+
+  ::openvpn::client::config { "${name}":
+      path => "/etc/openvpn/${server}/download-configs/${name}/${name}.conf",
+      compression => $compression,
+      dev => $dev,
+      mute => $mute,
+      mute_replay_warnings => $mute_replay_warnings,
+      nobind => $nobind,
+      persist_key => $persist_key,
+      persist_tun => $persist_tun,
+      port => $port,
+      proto => $proto,
+      remote_host => $remote_host,
+      resolv_retry => $resolv_retry,
+      verb => $verb,
+      pam => $pam,
+      shared_secret => $shared_secret,
+      authuserpass => $authuserpass,
+      notify  => Exec["tar the thing ${server} with ${name}"],
+  }
+
 
   exec {
     "tar the thing ${server} with ${name}":
