@@ -4,6 +4,7 @@
 
 * Do not include deprecated `concat::setup` anymore ([#71](https://github.com/luxflux/puppet-openvpn/pull/71))
 * Only warn about pam deprecation if it's used ([#72](https://github.com/luxflux/puppet-openvpn/pull/72))
+* Ability to specify a `down` script ([#75](https://github.com/luxflux/puppet-openvpn/pull/75))
 
 ## 2.4.0
 
