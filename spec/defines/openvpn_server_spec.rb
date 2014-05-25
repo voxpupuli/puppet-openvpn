@@ -93,6 +93,8 @@ describe 'openvpn::server', :type => :define do
       'logfile'         => '/var/log/openvpn/test_server.log',
       'status_log'      => '/var/log/openvpn/test_server_status.log',
       'dev'             => 'tun1',
+      'up'              => '/tmp/up',
+      'down'            => '/tmp/down',
       'local'           => '2.3.4.5',
       'ipp'             => true,
       'server'          => '2.3.4.0 255.255.0.0',
@@ -154,6 +156,11 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cipher DES-CBC$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-key$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-tun$/) }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^up "/tmp/up"$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^down "/tmp/down"$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^script-security 2$}) }
+
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export CA_EXPIRE=365$/) }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export KEY_EXPIRE=365$/) }
