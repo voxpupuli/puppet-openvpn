@@ -30,8 +30,8 @@
 #   Default: false
 #
 # [*push]
-#   Array.  Redirect all traffic to gateway
-#   Default: false
+#   Array.  Add other options like routes (non-iroute) to be pushed.
+#   Default: []
 #
 # === Examples
 #
