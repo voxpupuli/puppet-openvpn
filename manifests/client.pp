@@ -61,6 +61,13 @@
 #   Default: infinite
 #   Options: Integer or infinite
 #
+# [*auth_retry*]
+#   String. Controls how OpenVPN responds to username/password verification errors such
+#     as the client-side response to an AUTH_FAILED message from the server or verification
+#     failure of the private key password.
+#   Default: none
+#   Options: 'none' or 'nointeract' or 'interact'
+#
 # [*verb*]
 #   Integer.  Level of logging verbosity
 #   Default: 3
@@ -119,6 +126,7 @@ define openvpn::client(
   $proto = 'tcp',
   $remote_host = $::fqdn,
   $resolv_retry = 'infinite',
+  $auth_retry = 'none',
   $verb = '3',
   $pam = false,
   $authuserpass = false,

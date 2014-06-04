@@ -143,6 +143,10 @@
 #   Boolean. If true then set username-as-common-name
 #   Default: false
 #
+# [*client_cert_not_required*]
+#   Boolean. If true then set client-cert-not-required
+#   Default: false
+#
 # [*ldap_enabled*]
 #   Boolean. If ldap is enabled, do stuff
 #   Default: false
@@ -310,6 +314,7 @@ define openvpn::server(
   $up = '',
   $down = '',
   $username_as_common_name = false,
+  $client_cert_not_required = false,
   $ldap_enabled = false,
   $ldap_server = '',
   $ldap_binddn = '',

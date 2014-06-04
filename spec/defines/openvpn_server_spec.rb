@@ -294,6 +294,7 @@ describe 'openvpn::server', :type => :define do
       'email'         => 'testemail@example.org',
 
       'username_as_common_name' => true,
+      'client_cert_not_required' => true,
 
       'ldap_enabled'   => true,
       'ldap_server'    => 'ldaps://ldap.example.org:636',
@@ -334,6 +335,7 @@ describe 'openvpn::server', :type => :define do
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib/openvpn/openvpn-auth-ldap.so "/etc/openvpn/test_server/auth/ldap.conf"$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^username-as-common-name$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client-cert-not-required$}) }
 
   end
 

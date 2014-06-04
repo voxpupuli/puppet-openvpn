@@ -9,6 +9,7 @@ remote <%= scope.lookupvar('remote_host') %> <%= scope.lookupvar('port') %>
 <%= scope.lookupvar('compression') %>
 <% end -%>
 resolv-retry <%= scope.lookupvar('resolv_retry') %>
+auth-retry <%= scope.lookupvar('auth_retry') %>
 <% if scope.lookupvar('nobind') -%>
 nobind
 <% end -%>
