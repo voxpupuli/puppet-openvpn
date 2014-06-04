@@ -29,6 +29,9 @@
 #   Array.  Redirect all traffic to gateway
 #   Default: false
 #
+# [*push]
+#   Array.  Add other options like routes (non-iroute) to be pushed.
+#   Default: []
 #
 # === Examples
 #
@@ -37,7 +40,8 @@
 #       server       => 'contractors',
 #       iroute       => ['10.0.1.0 255.255.255.0'],
 #       ifconfig     => '10.10.10.1 10.10.10.2',
-#       dhcp_options => ['DNS 8.8.8.8']
+#       dhcp_options => ['DNS 8.8.8.8'],
+#       push         => '"route 10.100.0.0 255.255.255.0"'
 #    }
 #
 # * Removal:
@@ -69,7 +73,8 @@ define openvpn::client_specific_config(
   $iroute           = [],
   $ifconfig         = false,
   $dhcp_options     = [],
-  $redirect_gateway = false
+  $redirect_gateway = false,
+  $push             = []
 ) {
 
   Openvpn::Server[$server] ->
