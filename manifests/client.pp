@@ -79,6 +79,17 @@
 #   Boolean. Set if username and password required
 #   Default: false
 #
+# [*setenv*]
+#   Hash. Set a custom environmental variable name=value to pass to script.
+#   Default: {}
+#
+# [*setenv_safe*]
+#   Hash. Set a custom environmental variable OPENVPN_name=value to pass to script.
+#     This directive is designed to be pushed by the server to clients, and the prepending
+#     of "OPENVPN_" to the environmental variable is a safety precaution to prevent a LD_PRELOAD
+#     style attack from a malicious or compromised server.
+#   Default: {}
+#
 # === Examples
 #
 #   openvpn::client {
@@ -130,6 +141,8 @@ define openvpn::client(
   $verb = '3',
   $pam = false,
   $authuserpass = false,
+  $setenv = {},
+  $setenv_safe = {}
 ) {
 
   if $pam {

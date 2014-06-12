@@ -28,3 +28,9 @@ mute <%= scope.lookupvar('mute') %>
 <% if scope.lookupvar('pam') || scope.lookupvar('authuserpass') -%>
 auth-user-pass
 <% end -%>
+<% scope.lookupvar('setenv').each do |key, value| -%>
+setenv <%= key %> <%= value %>
+<% end -%>
+<% scope.lookupvar('setenv_safe').each do |key, value| -%>
+setenv_safe <%= key %> <%= value %>
+<% end -%>

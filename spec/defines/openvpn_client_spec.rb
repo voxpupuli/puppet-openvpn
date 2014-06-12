@@ -75,7 +75,9 @@ describe 'openvpn::client', :type => :define do
       'remote_host'           => 'somewhere',
       'resolv_retry'          => '2m',
       'auth_retry'            => 'interact',
-      'verb'                  => '1'
+      'verb'                  => '1',
+      'setenv'                => {'CLIENT_CERT' => '0'},
+      'setenv_safe'           => {'FORWARD_COMPATIBLE' => '1'}
     } }
     let(:facts) { {
       :fqdn           => 'somehost',
@@ -97,6 +99,8 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verb\s+1$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^mute\s+10$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^auth-retry\s+interact$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^setenv\s+CLIENT_CERT\s+0$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^setenv_safe\s+FORWARD_COMPATIBLE\s+1$/)}
   end
 
 end
