@@ -55,6 +55,10 @@
 #   String.  The IP or hostname of the openvpn server service
 #   Default: FQDN
 #
+# [*cipher*]
+#   String,  Cipher to use for packet encryption
+#   Default: None
+#
 # [*resolv_retry*]
 #   Integer/String. How many seconds should the openvpn client try to resolve
 #     the server's hostname
@@ -129,6 +133,7 @@ define openvpn::client(
   $auth_retry = 'none',
   $verb = '3',
   $pam = false,
+  $cipher = '',
   $authuserpass = false,
 ) {
 
