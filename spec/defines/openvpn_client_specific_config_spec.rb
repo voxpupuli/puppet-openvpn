@@ -36,6 +36,7 @@ describe 'openvpn::client_specific_config', :type => :define do
       {:server           => 'test_server',
        :iroute           => ['10.0.1.0 255.255.255.0'],
        :ifconfig         => '10.10.10.2 255.255.255.0',
+       :route           => ['10.200.100.0 255.255.255.0 10.10.10.1'],
        :dhcp_options     => ['DNS 8.8.8.8'],
        :redirect_gateway => true}
     end
@@ -44,5 +45,6 @@ describe 'openvpn::client_specific_config', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(/^ifconfig-push 10.10.10.2 255.255.255.0$/) }
     it { should contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(/^push dhcp-option DNS 8.8.8.8$/) }
     it { should contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(/^push redirect-gateway def1$/) }
+    it { should contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(/^push "route 10.200.100.0 255.255.255.0 10.10.10.1"$/) }
   end
 end
