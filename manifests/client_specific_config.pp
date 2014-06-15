@@ -17,6 +17,10 @@
 #   Array.  Array of iroute combinations.
 #   Default: []
 #
+# [*route*]
+#   Array.  Array of route combinations pushed to client.
+#   Default: []
+#
 # [*ifconfig*]
 #   String.  IP configuration to push to the client.
 #   Default: false
@@ -67,6 +71,7 @@
 define openvpn::client_specific_config(
   $server,
   $iroute           = [],
+  $route            = [],
   $ifconfig         = false,
   $dhcp_options     = [],
   $redirect_gateway = false

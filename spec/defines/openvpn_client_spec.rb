@@ -70,6 +70,7 @@ describe 'openvpn::client', :type => :define do
       'nobind'                => false,
       'persist_key'           => false,
       'persist_tun'           => false,
+      'cipher'                => 'BF-CBC',
       'port'                  => '123',
       'proto'                 => 'udp',
       'remote_host'           => 'somewhere',
@@ -101,6 +102,7 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^auth-retry\s+interact$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^setenv\s+CLIENT_CERT\s+0$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^setenv_safe\s+FORWARD_COMPATIBLE\s+1$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cipher\s+BF-CBC$/)}
   end
 
 end
