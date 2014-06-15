@@ -7,7 +7,8 @@
 * Ability to specify a `down` script ([#75](https://github.com/luxflux/puppet-openvpn/pull/75))
 * Support for `client-cert-not-required` ([#76](https://github.com/luxflux/puppet-openvpn/pull/76))
 * Support for `auth-retry` ([#76](https://github.com/luxflux/puppet-openvpn/pull/76))
-
+* Support for `setenv` ([#79](https://github.com/luxflux/puppet-openvpn/pull/79))
+* Support for `setenv_safe` ([#79](https://github.com/luxflux/puppet-openvpn/pull/79))
 
 ## 2.4.0
 
