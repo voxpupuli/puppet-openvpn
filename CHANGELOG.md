@@ -5,10 +5,12 @@
 * Do not include deprecated `concat::setup` anymore ([#71](https://github.com/luxflux/puppet-openvpn/pull/71))
 * Only warn about pam deprecation if it's used ([#72](https://github.com/luxflux/puppet-openvpn/pull/72))
 * Ability to specify a `down` script ([#75](https://github.com/luxflux/puppet-openvpn/pull/75))
-* Support for `client-cert-not-required` ([#76](https://github.com/luxflux/puppet-openvpn/pull/76))
-* Support for `auth-retry` ([#76](https://github.com/luxflux/puppet-openvpn/pull/76))
-* Support for `setenv` ([#79](https://github.com/luxflux/puppet-openvpn/pull/79))
-* Support for `setenv_safe` ([#79](https://github.com/luxflux/puppet-openvpn/pull/79))
+* Support for `client-cert-not-required` in server config ([#76](https://github.com/luxflux/puppet-openvpn/pull/76))
+* Support for `auth-retry` in client config ([#76](https://github.com/luxflux/puppet-openvpn/pull/76))
+* Support for `setenv` in client config ([#79](https://github.com/luxflux/puppet-openvpn/pull/79))
+* Support for `setenv_safe` in client config ([#79](https://github.com/luxflux/puppet-openvpn/pull/79))
+* Support for `cipher` in client config ([#80](https://github.com/luxflux/puppet-openvpn/pull/80))
+* Support for `push route` in client specific config ([#80](https://github.com/luxflux/puppet-openvpn/pull/80))
 
 ## 2.4.0
 
