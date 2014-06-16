@@ -55,6 +55,10 @@
 #   String.  The IP or hostname of the openvpn server service
 #   Default: FQDN
 #
+# [*cipher*]
+#   String,  Cipher to use for packet encryption
+#   Default: None
+#
 # [*resolv_retry*]
 #   Integer/String. How many seconds should the openvpn client try to resolve
 #     the server's hostname
@@ -78,6 +82,17 @@
 # [*authuserpass*]
 #   Boolean. Set if username and password required
 #   Default: false
+#
+# [*setenv*]
+#   Hash. Set a custom environmental variable name=value to pass to script.
+#   Default: {}
+#
+# [*setenv_safe*]
+#   Hash. Set a custom environmental variable OPENVPN_name=value to pass to script.
+#     This directive is designed to be pushed by the server to clients, and the prepending
+#     of "OPENVPN_" to the environmental variable is a safety precaution to prevent a LD_PRELOAD
+#     style attack from a malicious or compromised server.
+#   Default: {}
 #
 # === Examples
 #
@@ -129,7 +144,10 @@ define openvpn::client(
   $auth_retry = 'none',
   $verb = '3',
   $pam = false,
+  $cipher = '',
   $authuserpass = false,
+  $setenv = {},
+  $setenv_safe = {}
 ) {
 
   if $pam {
