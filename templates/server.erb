@@ -96,6 +96,6 @@ plugin <%= scope.lookupvar('::openvpn::params::ldap_auth_plugin_location') %> "/
 <% if scope.lookupvar('client_cert_not_required') -%>
 client-cert-not-required
 <% end -%>
-<% if scope.lookupvar('dupe-cn') -%>
+<% if scope.lookupvar('dupecn') -%>
 duplicate-cn
 <% end -%>

@@ -47,7 +47,7 @@
 #     addresses between sessions
 #   Default: false
 #
-# [*dupe-cn*]
+# [*dupecn*]
 #   Boolean.  Allow multiple connections on one cn
 #   Default: false
 #
@@ -295,7 +295,7 @@ define openvpn::server(
   $user = 'nobody',
   $group = false,
   $ipp = false,
-  $dupe-cn = false,
+  $dupecn = false,
   $local = $::ipaddress_eth0,
   $logfile = false,
   $port = '1194',
