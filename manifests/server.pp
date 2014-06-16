@@ -47,6 +47,10 @@
 #     addresses between sessions
 #   Default: false
 #
+# [*dupe-cn*]
+#   Boolean.  Allow multiple connections on one cn
+#   Default: false
+#
 # [*local*]
 #   String.  Interface for openvpn to bind to.
 #   Default: $::ipaddress_eth0
@@ -291,6 +295,7 @@ define openvpn::server(
   $user = 'nobody',
   $group = false,
   $ipp = false,
+  $dupe-cn = false,
   $local = $::ipaddress_eth0,
   $logfile = false,
   $port = '1194',
