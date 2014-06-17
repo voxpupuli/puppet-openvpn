@@ -94,6 +94,10 @@
 #     style attack from a malicious or compromised server.
 #   Default: {}
 #
+# [*redirect_gateway*]
+#   Boolean. Force the client to use server as a gateway
+#   Default: false
+#
 # === Examples
 #
 #   openvpn::client {
@@ -147,7 +151,8 @@ define openvpn::client(
   $cipher = '',
   $authuserpass = false,
   $setenv = {},
-  $setenv_safe = {}
+  $setenv_safe = {},
+  $redirect_gateway = false
 ) {
 
   if $pam {
@@ -168,7 +173,8 @@ define openvpn::client(
   file {
     [ "/etc/openvpn/${server}/download-configs/${name}",
       "/etc/openvpn/${server}/download-configs/${name}/keys"]:
-        ensure  => directory;
+        ensure  => directory,
+        mode    => '0700';
 
     "/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt":
       ensure  => link,
