@@ -30,7 +30,7 @@
 #   Default: []
 #
 # [*redirect_gateway]
-#   Array.  Redirect all traffic to gateway
+#   Boolean. Redirect all traffic to gateway
 #   Default: false
 #
 #
