@@ -38,10 +38,16 @@ class openvpn::install {
     ensure_packages( any2array($::openvpn::params::additional_packages) )
   }
 
-
-  file {
-    [ '/etc/openvpn', '/etc/openvpn/keys' ]:
-      ensure  => directory,
-      require => Package['openvpn'];
+  file { '/etc/openvpn':
+    ensure  => directory,
+    require => Package['openvpn'],
+    recurse => $::openvpn::cleanup,
+    purge   => $::openvpn::cleanup,
   }
+
+  file { '/etc/openvpn/keys':
+    ensure  => directory,
+    require => Package['openvpn'],
+  }
+
 }

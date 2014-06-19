@@ -68,4 +68,6 @@ class openvpn::params {
     default           => false
   }
 
+  $cleanup = false
+
 }

@@ -32,9 +32,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn {
+class openvpn (
+  $cleanup = $::openvpn::params::cleanup,
+) inherits openvpn::params {
 
-  class {'openvpn::params': } ->
   class {'openvpn::install': } ->
   class {'openvpn::config': } ~>
   class {'openvpn::service': } ->
