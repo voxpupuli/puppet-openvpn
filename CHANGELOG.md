@@ -2,6 +2,8 @@
 
 ## Next version
 
+* Support for `duplicate-cn` in server config ([#85](https://github.com/luxflux/puppet-openvpn/pull/85))
+
 ## 2.5.0
 
 * Do not include deprecated `concat::setup` anymore ([#71](https://github.com/luxflux/puppet-openvpn/pull/71))
