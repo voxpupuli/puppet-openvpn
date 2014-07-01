@@ -70,6 +70,7 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/cipher/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/persist-key/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/persist-tun/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export CA_EXPIRE=3650$/) }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export KEY_EXPIRE=3650$/) }
@@ -117,6 +118,7 @@ describe 'openvpn::server', :type => :define do
       'cipher'          => 'DES-CBC',
       'persist_key'     => true,
       'persist_tun'     => true,
+      'duplicate_cn'    => true,
     } }
 
     let(:facts) { {
@@ -160,6 +162,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^up "/tmp/up"$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^down "/tmp/down"$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^script-security 2$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
 
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export CA_EXPIRE=365$/) }
