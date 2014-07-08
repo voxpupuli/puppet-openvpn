@@ -27,3 +27,6 @@ mute <%= scope.lookupvar('mute') %>
 <% if scope.lookupvar('pam') || scope.lookupvar('authuserpass') -%>
 auth-user-pass
 <% end -%>
+script-security 2
+route-method use
+route-delay 2
