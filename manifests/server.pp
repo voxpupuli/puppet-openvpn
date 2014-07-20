@@ -30,9 +30,10 @@
 #   Options: comp-lzo or '' (disable compression)
 #
 # [*dev*]
-#   String.  Device method
-#   Default: tun
-#   Options: tun (routed connections), tap (bridged connections)
+#   String.  TUN/TAP virtual network device
+#   Default: tun0
+#   Options: tunX (routed connections), tapX (bridged connections). X
+#   can be omitted for a dynamic device.
 #
 # [*user*]
 #   String.  Group to drop privileges to after startup
