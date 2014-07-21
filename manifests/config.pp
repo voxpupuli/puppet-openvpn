@@ -34,17 +34,17 @@ class openvpn::config {
   if $::osfamily == 'Debian' {
     concat {
       '/etc/default/openvpn':
-        owner  => root,
-        group  => root,
-        mode   => 644,
-        warn   => true;
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0644',
+        warn   => true,
     }
 
     concat::fragment {
       'openvpn.default.header':
         content => template('openvpn/etc-default-openvpn.erb'),
         target  => '/etc/default/openvpn',
-        order   => 01;
+        order   => '01',
     }
   }
 }

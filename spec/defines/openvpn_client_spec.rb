@@ -78,7 +78,8 @@ describe 'openvpn::client', :type => :define do
       'auth_retry'            => 'interact',
       'verb'                  => '1',
       'setenv'                => {'CLIENT_CERT' => '0'},
-      'setenv_safe'           => {'FORWARD_COMPATIBLE' => '1'}
+      'setenv_safe'           => {'FORWARD_COMPATIBLE' => '1'},
+      'redirect_gateway'      => true,
     } }
     let(:facts) { {
       :fqdn           => 'somehost',
@@ -88,21 +89,24 @@ describe 'openvpn::client', :type => :define do
       :lsbdistrelease => '12.04',
     } }
 
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^client$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/ca\.crt$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client.crt$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\.key$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^dev\s+tap$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^proto\s+udp$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^remote\s+somewhere\s+123$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^comp-something$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^resolv-retry\s+2m$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verb\s+1$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^mute\s+10$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^auth-retry\s+interact$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^setenv\s+CLIENT_CERT\s+0$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^setenv_safe\s+FORWARD_COMPATIBLE\s+1$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cipher\s+BF-CBC$/)}
+    let(:config_file) { '/etc/openvpn/test_server/download-configs/test_client/test_client.conf' }
+
+    it { should contain_file(config_file).with_content(/^client$/) }
+    it { should contain_file(config_file).with_content(/^ca\s+keys\/ca\.crt$/) }
+    it { should contain_file(config_file).with_content(/^cert\s+keys\/test_client.crt$/) }
+    it { should contain_file(config_file).with_content(/^key\s+keys\/test_client\.key$/) }
+    it { should contain_file(config_file).with_content(/^dev\s+tap$/) }
+    it { should contain_file(config_file).with_content(/^proto\s+udp$/) }
+    it { should contain_file(config_file).with_content(/^remote\s+somewhere\s+123$/) }
+    it { should contain_file(config_file).with_content(/^comp-something$/) }
+    it { should contain_file(config_file).with_content(/^resolv-retry\s+2m$/) }
+    it { should contain_file(config_file).with_content(/^verb\s+1$/) }
+    it { should contain_file(config_file).with_content(/^mute\s+10$/) }
+    it { should contain_file(config_file).with_content(/^auth-retry\s+interact$/) }
+    it { should contain_file(config_file).with_content(/^setenv\s+CLIENT_CERT\s+0$/) }
+    it { should contain_file(config_file).with_content(/^setenv_safe\s+FORWARD_COMPATIBLE\s+1$/) }
+    it { should contain_file(config_file).with_content(/^cipher\s+BF-CBC$/) }
+    it { should contain_file(config_file).with_content(/^redirect-gateway def1$/) }
   end
 
 end
