@@ -264,9 +264,10 @@ define openvpn::client(
     notify      => Exec["generate ${name}.ovpn in ${server}"],
   }
 
+  $name_escaped = regsubst(regsubst($name, '\.', '\\.', 'G'), '@', '\\@', 'G')
   exec { "generate ${name}.ovpn in ${server}":
     cwd         => "/etc/openvpn/${server}/download-configs/",
-    command     => "/bin/rm ${name}.ovpn; cat ${name}/${name}.conf | perl -lne 'if(m|^ca keys/${name}/ca.crt|){ chomp(\$ca=`cat ${name}/keys/${name}/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name}/${name}.crt|) { chomp(\$crt=`cat ${name}/keys/${name}/${name}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name}/${name}.key|){ chomp(\$key=`cat ${name}/keys/${name}/${name}.key`); print \"<key>\n\$key\n</key>\"} else { print} ' > ${name}.ovpn",
+    command     => "/bin/rm ${name}.ovpn; cat ${name}/${name}.conf | perl -lne 'if(m|^ca keys/${name_escaped}/ca.crt|){ chomp(\$ca=`cat ${name_escaped}/keys/${name_escaped}/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name_escaped}/${name_escaped}.crt|) { chomp(\$crt=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name_escaped}/${name_escaped}.key|){ chomp(\$key=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.key`); print \"<key>\n\$key\n</key>\"} else { print} ' > ${name}.ovpn",
     refreshonly => true,
     require     => [
       File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
