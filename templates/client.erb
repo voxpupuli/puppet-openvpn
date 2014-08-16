@@ -37,3 +37,12 @@ setenv <%= key %> <%= value %>
 <% scope.lookupvar('setenv_safe').each do |key, value| -%>
 setenv_safe <%= key %> <%= value %>
 <% end -%>
+<% if scope.lookupvar('up') != '' or scope.lookupvar('down') != ''-%>
+script-security 2
+<% end -%>
+<% if scope.lookupvar('up') != '' -%>
+up "<%= scope.lookupvar('up') %>"
+<% end -%>
+<% if scope.lookupvar('down') != '' -%>
+down "<%= scope.lookupvar('down') %>"
+<% end -%>
