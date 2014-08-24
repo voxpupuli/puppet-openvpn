@@ -94,6 +94,12 @@
 #     style attack from a malicious or compromised server.
 #   Default: {}
 #
+# [*up*]
+#   String,  Script which we want to run when openvpn client is connecting
+#
+# [*down*]
+#   String,  Script which we want to run when openvpn client is disconneting
+#
 # === Examples
 #
 #   openvpn::client {
@@ -147,7 +153,9 @@ define openvpn::client(
   $cipher = '',
   $authuserpass = false,
   $setenv = {},
-  $setenv_safe = {}
+  $setenv_safe = {},
+  $up = '',
+  $down = '',
 ) {
 
   if $pam {
