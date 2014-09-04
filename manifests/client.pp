@@ -55,11 +55,22 @@
 #   String.  The IP or hostname of the openvpn server service
 #   Default: FQDN
 #
+# [*cipher*]
+#   String,  Cipher to use for packet encryption
+#   Default: None
+#
 # [*resolv_retry*]
 #   Integer/String. How many seconds should the openvpn client try to resolve
 #     the server's hostname
 #   Default: infinite
 #   Options: Integer or infinite
+#
+# [*auth_retry*]
+#   String. Controls how OpenVPN responds to username/password verification errors such
+#     as the client-side response to an AUTH_FAILED message from the server or verification
+#     failure of the private key password.
+#   Default: none
+#   Options: 'none' or 'nointeract' or 'interact'
 #
 # [*verb*]
 #   Integer.  Level of logging verbosity
@@ -71,6 +82,23 @@
 # [*authuserpass*]
 #   Boolean. Set if username and password required
 #   Default: false
+#
+# [*setenv*]
+#   Hash. Set a custom environmental variable name=value to pass to script.
+#   Default: {}
+#
+# [*setenv_safe*]
+#   Hash. Set a custom environmental variable OPENVPN_name=value to pass to script.
+#     This directive is designed to be pushed by the server to clients, and the prepending
+#     of "OPENVPN_" to the environmental variable is a safety precaution to prevent a LD_PRELOAD
+#     style attack from a malicious or compromised server.
+#   Default: {}
+#
+# [*up*]
+#   String,  Script which we want to run when openvpn client is connecting
+#
+# [*down*]
+#   String,  Script which we want to run when openvpn client is disconneting
 #
 # === Examples
 #
@@ -119,9 +147,15 @@ define openvpn::client(
   $proto = 'tcp',
   $remote_host = $::fqdn,
   $resolv_retry = 'infinite',
+  $auth_retry = 'none',
   $verb = '3',
   $pam = false,
+  $cipher = '',
   $authuserpass = false,
+  $setenv = {},
+  $setenv_safe = {},
+  $up = '',
+  $down = '',
 ) {
 
   if $pam {

@@ -30,9 +30,10 @@
 #   Options: comp-lzo or '' (disable compression)
 #
 # [*dev*]
-#   String.  Device method
-#   Default: tun
-#   Options: tun (routed connections), tap (bridged connections)
+#   String.  TUN/TAP virtual network device
+#   Default: tun0
+#   Options: tunX (routed connections), tapX (bridged connections). X
+#   can be omitted for a dynamic device.
 #
 # [*user*]
 #   String.  Group to drop privileges to after startup
@@ -45,6 +46,10 @@
 # [*ipp*]
 #   Boolean.  Persist ifconfig information to a file to retain client IP
 #     addresses between sessions
+#   Default: false
+#
+# [*duplicate_cn*]
+#   Boolean.  Allow multiple connections on one cn
 #   Default: false
 #
 # [*local*]
@@ -141,6 +146,10 @@
 #
 # [*username_as_common_name*]
 #   Boolean. If true then set username-as-common-name
+#   Default: false
+#
+# [*client_cert_not_required*]
+#   Boolean. If true then set client-cert-not-required
 #   Default: false
 #
 # [*ldap_enabled*]
@@ -284,45 +293,47 @@ define openvpn::server (
   $city,
   $organization,
   $email,
-  $common_name     = 'server',
-  $compression     = 'comp-lzo',
-  $dev             = 'tun0',
-  $user            = 'nobody',
-  $group           = false,
-  $ipp             = false,
-  $local           = $::ipaddress_eth0,
-  $logfile         = false,
-  $port            = '1194',
-  $proto           = 'tcp',
-  $status_log      = "${name}/openvpn-status.log",
-  $server          = '',
-  $server_ipv6     = '',
-  $server_bridge   = '',
-  $push            = [],
-  $route           = [],
-  $keepalive       = '',
-  $ssl_key_size    = 1024,
-  $topology        = 'net30',
-  $c2c             = false,
-  $tcp_nodelay     = false,
-  $ccd_exclusive   = false,
-  $pam             = false,
-  $management      = false,
-  $management_ip   = 'localhost',
+  $common_name = 'server',
+  $compression = 'comp-lzo',
+  $dev = 'tun0',
+  $user = 'nobody',
+  $group = false,
+  $ipp = false,
+  $duplicate_cn = false,
+  $local = $::ipaddress_eth0,
+  $logfile = false,
+  $port = '1194',
+  $proto = 'tcp',
+  $status_log = "${name}/openvpn-status.log",
+  $server = '',
+  $server_ipv6 = '',
+  $server_bridge = '',
+  $push = [],
+  $route = [],
+  $keepalive = '',
+  $ssl_key_size = 1024,
+  $topology = 'net30',
+  $c2c = false,
+  $tcp_nodelay = false,
+  $ccd_exclusive = false,
+  $pam = false,
+  $management = false,
+  $management_ip = 'localhost',
   $management_port = 7505,
-  $up              = '',
-  $down            = '',
-  $username_as_common_name   = false,
-  $ldap_enabled    = false,
-  $ldap_server     = '',
-  $ldap_binddn     = '',
-  $ldap_bindpass   = '',
-  $ldap_u_basedn   = '',
-  $ldap_g_basedn   = '',
-  $ldap_gmember    = false,
-  $ldap_u_filter   = '',
-  $ldap_g_filter   = '',
-  $ldap_memberatr  = '',
+  $up = '',
+  $down = '',
+  $username_as_common_name = false,
+  $client_cert_not_required = false,
+  $ldap_enabled = false,
+  $ldap_server = '',
+  $ldap_binddn = '',
+  $ldap_bindpass = '',
+  $ldap_u_basedn = '',
+  $ldap_g_basedn = '',
+  $ldap_gmember = false,
+  $ldap_u_filter = '',
+  $ldap_g_filter = '',
+  $ldap_memberatr = '',
   $ldap_tls_enable = false,
   $ldap_tls_ca_cert_file     = '',
   $ldap_tls_ca_cert_dir      = '',

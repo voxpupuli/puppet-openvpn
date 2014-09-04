@@ -93,3 +93,9 @@ username-as-common-name
 <% if scope.lookupvar('ldap_enabled') == true -%>
 plugin <%= scope.lookupvar('::openvpn::params::ldap_auth_plugin_location') %> "/etc/openvpn/<%= name %>/auth/ldap.conf"
 <% end -%>
+<% if scope.lookupvar('client_cert_not_required') -%>
+client-cert-not-required
+<% end -%>
+<% if scope.lookupvar('duplicate_cn') -%>
+duplicate-cn
+<% end -%>

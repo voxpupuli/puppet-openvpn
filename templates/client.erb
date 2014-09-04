@@ -9,6 +9,7 @@ remote <%= scope.lookupvar('remote_host') %> <%= scope.lookupvar('port') %>
 <%= scope.lookupvar('compression') %>
 <% end -%>
 resolv-retry <%= scope.lookupvar('resolv_retry') %>
+auth-retry <%= scope.lookupvar('auth_retry') %>
 <% if scope.lookupvar('nobind') -%>
 nobind
 <% end -%>
@@ -18,6 +19,9 @@ persist-key
 <% if scope.lookupvar('persist_tun') -%>
 persist-tun
 <% end -%>
+<% if scope.lookupvar('cipher')  -%>
+cipher <%= scope.lookupvar('cipher') %>
+<% end %>
 <% if scope.lookupvar('mute_replay_warnings') -%>
 mute-replay-warnings
 <% end -%>
@@ -27,6 +31,20 @@ mute <%= scope.lookupvar('mute') %>
 <% if scope.lookupvar('pam') || scope.lookupvar('authuserpass') -%>
 auth-user-pass
 <% end -%>
-script-security 2
 route-method use
 route-delay 2
+<% scope.lookupvar('setenv').each do |key, value| -%>
+setenv <%= key %> <%= value %>
+<% end -%>
+<% scope.lookupvar('setenv_safe').each do |key, value| -%>
+setenv_safe <%= key %> <%= value %>
+<% end -%>
+<% if scope.lookupvar('up') != '' or scope.lookupvar('down') != ''-%>
+script-security 2
+<% end -%>
+<% if scope.lookupvar('up') != '' -%>
+up "<%= scope.lookupvar('up') %>"
+<% end -%>
+<% if scope.lookupvar('down') != '' -%>
+down "<%= scope.lookupvar('down') %>"
+<% end -%>
