@@ -239,15 +239,18 @@
 #   Default: 3650
 #
 # [*key_name*]
-#   String.  Value for name_default variable in openssl.cnf (and KEY_NAME in vars)
+#   String.  Value for name_default variable in openssl.cnf (and KEY_NAME in
+#   vars)
 #   Default: None
 #
 # [*key_ou*]
-#   String.  Value for organizationalUnitName_default variable in openssl.cnf (and KEY_OU in vars)
+#   String.  Value for organizationalUnitName_default variable in openssl.cnf
+#   (and KEY_OU in vars)
 #   Default: None
 #
 # [*key_cn*]
-#   String.  Value for commonName_default variable in openssl.cnf (and KEY_CN in vars)
+#   String.  Value for commonName_default variable in openssl.cnf (and KEY_CN in
+#   vars)
 #   Default: None
 #
 # === Examples
@@ -284,7 +287,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-define openvpn::server(
+define openvpn::server (
   $country,
   $province,
   $city,
@@ -332,21 +335,19 @@ define openvpn::server(
   $ldap_g_filter = '',
   $ldap_memberatr = '',
   $ldap_tls_enable = false,
-  $ldap_tls_ca_cert_file = '',
-  $ldap_tls_ca_cert_dir  = '',
+  $ldap_tls_ca_cert_file     = '',
+  $ldap_tls_ca_cert_dir      = '',
   $ldap_tls_client_cert_file = '',
   $ldap_tls_client_key_file  = '',
-  $ca_expire = 3650,
-  $key_expire = 3650,
-  $key_cn = '',
-  $key_name = '',
-  $key_ou = '',
-  $verb = '',
-  $cipher = '',
-  $persist_key = false,
-  $persist_tun = false,
-) {
-
+  $ca_expire       = 3650,
+  $key_expire      = 3650,
+  $key_cn          = '',
+  $key_name        = '',
+  $key_ou          = '',
+  $verb            = '',
+  $cipher          = '',
+  $persist_key     = false,
+  $persist_tun     = false,) {
   include openvpn
   Class['openvpn::install'] ->
   Openvpn::Server[$name] ~>
@@ -362,45 +363,45 @@ define openvpn::server(
     default => $group
   }
 
-  file {
-    [ "/etc/openvpn/${name}",
-      "/etc/openvpn/${name}/auth",
-      "/etc/openvpn/${name}/client-configs",
-      "/etc/openvpn/${name}/download-configs" ]:
-        ensure  => directory;
+  File {
+    group   => $group_to_set,
+    recurse => true,
   }
 
-  exec {
-    "copy easy-rsa to openvpn config folder ${name}":
-      command => "/bin/cp -r ${openvpn::params::easyrsa_source} /etc/openvpn/${name}/easy-rsa",
-      creates => "/etc/openvpn/${name}/easy-rsa",
-      notify  => Exec["fix_easyrsa_file_permissions_${name}"],
-      require => File["/etc/openvpn/${name}"];
+  file { [
+    "/etc/openvpn/${name}",
+    "/etc/openvpn/${name}/auth",
+    "/etc/openvpn/${name}/client-configs",
+    "/etc/openvpn/${name}/download-configs"]:
+    mode   => 0750,
+    ensure => directory;
   }
 
-  exec {
-    "fix_easyrsa_file_permissions_${name}":
-      refreshonly => true,
-      command     => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*";
+  exec { "copy easy-rsa to openvpn config folder ${name}":
+    command => "/bin/cp -r ${openvpn::params::easyrsa_source} /etc/openvpn/${name}/easy-rsa",
+    creates => "/etc/openvpn/${name}/easy-rsa",
+    notify  => Exec["fix_easyrsa_file_permissions_${name}"],
+    require => File["/etc/openvpn/${name}"];
   }
 
-  file {
-    "/etc/openvpn/${name}/easy-rsa/revoked":
-      ensure  => directory,
-      require => Exec["copy easy-rsa to openvpn config folder ${name}"];
+  exec { "fix_easyrsa_file_permissions_${name}":
+    refreshonly => true,
+    command     => "/bin/chmod 750 /etc/openvpn/${name}/easy-rsa/*";
   }
 
-  file {
-    "/etc/openvpn/${name}/easy-rsa/vars":
-      ensure  => present,
-      content => template('openvpn/vars.erb'),
-      require => Exec["copy easy-rsa to openvpn config folder ${name}"];
+  file { "/etc/openvpn/${name}/easy-rsa/revoked":
+    ensure  => directory,
+    require => Exec["copy easy-rsa to openvpn config folder ${name}"];
   }
 
-  file {
-    "/etc/openvpn/${name}/easy-rsa/openssl.cnf":
-      require => Exec["copy easy-rsa to openvpn config folder ${name}"];
+  file { "/etc/openvpn/${name}/easy-rsa/vars":
+    ensure  => present,
+    content => template('openvpn/vars.erb'),
+    require => Exec["copy easy-rsa to openvpn config folder ${name}"];
   }
+
+  file { "/etc/openvpn/${name}/easy-rsa/openssl.cnf": require => Exec["copy easy-rsa to openvpn config folder ${name}"
+      ]; }
 
   if $openvpn::params::link_openssl_cnf == true {
     File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] {
@@ -422,8 +423,9 @@ define openvpn::server(
       cwd      => "/etc/openvpn/${name}/easy-rsa",
       creates  => "/etc/openvpn/${name}/easy-rsa/keys/ca.key",
       provider => 'shell',
-      require  => [ Exec["generate dh param ${name}"],
-                    File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] ];
+      require  => [
+        Exec["generate dh param ${name}"],
+        File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"]];
 
     "generate server cert ${name}":
       command  => ". ./vars && ./pkitool --server ${common_name}",
@@ -433,51 +435,46 @@ define openvpn::server(
       require  => Exec["initca ${name}"];
   }
 
-  file {
-    "/etc/openvpn/${name}/keys":
-      ensure  => link,
-      target  => "/etc/openvpn/${name}/easy-rsa/keys",
-      require => Exec["copy easy-rsa to openvpn config folder ${name}"];
+  file { "/etc/openvpn/${name}/keys":
+    ensure  => link,
+    target  => "/etc/openvpn/${name}/easy-rsa/keys",
+    require => Exec["copy easy-rsa to openvpn config folder ${name}"];
   }
 
-  exec {
-    "create crl.pem on ${name}":
-      command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out /etc/openvpn/${name}/crl.pem -config /etc/openvpn/${name}/easy-rsa/openssl.cnf",
-      cwd      => "/etc/openvpn/${name}/easy-rsa",
-      creates  => "/etc/openvpn/${name}/crl.pem",
-      provider => 'shell',
-      require  => Exec["generate server cert ${name}"];
+  exec { "create crl.pem on ${name}":
+    command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out /etc/openvpn/${name}/crl.pem -config /etc/openvpn/${name}/easy-rsa/openssl.cnf",
+    cwd      => "/etc/openvpn/${name}/easy-rsa",
+    creates  => "/etc/openvpn/${name}/crl.pem",
+    provider => 'shell',
+    require  => Exec["generate server cert ${name}"];
   }
 
-  file {
-    "/etc/openvpn/${name}/easy-rsa/keys/crl.pem":
-      ensure  => link,
-      target  => "/etc/openvpn/${name}/crl.pem",
-      require => Exec["create crl.pem on ${name}"];
+  file { "/etc/openvpn/${name}/easy-rsa/keys/crl.pem":
+    ensure  => link,
+    target  => "/etc/openvpn/${name}/crl.pem",
+    require => Exec["create crl.pem on ${name}"];
   }
 
   if $::osfamily == 'Debian' {
-    concat::fragment {
-      "openvpn.default.autostart.${name}":
-        content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
-        target  => '/etc/default/openvpn',
-        order   => 10;
+    concat::fragment { "openvpn.default.autostart.${name}":
+      content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
+      target  => '/etc/default/openvpn',
+      order   => 10;
     }
   }
 
-  file {
-    "/etc/openvpn/${name}.conf":
-      owner   => root,
-      group   => root,
-      mode    => '0444',
-      content => template('openvpn/server.erb');
+  file { "/etc/openvpn/${name}.conf":
+    owner   => root,
+    group   => nogroup,
+    mode    => '0440',
+    content => template('openvpn/server.erb');
   }
+
   if $ldap_enabled == true {
-    file {
-      "/etc/openvpn/${name}/auth/ldap.conf":
-        ensure  => present,
-        content => template('openvpn/ldap.erb'),
-        require => Package["openvpn-auth-ldap"],
+    file { "/etc/openvpn/${name}/auth/ldap.conf":
+      ensure  => present,
+      content => template('openvpn/ldap.erb'),
+      require => Package["openvpn-auth-ldap"],
     }
   }
 }

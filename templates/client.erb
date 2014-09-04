@@ -31,6 +31,8 @@ mute <%= scope.lookupvar('mute') %>
 <% if scope.lookupvar('pam') || scope.lookupvar('authuserpass') -%>
 auth-user-pass
 <% end -%>
+route-method use
+route-delay 2
 <% scope.lookupvar('setenv').each do |key, value| -%>
 setenv <%= key %> <%= value %>
 <% end -%>
