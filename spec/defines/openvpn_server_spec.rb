@@ -32,15 +32,14 @@ describe 'openvpn::server', :type => :define do
          with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup') }
     it { should contain_file('/etc/openvpn/test_server/auth').
          with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup') }
-    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars')}
-    it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf')}
-    it { should contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').with('target' => '/etc/openvpn/test_server/crl.pem')}
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/revoked').
          with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup') }
-    it { should contain_file('/etc/openvpn/test_server/keys').with(
-      'ensure'  => 'link',
-      'target'  => '/etc/openvpn/test_server/easy-rsa/keys'
-    )}
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars')}
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').
+         with(ensure: 'link', target: '/etc/openvpn/test_server/crl.pem') }
+    it { should contain_file('/etc/openvpn/test_server/keys').
+         with(ensure: 'link', target: '/etc/openvpn/test_server/easy-rsa/keys') }
 
     # Execs to working with certificates
     it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
