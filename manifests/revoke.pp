@@ -1,6 +1,7 @@
 # == Define: openvpn::revoke
 #
-# This define creates a revocation on a certificate for a specified openvpn server.
+# This define creates a revocation on a certificate for a specified openvpn
+# server.
 #
 # === Parameters
 #
@@ -11,7 +12,8 @@
 # === Note
 #
 # In order for a certificate to be revoked, it must exist first.
-# You cannot declare a revoked certificate that has not been created by the module.
+# You cannot declare a revoked certificate that has not been created by the
+# module.
 #
 # === Examples
 #
@@ -45,9 +47,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-define openvpn::revoke(
-  $server
-) {
+define openvpn::revoke($server) {
 
   Openvpn::Server[$server] ->
   Openvpn::Revoke[$name]
@@ -55,11 +55,10 @@ define openvpn::revoke(
   Openvpn::Client[$name] ->
   Openvpn::Revoke[$name]
 
-  exec {
-    "revoke certificate for ${name} in context of ${server}":
-      command  => ". ./vars && ./revoke-full ${name} ; test $? -eq 2 && touch revoked/${name}",
-      cwd      => "/etc/openvpn/${server}/easy-rsa",
-      creates  => "/etc/openvpn/${server}/easy-rsa/revoked/${name}",
-      provider => 'shell';
+  exec { "revoke certificate for ${name} in context of ${server}":
+    command  => ". ./vars && ./revoke-full ${name} ; test $? -eq 2 && touch revoked/${name}",
+    cwd      => "/etc/openvpn/${server}/easy-rsa",
+    creates  => "/etc/openvpn/${server}/easy-rsa/revoked/${name}",
+    provider => 'shell';
   }
 }
