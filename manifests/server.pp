@@ -362,12 +362,18 @@ define openvpn::server(
     default => $group
   }
 
+  File {
+    group   => $group_to_set,
+    recurse => true,
+  }
+
   file {
     [ "/etc/openvpn/${name}",
       "/etc/openvpn/${name}/auth",
       "/etc/openvpn/${name}/client-configs",
       "/etc/openvpn/${name}/download-configs" ]:
-        ensure  => directory;
+        mode   => '0750',
+        ensure => directory;
   }
 
   exec {
@@ -386,6 +392,7 @@ define openvpn::server(
 
   file {
     "/etc/openvpn/${name}/easy-rsa/revoked":
+      mode   => '0750',
       ensure  => directory,
       require => Exec["copy easy-rsa to openvpn config folder ${name}"];
   }
