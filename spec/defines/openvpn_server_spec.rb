@@ -131,6 +131,8 @@ describe 'openvpn::server', :type => :define do
       :netmask_eth0   => '255.255.255.0',
       :concat_basedir => '/var/lib/puppet/concat',
       :osfamily       => 'Debian',
+      :lsbdistid      => 'Ubuntu',
+      :lsbdistrelease => '12.04',
     } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
