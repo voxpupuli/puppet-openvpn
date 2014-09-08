@@ -24,14 +24,19 @@ describe 'openvpn::server', :type => :define do
     } }
 
     # Files associated with a server config
-    it { should contain_file('/etc/openvpn/test_server').with('ensure' => 'directory')}
-    it { should contain_file('/etc/openvpn/test_server/client-configs').with('ensure' => 'directory')}
-    it { should contain_file('/etc/openvpn/test_server/download-configs').with('ensure' => 'directory')}
-    it { should contain_file('/etc/openvpn/test_server/auth').with('ensure' => 'directory')}
+    it { should contain_file('/etc/openvpn/test_server').
+         with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup') }
+    it { should contain_file('/etc/openvpn/test_server/client-configs').
+         with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup') }
+    it { should contain_file('/etc/openvpn/test_server/download-configs').
+         with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup') }
+    it { should contain_file('/etc/openvpn/test_server/auth').
+         with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup') }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars')}
-    it { should contain_file('/etc/openvpn/test_server/easy-rsa/revoked').with('ensure' => 'directory')}
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf')}
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').with('target' => '/etc/openvpn/test_server/crl.pem')}
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/revoked').
+         with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup') }
     it { should contain_file('/etc/openvpn/test_server/keys').with(
       'ensure'  => 'link',
       'target'  => '/etc/openvpn/test_server/easy-rsa/keys'
