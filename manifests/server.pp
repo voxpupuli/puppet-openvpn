@@ -367,7 +367,6 @@ define openvpn::server(
 
   File {
     group   => $group_to_set,
-    recurse => true,
   }
 
   file {
@@ -377,6 +376,7 @@ define openvpn::server(
       "/etc/openvpn/${name}/download-configs" ]:
         ensure => directory,
         mode   => '0750',
+	recurse => true,
   }
 
   exec { "copy easy-rsa to openvpn config folder ${name}":
@@ -394,6 +394,7 @@ define openvpn::server(
   file { "/etc/openvpn/${name}/easy-rsa/revoked":
     ensure  => directory,
     mode    => '0750',
+    recurse => true,
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
@@ -445,6 +446,12 @@ define openvpn::server(
     ensure  => link,
     target  => "/etc/openvpn/${name}/easy-rsa/keys",
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
+  }
+
+  file { "/etc/openvpn/${name}/crl.pem":
+    mode    => '0750',
+    group   =>  $group_to_set,
+    require => [Exec["create crl.pem on ${name}"], File["/etc/openvpn/${name}"]],
   }
 
   exec { "create crl.pem on ${name}":
