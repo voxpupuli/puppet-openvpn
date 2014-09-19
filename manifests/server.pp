@@ -374,9 +374,9 @@ define openvpn::server(
       "/etc/openvpn/${name}/auth",
       "/etc/openvpn/${name}/client-configs",
       "/etc/openvpn/${name}/download-configs" ]:
-        ensure => directory,
-        mode   => '0750',
-	recurse => true,
+        ensure  => directory,
+        mode    => '0750',
+        recurse => true,
   }
 
   exec { "copy easy-rsa to openvpn config folder ${name}":
