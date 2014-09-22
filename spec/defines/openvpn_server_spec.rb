@@ -35,7 +35,8 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/revoked').
          with(:ensure =>'directory', :mode =>'0750', :recurse =>true, :group =>'nogroup') }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars')}
-    it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').
+         with(:recurse =>nil, :group =>'nogroup') }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').
          with(:ensure =>'link', :target =>'/etc/openvpn/test_server/crl.pem') }
     it { should contain_file('/etc/openvpn/test_server/keys').
@@ -221,10 +222,17 @@ describe 'openvpn::server', :type => :define do
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').with(
       'ensure'  => 'link',
-      'target'  => '/etc/openvpn/test_server/easy-rsa/openssl-1.0.0.cnf'
+      'target'  => '/etc/openvpn/test_server/easy-rsa/openssl-1.0.0.cnf',
+      'recurse' => nil,
+      'group'   => 'nobody'
     )}
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nobody$/) }
+
+    it { should contain_file('/etc/openvpn/test_server/crl.pem').with(
+      'mode'    => '0750',
+      'group'   => 'nobody'
+    )}
 
   end
 
@@ -272,7 +280,9 @@ describe 'openvpn::server', :type => :define do
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').with(
       'ensure'  => 'link',
-      'target'  => '/etc/openvpn/test_server/easy-rsa/openssl-1.0.0.cnf'
+      'target'  => '/etc/openvpn/test_server/easy-rsa/openssl-1.0.0.cnf',
+      'recurse' => nil,
+      'group'   => 'nogroup'
     )}
 
     it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
@@ -286,6 +296,11 @@ describe 'openvpn::server', :type => :define do
     )}
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
+
+    it { should contain_file('/etc/openvpn/test_server/crl.pem').with(
+      'mode'    => '0750',
+      'group'   => 'nogroup'
+    )}
 
   end
 
