@@ -449,7 +449,7 @@ define openvpn::server(
   }
 
   file { "/etc/openvpn/${name}/crl.pem":
-    mode    => '0750',
+    mode    => '0640',
     group   =>  $group_to_set,
     require => [Exec["create crl.pem on ${name}"], File["/etc/openvpn/${name}"]],
   }
