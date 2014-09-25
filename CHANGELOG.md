@@ -2,7 +2,6 @@
 
 ## Next version
 
-* Support for `duplicate-cn` in server config ([#85](https://github.com/luxflux/puppet-openvpn/pull/85))
 * Support for setting `up` and/or `down` scripts for clients  ([#89](https://github.com/luxflux/puppet-openvpn/pull/89))
 * Fixing the permissions of the created directories and files ([#90](https://github.com/luxflux/puppet-openvpn/pull/90), [#92](https://github.com/luxflux/puppet-openvpn/pull/92), [#94](https://github.com/luxflux/puppet-openvpn/pull/94))
 
