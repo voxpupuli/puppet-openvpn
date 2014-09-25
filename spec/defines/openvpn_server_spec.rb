@@ -230,7 +230,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nobody$/) }
 
     it { should contain_file('/etc/openvpn/test_server/crl.pem').with(
-      'mode'    => '0750',
+      'mode'    => '0640',
       'group'   => 'nobody'
     )}
 
@@ -298,7 +298,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
 
     it { should contain_file('/etc/openvpn/test_server/crl.pem').with(
-      'mode'    => '0750',
+      'mode'    => '0640',
       'group'   => 'nogroup'
     )}
 
