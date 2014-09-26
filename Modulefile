@@ -8,5 +8,5 @@ description 'Puppet module to manage OpenVPN servers'
 project_page 'https://github.com/luxflux/puppet-openvpn'
 
 ## Add dependencies, if any:
-dependency 'puppetlabs/concat', '>= 1.0.0'
+dependency 'puppetlabs/concat', '>= 1.0.1'
 dependency 'puppetlabs/stdlib', '>= 1.0.0'
