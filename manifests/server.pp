@@ -352,8 +352,7 @@ define openvpn::server(
 
   include openvpn
   Class['openvpn::install'] ->
-  Openvpn::Server[$name] ~>
-  Class['openvpn::service']
+  Openvpn::Server[$name]
 
   $tls_server = $proto ? {
     /tcp/   => true,
@@ -491,5 +490,9 @@ define openvpn::server(
         content => template('openvpn/ldap.erb'),
         require => Package['openvpn-auth-ldap'],
     }
+  }
+
+  if $openvpn::params::systemd_style_service == true {
+    openvpn::service { $name: }
   }
 }
