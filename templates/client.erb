@@ -1,48 +1,48 @@
 client
 ca keys/ca.crt
-cert keys/<%= scope.lookupvar('name') %>.crt
-key keys/<%= scope.lookupvar('name') %>.key
-dev <%= scope.lookupvar('dev') %>
-proto <%= scope.lookupvar('proto') %>
-remote <%= scope.lookupvar('remote_host') %> <%= scope.lookupvar('port') %>
-<% if scope.lookupvar('compression') != '' -%>
-<%= scope.lookupvar('compression') %>
+cert keys/<%= @name %>.crt
+key keys/<%= @name %>.key
+dev <%= @dev %>
+proto <%= @proto %>
+remote <%= @remote_host %> <%= @port %>
+<% if @compression != '' -%>
+<%= @compression %>
 <% end -%>
-resolv-retry <%= scope.lookupvar('resolv_retry') %>
-auth-retry <%= scope.lookupvar('auth_retry') %>
-<% if scope.lookupvar('nobind') -%>
+resolv-retry <%= @resolv_retry %>
+auth-retry <%= @auth_retry %>
+<% if @nobind -%>
 nobind
 <% end -%>
-<% if scope.lookupvar('persist_key') -%>
+<% if @persist_key -%>
 persist-key
 <% end -%>
-<% if scope.lookupvar('persist_tun') -%>
+<% if @persist_tun -%>
 persist-tun
 <% end -%>
-<% if scope.lookupvar('cipher')  -%>
-cipher <%= scope.lookupvar('cipher') %>
+<% if @cipher  -%>
+cipher <%= @cipher %>
 <% end %>
-<% if scope.lookupvar('mute_replay_warnings') -%>
+<% if @mute_replay_warnings -%>
 mute-replay-warnings
 <% end -%>
 ns-cert-type server
-verb <%= scope.lookupvar('verb') %>
-mute <%= scope.lookupvar('mute') %>
-<% if scope.lookupvar('pam') || scope.lookupvar('authuserpass') -%>
+verb <%= @verb %>
+mute <%= @mute %>
+<% if @pam || @authuserpass -%>
 auth-user-pass
 <% end -%>
-<% scope.lookupvar('setenv').each do |key, value| -%>
+<% @setenv.each do |key, value| -%>
 setenv <%= key %> <%= value %>
 <% end -%>
-<% scope.lookupvar('setenv_safe').each do |key, value| -%>
+<% @setenv_safe.each do |key, value| -%>
 setenv_safe <%= key %> <%= value %>
 <% end -%>
-<% if scope.lookupvar('up') != '' or scope.lookupvar('down') != ''-%>
+<% if @up != '' or @down != ''-%>
 script-security 2
 <% end -%>
-<% if scope.lookupvar('up') != '' -%>
-up "<%= scope.lookupvar('up') %>"
+<% if @up != '' -%>
+up "<%= @up %>"
 <% end -%>
-<% if scope.lookupvar('down') != '' -%>
-down "<%= scope.lookupvar('down') %>"
+<% if @down != '' -%>
+down "<%= @down %>"
 <% end -%>
