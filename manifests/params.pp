@@ -92,5 +92,5 @@ class openvpn::params {
     /(Debian|RedHat)/ => true,
     default           => false
   }
-
+  $status_log_dir = '/var/log/openvpn'
 }
