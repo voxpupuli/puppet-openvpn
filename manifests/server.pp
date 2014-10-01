@@ -20,6 +20,10 @@
 # [*email*]
 #   String.  Email address to be used for the SSL certificate
 #
+# [*remote*]
+#   Array.   List of OpenVPN endpoints to connect to.
+#   Default: undef
+#
 # [*common_name*]
 #   String.  Common name to be used for the SSL certificate
 #   Default: server
@@ -293,6 +297,7 @@ define openvpn::server(
   $city,
   $organization,
   $email,
+  $remote = undef,
   $common_name = 'server',
   $compression = 'comp-lzo',
   $dev = 'tun0',
@@ -379,20 +384,22 @@ define openvpn::server(
         recurse => true,
   }
 
-  ::openvpn::ca { $name:
-    country      => $country,
-    province     => $province,
-    city         => $city,
-    organization => $organization,
-    email        => $email,
-    common_name  => $common_name,
-    group        => $group,
-    ssl_key_size => $ssl_key_size,
-    ca_expire    => $ca_expire,
-    key_expire   => $key_expire,
-    key_cn       => $key_cn,
-    key_name     => $key_name,
-    key_ou       => $key_ou,
+  if $remote == undef {
+    ::openvpn::ca { $name:
+      country      => $country,
+      province     => $province,
+      city         => $city,
+      organization => $organization,
+      email        => $email,
+      common_name  => $common_name,
+      group        => $group,
+      ssl_key_size => $ssl_key_size,
+      ca_expire    => $ca_expire,
+      key_expire   => $key_expire,
+      key_cn       => $key_cn,
+      key_name     => $key_name,
+      key_ou       => $key_ou,
+    }
   }
 
   if $::osfamily == 'Debian' {

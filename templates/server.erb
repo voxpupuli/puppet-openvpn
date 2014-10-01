@@ -1,10 +1,19 @@
+<% unless @remote -%>
 mode server
 client-config-dir /etc/openvpn/<%= @name %>/client-configs
+<% else -%>
+client
+<% @remote.to_a.each do |rem| -%>
+remote <%= rem %>
+<% end -%>
+<% end -%>
 ca /etc/openvpn/<%= @name %>/keys/ca.crt
 cert /etc/openvpn/<%= @name %>/keys/<%= @common_name %>.crt
 key /etc/openvpn/<%= @name %>/keys/<%= @common_name %>.key
 dh /etc/openvpn/<%= @name %>/keys/dh<%= @ssl_key_size %>.pem
+<% unless @remote -%>
 crl-verify /etc/openvpn/<%= @name %>/crl.pem
+<% end -%>
 <% if @proto == 'tcp' -%>
 proto <%= @proto %>-server
 <% else -%>
