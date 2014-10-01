@@ -40,7 +40,7 @@ class openvpn::install {
 
 
   file {
-    [ '/etc/openvpn', '/etc/openvpn/keys' ]:
+    [ '/etc/openvpn', '/etc/openvpn/keys', $::openvpn::params::status_log_dir, ]:
       ensure  => directory,
       require => Package['openvpn'];
   }
