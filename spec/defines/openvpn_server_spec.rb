@@ -65,7 +65,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^user\s+nobody$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^log\-append\s+test_server\/openvpn\.log$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^test_server-status\.log$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^status\s+\/var\/log\/openvpn\/test_server-status\.log$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dev\s+tun0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+1\.2\.3\.4$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ifconfig-pool-persist/) }
@@ -97,7 +97,7 @@ describe 'openvpn::server', :type => :define do
       'group'           => 'someone',
       'user'            => 'someone',
       'logfile'         => '/var/log/openvpn/test_server.log',
-      'status_log'      => '/var/log/openvpn/test_server_status.log',
+      'status_log'      => 'test_server_status.log',
       'dev'             => 'tun1',
       'up'              => '/tmp/up',
       'down'            => '/tmp/down',
@@ -149,7 +149,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+someone$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^user\s+someone$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^log\-append\s+/var/log/openvpn/test_server\.log$}) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^status\s+/var/log/openvpn/test_server_status\.log$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^status\s+\/var\/log\/openvpn\/test_server_status\.log$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dev\s+tun1$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+2\.3\.4\.5$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^server\s+2\.3\.4\.0\s+255\.255\.0\.0$/) }
