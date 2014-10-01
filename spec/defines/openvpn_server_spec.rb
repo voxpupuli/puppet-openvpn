@@ -171,6 +171,32 @@ describe 'openvpn::server', :type => :define do
 
   end
 
+  context "creating a server in client mode" do
+    let(:params) { {
+      'country'         => 'CO',
+      'province'        => 'ST',
+      'city'            => 'Some City',
+      'organization'    => 'example.org',
+      'email'           => 'testemail@example.org',
+      'remote'          => ['vpn.example.com 12345'],
+    } }
+
+    let(:facts) { {
+      :ipaddress_eth0 => '1.2.3.4',
+      :network_eth0   => '1.2.3.0',
+      :netmask_eth0   => '255.255.255.0',
+      :concat_basedir => '/var/lib/puppet/concat',
+      :osfamily       => 'Debian',
+      :lsbdistid      => 'Ubuntu',
+      :lsbdistrelease => '12.04',
+    } }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^client$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^remote\s+vpn.example.com\s+12345$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
+    it { should_not contain_openvpn__ca('test_server') }
+  end
+
   context "when RedHat based machine" do
     let(:params) { {
       'country'       => 'CO',
