@@ -55,6 +55,23 @@ Puppet module to manage OpenVPN servers
   openvpn::revoke { 'client3':
     server => 'winterthur',
   }
+
+  # a server in client mode
+  file {
+    '/etc/openvpn/zurich/keys/ca.crt':
+      source => 'puppet:///path/to/ca.crt';
+    '/etc/openvpn/zurich/keys/zurich.crt':
+      source => 'puppet:///path/to/zurich.crt';
+    '/etc/openvpn/zurich/keys/zurich.key':
+      source => 'puppet:///path/to/zurich.key';
+  }
+  openvpn::server { 'zurich':
+    remote  => [ 'mgmtnet3.nine.ch 1197', 'mgmtnet2.nine.ch 1197' ],
+    require => [ File['/etc/openvpn/zurich/keys/ca.crt'],
+                 File['/etc/openvpn/zurich/keys/zurich.crt'],
+                 File['/etc/openvpn/zurich/keys/zurich.key'] ];
+
+  }
 ```
 
 Don't forget the sysctl directive ```net.ipv4.ip_forward```!
