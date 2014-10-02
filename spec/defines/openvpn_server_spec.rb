@@ -62,7 +62,7 @@ describe 'openvpn::server', :type => :define do
 
     # Files associated with a server config
     it { should contain_file('/etc/openvpn/test_server').
-         with(:ensure =>'directory', :mode =>'0750', :recurse =>true, :group =>'nogroup') }
+         with(:ensure =>'directory', :mode =>'0750', :group =>'nogroup') }
     it { should contain_file('/etc/openvpn/test_server/client-configs').
          with(:ensure =>'directory', :mode =>'0750', :recurse =>true, :group =>'nogroup') }
     it { should contain_file('/etc/openvpn/test_server/download-configs').
