@@ -374,17 +374,24 @@ define openvpn::server(
     group   => $group_to_set,
   }
 
-  file {
-    [ "/etc/openvpn/${name}",
-      "/etc/openvpn/${name}/auth",
+  file { "/etc/openvpn/${name}":
+    ensure  => directory,
+    mode    => '0750',
+    recurse => true,
+  }
+
+  if $remote == undef {
+    # VPN Server Mode
+
+    file {
+      [ "/etc/openvpn/${name}/auth",
       "/etc/openvpn/${name}/client-configs",
       "/etc/openvpn/${name}/download-configs" ]:
         ensure  => directory,
         mode    => '0750',
         recurse => true,
-  }
+    }
 
-  if $remote == undef {
     ::openvpn::ca { $name:
       country      => $country,
       province     => $province,
@@ -399,6 +406,14 @@ define openvpn::server(
       key_cn       => $key_cn,
       key_name     => $key_name,
       key_ou       => $key_ou,
+    }
+  } else {
+    # VPN Client Mode
+
+    file { "/etc/openvpn/${name}/keys":
+      ensure  => directory,
+      mode    => '0750',
+      recurse => true,
     }
   }
 

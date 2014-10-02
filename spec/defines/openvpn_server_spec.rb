@@ -193,7 +193,11 @@ describe 'openvpn::server', :type => :define do
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^client$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^remote\s+vpn.example.com\s+12345$/) }
+    it { should contain_file('/etc/openvpn/test_server/keys').
+         with(:ensure =>'directory', :mode =>'0750', :group =>'nogroup') }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^client-config-dir/) }
+
     it { should_not contain_openvpn__ca('test_server') }
   end
 
