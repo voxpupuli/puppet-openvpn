@@ -257,6 +257,14 @@
 #     and KEY_CN in vars
 #   Default: None
 #
+# [*server_poll_timeout*]
+#   Integer. Value for timeout before trying the next server.
+#   Default: undef
+#
+# [*ping_timer_rem*]
+#   Boolean. Do not start clocking timeouts until a remote peer connects.
+#   Default: false
+#
 # === Examples
 #
 #   openvpn::client {
@@ -353,6 +361,8 @@ define openvpn::server(
   $cipher = '',
   $persist_key = false,
   $persist_tun = false,
+  $server_poll_timeout = undef,
+  $ping_timer_rem = false,
 ) {
 
   include openvpn

@@ -6,6 +6,9 @@ client
 <% @remote.to_a.each do |rem| -%>
 remote <%= rem %>
 <% end -%>
+<% if @server_poll_timeout -%>
+server-poll-timeout <%= @server_poll_timeout %>
+<% end -%>
 <% end -%>
 ca /etc/openvpn/<%= @name %>/keys/ca.crt
 cert /etc/openvpn/<%= @name %>/keys/<%= @common_name %>.crt
@@ -107,4 +110,7 @@ client-cert-not-required
 <% end -%>
 <% if @duplicate_cn -%>
 duplicate-cn
+<% end -%>
+<% if @ping_timer_rem -%>
+ping-timer-rem
 <% end -%>

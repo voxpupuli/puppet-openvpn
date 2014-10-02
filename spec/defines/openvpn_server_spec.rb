@@ -152,6 +152,9 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^script-security 2$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
 
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem/) }
+
     # OpenVPN easy-rsa CA
     it { should contain_openvpn__ca('test_server'). 
          with(:country      => 'CO',
@@ -173,12 +176,14 @@ describe 'openvpn::server', :type => :define do
 
   context "creating a server in client mode" do
     let(:params) { {
-      'country'         => 'CO',
-      'province'        => 'ST',
-      'city'            => 'Some City',
-      'organization'    => 'example.org',
-      'email'           => 'testemail@example.org',
-      'remote'          => ['vpn.example.com 12345'],
+      'country'             => 'CO',
+      'province'            => 'ST',
+      'city'                => 'Some City',
+      'organization'        => 'example.org',
+      'email'               => 'testemail@example.org',
+      'remote'              => ['vpn.example.com 12345'],
+      'server_poll_timeout' => 1,
+      'ping_timer_rem'      => true,
     } }
 
     let(:facts) { {
@@ -193,6 +198,8 @@ describe 'openvpn::server', :type => :define do
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^client$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^remote\s+vpn.example.com\s+12345$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout\s+1$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem$/) }
     it { should contain_file('/etc/openvpn/test_server/keys').
          with(:ensure =>'directory', :mode =>'0750', :group =>'nogroup') }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
