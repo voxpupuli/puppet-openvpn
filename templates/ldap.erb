@@ -1,31 +1,31 @@
 <LDAP>
-  URL <%= scope.lookupvar('ldap_server') %>
-  BindDN <%= scope.lookupvar('ldap_binddn') %>
-  Password <%= scope.lookupvar('ldap_bindpass') %>
+  URL <%= @ldap_server %>
+  BindDN <%= @ldap_binddn %>
+  Password <%= @ldap_bindpass %>
   Timeout 15
   FollowReferrals no
 
-<% if scope.lookupvar('ldap_tls_enable') -%>
+<% if @ldap_tls_enable -%>
   TLSEnable yes
-  TLSCACertFile <%= scope.lookupvar('ldap_tls_ca_cert_file') %>
-  TLSCACertDir <%= scope.lookupvar('ldap_tls_ca_cert_dir') %>
-  TLSCertFile <%= scope.lookupvar('ldap_tls_client_cert_file') %>
-  TLSKeyFile <%= scope.lookupvar('ldap_tls_client_key_file') %>
+  TLSCACertFile <%= @ldap_tls_ca_cert_file %>
+  TLSCACertDir <%= @ldap_tls_ca_cert_dir %>
+  TLSCertFile <%= @ldap_tls_client_cert_file %>
+  TLSKeyFile <%= @ldap_tls_client_key_file %>
 <% else %>
   TLSEnable no
 <% end -%>
 </LDAP>
 
 <Authorization>
-  BaseDN <%= scope.lookupvar('ldap_u_basedn') %>
-  SearchFilter "<%= scope.lookupvar('ldap_u_filter') %>"
-  RequireGroup <%= scope.lookupvar('ldap_gmember') %>
+  BaseDN <%= @ldap_u_basedn %>
+  SearchFilter "<%= @ldap_u_filter %>"
+  RequireGroup <%= @ldap_gmember %>
 
-<% if scope.lookupvar('ldap_gmember') == true -%>
+<% if @ldap_gmember == true -%>
   <Group>
-    BaseDN <%= scope.lookupvar('ldap_g_basedn') %>
-    SearchFilter "<%= scope.lookupvar('ldap_g_filter') %>"
-    MemberAttribute <%= scope.lookupvar('ldap_memberatr') %>
+    BaseDN <%= @ldap_g_basedn %>
+    SearchFilter "<%= @ldap_g_filter %>"
+    MemberAttribute <%= @ldap_memberatr %>
   </Group>
 <% end -%>
 </Authorization>
