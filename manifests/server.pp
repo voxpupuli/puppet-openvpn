@@ -1,24 +1,28 @@
 # == Define: openvpn::server
 #
-# This define creates the openvpn server instance and ssl certificates
-#
+# This define creates the openvpn server instance which can run in server or client mode.
 #
 # === Parameters
 #
 # [*country*]
-#   String.  Country to be used for the SSL certificate
+#   String.  Country to be used for the SSL certificate, mandatory for server mode.
+#   Default: undef
 #
 # [*province*]
-#   String.  Province to be used for the SSL certificate
+#   String.  Province to be used for the SSL certificate, mandatory for server mode.
+#   Default: undef
 #
 # [*city*]
-#   String.  City to be used for the SSL certificate
+#   String.  City to be used for the SSL certificate, mandatory for server mode.
+#   Default: undef
 #
 # [*organization*]
-#   String.  Organization to be used for the SSL certificate
+#   String.  Organization to be used for the SSL certificate, mandatory for server mode.
+#   Default: undef
 #
 # [*email*]
-#   String.  Email address to be used for the SSL certificate
+#   String.  Email address to be used for the SSL certificate, mandatory for server mode.
+#   Default: undef
 #
 # [*remote*]
 #   Array.   List of OpenVPN endpoints to connect to.
@@ -300,11 +304,11 @@
 # limitations under the License.
 #
 define openvpn::server(
-  $country,
-  $province,
-  $city,
-  $organization,
-  $email,
+  $country = undef,
+  $province = undef,
+  $city = undef,
+  $organization = undef,
+  $email = undef,
   $remote = undef,
   $common_name = 'server',
   $compression = 'comp-lzo',
@@ -392,6 +396,11 @@ define openvpn::server(
 
   if $remote == undef {
     # VPN Server Mode
+    if $country == undef { fail("country has to be specified in server mode") }
+    if $province == undef { fail("province has to be specified in server mode") }
+    if $city == undef { fail("city has to be specified in server mode") }
+    if $organization == undef { fail("organization has to be specified in server mode") }
+    if $email == undef { fail("email has to be specified in server mode") }
 
     file {
       [ "/etc/openvpn/${name}/auth",
