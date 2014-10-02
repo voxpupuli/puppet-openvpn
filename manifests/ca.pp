@@ -121,7 +121,7 @@ define openvpn::ca(
 
   exec { "fix_easyrsa_file_permissions_${name}":
     refreshonly => true,
-    command     => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*",
+    command     => "/bin/chmod 750 /etc/openvpn/${name}/easy-rsa/*",
   }
 
   file { "/etc/openvpn/${name}/easy-rsa/revoked":

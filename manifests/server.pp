@@ -391,7 +391,6 @@ define openvpn::server(
   file { "/etc/openvpn/${name}":
     ensure  => directory,
     mode    => '0750',
-    recurse => true,
   }
 
   if $remote == undef {
@@ -448,7 +447,7 @@ define openvpn::server(
   file { "/etc/openvpn/${name}.conf":
     owner   => root,
     group   => root,
-    mode    => '0444',
+    mode    => '0440',
     content => template('openvpn/server.erb');
   }
 
