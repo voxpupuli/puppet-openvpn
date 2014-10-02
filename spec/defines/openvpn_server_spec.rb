@@ -169,7 +169,7 @@ describe 'openvpn::server', :type => :define do
               :key_expire   => 365,
               :key_cn       => 'yolo',
               :key_name     => 'burp',
-              :key_ou       => 'NSA',)
+              :key_ou       => 'NSA')
     }
 
   end
