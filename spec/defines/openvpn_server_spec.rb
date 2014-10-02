@@ -14,6 +14,43 @@ describe 'openvpn::server', :type => :define do
     :lsbdistrelease => '12.04',
   } }
 
+  context 'creating a server without any parameter' do
+    let(:params) { { } }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+  end
+
+  context 'creating a server partial parameters: country' do
+    let(:params) { { 'country' => 'CO' } }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+  end
+
+  context 'creating a server partial parameters: country, province' do
+    let(:params) { {
+      'country'       => 'CO',
+      'province'      => 'ST',
+    } }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+  end
+
+  context 'creating a server partial parameters: country, province, city' do
+    let(:params) { {
+      'country'       => 'CO',
+      'province'      => 'ST',
+      'city'          => 'Some City',
+    } }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+  end
+
+  context 'creating a server partial parameters: country, province, city, organization' do
+    let(:params) { {
+      'country'       => 'CO',
+      'province'      => 'ST',
+      'city'          => 'Some City',
+      'organization'  => 'example.org',
+    } }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+  end
+
   context "creating a server with the minimum parameters" do
     let(:params) { {
       'country'       => 'CO',
@@ -156,7 +193,7 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem/) }
 
     # OpenVPN easy-rsa CA
-    it { should contain_openvpn__ca('test_server'). 
+    it { should contain_openvpn__ca('test_server').
          with(:country      => 'CO',
               :province     => 'ST',
               :city         => 'Some City',
@@ -176,11 +213,6 @@ describe 'openvpn::server', :type => :define do
 
   context "creating a server in client mode" do
     let(:params) { {
-      'country'             => 'CO',
-      'province'            => 'ST',
-      'city'                => 'Some City',
-      'organization'        => 'example.org',
-      'email'               => 'testemail@example.org',
       'remote'              => ['vpn.example.com 12345'],
       'server_poll_timeout' => 1,
       'ping_timer_rem'      => true,
@@ -204,6 +236,7 @@ describe 'openvpn::server', :type => :define do
          with(:ensure =>'directory', :mode =>'0750', :group =>'nogroup') }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^client-config-dir/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^dh/) }
 
     it { should_not contain_openvpn__ca('test_server') }
   end
