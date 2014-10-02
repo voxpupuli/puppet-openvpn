@@ -4,6 +4,9 @@
 
 * Support for setting `up` and/or `down` scripts for clients  ([#89](https://github.com/luxflux/puppet-openvpn/pull/89))
 * Fixing the permissions of the created directories and files ([#90](https://github.com/luxflux/puppet-openvpn/pull/90), [#92](https://github.com/luxflux/puppet-openvpn/pull/92), [#94](https://github.com/luxflux/puppet-openvpn/pull/94))
+* Refactor templates to use instance variables instead of `scope.lookupvar` [#100](https://github.com/luxflux/puppet-openvpn/pull/100)
+* Add client mode server [#100](https://github.com/luxflux/puppet-openvpn/pull/100)
+* Move CA management into its own defined type [#100](https://github.com/luxflux/puppet-openvpn/pull/100)
 
 ## 2.5.0
 
