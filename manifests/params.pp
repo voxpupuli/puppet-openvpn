@@ -45,6 +45,12 @@ class openvpn::params {
             $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+
+          # Version > 7.0.0, wheezy
+          } elsif(versioncmp($::lsbdistrelease, '7.0.0') >= 0) {
+            $additional_packages = ['openvpn-auth-ldap']
+            $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+            $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
           } else {
             $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
           }
