@@ -7,6 +7,7 @@
 * Refactor templates to use instance variables instead of `scope.lookupvar` ([#100](https://github.com/luxflux/puppet-openvpn/pull/100))
 * Add client mode server ([#100](https://github.com/luxflux/puppet-openvpn/pull/100))
 * Move CA management into its own defined type ([#100](https://github.com/luxflux/puppet-openvpn/pull/100))
+* Fix LDAP-Support on Debian Wheezy ([#103](https://github.com/luxflux/puppet-openvpn/pull/103))
 
 ## 2.5.0
 
