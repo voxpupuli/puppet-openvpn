@@ -22,12 +22,12 @@ describe 'openvpn::client', :type => :define do
 
   it { should contain_exec('generate certificate for test_client in context of test_server') }
 
-  [ 'test_client', 'test_client/keys'].each do |directory|
+  [ 'test_client', 'test_client/keys/test_client'].each do |directory|
     it { should contain_file("/etc/openvpn/test_server/download-configs/#{directory}") }
   end
 
   [ 'test_client.crt', 'test_client.key', 'ca.crt' ].each do |file|
-    it { should contain_file("/etc/openvpn/test_server/download-configs/test_client/keys/#{file}").with(
+    it { should contain_file("/etc/openvpn/test_server/download-configs/test_client/keys/test_client/#{file}").with(
       'ensure'  => 'link',
       'target'  => "/etc/openvpn/test_server/easy-rsa/keys/#{file}"
     )}
@@ -42,9 +42,9 @@ describe 'openvpn::client', :type => :define do
     let(:params) { { 'server' => 'test_server' } }
 
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^client$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/ca\.crt$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client.crt$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\.key$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/test_client\/ca\.crt$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client\/test_client.crt$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\/test_client\.key$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^dev\s+tun$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^proto\s+tcp$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^remote\s+somehost\s+1194$/)}
@@ -89,9 +89,9 @@ describe 'openvpn::client', :type => :define do
     } }
 
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^client$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/ca\.crt$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client.crt$/)}
-    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\.key$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/test_client\/ca\.crt$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client\/test_client.crt$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\/test_client\.key$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^dev\s+tap$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^proto\s+udp$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^remote\s+somewhere\s+123$/)}
