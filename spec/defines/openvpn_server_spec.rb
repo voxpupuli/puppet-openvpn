@@ -100,6 +100,7 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/persist-key/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/persist-tun/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ns-cert-type server/) }
   end
 
   context "creating a server setting all parameters" do
@@ -234,6 +235,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem$/) }
     it { should contain_file('/etc/openvpn/test_server/keys').
          with(:ensure =>'directory', :mode =>'0750', :group =>'nogroup') }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ns-cert-type server/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^client-config-dir/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^dh/) }
