@@ -1,7 +1,7 @@
 client
-ca keys/ca.crt
-cert keys/<%= @name %>.crt
-key keys/<%= @name %>.key
+ca keys/<%= @name %>/ca.crt
+cert keys/<%= @name %>/<%= @name %>.crt
+key keys/<%= @name %>/<%= @name %>.key
 dev <%= @dev %>
 proto <%= @proto %>
 remote <%= @remote_host %> <%= @port %>
