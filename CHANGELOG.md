@@ -9,6 +9,7 @@
 * Move CA management into its own defined type ([#100](https://github.com/luxflux/puppet-openvpn/pull/100))
 * Fix LDAP-Support on Debian Wheezy ([#103](https://github.com/luxflux/puppet-openvpn/pull/103))
 * Support for status-version ([#108](https://github.com/luxflux/puppet-openvpn/pull/108))
+* Change layout of downloadable client config to prevent overriding other client configurations when extracting the tarball ([#104](https://github.com/luxflux/puppet-openvpn/pull/104))
 
 ## 2.5.0
 
