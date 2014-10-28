@@ -3,6 +3,7 @@ mode server
 client-config-dir /etc/openvpn/<%= @name %>/client-configs
 <% else -%>
 client
+ns-cert-type server
 <% @remote.to_a.each do |rem| -%>
 remote <%= rem %>
 <% end -%>
