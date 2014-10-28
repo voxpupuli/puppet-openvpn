@@ -37,6 +37,9 @@ user <%= @user %>
 log-append <%= @logfile %>
 <% end -%>
 status <%= @status_log %>
+<% if @status_version != '' -%>
+status-version <%= @status_version %>
+<% end -%>
 dev <%= @dev %>
 <% if @local != '' -%>
 local <%= @local %>
