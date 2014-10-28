@@ -8,6 +8,7 @@
 * Add client mode server ([#100](https://github.com/luxflux/puppet-openvpn/pull/100))
 * Move CA management into its own defined type ([#100](https://github.com/luxflux/puppet-openvpn/pull/100))
 * Fix LDAP-Support on Debian Wheezy ([#103](https://github.com/luxflux/puppet-openvpn/pull/103))
+* Support for status-version ([#108](https://github.com/luxflux/puppet-openvpn/pull/108))
 
 ## 2.5.0
 
