@@ -10,6 +10,7 @@
 * Fix LDAP-Support on Debian Wheezy ([#103](https://github.com/luxflux/puppet-openvpn/pull/103))
 * Support for status-version ([#108](https://github.com/luxflux/puppet-openvpn/pull/108))
 * Change layout of downloadable client config to prevent overriding other client configurations when extracting the tarball ([#104](https://github.com/luxflux/puppet-openvpn/pull/104))
+* Add `ns-cert-type server` for server-clients ([#109](https://github.com/luxflux/puppet-openvpn/pull/109))
 
 ## 2.5.0
 
