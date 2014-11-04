@@ -147,6 +147,7 @@ describe 'openvpn::server', :type => :define do
       'duplicate_cn'    => true,
       'tls_auth'        => true,
       'tls_server'      => true,
+      'fragment'        => 1412,
     } }
 
     let(:facts) { {
@@ -238,7 +239,7 @@ describe 'openvpn::server', :type => :define do
       :lsbdistid      => 'Ubuntu',
       :lsbdistrelease => '12.04',
     } }
-
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
     it { should contain_file('/etc/openvpn/test_client.conf').with_content(/^client$/) }
     it { should contain_file('/etc/openvpn/test_client.conf').
          with_content(/^remote\s+vpn.example.com\s+12345$/) }

@@ -127,7 +127,9 @@ duplicate-cn
 ping-timer-rem
 <% end -%>
 <% if @tls_auth -%>
-
 # tls authentification
 tls-auth /etc/openvpn/<%= @name %>/keys/ta.key 0
+<% end -%>
+<% if @fragment != false -%>
+fragment <%= @fragment %>
 <% end -%>
