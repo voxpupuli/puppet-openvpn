@@ -1,0 +1,15 @@
+{
+  "name": "luxflux-openvpn",
+  "version": "2.6.0",
+  "author": "luxflux",
+  "summary": "OpenVPN server puppet module",
+  "license": "Apache 2.0",
+  "source": "https://github.com/luxflux/puppet-openvpn",
+  "project_page": "https://github.com/luxflux/puppet-openvpn",
+  "issues_url": "https://github.com/luxflux/puppet-openvpn/issues",
+  "description": "Puppet module to manage OpenVPN servers",
+  "dependencies": [
+    {"name":"puppetlabs/concat","version_requirement":">= 1.0.1"},
+    {"name":"puppetlabs/stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
