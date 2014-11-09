@@ -32,12 +32,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn {
+class openvpn inherits openvpn::params {
+  contain 'openvpn::install'
+  contain 'openvpn::config'
+  Class['openvpn::install'] ->
+  Class['openvpn::config']
 
-  class {'openvpn::params': } ->
-  class {'openvpn::install': } ->
-  class {'openvpn::config': } ~>
-  class {'openvpn::service': } ->
-  Class['openvpn']
-
+  if $openvpn::params::use_systemd == false {
+    contain 'openvpn::service'
+    Class['openvpn::config'] ~>
+    Class['openvpn::service']
+  }
 }

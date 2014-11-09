@@ -376,8 +376,23 @@ define openvpn::server(
 
   include openvpn
   Class['openvpn::install'] ->
-  Openvpn::Server[$name] ~>
-  Class['openvpn::service']
+  Openvpn::Server[$name]
+  if $openvpn::params::use_systemd == false {
+    Openvpn::Server[$name] ~>
+    Class['openvpn::service']
+  } else {
+    service {
+      "openvpn@${name}.service":
+        ensure     => running,
+        enable     => true,
+        hasrestart => true,
+        hasstatus  => true,
+        subscribe  => Class['openvpn::config'],
+    }
+    File {
+      notify => Service["openvpn@${name}.service"],
+    }
+  }
 
   $tls_server = $proto ? {
     /tcp/   => true,
