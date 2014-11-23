@@ -281,6 +281,10 @@
 #   Integer, Set the TCP/UDP socket receive buffer size.
 #   Default: undef
 #
+# [*shared_ca*]
+#   String.  Name of a openssl::ca resource to use config with
+#   Default: undef
+#
 # === Examples
 #
 #   openvpn::client {
@@ -382,6 +386,7 @@ define openvpn::server(
   $ping_timer_rem = false,
   $sndbuf = undef,
   $rcvbuf = undef,
+  $shared_ca = undef,
 ) {
 
   include openvpn
@@ -403,18 +408,43 @@ define openvpn::server(
     group   => $group_to_set,
   }
 
-  file { "/etc/openvpn/${name}":
+  # directory shared with openvpn::ca
+  ensure_resource(file, "/etc/openvpn/${name}", {
     ensure  => directory,
     mode    => '0750',
-  }
+  })
 
   if $remote == undef {
-    # VPN Server Mode
-    if $country == undef { fail("country has to be specified in server mode") }
-    if $province == undef { fail("province has to be specified in server mode") }
-    if $city == undef { fail("city has to be specified in server mode") }
-    if $organization == undef { fail("organization has to be specified in server mode") }
-    if $email == undef { fail("email has to be specified in server mode") }
+    if $shared_ca == undef {
+      # VPN Server Mode
+      if $country == undef { fail("country has to be specified in server mode") }
+      if $province == undef { fail("province has to be specified in server mode") }
+      if $city == undef { fail("city has to be specified in server mode") }
+      if $organization == undef { fail("organization has to be specified in server mode") }
+      if $email == undef { fail("email has to be specified in server mode") }
+
+      $ca_name = $name
+      $ca_common_name = $common_name
+      ::openvpn::ca { $name:
+        country      => $country,
+        province     => $province,
+        city         => $city,
+        organization => $organization,
+        email        => $email,
+        common_name  => $common_name,
+        group        => $group,
+        ssl_key_size => $ssl_key_size,
+        ca_expire    => $ca_expire,
+        key_expire   => $key_expire,
+        key_cn       => $key_cn,
+        key_name     => $key_name,
+        key_ou       => $key_ou,
+      }
+    } else {
+      $ca_name = $shared_ca
+      $ca_common_name = getparam(Openvpn::Ca[$ca_name], 'common_name')
+      Openvpn::Ca[$shared_ca] -> Openvpn::Server[$name]
+    }
 
     file {
       [ "/etc/openvpn/${name}/auth",
@@ -425,21 +455,6 @@ define openvpn::server(
         recurse => true,
     }
 
-    ::openvpn::ca { $name:
-      country      => $country,
-      province     => $province,
-      city         => $city,
-      organization => $organization,
-      email        => $email,
-      common_name  => $common_name,
-      group        => $group,
-      ssl_key_size => $ssl_key_size,
-      ca_expire    => $ca_expire,
-      key_expire   => $key_expire,
-      key_cn       => $key_cn,
-      key_name     => $key_name,
-      key_ou       => $key_ou,
-    }
   } else {
     # VPN Client Mode
 

@@ -112,6 +112,12 @@ define openvpn::ca(
     group   => $group_to_set,
   }
 
+  # directory shared with openvpn::server
+  ensure_resource(file, "/etc/openvpn/${name}", {
+    ensure  => directory,
+    mode    => '0750',
+  })
+
   exec { "copy easy-rsa to openvpn config folder ${name}":
     command => "/bin/cp -r ${openvpn::params::easyrsa_source} /etc/openvpn/${name}/easy-rsa",
     creates => "/etc/openvpn/${name}/easy-rsa",
