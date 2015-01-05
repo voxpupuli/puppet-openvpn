@@ -192,6 +192,8 @@ describe 'openvpn::server', :type => :define do
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^sndbuf/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^rcvbuf/) }
 
     # OpenVPN easy-rsa CA
     it { should contain_openvpn__ca('test_server').
@@ -242,6 +244,22 @@ describe 'openvpn::server', :type => :define do
 
     it { should_not contain_openvpn__ca('test_server') }
   end
+
+  context "when altering send and receive buffers" do
+    let(:params) { {
+      'country'       => 'CO',
+      'province'      => 'ST',
+      'city'          => 'Some City',
+      'organization'  => 'example.org',
+      'email'         => 'testemail@example.org',
+      'sndbuf'        => 393216,
+      'rcvbuf'        => 393215,
+    } }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^sndbuf\s+393216$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^rcvbuf\s+393215$/) }
+  end
+
 
   context "when RedHat based machine" do
     let(:params) { {
