@@ -46,3 +46,14 @@ up "<%= @up %>"
 <% if @down != '' -%>
 down "<%= @down %>"
 <% end -%>
+<% if @tls_auth -%> 
+
+# tls authentification
+tls-client
+tls-auth keys/<%= @name %>/ta.key 1
+<% end -%>
+<% if @x509_name -%>
+
+# x509 name verification
+verify-x509-name "<%= @x509_name %>" name
+<% end -%>

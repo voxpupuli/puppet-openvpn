@@ -83,6 +83,17 @@
 #   Boolean. Set if username and password required
 #   Default: false
 #
+# [*tls_auth*]
+#   Boolean. Activates tls-auth to Add an additional layer of HMAC 
+#     authentication on top of the TLS control channel to protect 
+#     against DoS attacks. This has to be set to the same value as on the
+#     Server
+#   Default: false
+#
+# [*x509_name*]
+#   Common name of openvpn server to make an x509-name verification
+#   Default: undef
+#
 # [*setenv*]
 #   Hash. Set a custom environmental variable name=value to pass to script.
 #   Default: {}
@@ -157,6 +168,8 @@ define openvpn::client(
   $setenv_safe = {},
   $up = '',
   $down = '',
+  $tls_auth = false,
+  $x509_name = undef,
 ) {
 
   if $pam {
@@ -196,6 +209,15 @@ define openvpn::client(
     ensure  => link,
     target  => "/etc/openvpn/${server}/easy-rsa/keys/ca.crt",
     require => Exec["generate certificate for ${name} in context of ${server}"],
+  }
+  if $tls_auth {
+    file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key":
+      ensure  => link,
+      target  => "/etc/openvpn/${server}/easy-rsa/keys/ta.key",
+      require => Exec["generate certificate for ${name} in context of ${server}"],
+      before  => Exec["tar the thing ${server} with ${name}"],
+      notify  => Exec["tar the thing ${server} with ${name}"],
+    }
   }
 
   file { "/etc/openvpn/${server}/download-configs/${name}/${name}.conf":
