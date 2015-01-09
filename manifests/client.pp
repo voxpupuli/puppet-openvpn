@@ -84,8 +84,8 @@
 #   Default: false
 #
 # [*tls_auth*]
-#   Boolean. Activates tls-auth to Add an additional layer of HMAC 
-#     authentication on top of the TLS control channel to protect 
+#   Boolean. Activates tls-auth to Add an additional layer of HMAC
+#     authentication on top of the TLS control channel to protect
 #     against DoS attacks. This has to be set to the same value as on the
 #     Server
 #   Default: false
