@@ -59,6 +59,10 @@
 #   String,  Cipher to use for packet encryption
 #   Default: None
 #
+# [*tls_cipher*]
+#   String, TLS Ciphers to use
+#   Default: None
+#
 # [*resolv_retry*]
 #   Integer/String. How many seconds should the openvpn client try to resolve
 #     the server's hostname
@@ -178,6 +182,7 @@ define openvpn::client(
   $verb                 = '3',
   $pam                  = false,
   $cipher               = undef,
+  $tls_cipher           = undef,
   $authuserpass         = false,
   $setenv               = {},
   $setenv_safe          = {},

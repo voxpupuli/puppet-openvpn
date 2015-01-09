@@ -93,6 +93,9 @@ verb <%= @verb %>
 <% if @cipher != '' -%>
 cipher <%= @cipher %>
 <% end -%>
+<% if @tls_cipher -%>
+tls-cipher <%= @tls_cipher %>
+<% end -%>
 <% if @c2c -%>
 client-to-client
 <% end -%>

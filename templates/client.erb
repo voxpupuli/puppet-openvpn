@@ -22,6 +22,9 @@ persist-tun
 <% if @cipher -%>
 cipher <%= @cipher %>
 <% end -%>
+<% if @tls_cipher -%>
+tls-cipher <%= @tls_cipher %>
+<% end -%>
 <% if @mute_replay_warnings -%>
 mute-replay-warnings
 <% end -%>
