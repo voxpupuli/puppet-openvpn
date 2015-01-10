@@ -28,7 +28,11 @@ class openvpn::params {
         $additional_packages = ['easy-rsa']
         $easyrsa_source = '/usr/share/easy-rsa/2.0'
 
-      # Redhat/Centos < 6.4
+      # Redhat/Centos < 6.4 >= 6
+      } elsif(versioncmp($::operatingsystemrelease, '6') >= 0) {
+        $easyrsa_source = '/usr/share/openvpn/easy-rsa/2.0'
+
+      # Redhat/Centos < 6
       } else {
         $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
       }
