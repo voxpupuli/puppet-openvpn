@@ -23,19 +23,18 @@ class openvpn::params {
 
   case $::osfamily {
     'RedHat': {
-      # Redhat/Centos >= 6
-      if($::operatingsystemmajrelease >= 6) {
-        # http://docs.puppetlabs.com/references/latest/function.html#versioncmp
-        if(versioncmp($::operatingsystemrelease, '6.4') < 0) { # Version < 6.4
-          $easyrsa_source = '/usr/share/openvpn/easy-rsa/2.0'
-        } else { # Version >= 6.4
-          $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
-          $easyrsa_source = '/usr/share/easy-rsa/2.0'
-          $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
-        }
-      } else { # Redhat/CentOS < 6
+      # Redhat/Centos >= 6.4
+      if(versioncmp($::operatingsystemrelease, '6.4') >= 0) {
+        $additional_packages = ['easy-rsa']
+        $easyrsa_source = '/usr/share/easy-rsa/2.0'
+
+      # Redhat/Centos < 6.4
+      } else {
         $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
       }
+
+      $ldap_auth_plugin_location = undef # no ldap plugin on redhat/centos
+
     }
     'Debian': { # Debian/Ubuntu
       case $::lsbdistid {
