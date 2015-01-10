@@ -28,10 +28,14 @@ class openvpn::params {
         # http://docs.puppetlabs.com/references/latest/function.html#versioncmp
         if(versioncmp($::operatingsystemrelease, '6.4') < 0) { # Version < 6.4
           $easyrsa_source = '/usr/share/openvpn/easy-rsa/2.0'
-        } else { # Version >= 6.4
+        } elsif(versioncmp($::operatingsystemrelease, '6.4') > 0) and
+          (versioncmp($::operatingsystemrelease, '7.0') < 0) { # Version >= 6.4 < 7.0
           $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
           $easyrsa_source = '/usr/share/easy-rsa/2.0'
           $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
+        } else { # Version >= 7.0
+          $additional_packages = ['easy-rsa']
+          $easyrsa_source = '/usr/share/easy-rsa/2.0'
         }
       } else { # Redhat/CentOS < 6
         $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
