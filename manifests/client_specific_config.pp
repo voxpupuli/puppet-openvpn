@@ -74,12 +74,12 @@
 #
 define openvpn::client_specific_config(
   $server,
+  $ensure           = present,
   $iroute           = [],
   $route            = [],
   $ifconfig         = false,
   $dhcp_options     = [],
   $redirect_gateway = false,
-  $ensure           = present
 ) {
 
   Openvpn::Server[$server] ->
