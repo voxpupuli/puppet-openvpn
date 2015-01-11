@@ -58,6 +58,9 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verb\s+3$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^mute\s+20$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^auth-retry\s+none$/)}
+
+    it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^sndbuf/)}
+    it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^rcvbuf/)}
   end
 
   context "setting all of the parameters" do
@@ -78,7 +81,9 @@ describe 'openvpn::client', :type => :define do
       'auth_retry'            => 'interact',
       'verb'                  => '1',
       'setenv'                => {'CLIENT_CERT' => '0'},
-      'setenv_safe'           => {'FORWARD_COMPATIBLE' => '1'}
+      'setenv_safe'           => {'FORWARD_COMPATIBLE' => '1'},
+      'sndbuf' => 393216,
+      'rcvbuf' => 393215,
     } }
     let(:facts) { {
       :fqdn           => 'somehost',
@@ -103,18 +108,7 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^setenv\s+CLIENT_CERT\s+0$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^setenv_safe\s+FORWARD_COMPATIBLE\s+1$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cipher\s+BF-CBC$/)}
-  end
-
-  context "setting all of the parameters" do
-    let(:params) { {
-      'server' => 'test_server',
-      'sndbuf' => 393216,
-      'rcvbuf' => 393215,
-    } }
-
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^sndbuf\s+393216$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^rcvbuf\s+393215$/)}
-
   end
-
 end
