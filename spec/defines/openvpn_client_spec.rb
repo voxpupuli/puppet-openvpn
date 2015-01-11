@@ -105,4 +105,16 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cipher\s+BF-CBC$/)}
   end
 
+  context "setting all of the parameters" do
+    let(:params) { {
+      'server' => 'test_server',
+      'sndbuf' => 393216,
+      'rcvbuf' => 393215,
+    } }
+
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^sndbuf\s+393216$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^rcvbuf\s+393215$/)}
+
+  end
+
 end
