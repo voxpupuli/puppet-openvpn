@@ -58,6 +58,8 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verb\s+3$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^mute\s+20$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^auth-retry\s+none$/)}
+    it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^tls-client$/)}
+    it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verify-x509-name\s+"test_server"\s+name$/)}
   end
 
   context "setting all of the parameters" do
@@ -80,7 +82,7 @@ describe 'openvpn::client', :type => :define do
       'setenv'                => {'CLIENT_CERT' => '0'},
       'setenv_safe'           => {'FORWARD_COMPATIBLE' => '1'},
       'tls_auth'              => true,
-      'x509_name'             => 'test_server'
+      'x509_name'             => 'test_server',
     } }
     let(:facts) { {
       :fqdn           => 'somehost',
