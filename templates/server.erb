@@ -63,6 +63,12 @@ push "<%= item %>"
 <% @route.each do |item| -%>
 route <%= item %>
 <% end -%>
+<% if @sndbuf -%>
+sndbuf <%= @sndbuf %>
+<% end -%>
+<% if @rcvbuf -%>
+rcvbuf <%= @rcvbuf %>
+<% end -%>
 <% if @keepalive != '' -%>
 keepalive <%= @keepalive %>
 <% end -%>

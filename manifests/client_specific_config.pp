@@ -33,6 +33,10 @@
 #   Array.  Redirect all traffic to gateway
 #   Default: false
 #
+# [*ensure]
+#   Keyword. Sets the client specific configuration file status (present or absent)
+#   Default: present
+#
 #
 # === Examples
 #
@@ -45,7 +49,7 @@
 #    }
 #
 # * Removal:
-#     Manual process right now, todo for the future
+#     Use $ensure => absent
 #
 #
 # === Authors
@@ -70,11 +74,12 @@
 #
 define openvpn::client_specific_config(
   $server,
+  $ensure           = present,
   $iroute           = [],
   $route            = [],
   $ifconfig         = false,
   $dhcp_options     = [],
-  $redirect_gateway = false
+  $redirect_gateway = false,
 ) {
 
   Openvpn::Server[$server] ->
@@ -82,7 +87,7 @@ define openvpn::client_specific_config(
   Openvpn::Client_specific_config[$name]
 
   file { "/etc/openvpn/${server}/client-configs/${name}":
-    ensure  => present,
+    ensure  => $ensure,
     content => template('openvpn/client_specific_config.erb')
   }
 

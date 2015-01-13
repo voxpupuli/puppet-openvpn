@@ -26,6 +26,12 @@ cipher <%= @cipher %>
 mute-replay-warnings
 <% end -%>
 ns-cert-type server
+<% if @sndbuf -%>
+sndbuf <%= @sndbuf %>
+<% end -%>
+<% if @rcvbuf -%>
+rcvbuf <%= @rcvbuf %>
+<% end -%>
 verb <%= @verb %>
 mute <%= @mute %>
 <% if @pam || @authuserpass -%>

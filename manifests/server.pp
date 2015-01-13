@@ -279,6 +279,14 @@
 #   Boolean. Do not start clocking timeouts until a remote peer connects.
 #   Default: false
 #
+# [*sndbuf*]
+#   Integer, Set the TCP/UDP socket send buffer size.
+#   Default: undef
+#
+# [*rcvbuf*]
+#   Integer, Set the TCP/UDP socket receive buffer size.
+#   Default: undef
+#
 # === Examples
 #
 #   openvpn::client {
@@ -379,6 +387,8 @@ define openvpn::server(
   $tls_auth = false,
   $server_poll_timeout = undef,
   $ping_timer_rem = false,
+  $sndbuf = undef,
+  $rcvbuf = undef,
 ) {
 
   include openvpn

@@ -112,6 +112,14 @@
 # [*down*]
 #   String,  Script which we want to run when openvpn client is disconneting
 #
+# [*sndbuf*]
+#   Integer, Set the TCP/UDP socket send buffer size.
+#   Default: undef
+#
+# [*rcvbuf*]
+#   Integer, Set the TCP/UDP socket receive buffer size.
+#   Default: undef
+#
 # === Examples
 #
 #   openvpn::client {
@@ -170,6 +178,8 @@ define openvpn::client(
   $down = '',
   $tls_auth = false,
   $x509_name = undef,
+  $sndbuf = undef,
+  $rcvbuf = undef,
 ) {
 
   if $pam {
