@@ -109,6 +109,10 @@
 #   Integer, Set the TCP/UDP socket receive buffer size.
 #   Default: undef
 #
+# [*shared_ca*]
+#   String,  The name of an openssl::ca resource to use.
+#   Default: undef
+#
 # === Examples
 #
 #   openvpn::client {
@@ -167,6 +171,7 @@ define openvpn::client(
   $down = '',
   $sndbuf = undef,
   $rcvbuf = undef,
+  $shared_ca = undef,
 ) {
 
   if $pam {
@@ -176,11 +181,15 @@ define openvpn::client(
   Openvpn::Server[$server] ->
   Openvpn::Client[$name]
 
+  $ca_name = pick($shared_ca, $server)
+  Openvpn::Ca[$ca_name] ->
+  Openvpn::Client[$name]
+
   exec {
-    "generate certificate for ${name} in context of ${server}":
+    "generate certificate for ${name} in context of ${ca_name}":
       command  => ". ./vars && ./pkitool ${name}",
-      cwd      => "/etc/openvpn/${server}/easy-rsa",
-      creates  => "/etc/openvpn/${server}/easy-rsa/keys/${name}.crt",
+      cwd      => "/etc/openvpn/${ca_name}/easy-rsa",
+      creates  => "/etc/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
       provider => 'shell';
   }
 
@@ -192,20 +201,20 @@ define openvpn::client(
 
   file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
     ensure  => link,
-    target  => "/etc/openvpn/${server}/easy-rsa/keys/${name}.crt",
-    require => Exec["generate certificate for ${name} in context of ${server}"],
+    target  => "/etc/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
+    require => Exec["generate certificate for ${name} in context of ${ca_name}"],
   }
 
   file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key":
     ensure  => link,
-    target  => "/etc/openvpn/${server}/easy-rsa/keys/${name}.key",
-    require => Exec["generate certificate for ${name} in context of ${server}"],
+    target  => "/etc/openvpn/${ca_name}/easy-rsa/keys/${name}.key",
+    require => Exec["generate certificate for ${name} in context of ${ca_name}"],
   }
 
   file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt":
     ensure  => link,
-    target  => "/etc/openvpn/${server}/easy-rsa/keys/ca.crt",
-    require => Exec["generate certificate for ${name} in context of ${server}"],
+    target  => "/etc/openvpn/${ca_name}/easy-rsa/keys/ca.crt",
+    require => Exec["generate certificate for ${name} in context of ${ca_name}"],
   }
 
   file { "/etc/openvpn/${server}/download-configs/${name}/${name}.conf":
