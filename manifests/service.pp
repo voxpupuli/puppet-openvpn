@@ -2,6 +2,11 @@
 #
 # This class maintains the openvpn service.
 #
+# == Parameters
+#
+# [*service_name*]
+#   String. Name of the OpenVPN service to be enabled and started
+#   Default: openvpn
 #
 # === Examples
 #
@@ -29,9 +34,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn::service {
+class openvpn::service(
+  $service_name = 'openvpn',
+){
   service {
-    'openvpn':
+    $service_name:
       ensure     => running,
       enable     => true,
       hasrestart => true,

@@ -384,10 +384,18 @@ define openvpn::server(
   $rcvbuf = undef,
 ) {
 
+  if(($::osfamily == 'RedHat') and ($::operatingsystemmajrelease >= 7)) {
+    $service_name = "openvpn@${name}"
+  } else {
+    $service_name = "openvpn"
+  }
+
   include openvpn
   Class['openvpn::install'] ->
   Openvpn::Server[$name] ~>
-  Class['openvpn::service']
+  class { 'openvpn::service':
+    service_name = $service_name
+  }
 
   $tls_server = $proto ? {
     /tcp/   => true,
