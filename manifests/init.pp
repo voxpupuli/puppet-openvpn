@@ -37,7 +37,6 @@ class openvpn {
   class {'openvpn::params': } ->
   class {'openvpn::install': } ->
   class {'openvpn::config': } ~>
-  class {'openvpn::service': } ->
   Class['openvpn']
 
 }
