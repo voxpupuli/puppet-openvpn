@@ -138,6 +138,10 @@
 #   Boolean, Enable/Disable.
 #   Default: false
 #
+# [*startall*]
+#   Boolean, Define if to start also non pupet managed vpn confings on Debian                                                                                                                                                      
+#   Default: false
+#
 # [*management*]
 #   Boolean.  Enable management interface
 #   Default: false
@@ -376,6 +380,7 @@ define openvpn::server(
   $key_ou = '',
   $verb = '',
   $cipher = '',
+  $startall = false,
   $persist_key = false,
   $persist_tun = false,
   $server_poll_timeout = undef,
@@ -449,14 +454,22 @@ define openvpn::server(
       recurse => true,
     }
   }
-
   if $::osfamily == 'Debian' {
-    concat::fragment {
-      "openvpn.default.autostart.${name}":
-        content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
-        target  => '/etc/default/openvpn',
-        order   => 10;
-    }
+    if $startall == false {
+    	concat::fragment {
+    	  "openvpn.default.autostart.${name}":
+    	    content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
+    	    target  => '/etc/default/openvpn',
+    	    order   => 10;
+    	}
+    }else{
+    	concat::fragment {
+	  "openvpn.default.autostart.all.${name}":
+	    content => "AUTOSTART=\"all\"\n",
+    	    target  => '/etc/default/openvpn',
+    	    order   => 10;
+    	}
+   }
   }
 
   file { "/etc/openvpn/${name}.conf":
