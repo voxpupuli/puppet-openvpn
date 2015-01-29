@@ -404,17 +404,17 @@ define openvpn::server(
   }
 
   file { "/etc/openvpn/${name}":
-    ensure  => directory,
-    mode    => '0750',
+    ensure => directory,
+    mode   => '0750',
   }
 
   if $remote == undef {
     # VPN Server Mode
-    if $country == undef { fail("country has to be specified in server mode") }
-    if $province == undef { fail("province has to be specified in server mode") }
-    if $city == undef { fail("city has to be specified in server mode") }
-    if $organization == undef { fail("organization has to be specified in server mode") }
-    if $email == undef { fail("email has to be specified in server mode") }
+    if $country == undef { fail('country has to be specified in server mode') }
+    if $province == undef { fail('province has to be specified in server mode') }
+    if $city == undef { fail('city has to be specified in server mode') }
+    if $organization == undef { fail('organization has to be specified in server mode') }
+    if $email == undef { fail('email has to be specified in server mode') }
 
     file {
       [ "/etc/openvpn/${name}/auth",
