@@ -159,7 +159,7 @@ define openvpn::client(
   $auth_retry = 'none',
   $verb = '3',
   $pam = false,
-  $cipher = '',
+  $cipher = undef,
   $authuserpass = false,
   $setenv = {},
   $setenv_safe = {},
