@@ -10,6 +10,7 @@ Puppet module to manage OpenVPN servers
 * Support for multiple server instances
 * Support for LDAP-Authentication
 * Support for server instance in client mode
+* Support for TLS
 
 ## Supported OS
 

@@ -26,7 +26,7 @@ proto <%= @proto %>-server
 proto <%= @proto %>
 <% end -%>
 port <%= @port %>
-<% if @tls_server -%>
+<% if @real_tls_server -%>
 tls-server
 <% end -%>
 <% if @compression != '' -%>
@@ -125,4 +125,9 @@ duplicate-cn
 <% end -%>
 <% if @ping_timer_rem -%>
 ping-timer-rem
+<% end -%>
+<% if @tls_auth -%>
+
+# tls authentification
+tls-auth /etc/openvpn/<%= @name %>/keys/ta.key 0
 <% end -%>

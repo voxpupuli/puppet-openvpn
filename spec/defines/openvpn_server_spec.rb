@@ -101,6 +101,8 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/persist-tun/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ns-cert-type server/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/test_server/keys/ta.key\s+0$}) }
+
   end
 
   context "creating a server setting all parameters" do
@@ -143,6 +145,8 @@ describe 'openvpn::server', :type => :define do
       'persist_key'     => true,
       'persist_tun'     => true,
       'duplicate_cn'    => true,
+      'tls_auth'        => true,
+      'tls_server'      => true,
     } }
 
     let(:facts) { {
@@ -189,6 +193,8 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^down "/tmp/down"$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^script-security 2$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-server$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/test_server/keys/ta.key\s+0$}) }
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem/) }
@@ -209,7 +215,8 @@ describe 'openvpn::server', :type => :define do
               :key_expire   => 365,
               :key_cn       => 'yolo',
               :key_name     => 'burp',
-              :key_ou       => 'NSA')
+              :key_ou       => 'NSA',
+              :tls_auth     => true)
     }
 
   end

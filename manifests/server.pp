@@ -265,6 +265,17 @@
 #     and KEY_CN in vars
 #   Default: None
 #
+# [*tls_auth*]
+#   Boolean. Activates tls-auth to Add an additional layer of HMAC
+#     authentication on top of the TLS control channel to protect
+#     against DoS attacks.
+#   Default: false
+#
+# [*tls_server*]
+#   Boolean. If proto not tcp it lets you choose if the parameter
+#     tls-server is set or not.
+#   Default: false
+#
 # [*server_poll_timeout*]
 #   Integer. Value for timeout before trying the next server.
 #   Default: undef
@@ -378,6 +389,8 @@ define openvpn::server(
   $cipher = '',
   $persist_key = false,
   $persist_tun = false,
+  $tls_auth = false,
+  $tls_server = false,
   $server_poll_timeout = undef,
   $ping_timer_rem = false,
   $sndbuf = undef,
@@ -389,9 +402,13 @@ define openvpn::server(
   Openvpn::Server[$name] ~>
   Class['openvpn::service']
 
-  $tls_server = $proto ? {
-    /tcp/   => true,
-    default => false
+  if $tls_server {
+    $real_tls_server = $tls_server
+  } else {
+    $real_tls_server = $proto ? {
+      /tcp/   => true,
+      default => false
+    }
   }
 
   $group_to_set = $group ? {
@@ -439,6 +456,7 @@ define openvpn::server(
       key_cn       => $key_cn,
       key_name     => $key_name,
       key_ou       => $key_ou,
+      tls_auth     => $tls_auth,
     }
   } else {
     # VPN Client Mode

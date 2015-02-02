@@ -54,6 +54,10 @@
 #     and KEY_CN in vars
 #   Default: None
 #
+# [*tls_auth*]
+#   Boolean. Determins if a tls key is generated
+#   Default: False
+#
 # === Examples
 #
 #   openvpn::ca {
@@ -99,6 +103,7 @@ define openvpn::ca(
   $key_cn = '',
   $key_name = '',
   $key_ou = '',
+  $tls_auth = false,
 ) {
 
   include openvpn
@@ -193,6 +198,15 @@ define openvpn::ca(
     creates  => "/etc/openvpn/${name}/crl.pem",
     provider => 'shell',
     require  => Exec["generate server cert ${name}"],
+  }
+  if $tls_auth {
+    exec { "generate tls key for ${name}":
+      command  => "openvpn --genkey --secret keys/ta.key",
+      cwd      => "/etc/openvpn/${name}/easy-rsa",
+      creates  => "/etc/openvpn/${name}/easy-rsa/keys/ta.key",
+      provider => 'shell',
+      require  => Exec["generate server cert ${name}"],
+    }
   }
 
   file { "/etc/openvpn/${name}/easy-rsa/keys/crl.pem":
