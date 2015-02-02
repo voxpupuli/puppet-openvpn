@@ -6,6 +6,7 @@
 * Support for `rcvbuf` and `sndbuf` ([#116](https://github.com/luxflux/puppet-openvpn/pull/116))
 * Fix RedHat and CentOS package selection ([#97](https://github.com/luxflux/puppet-openvpn/pull/97))
 * Support for TLS and x509-name verification ([#118](https://github.com/luxflux/puppet-openvpn/pull/118))
+* Fix unset client cipher producing invalid configs ([#129](https://github.com/luxflux/puppet-openvpn/pull/129))
 
 ## 2.6.0
 
