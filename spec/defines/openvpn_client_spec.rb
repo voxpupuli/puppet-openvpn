@@ -59,7 +59,7 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^mute\s+20$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^auth-retry\s+none$/)}
     it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^tls-client$/)}
-    it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verify-x509-name\s+"test_server"\s+name$/)}
+    it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verify-x509-name/)}
     it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^sndbuf/)}
     it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^rcvbuf/)}
   end

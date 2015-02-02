@@ -101,7 +101,7 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/persist-tun/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ns-cert-type server/) }
-    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/test_server/keys/ta.key\s+0$}) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth}) }
 
   end
 
