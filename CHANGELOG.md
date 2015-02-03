@@ -2,6 +2,8 @@
 
 ## Next version
 
+## 2.7.0
+
 * Support for removing a client specific conf file ([#115](https://github.com/luxflux/puppet-openvpn/pull/115))
 * Support for `rcvbuf` and `sndbuf` ([#116](https://github.com/luxflux/puppet-openvpn/pull/116))
 * Fix RedHat and CentOS package selection ([#97](https://github.com/luxflux/puppet-openvpn/pull/97))
