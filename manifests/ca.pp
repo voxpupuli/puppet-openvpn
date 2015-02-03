@@ -207,7 +207,7 @@ define openvpn::ca(
   }
   if $tls_auth {
     exec { "generate tls key for ${name}":
-      command  => "openvpn --genkey --secret keys/ta.key",
+      command  => 'openvpn --genkey --secret keys/ta.key',
       cwd      => "/etc/openvpn/${name}/easy-rsa",
       creates  => "/etc/openvpn/${name}/easy-rsa/keys/ta.key",
       provider => 'shell',
