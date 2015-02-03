@@ -399,8 +399,13 @@ define openvpn::server(
 
   include openvpn
   Class['openvpn::install'] ->
-  Openvpn::Server[$name] ~>
-  Class['openvpn::service']
+  Openvpn::Server[$name]
+
+  if $::openvpn::params::systemd {
+    $notify = Service["openvpn@${name}"]
+  } else {
+    $notify = Class['openvpn::service']
+  }
 
   if $tls_server {
     $real_tls_server = $tls_server
@@ -421,17 +426,18 @@ define openvpn::server(
   }
 
   file { "/etc/openvpn/${name}":
-    ensure  => directory,
-    mode    => '0750',
+    ensure => directory,
+    mode   => '0750',
+    notify => $notify,
   }
 
   if $remote == undef {
     # VPN Server Mode
-    if $country == undef { fail("country has to be specified in server mode") }
-    if $province == undef { fail("province has to be specified in server mode") }
-    if $city == undef { fail("city has to be specified in server mode") }
-    if $organization == undef { fail("organization has to be specified in server mode") }
-    if $email == undef { fail("email has to be specified in server mode") }
+    if $country == undef { fail('country has to be specified in server mode') }
+    if $province == undef { fail('province has to be specified in server mode') }
+    if $city == undef { fail('city has to be specified in server mode') }
+    if $organization == undef { fail('organization has to be specified in server mode') }
+    if $email == undef { fail('email has to be specified in server mode') }
 
     file {
       [ "/etc/openvpn/${name}/auth",
@@ -490,6 +496,14 @@ define openvpn::server(
         ensure  => present,
         content => template('openvpn/ldap.erb'),
         require => Package['openvpn-auth-ldap'],
+    }
+  }
+
+  if $::openvpn::params::systemd {
+    service { "openvpn@${name}":
+      enable  => true,
+      ensure  => running,
+      require => [ File["/etc/openvpn/${name}.conf"] ]
     }
   }
 
