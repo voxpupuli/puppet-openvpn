@@ -515,8 +515,8 @@ define openvpn::server(
 
   if $::openvpn::params::systemd {
     service { "openvpn@${name}":
-      enable  => true,
       ensure  => running,
+      enable  => true,
       require => [ File["/etc/openvpn/${name}.conf"] ]
     }
   }
