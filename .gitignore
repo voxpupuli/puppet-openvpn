@@ -2,3 +2,5 @@ pkg
 spec/fixtures
 .vagrant
 .gitconfig
+.bundle
+Gemfile.lock

@@ -427,18 +427,18 @@ define openvpn::server(
 
   # directory shared with openvpn::ca
   ensure_resource(file, "/etc/openvpn/${name}", {
-    ensure  => directory,
-    mode    => '0750',
+    ensure => directory,
+    mode   => '0750',
   })
 
   if $remote == undef {
     if $shared_ca == undef {
       # VPN Server Mode
-      if $country == undef { fail("country has to be specified in server mode") }
-      if $province == undef { fail("province has to be specified in server mode") }
-      if $city == undef { fail("city has to be specified in server mode") }
-      if $organization == undef { fail("organization has to be specified in server mode") }
-      if $email == undef { fail("email has to be specified in server mode") }
+      if $country == undef { fail('country has to be specified in server mode') }
+      if $province == undef { fail('province has to be specified in server mode') }
+      if $city == undef { fail('city has to be specified in server mode') }
+      if $organization == undef { fail('organization has to be specified in server mode') }
+      if $email == undef { fail('email has to be specified in server mode') }
 
       $ca_name = $name
       $ca_common_name = $common_name
