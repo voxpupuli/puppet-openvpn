@@ -11,14 +11,14 @@ remote <%= rem %>
 server-poll-timeout <%= @server_poll_timeout %>
 <% end -%>
 <% end -%>
-ca /etc/openvpn/<%= @name %>/keys/ca.crt
-cert /etc/openvpn/<%= @name %>/keys/<%= @common_name %>.crt
-key /etc/openvpn/<%= @name %>/keys/<%= @common_name %>.key
+ca /etc/openvpn/<%= @ca_name %>/keys/ca.crt
+cert /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
+key /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
 <% unless @remote -%>
-dh /etc/openvpn/<%= @name %>/keys/dh<%= @ssl_key_size %>.pem
+dh /etc/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
 <% end -%>
 <% unless @remote -%>
-crl-verify /etc/openvpn/<%= @name %>/crl.pem
+crl-verify /etc/openvpn/<%= @ca_name %>/crl.pem
 <% end -%>
 <% if @proto == 'tcp' -%>
 proto <%= @proto %>-server

@@ -267,6 +267,38 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^rcvbuf\s+393215$/) }
   end
 
+  context "when using shared ca" do
+    let(:params) { {
+      'shared_ca'       => 'my_already_existing_ca',
+    } }
+    let(:pre_condition) { '
+      openvpn::ca{ "my_already_existing_ca":
+          common_name   => "custom_common_name",
+          country       => "CO",
+          province      => "ST",
+          city          => "Some City",
+          organization  => "example.org",
+          email         => "testemail@example.org"
+    }' }
+
+    it { should contain_openvpn__ca('my_already_existing_ca') }
+
+    # Check that certificate files point to the provide CA
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^client\-config\-dir\s+\/etc\/openvpn\/test_server\/client\-configs$/) }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/my_already_existing_ca\/keys\/ca.crt$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/my_already_existing_ca\/keys\/custom_common_name.crt$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/my_already_existing_ca\/keys\/custom_common_name.key$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/my_already_existing_ca\/keys\/dh1024.pem$/) }
+  end
+
+  context "when using not existed shared ca" do
+    let(:params) { {
+      'shared_ca'       => 'my_already_existing_ca',
+    } }
+    it { expect { should compile }.to raise_error }
+  end
 
   context "when RedHat based machine" do
     let(:params) { {
