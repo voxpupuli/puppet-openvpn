@@ -122,4 +122,46 @@ describe 'openvpn::client', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cipher/) }
   end
 
+  context "when using shared ca" do
+    let(:params) { {
+      'server'    => 'test_server',
+      'shared_ca' => 'my_already_existing_ca',
+    } }
+    before do
+      pre_condition << '
+        openvpn::ca{ "my_already_existing_ca":
+          common_name   => "custom_common_name",
+          country       => "CO",
+          province      => "ST",
+          city          => "Some City",
+          organization  => "example.org",
+          email         => "testemail@example.org"
+        }
+      '
+    end
+
+    it { should contain_openvpn__ca('my_already_existing_ca') }
+
+    it { should contain_exec('generate certificate for test_client in context of my_already_existing_ca') }
+    [ 'test_client.crt', 'test_client.key', 'ca.crt' ].each do |file|
+      it { should contain_file("/etc/openvpn/test_server/download-configs/test_client/keys/test_client/#{file}").with(
+        'ensure'  => 'link',
+        'target'  => "/etc/openvpn/my_already_existing_ca/easy-rsa/keys/#{file}"
+      )}
+    end
+
+    # Check that certificate files point to the provided CA
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^client$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/test_client\/ca\.crt$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client\/test_client.crt$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\/test_client\.key$/)}
+  end
+
+  context "when using not existed shared ca" do
+    let(:params) { {
+      'server'    => 'test_server',
+      'shared_ca'       => 'my_already_existing_ca',
+    } }
+    it { expect { should compile }.to raise_error }
+  end
 end
