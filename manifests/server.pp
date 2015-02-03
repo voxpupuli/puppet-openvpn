@@ -404,8 +404,13 @@ define openvpn::server(
 
   include openvpn
   Class['openvpn::install'] ->
-  Openvpn::Server[$name] ~>
-  Class['openvpn::service']
+  Openvpn::Server[$name]
+
+  if $::openvpn::params::systemd {
+    $notify = Service["openvpn@${name}"]
+  } else {
+    $notify = Class['openvpn::service']
+  }
 
   if $tls_server {
     $real_tls_server = $tls_server
@@ -429,6 +434,7 @@ define openvpn::server(
   ensure_resource(file, "/etc/openvpn/${name}", {
     ensure => directory,
     mode   => '0750',
+    notify => $notify,
   })
 
   if $remote == undef {
@@ -504,6 +510,14 @@ define openvpn::server(
         ensure  => present,
         content => template('openvpn/ldap.erb'),
         require => Package['openvpn-auth-ldap'],
+    }
+  }
+
+  if $::openvpn::params::systemd {
+    service { "openvpn@${name}":
+      enable  => true,
+      ensure  => running,
+      require => [ File["/etc/openvpn/${name}.conf"] ]
     }
   }
 

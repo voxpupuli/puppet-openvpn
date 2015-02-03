@@ -39,6 +39,11 @@ class openvpn::params {
 
       $ldap_auth_plugin_location = undef # no ldap plugin on redhat/centos
 
+      if(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
+        $systemd = true
+      } else {
+        $systemd = false
+      }
     }
     'Debian': { # Debian/Ubuntu
       case $::lsbdistid {
@@ -72,6 +77,8 @@ class openvpn::params {
           fail("Not supported OS / Distribution: ${::osfamily}/${::lsbdistid}")
         }
       }
+
+      $systemd = false
     }
     default: {
       fail("Not supported OS family ${::osfamily}")
