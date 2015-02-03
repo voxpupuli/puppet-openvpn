@@ -8,6 +8,7 @@
 * Support for TLS and x509-name verification ([#118](https://github.com/luxflux/puppet-openvpn/pull/118))
 * Fix unset client cipher producing invalid configs ([#129](https://github.com/luxflux/puppet-openvpn/pull/129))
 * Support to share a CA between multiple server instances ([#112](https://github.com/luxflux/puppet-openvpn/pull/112))
+* Support for systemd ([#127](https://github.com/luxflux/puppet-openvpn/pull/127))
 
 ## 2.6.0
 
