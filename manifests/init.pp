@@ -36,8 +36,14 @@ class openvpn {
 
   class {'openvpn::params': } ->
   class {'openvpn::install': } ->
-  class {'openvpn::config': } ~>
-  class {'openvpn::service': } ->
+  class {'openvpn::config': } ->
   Class['openvpn']
+
+  if ! $::openvpn::params::systemd {
+    class {'openvpn::service':
+      subscribe => [Class['openvpn::config'], Class['openvpn::install'] ],
+      before    => Class['openvpn'],
+    }
+  }
 
 }
