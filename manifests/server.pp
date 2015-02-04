@@ -426,19 +426,23 @@ define openvpn::server(
     default => $group
   }
 
-  File {
-    group   => $group_to_set,
+  if $shared_ca {
+    $ca_name = $shared_ca
+  } else {
+    $ca_name = $name
   }
 
-  # directory shared with openvpn::ca
-  ensure_resource(file, "/etc/openvpn/${name}", {
+  File {
+    group => $group_to_set,
+  }
+
+  file { "/etc/openvpn/${name}":
     ensure => directory,
     mode   => '0750',
-    notify => $notify,
-  })
+  }
 
-  if $remote == undef {
-    if $shared_ca == undef {
+  if !$remote {
+    if !$shared_ca {
       # VPN Server Mode
       if $country == undef { fail('country has to be specified in server mode') }
       if $province == undef { fail('province has to be specified in server mode') }
@@ -446,7 +450,6 @@ define openvpn::server(
       if $organization == undef { fail('organization has to be specified in server mode') }
       if $email == undef { fail('email has to be specified in server mode') }
 
-      $ca_name = $name
       $ca_common_name = $common_name
       ::openvpn::ca { $name:
         country      => $country,
@@ -465,9 +468,8 @@ define openvpn::server(
         tls_auth     => $tls_auth,
       }
     } else {
-      $ca_name = $shared_ca
-      $ca_common_name = getparam(Openvpn::Ca[$ca_name], 'common_name')
-      Openvpn::Ca[$shared_ca] -> Openvpn::Server[$name]
+      if !defined(Openvpn::Ca[$shared_ca]) { fail("Openvpn::ca[${name}] is not defined for shared_ca")}
+      $ca_common_name = getparam(Openvpn::Ca[$shared_ca], 'common_name')
     }
 
     file {
@@ -489,11 +491,10 @@ define openvpn::server(
   }
 
   if $::osfamily == 'Debian' {
-    concat::fragment {
-      "openvpn.default.autostart.${name}":
-        content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
-        target  => '/etc/default/openvpn',
-        order   => 10;
+    concat::fragment { "openvpn.default.autostart.${name}":
+      content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
+      target  => '/etc/default/openvpn',
+      order   => 10,
     }
   }
 
@@ -501,7 +502,8 @@ define openvpn::server(
     owner   => root,
     group   => root,
     mode    => '0440',
-    content => template('openvpn/server.erb');
+    content => template('openvpn/server.erb'),
+    notify  => $notify,
   }
 
   if $ldap_enabled == true {
@@ -517,7 +519,7 @@ define openvpn::server(
     service { "openvpn@${name}":
       ensure  => running,
       enable  => true,
-      require => [ File["/etc/openvpn/${name}.conf"] ]
+      require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ],
     }
   }
 

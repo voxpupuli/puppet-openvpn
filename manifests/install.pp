@@ -38,10 +38,8 @@ class openvpn::install inherits openvpn::params {
     ensure_packages( any2array($::openvpn::params::additional_packages) )
   }
 
-
-  file {
-    [ '/etc/openvpn', '/etc/openvpn/keys' ]:
-      ensure  => directory,
-      require => Package['openvpn'];
+  file { [ '/etc/openvpn', '/etc/openvpn/keys' ]:
+    ensure  => directory,
+    require => Package['openvpn'];
   }
 }

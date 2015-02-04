@@ -40,8 +40,8 @@ class openvpn {
   Class['openvpn']
 
   if ! $::openvpn::params::systemd {
-    class {'openvpn::service':
-      subscribe => [Class['openvpn::config'], Class['openvpn::install'] ],
+    class { 'openvpn::service':
+      subscribe => [ Class['openvpn::config'], Class['openvpn::install'] ],
       before    => Class['openvpn'],
     }
   }
