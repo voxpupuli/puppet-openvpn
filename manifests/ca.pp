@@ -114,25 +114,19 @@ define openvpn::ca(
   }
 
   File {
-    group   => $group_to_set,
+    group => $group_to_set,
   }
-
-  # directory shared with openvpn::server
-  ensure_resource(file, "/etc/openvpn/${name}", {
-    ensure  => directory,
-    mode    => '0750',
-  })
 
   exec { "copy easy-rsa to openvpn config folder ${name}":
     command => "/bin/cp -r ${openvpn::params::easyrsa_source} /etc/openvpn/${name}/easy-rsa",
     creates => "/etc/openvpn/${name}/easy-rsa",
-    notify  => Exec["fix_easyrsa_file_permissions_${name}"],
     require => File["/etc/openvpn/${name}"],
   }
 
-  exec { "fix_easyrsa_file_permissions_${name}":
-    refreshonly => true,
-    command     => "/bin/chmod 750 /etc/openvpn/${name}/easy-rsa/*",
+  file { "/etc/openvpn/${name}/easy-rsa":
+    ensure  => directory,
+    mode    => '0750',
+    require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
   file { "/etc/openvpn/${name}/easy-rsa/revoked":
@@ -143,7 +137,7 @@ define openvpn::ca(
   }
 
   file { "/etc/openvpn/${name}/easy-rsa/vars":
-    ensure  => present,
+    ensure  => file,
     content => template('openvpn/vars.erb'),
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
@@ -155,7 +149,8 @@ define openvpn::ca(
   if $openvpn::params::link_openssl_cnf == true {
     File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] {
       ensure => link,
-      target => "/etc/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf"
+      target => "/etc/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf",
+      before => Exec["initca ${name}"],
     }
   }
 
@@ -172,10 +167,7 @@ define openvpn::ca(
     cwd      => "/etc/openvpn/${name}/easy-rsa",
     creates  => "/etc/openvpn/${name}/easy-rsa/keys/ca.key",
     provider => 'shell',
-    require  => [
-      Exec["generate dh param ${name}"],
-      File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"]
-    ],
+    require  => Exec["generate dh param ${name}"],
   }
 
   exec { "generate server cert ${name}":
@@ -192,12 +184,6 @@ define openvpn::ca(
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
-  file { "/etc/openvpn/${name}/crl.pem":
-    mode    => '0640',
-    group   =>  $group_to_set,
-    require => [Exec["create crl.pem on ${name}"], File["/etc/openvpn/${name}"]],
-  }
-
   exec { "create crl.pem on ${name}":
     command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out /etc/openvpn/${name}/crl.pem -config /etc/openvpn/${name}/easy-rsa/openssl.cnf",
     cwd      => "/etc/openvpn/${name}/easy-rsa",
@@ -205,6 +191,13 @@ define openvpn::ca(
     provider => 'shell',
     require  => Exec["generate server cert ${name}"],
   }
+
+  file { "/etc/openvpn/${name}/crl.pem":
+    mode    => '0640',
+    group   =>  $group_to_set,
+    require => Exec["create crl.pem on ${name}"],
+  }
+
   if $tls_auth {
     exec { "generate tls key for ${name}":
       command  => 'openvpn --genkey --secret keys/ta.key',
