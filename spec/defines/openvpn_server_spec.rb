@@ -6,12 +6,12 @@ describe 'openvpn::server', :type => :define do
 
   let(:facts) { {
     :ipaddress_eth0 => '1.2.3.4',
-    :network_eth0   => '1.2.3.0',
-    :netmask_eth0   => '255.255.255.0',
+    :network_eth0 => '1.2.3.0',
+    :netmask_eth0 => '255.255.255.0',
     :concat_basedir => '/var/lib/puppet/concat',
-    :osfamily       => 'Debian',
-    :lsbdistid      => 'Ubuntu',
-    :lsbdistrelease => '12.04',
+    :osfamily => 'Debian',
+    :operatingsystem => 'Ubuntu',
+    :operatingsystemrelease => '12.04',
   } }
 
   context 'creating a server without any parameter' do
@@ -155,8 +155,8 @@ describe 'openvpn::server', :type => :define do
       :netmask_eth0   => '255.255.255.0',
       :concat_basedir => '/var/lib/puppet/concat',
       :osfamily       => 'Debian',
-      :lsbdistid      => 'Ubuntu',
-      :lsbdistrelease => '12.04',
+      :operatingsystem      => 'Ubuntu',
+      :operatingsystemrelease => '12.04',
     } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
@@ -234,8 +234,8 @@ describe 'openvpn::server', :type => :define do
       :netmask_eth0   => '255.255.255.0',
       :concat_basedir => '/var/lib/puppet/concat',
       :osfamily       => 'Debian',
-      :lsbdistid      => 'Ubuntu',
-      :lsbdistrelease => '12.04',
+      :operatingsystem      => 'Ubuntu',
+      :operatingsystemrelease => '12.04',
     } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^client$/) }
@@ -326,7 +326,7 @@ describe 'openvpn::server', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let(:facts) { { :osfamily => 'Debian', :lsbdistid => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) { { :osfamily => 'Debian', :operatingsystem => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
 
     # Configure to start vpn session
     it { should contain_concat__fragment('openvpn.default.autostart.test_server').with(
@@ -340,8 +340,8 @@ describe 'openvpn::server', :type => :define do
   context 'ldap' do
     before do
       facts[:osfamily] = 'Debian'
-      facts[:lsbdistid] = 'Debian'
-      facts[:lsbdistrelease] = '8.0.0'
+      facts[:operatingsystem] = 'Debian'
+      facts[:operatingsystemrelease] = '8.0.0'
     end
     let(:params) { {
       'country'       => 'CO',
