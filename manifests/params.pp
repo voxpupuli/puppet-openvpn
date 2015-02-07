@@ -46,16 +46,16 @@ class openvpn::params {
       }
     }
     'Debian': { # Debian/Ubuntu
-      case $::lsbdistid {
+      case $::operatingsystem {
         'Debian': {
           # Version > 8.0.0, jessie
-          if(versioncmp($::lsbdistrelease, '8.0.0') >= 0) {
+          if(versioncmp($::operatingsystemdistrelease, '8.0.0') >= 0) {
             $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
 
           # Version > 7.0.0, wheezy
-          } elsif(versioncmp($::lsbdistrelease, '7.0.0') >= 0) {
+          } elsif(versioncmp($::operatingsystemdistrelease, '7.0.0') >= 0) {
             $additional_packages = ['openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
@@ -65,7 +65,7 @@ class openvpn::params {
         }
         'Ubuntu': {
           # Version > 13.10, saucy
-          if(versioncmp($::lsbdistrelease, '13.10') >= 0) {
+          if(versioncmp($::operatingsystemdistrelease, '13.10') >= 0) {
             $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
@@ -74,7 +74,7 @@ class openvpn::params {
           }
         }
         default: {
-          fail("Not supported OS / Distribution: ${::osfamily}/${::lsbdistid}")
+          fail("Not supported OS / Distribution: ${::osfamily}/${::operatingsystem}")
         }
       }
 
