@@ -73,5 +73,14 @@ describe 'openvpn::install', :type => :class do
         it { should contain_package('easy-rsa') }
       end
     end
+
+    context 'Amazon' do
+      let(:osfamily) { 'Linux' }
+      let(:operatingsystem) { 'Amazon' }
+      let(:operatingsystemrelease) { nil }
+
+      it { should_not contain_package('openvpn-auth-ldap') }
+      it { should contain_package('easy-rsa') }
+    end
   end
 end
