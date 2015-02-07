@@ -85,6 +85,7 @@ class openvpn::params {
         'Amazon': {
           $additional_packages = ['easy-rsa']
           $easyrsa_source = '/usr/share/easy-rsa/2.0'
+          $systemd = false
         }
         default: {
           fail("Not supported OS / Distribution: ${::osfamily}/${::operatingsystem}")
