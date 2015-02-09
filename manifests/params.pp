@@ -48,14 +48,14 @@ class openvpn::params {
     'Debian': { # Debian/Ubuntu
       case $::operatingsystem {
         'Debian': {
-          # Version > 8.0.0, jessie
-          if(versioncmp($::operatingsystemrelease, '8.0.0') >= 0) {
+          # Version > 8.0, jessie
+          if(versioncmp($::operatingsystemrelease, '8.0') >= 0) {
             $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
 
-          # Version > 7.0.0, wheezy
-          } elsif(versioncmp($::operatingsystemrelease, '7.0.0') >= 0) {
+          # Version > 7.0, wheezy
+          } elsif(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
             $additional_packages = ['openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
