@@ -15,14 +15,11 @@
 # limitations under the License.
 #
 class openvpn::params {
-
-  $group = $::osfamily ? {
-    'RedHat' => 'nobody',
-    default  => 'nogroup'
-  }
-
   case $::osfamily {
     'RedHat': {
+      $group = 'nobody'
+      $link_openssl_cnf = true
+
       # Redhat/Centos >= 6.4
       if(versioncmp($::operatingsystemrelease, '6.4') >= 0) {
         $additional_packages = ['easy-rsa']
@@ -46,6 +43,9 @@ class openvpn::params {
       }
     }
     'Debian': { # Debian/Ubuntu
+      $group = 'nogroup'
+      $link_openssl_cnf = true
+
       case $::operatingsystem {
         'Debian': {
           # Version > 8.0, jessie
@@ -83,9 +83,11 @@ class openvpn::params {
     'Linux': {
       case $::operatingsystem {
         'Amazon': {
+          $group = 'nobody'
           $additional_packages = ['easy-rsa']
           $easyrsa_source = '/usr/share/easy-rsa/2.0'
           $systemd = false
+          $link_openssl_cnf = true
         }
         default: {
           fail("Not supported OS / Distribution: ${::osfamily}/${::operatingsystem}")
@@ -95,11 +97,6 @@ class openvpn::params {
     default: {
       fail("Not supported OS family ${::osfamily}")
     }
-  }
-
-  $link_openssl_cnf = $::osfamily ? {
-    /(Debian|RedHat)/ => true,
-    default           => false
   }
 
 }
