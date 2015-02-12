@@ -24,9 +24,11 @@ describe 'openvpn::ca', :type => :define do
     } }
 
     # Files associated with a server config
-    it { should contain_file('/etc/openvpn/test_server/easy-rsa/revoked').
-         with(:ensure =>'directory', :mode =>'0750', :recurse =>true, :group =>'nogroup') }
-    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars')}
+
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/clean-all').with(:mode => '0550') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/build-dh').with(:mode => '0550') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/pkitool').with(:mode => '0550') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with(:mode => '0550') }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').
          with(:recurse =>nil, :group =>'nogroup') }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').
