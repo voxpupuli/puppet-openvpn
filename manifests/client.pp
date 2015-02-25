@@ -203,7 +203,7 @@ define openvpn::client(
       command  => ". ./vars && ./pkitool ${name}",
       cwd      => "/etc/openvpn/${ca_name}/easy-rsa",
       creates  => "/etc/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
-      provider => 'shell';
+      provider => 'shell',
   }
 
   file { [ "/etc/openvpn/${server}/download-configs/${name}",
@@ -229,6 +229,7 @@ define openvpn::client(
     target  => "/etc/openvpn/${ca_name}/easy-rsa/keys/ca.crt",
     require => Exec["generate certificate for ${name} in context of ${ca_name}"],
   }
+
   if $tls_auth {
     file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key":
       ensure  => link,

@@ -114,13 +114,13 @@ define openvpn::ca(
   }
 
   File {
-    group   => $group_to_set,
+    group => $group_to_set,
   }
 
   # directory shared with openvpn::server
   ensure_resource(file, "/etc/openvpn/${name}", {
-    ensure  => directory,
-    mode    => '0750',
+    ensure => directory,
+    mode   => '0750',
   })
 
   exec { "copy easy-rsa to openvpn config folder ${name}":
@@ -143,7 +143,7 @@ define openvpn::ca(
   }
 
   file { "/etc/openvpn/${name}/easy-rsa/vars":
-    ensure  => present,
+    ensure  => file,
     content => template('openvpn/vars.erb'),
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
@@ -155,7 +155,7 @@ define openvpn::ca(
   if $openvpn::params::link_openssl_cnf == true {
     File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] {
       ensure => link,
-      target => "/etc/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf"
+      target => "/etc/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf",
     }
   }
 
