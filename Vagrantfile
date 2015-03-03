@@ -21,7 +21,6 @@ end
 
 Vagrant::Config.run(2) do |config|
 
-  config.vm.provision :shell, inline: 'apt-get update && apt-get install -y ruby-dev git'
   config.vm.provision :shell, path: 'vagrant/provision_module.sh'
 
   config.vm.define :server_ubuntu do |c|
