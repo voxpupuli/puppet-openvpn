@@ -222,6 +222,7 @@ describe 'openvpn::server', :type => :define do
   end
 
   context "creating a server in client mode" do
+    let(:title) { 'test_client' }
     let(:params) { {
       'remote'              => ['vpn.example.com 12345'],
       'server_poll_timeout' => 1,
@@ -238,18 +239,25 @@ describe 'openvpn::server', :type => :define do
       :lsbdistrelease => '12.04',
     } }
 
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^client$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^remote\s+vpn.example.com\s+12345$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout\s+1$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem$/) }
-    it { should contain_file('/etc/openvpn/test_server/keys').
+    it { should contain_file('/etc/openvpn/test_client.conf').with_content(/^client$/) }
+    it { should contain_file('/etc/openvpn/test_client.conf').
+         with_content(/^remote\s+vpn.example.com\s+12345$/) }
+    it { should contain_file('/etc/openvpn/test_client.conf').with_content(/^server-poll-timeout\s+1$/) }
+    it { should contain_file('/etc/openvpn/test_client.conf').with_content(/^ping-timer-rem$/) }
+    it { should contain_file('/etc/openvpn/test_client.conf').
+         with_content(%r{^ca /etc/openvpn/test_client/keys/ca.crt$}) }
+    it { should contain_file('/etc/openvpn/test_client.conf').
+         with_content(%r{^cert /etc/openvpn/test_client/keys/test_client.crt$}) }
+    it { should contain_file('/etc/openvpn/test_client.conf').
+         with_content(%r{^key /etc/openvpn/test_client/keys/test_client.key$}) }
+    it { should contain_file('/etc/openvpn/test_client/keys').
          with(:ensure =>'directory', :mode =>'0750', :group =>'nogroup') }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ns-cert-type server/) }
-    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
-    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^client-config-dir/) }
-    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^dh/) }
+    it { should contain_file('/etc/openvpn/test_client.conf').with_content(/^ns-cert-type server/) }
+    it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(/^mode\s+server$/) }
+    it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(/^client-config-dir/) }
+    it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(/^dh/) }
 
-    it { should_not contain_openvpn__ca('test_server') }
+    it { should_not contain_openvpn__ca('test_client') }
   end
 
   context "when altering send and receive buffers" do

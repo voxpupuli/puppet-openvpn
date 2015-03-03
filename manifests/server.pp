@@ -481,6 +481,9 @@ define openvpn::server(
   } else {
     # VPN Client Mode
 
+    $ca_name = $name
+    $ca_common_name = $name
+
     file { "/etc/openvpn/${name}/keys":
       ensure  => directory,
       mode    => '0750',
