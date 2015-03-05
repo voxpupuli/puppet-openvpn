@@ -102,6 +102,7 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ns-cert-type server/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth}) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment}) }
 
   end
 
@@ -197,6 +198,8 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-server$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/test_server/keys/ta.key\s+0$}) }
 
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
+
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^sndbuf/) }
@@ -239,7 +242,6 @@ describe 'openvpn::server', :type => :define do
       :operatingsystem      => 'Ubuntu',
       :operatingsystemrelease => '12.04',
     } }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
     it { should contain_file('/etc/openvpn/test_client.conf').with_content(/^client$/) }
     it { should contain_file('/etc/openvpn/test_client.conf').
          with_content(/^remote\s+vpn.example.com\s+12345$/) }
