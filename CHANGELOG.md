@@ -4,6 +4,10 @@
 
 * Support for systems without `lsb-release` package ([#134](https://github.com/luxflux/puppet-openvpn/pull/134))
 
+## 2.7.1
+
+* Fix server in client mode ([#137](https://github.com/luxflux/puppet-openvpn/pull/137))
+
 ## 2.7.0
 
 * Support for removing a client specific conf file ([#115](https://github.com/luxflux/puppet-openvpn/pull/115))

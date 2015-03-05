@@ -47,7 +47,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-define openvpn::revoke($server) {
+define openvpn::revoke(
+  $server,
+) {
 
   Openvpn::Server[$server] ->
   Openvpn::Revoke[$name]
@@ -59,6 +61,6 @@ define openvpn::revoke($server) {
     command  => ". ./vars && ./revoke-full ${name} ; test $? -eq 2 && touch revoked/${name}",
     cwd      => "/etc/openvpn/${server}/easy-rsa",
     creates  => "/etc/openvpn/${server}/easy-rsa/revoked/${name}",
-    provider => 'shell';
+    provider => 'shell',
   }
 }

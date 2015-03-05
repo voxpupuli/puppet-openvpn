@@ -1,0 +1,1 @@
+mod 'luxflux-openvpn', path: '/vagrant'

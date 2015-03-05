@@ -20,27 +20,30 @@ class openvpn::params {
       $group = 'nobody'
       $link_openssl_cnf = true
 
-      # Redhat/Centos >= 6.4
-      if(versioncmp($::operatingsystemrelease, '6.4') >= 0) {
+      # Redhat/Centos >= 7.0
+      if(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
         $additional_packages = ['easy-rsa']
         $easyrsa_source = '/usr/share/easy-rsa/2.0'
+        $systemd = true
+
+      # Redhat/Centos >= 6.4
+      } elsif(versioncmp($::operatingsystemrelease, '6.4') >= 0) {
+        $additional_packages = ['easy-rsa']
+        $easyrsa_source = '/usr/share/easy-rsa/2.0'
+        $systemd = false
 
       # Redhat/Centos < 6.4 >= 6
       } elsif(versioncmp($::operatingsystemrelease, '6') >= 0) {
         $easyrsa_source = '/usr/share/openvpn/easy-rsa/2.0'
+        $systemd = false
 
       # Redhat/Centos < 6
       } else {
         $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+        $systemd = false
       }
 
       $ldap_auth_plugin_location = undef # no ldap plugin on redhat/centos
-
-      if(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
-        $systemd = true
-      } else {
-        $systemd = false
-      }
     }
     'Debian': { # Debian/Ubuntu
       $group = 'nogroup'
@@ -98,5 +101,4 @@ class openvpn::params {
       fail("Not supported OS family ${::osfamily}")
     }
   }
-
 }

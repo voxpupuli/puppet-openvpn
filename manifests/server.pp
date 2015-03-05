@@ -427,7 +427,7 @@ define openvpn::server(
   }
 
   File {
-    group   => $group_to_set,
+    group => $group_to_set,
   }
 
   # directory shared with openvpn::ca
@@ -437,8 +437,8 @@ define openvpn::server(
     notify => $notify,
   })
 
-  if $remote == undef {
-    if $shared_ca == undef {
+  if !$remote {
+    if !$shared_ca {
       # VPN Server Mode
       if $country == undef { fail('country has to be specified in server mode') }
       if $province == undef { fail('province has to be specified in server mode') }
@@ -481,6 +481,9 @@ define openvpn::server(
   } else {
     # VPN Client Mode
 
+    $ca_name = $name
+    $ca_common_name = $name
+
     file { "/etc/openvpn/${name}/keys":
       ensure  => directory,
       mode    => '0750',
@@ -489,11 +492,10 @@ define openvpn::server(
   }
 
   if $::osfamily == 'Debian' {
-    concat::fragment {
-      "openvpn.default.autostart.${name}":
-        content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
-        target  => '/etc/default/openvpn',
-        order   => 10;
+    concat::fragment { "openvpn.default.autostart.${name}":
+      content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
+      target  => '/etc/default/openvpn',
+      order   => 10,
     }
   }
 
@@ -501,7 +503,7 @@ define openvpn::server(
     owner   => root,
     group   => root,
     mode    => '0440',
-    content => template('openvpn/server.erb');
+    content => template('openvpn/server.erb'),
   }
 
   if $ldap_enabled == true {
