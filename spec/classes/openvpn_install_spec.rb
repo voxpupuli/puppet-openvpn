@@ -21,6 +21,7 @@ describe 'openvpn::install', :type => :class do
 
   it { should contain_file('/etc/openvpn').with('ensure' => 'directory') }
   it { should contain_file('/etc/openvpn/keys').with('ensure' => 'directory') }
+  it { should contain_file('/var/log/openvpn').with('ensure' => 'directory') }
 
   describe 'installed packages' do
     context 'debian' do

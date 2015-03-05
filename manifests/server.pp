@@ -81,7 +81,7 @@
 #
 # [*status_log*]
 #   String.  Logfile for periodic dumps of the vpn service status
-#   Default: "${name}/openvpn-status.log"
+#   Default: "/var/log/openvpn/${name}-status.log"
 #
 # [*status_version*]
 #   Integer. Choose the status file format version number. Can be 1, 2 or 3 and defaults to 1
@@ -349,7 +349,7 @@ define openvpn::server(
   $port = '1194',
   $proto = 'tcp',
   $status_version = '',
-  $status_log = "${name}-status.log",
+  $status_log = "/var/log/openvpn/${name}-status.log",
   $server = '',
   $server_ipv6 = '',
   $server_bridge = '',

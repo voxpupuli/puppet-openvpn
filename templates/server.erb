@@ -37,7 +37,7 @@ user <%= @user %>
 <% if @logfile -%>
 log-append <%= @logfile %>
 <% end -%>
-status <%= scope.lookupvar('openvpn::params::status_log_dir') %>/<%= scope.lookupvar('status_log') %>
+status <%= @status_log %>
 <% if @status_version != '' -%>
 status-version <%= @status_version %>
 <% end -%>
