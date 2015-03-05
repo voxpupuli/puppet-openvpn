@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 class openvpn::params {
+  $status_log_dir = '/var/log/openvpn'
+
   case $::osfamily {
     'RedHat': {
       $group = 'nobody'
