@@ -356,6 +356,7 @@ define openvpn::server(
   $push = [],
   $route = [],
   $keepalive = '',
+  $fragment = false,
   $ssl_key_size = 1024,
   $topology = 'net30',
   $c2c = false,
