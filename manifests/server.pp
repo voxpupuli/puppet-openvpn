@@ -426,16 +426,21 @@ define openvpn::server(
     default => $group
   }
 
+  if $shared_ca {
+    $ca_name = $shared_ca
+  } else {
+    $ca_name = $name
+  }
+
   File {
     group => $group_to_set,
   }
 
-  # directory shared with openvpn::ca
-  ensure_resource(file, "/etc/openvpn/${name}", {
+  file { "/etc/openvpn/${name}":
     ensure => directory,
     mode   => '0750',
     notify => $notify,
-  })
+  }
 
   if !$remote {
     if !$shared_ca {
@@ -446,7 +451,6 @@ define openvpn::server(
       if $organization == undef { fail('organization has to be specified in server mode') }
       if $email == undef { fail('email has to be specified in server mode') }
 
-      $ca_name = $name
       $ca_common_name = $common_name
       ::openvpn::ca { $name:
         country      => $country,
@@ -465,9 +469,10 @@ define openvpn::server(
         tls_auth     => $tls_auth,
       }
     } else {
-      $ca_name = $shared_ca
-      $ca_common_name = getparam(Openvpn::Ca[$ca_name], 'common_name')
-      Openvpn::Ca[$shared_ca] -> Openvpn::Server[$name]
+      if !defined(Openvpn::Ca[$shared_ca]) {
+        fail("Openvpn::ca[${name}] is not defined for shared_ca")
+      }
+      $ca_common_name = getparam(Openvpn::Ca[$shared_ca], 'common_name')
     }
 
     file {
@@ -480,8 +485,6 @@ define openvpn::server(
     }
   } else {
     # VPN Client Mode
-
-    $ca_name = $name
     $ca_common_name = $name
 
     file { "/etc/openvpn/${name}/keys":
@@ -519,7 +522,7 @@ define openvpn::server(
     service { "openvpn@${name}":
       ensure  => running,
       enable  => true,
-      require => [ File["/etc/openvpn/${name}.conf"] ]
+      require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
     }
   }
 
