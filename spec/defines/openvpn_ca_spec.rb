@@ -6,12 +6,12 @@ describe 'openvpn::ca', :type => :define do
 
   let(:facts) { {
     :ipaddress_eth0 => '1.2.3.4',
-    :network_eth0   => '1.2.3.0',
-    :netmask_eth0   => '255.255.255.0',
+    :network_eth0 => '1.2.3.0',
+    :netmask_eth0 => '255.255.255.0',
     :concat_basedir => '/var/lib/puppet/concat',
-    :osfamily       => 'Debian',
-    :lsbdistid      => 'Ubuntu',
-    :lsbdistrelease => '12.04',
+    :osfamily => 'Debian',
+    :operatingsystem => 'Ubuntu',
+    :operatingsystemrelease => '12.04',
   } }
 
   context "creating a server with the minimum parameters" do
@@ -75,8 +75,8 @@ describe 'openvpn::ca', :type => :define do
       :netmask_eth0   => '255.255.255.0',
       :concat_basedir => '/var/lib/puppet/concat',
       :osfamily       => 'Debian',
-      :lsbdistid      => 'Ubuntu',
-      :lsbdistrelease => '12.04',
+      :operatingsystem      => 'Ubuntu',
+      :operatingsystemrelease => '12.04',
     } }
 
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export CA_EXPIRE=365$/) }
@@ -150,7 +150,7 @@ describe 'openvpn::ca', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let(:facts) { { :osfamily => 'Debian', :lsbdistid => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) { { :osfamily => 'Debian', :operatingsystem => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
 
     shared_examples_for 'a newer version than wheezy' do
       it { should contain_package('easy-rsa').with('ensure' => 'present') }
@@ -160,24 +160,24 @@ describe 'openvpn::ca', :type => :define do
     end
     context "when jessie/sid" do
       before do
-        facts[:lsbdistid] = 'Debian'
-        facts[:lsbdistrelease] = '8.0.1'
+        facts[:operatingsystem] = 'Debian'
+        facts[:operatingsystemrelease] = '8.0.1'
       end
       it_behaves_like 'a newer version than wheezy'
     end
 
     context 'when ubuntu 13.10' do
       before do
-        facts[:lsbdistid] = 'Ubuntu'
-        facts[:lsbdistrelease] = '13.10'
+        facts[:operatingsystem] = 'Ubuntu'
+        facts[:operatingsystemrelease] = '13.10'
       end
       it_behaves_like 'a newer version than wheezy'
     end
 
     context 'when ubuntu 14.04' do
       before do
-        facts[:lsbdistid] = 'Ubuntu'
-        facts[:lsbdistrelease] = '14.04'
+        facts[:operatingsystem] = 'Ubuntu'
+        facts[:operatingsystemrelease] = '14.04'
       end
       it_behaves_like 'a newer version than wheezy'
     end

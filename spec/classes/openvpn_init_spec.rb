@@ -5,9 +5,9 @@ describe 'openvpn', :type => :class do
   context 'non-systemd systems' do
     let(:facts) { {
       :concat_basedir => '/var/lib/puppet/concat',
-      :osfamily       => 'Debian',
-      :lsbdistid      => 'Ubuntu',
-      :lsbdistrelease => '12.04',
+      :osfamily => 'Debian',
+      :operatingsystem => 'Ubuntu',
+      :operatingsystemrelease => '12.04',
     } }
 
     it { should create_class('openvpn') }
@@ -16,8 +16,8 @@ describe 'openvpn', :type => :class do
 
   context 'systemd systems' do
     let(:facts) { {
-      :concat_basedir         => '/var/lib/puppet/concat',
-      :osfamily               => 'RedHat',
+      :concat_basedir => '/var/lib/puppet/concat',
+      :osfamily => 'RedHat',
       :operatingsystemrelease => '7.0',
     } }
 

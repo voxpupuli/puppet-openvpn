@@ -4,15 +4,15 @@ describe 'openvpn::install', :type => :class do
   let(:osfamily) { 'Debian' }
   let(:operatingsystemmajrelease) { nil }
   let(:operatingsystemrelease) { nil }
-  let(:lsbdistid) { 'Ubuntu' }
-  let(:lsbdistrelease) { '13.10' }
+  let(:operatingsystem) { 'Ubuntu' }
+  let(:operatingsystemrelease) { '13.10' }
   let(:facts) do
     {
       :osfamily => osfamily,
       :operatingsystemmajrelease => operatingsystemmajrelease,
       :operatingsystemrelease => operatingsystemrelease,
-      :lsbdistid => lsbdistid,
-      :lsbdistrelease => lsbdistrelease,
+      :operatingsystem => operatingsystem,
+      :operatingsystemrelease => operatingsystemrelease,
     }
   end
 
@@ -25,22 +25,22 @@ describe 'openvpn::install', :type => :class do
   describe 'installed packages' do
     context 'debian' do
       let(:osfamily) { 'Debian' }
-      let(:lsbdistid) { 'Debian' }
+      let(:operatingsystem) { 'Debian' }
 
       context 'squeeze' do
-        let(:lsbdistrelease) { '6.5' }
+        let(:operatingsystemrelease) { '6.5' }
         it { should_not contain_package('openvpn-auth-ldap') }
         it { should_not contain_package('easy-rsa') }
       end
 
       context 'wheezy' do
-        let(:lsbdistrelease) { '7.4' }
+        let(:operatingsystemrelease) { '7.4' }
         it { should contain_package('openvpn-auth-ldap') }
         it { should_not contain_package('easy-rsa') }
       end
 
       context 'jessie' do
-        let(:lsbdistrelease) { '8.0.0' }
+        let(:operatingsystemrelease) { '8.0.0' }
         it { should contain_package('openvpn-auth-ldap') }
         it { should contain_package('easy-rsa') }
       end
@@ -72,6 +72,15 @@ describe 'openvpn::install', :type => :class do
         it { should_not contain_package('openvpn-auth-ldap') }
         it { should contain_package('easy-rsa') }
       end
+    end
+
+    context 'Amazon' do
+      let(:osfamily) { 'Linux' }
+      let(:operatingsystem) { 'Amazon' }
+      let(:operatingsystemrelease) { nil }
+
+      it { should_not contain_package('openvpn-auth-ldap') }
+      it { should contain_package('easy-rsa') }
     end
   end
 end

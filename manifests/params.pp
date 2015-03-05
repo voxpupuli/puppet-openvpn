@@ -15,14 +15,11 @@
 # limitations under the License.
 #
 class openvpn::params {
-
-  $group = $::osfamily ? {
-    'RedHat' => 'nobody',
-    default  => 'nogroup'
-  }
-
   case $::osfamily {
     'RedHat': {
+      $group = 'nobody'
+      $link_openssl_cnf = true
+
       # Redhat/Centos >= 7.0
       if(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
         $additional_packages = ['easy-rsa']
@@ -49,16 +46,19 @@ class openvpn::params {
       $ldap_auth_plugin_location = undef # no ldap plugin on redhat/centos
     }
     'Debian': { # Debian/Ubuntu
-      case $::lsbdistid {
+      $group = 'nogroup'
+      $link_openssl_cnf = true
+
+      case $::operatingsystem {
         'Debian': {
-          # Version > 8.0.0, jessie
-          if(versioncmp($::lsbdistrelease, '8.0.0') >= 0) {
+          # Version > 8.0, jessie
+          if(versioncmp($::operatingsystemrelease, '8.0') >= 0) {
             $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
 
-          # Version > 7.0.0, wheezy
-          } elsif(versioncmp($::lsbdistrelease, '7.0.0') >= 0) {
+          # Version > 7.0, wheezy
+          } elsif(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
             $additional_packages = ['openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
@@ -68,7 +68,7 @@ class openvpn::params {
         }
         'Ubuntu': {
           # Version > 13.10, saucy
-          if(versioncmp($::lsbdistrelease, '13.10') >= 0) {
+          if(versioncmp($::operatingsystemrelease, '13.10') >= 0) {
             $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
@@ -77,20 +77,28 @@ class openvpn::params {
           }
         }
         default: {
-          fail("Not supported OS / Distribution: ${::osfamily}/${::lsbdistid}")
+          fail("Not supported OS / Distribution: ${::osfamily}/${::operatingsystem}")
         }
       }
 
       $systemd = false
     }
+    'Linux': {
+      case $::operatingsystem {
+        'Amazon': {
+          $group = 'nobody'
+          $additional_packages = ['easy-rsa']
+          $easyrsa_source = '/usr/share/easy-rsa/2.0'
+          $systemd = false
+          $link_openssl_cnf = true
+        }
+        default: {
+          fail("Not supported OS / Distribution: ${::osfamily}/${::operatingsystem}")
+        }
+      }
+    }
     default: {
       fail("Not supported OS family ${::osfamily}")
     }
   }
-
-  $link_openssl_cnf = $::osfamily ? {
-    /(Debian|RedHat)/ => true,
-    default           => false
-  }
-
 }

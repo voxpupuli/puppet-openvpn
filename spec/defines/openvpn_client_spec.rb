@@ -4,11 +4,11 @@ describe 'openvpn::client', :type => :define do
   let(:title) { 'test_client' }
   let(:params) { { 'server' => 'test_server' } }
   let(:facts) { {
-    :fqdn           => 'somehost',
+    :fqdn => 'somehost',
     :concat_basedir => '/var/lib/puppet/concat',
-    :osfamily       => 'Debian',
-    :lsbdistid      => 'Ubuntu',
-    :lsbdistrelease => '12.04',
+    :osfamily => 'Debian',
+    :operatingsystem => 'Ubuntu',
+    :operatingsystemrelease => '12.04',
   } }
   let(:pre_condition) do
     'openvpn::server { "test_server":
@@ -89,11 +89,11 @@ describe 'openvpn::client', :type => :define do
       'rcvbuf'                => 393215,
     } }
     let(:facts) { {
-      :fqdn           => 'somehost',
+      :fqdn => 'somehost',
       :concat_basedir => '/var/lib/puppet/concat',
-      :osfamily       => 'Debian',
-      :lsbdistid      => 'Ubuntu',
-      :lsbdistrelease => '12.04',
+      :osfamily => 'Debian',
+      :operatingsystem => 'Ubuntu',
+      :operatingsystemrelease => '12.04',
     } }
 
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^client$/)}
