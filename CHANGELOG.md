@@ -3,6 +3,7 @@
 ## Next version
 
 * Support for systems without `lsb-release` package ([#134](https://github.com/luxflux/puppet-openvpn/pull/134))
+* Support for Amazon EC2 OS ([#134](https://github.com/luxflux/puppet-openvpn/pull/134))
 
 ## 2.7.1
 
