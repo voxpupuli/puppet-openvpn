@@ -339,13 +339,29 @@ describe 'openvpn::server', :type => :define do
 
     let(:facts) { { :osfamily => 'Debian', :operatingsystem => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
 
-    # Configure to start vpn session
-    it { should contain_concat__fragment('openvpn.default.autostart.test_server').with(
-      'content' => "AUTOSTART=\"$AUTOSTART test_server\"\n",
-      'target'  => '/etc/default/openvpn'
-    )}
-
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
+
+    context 'enabled autostart' do
+      let(:pre_condition) { 'class { "openvpn": autostart_all => true }' }
+
+      # Configure to start vpn session
+      it { should contain_concat__fragment('openvpn.default.autostart.test_server').with(
+        'content' => "AUTOSTART=\"$AUTOSTART test_server\"\n",
+        'target'  => '/etc/default/openvpn'
+      )}
+    end
+
+    context 'disabled autostart_all' do
+      let(:pre_condition) { 'class { "openvpn": autostart_all => false }' }
+
+      # Configure to start vpn session
+      it { should_not contain_concat__fragment('openvpn.default.autostart.test_server') }
+
+      context 'but machine has autostart' do
+        before { params['autostart'] = true }
+        it { should contain_concat__fragment('openvpn.default.autostart.test_server') }
+      end
+    end
   end
 
   context 'ldap' do
@@ -427,5 +443,4 @@ describe 'openvpn::server', :type => :define do
       :enable => true,
     )}
   end
-
 end

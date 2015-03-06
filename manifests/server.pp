@@ -296,6 +296,10 @@
 #   String.  Name of a openssl::ca resource to use config with
 #   Default: undef
 #
+# [*autostart*]
+#   Boolean. Enable autostart for this server if openvpn::autostart_all is false.
+#   Default: undef
+#
 # === Examples
 #
 #   openvpn::client {
@@ -401,6 +405,7 @@ define openvpn::server(
   $sndbuf = undef,
   $rcvbuf = undef,
   $shared_ca = undef,
+  $autostart = undef,
 ) {
 
   include openvpn
@@ -495,7 +500,7 @@ define openvpn::server(
     }
   }
 
-  if $::osfamily == 'Debian' {
+  if ($::osfamily == 'Debian' and $::openvpn::autostart_all) or $autostart {
     concat::fragment { "openvpn.default.autostart.${name}":
       content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
       target  => '/etc/default/openvpn',
