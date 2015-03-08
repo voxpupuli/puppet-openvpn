@@ -3,11 +3,18 @@
 # This module installs the openvpn service, configures vpn endpoints, generates
 # client certificates, and generates client config files
 #
+# === Parameters
+#
+# [*autostart_all*]
+#   Boolean. Wether the openvpn instances should be started automatically on boot.
+#   Default: true
+#
 #
 # === Examples
 #
-# * Installation:
-#     class { 'openvpn': }
+#   class { 'openvpn':
+#     autostart_all => true,
+#   }
 #
 #
 # === Authors
@@ -32,7 +39,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn {
+class openvpn(
+  $autostart_all = true,
+) {
 
   class { 'openvpn::params': } ->
   class { 'openvpn::install': } ->
