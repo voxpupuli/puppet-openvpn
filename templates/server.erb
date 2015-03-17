@@ -97,7 +97,7 @@ tcp-nodelay
 ccd-exclusive
 <% end -%>
 <% if @pam -%>
-plugin /usr/lib/openvpn/openvpn-auth-pam.so login
+plugin <%= @pam_path %> login
 <% end -%>
 <% if @management -%>
 management <%= @management_ip %> <%= @management_port %>
