@@ -138,6 +138,9 @@
 #   Boolean, Enable/Disable.
 #   Default: false
 #
+# [*pam_path*]
+#   Default: /usr/lib/openvpn/openvpn-auth-pam.so
+#
 # [*management*]
 #   Boolean.  Enable management interface
 #   Default: false
@@ -367,6 +370,7 @@ define openvpn::server(
   $tcp_nodelay = false,
   $ccd_exclusive = false,
   $pam = false,
+  $pam_path = '/usr/lib/openvpn/openvpn-auth-pam.so',
   $management = false,
   $management_ip = 'localhost',
   $management_port = 7505,
