@@ -7,6 +7,7 @@
 * Move default log path for status log to `/var/log/openvpn` ([#139](https://github.com/luxflux/puppet-openvpn/pull/139))
 * Support for `format` parameter ([#138](https://github.com/luxflux/puppet-openvpn/pull/138))
 * Ability to configure autostart management on debian ([#144](https://github.com/luxflux/puppet-openvpn/pull/144))
+* Fix ordering in `/etc/default/openvpn` with puppet future parser ([#142](https://github.com/luxflux/puppet-openvpn/issues/142)
 
 ## 2.7.1
 

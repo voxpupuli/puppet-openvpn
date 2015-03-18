@@ -504,7 +504,7 @@ define openvpn::server(
     concat::fragment { "openvpn.default.autostart.${name}":
       content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
       target  => '/etc/default/openvpn',
-      order   => 10,
+      order   => '10',
     }
   }
 

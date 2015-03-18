@@ -42,7 +42,7 @@ class openvpn::config {
     concat::fragment { 'openvpn.default.header':
       content => template('openvpn/etc-default-openvpn.erb'),
       target  => '/etc/default/openvpn',
-      order   => 01,
+      order   => '01',
     }
   }
 }
