@@ -95,15 +95,15 @@ define openvpn::ca(
   $city,
   $organization,
   $email,
-  $common_name = 'server',
-  $group = false,
+  $common_name  = 'server',
+  $group        = false,
   $ssl_key_size = 1024,
-  $ca_expire = 3650,
-  $key_expire = 3650,
-  $key_cn = '',
-  $key_name = '',
-  $key_ou = '',
-  $tls_auth = false,
+  $ca_expire    = 3650,
+  $key_expire   = 3650,
+  $key_cn       = '',
+  $key_name     = '',
+  $key_ou       = '',
+  $tls_auth     = false,
 ) {
 
   include openvpn
