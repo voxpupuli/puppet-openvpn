@@ -31,7 +31,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn::install {
+class openvpn::install inherits ::openvpn::params {
 
   ensure_packages(['openvpn'])
   if $::openvpn::params::additional_packages != undef {

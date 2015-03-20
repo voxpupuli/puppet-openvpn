@@ -196,7 +196,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^script-security 2$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-server$}) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/test_server/keys/ta.key\s+0$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/test_server/keys/ta.key$}) }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
 
