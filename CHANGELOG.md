@@ -2,6 +2,8 @@
 
 ## Next version
 
+## 2.8.0
+
 * Support for systems without `lsb-release` package ([#134](https://github.com/luxflux/puppet-openvpn/pull/134))
 * Support for Amazon EC2 OS ([#134](https://github.com/luxflux/puppet-openvpn/pull/134))
 * Move default log path for status log to `/var/log/openvpn` ([#139](https://github.com/luxflux/puppet-openvpn/pull/139))
