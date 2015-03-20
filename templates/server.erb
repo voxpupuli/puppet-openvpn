@@ -3,7 +3,9 @@ mode server
 client-config-dir /etc/openvpn/<%= @name %>/client-configs
 <% else -%>
 client
+<% if @ns_cert_type -%>
 ns-cert-type server
+<% end -%>
 <% @remote.to_a.each do |rem| -%>
 remote <%= rem %>
 <% end -%>
@@ -28,6 +30,9 @@ proto <%= @proto %>
 port <%= @port %>
 <% if @real_tls_server -%>
 tls-server
+<% end -%>
+<% if @tls_client -%>
+tls-client
 <% end -%>
 <% if @compression != '' -%>
 <%= @compression %>
@@ -128,8 +133,18 @@ ping-timer-rem
 <% end -%>
 <% if @tls_auth -%>
 # tls authentification
-tls-auth /etc/openvpn/<%= @name %>/keys/ta.key 0
+tls-auth /etc/openvpn/<%= @name %>/keys/ta.key
+<% unless @remote -%>
+key-direction 0
+<% else -%>
+key-direction 1
+<% end -%>
 <% end -%>
 <% if @fragment != false -%>
 fragment <%= @fragment %>
+<% end -%>
+
+#Additional custom options
+<% @custom_options.each_pair do |key, value| -%>
+<%= key %> <%= value %>
 <% end -%>
