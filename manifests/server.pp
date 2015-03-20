@@ -446,6 +446,8 @@ define openvpn::server(
     }
   }
 
+  $pam_module_path = $::openvpn::params::pam_module_path
+
   $group_to_set = $group ? {
     false   => $openvpn::params::group,
     default => $group
