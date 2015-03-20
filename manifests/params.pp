@@ -19,6 +19,7 @@ class openvpn::params {
     'RedHat': {
       $group            = 'nobody'
       $link_openssl_cnf = true
+      $pam_module_path  = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
 
       # Redhat/Centos >= 7.0
       if(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
@@ -48,6 +49,7 @@ class openvpn::params {
     'Debian': { # Debian/Ubuntu
       $group = 'nogroup'
       $link_openssl_cnf = true
+      $pam_module_path = '/usr/lib/openvpn/openvpn-auth-pam.so'
 
       case $::operatingsystem {
         'Debian': {
@@ -91,6 +93,7 @@ class openvpn::params {
           $easyrsa_source      = '/usr/share/easy-rsa/2.0'
           $systemd             = false
           $link_openssl_cnf    = true
+          $pam_module_path     = '/usr/lib/openvpn/openvpn-auth-pam.so'
         }
         default: {
           fail("Not supported OS / Distribution: ${::osfamily}/${::operatingsystem}")
