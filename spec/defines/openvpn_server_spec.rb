@@ -71,9 +71,7 @@ describe 'openvpn::server', :type => :define do
          with(:ensure =>'directory', :mode =>'0750', :recurse =>true, :group =>'nogroup') }
 
     # OpenVPN easy-rsa CA
-    it { should contain_openvpn__ca('test_server').
-         with(params)
-    }
+    it { should contain_openvpn__ca('test_server').with(params) }
 
     # VPN server config file itself
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^mode\s+server$/) }
@@ -149,6 +147,7 @@ describe 'openvpn::server', :type => :define do
       'tls_auth'        => true,
       'tls_server'      => true,
       'fragment'        => 1412,
+      'custom_options'  => { 'this' => 'that' },
     } }
 
     let(:facts) { {
@@ -197,6 +196,8 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-server$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/test_server/keys/ta.key$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^key-direction 0$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^this that$}) }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
 
@@ -231,6 +232,8 @@ describe 'openvpn::server', :type => :define do
       'remote'              => ['vpn.example.com 12345'],
       'server_poll_timeout' => 1,
       'ping_timer_rem'      => true,
+      'tls_auth'            => true,
+      'tls_client'          => true,
     } }
 
     let(:facts) { {
@@ -259,6 +262,8 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(/^mode\s+server$/) }
     it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(/^client-config-dir/) }
     it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(/^dh/) }
+    it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^tls-client$}) }
+    it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^key-direction 1$}) }
 
     it { should_not contain_openvpn__ca('test_client') }
   end

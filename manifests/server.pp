@@ -278,6 +278,7 @@
 #
 # [*tls_client*]
 #   Boolean. Allows you to set this server up as a tls-client connection.
+#   Default: false
 #
 # [*server_poll_timeout*]
 #   Integer. Value for timeout before trying the next server.
