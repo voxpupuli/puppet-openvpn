@@ -8,6 +8,9 @@
 * Support for `format` parameter ([#138](https://github.com/luxflux/puppet-openvpn/pull/138))
 * Ability to configure autostart management on debian ([#144](https://github.com/luxflux/puppet-openvpn/pull/144))
 * Fix ordering in `/etc/default/openvpn` with puppet future parser ([#142](https://github.com/luxflux/puppet-openvpn/issues/142)
+* Support for TLS auth when server acts as client ([#147](https://github.com/luxflux/puppet-openvpn/pull/147))
+* Support for customer server options ([#147](https://github.com/luxflux/puppet-openvpn/pull/147))
+* Allow disabling `ns-cert-type server` for server-clients ([#147](https://github.com/luxflux/puppet-openvpn/pull/147))
 
 ## 2.7.1
 
