@@ -8,7 +8,7 @@
   "project_page": "https://github.com/luxflux/puppet-openvpn",
   "issues_url": "https://github.com/luxflux/puppet-openvpn/issues",
   "description": "Puppet module to manage OpenVPN servers",
-  "tags": [ "openvpn" ],
+  "tags": [ "vpn", "openvpn" ],
   "operatingsystem_support": [
     { "operatingsystem": "Ubuntu", "operatingsystemrelease": ["12.04", "12.10", "13.04", "13.10", "14.04"] },
     { "operatingsystem": "Debian", "operatingsystemrelease": ["7", "8"] },
