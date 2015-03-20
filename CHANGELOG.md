@@ -11,6 +11,7 @@
 * Support for TLS auth when server acts as client ([#147](https://github.com/luxflux/puppet-openvpn/pull/147))
 * Support for customer server options ([#147](https://github.com/luxflux/puppet-openvpn/pull/147))
 * Allow disabling `ns-cert-type server` for server-clients ([#147](https://github.com/luxflux/puppet-openvpn/pull/147))
+* Fix pam plugin path on RedHat/CentOS ([#148](https://github.com/luxflux/puppet-openvpn/pull/148))
 
 ## 2.7.1
 
