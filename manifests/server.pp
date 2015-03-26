@@ -435,7 +435,8 @@ define openvpn::server(
   }
 
   #Selection block to enable or disable tls-server flag
-  unless $tls_client { #Only if we're not running as a client
+  #Check if we want to run as a client or not
+  unless $tls_client {
     if $tls_server {
       $real_tls_server = $tls_server
     } else {
