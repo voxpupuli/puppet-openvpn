@@ -21,8 +21,8 @@ Puppet module to manage OpenVPN servers
 * Amazon
 
 ## Dependencies
-  - [puppetlabs-concat 1.0.1+](https://github.com/puppetlabs/puppet-concat)
-  - [puppetlabs-stdlib 1.0.0+](https://github.com/puppetlabs/puppet-concat)
+  - [puppetlabs-concat 1.0.1+](https://github.com/puppetlabs/puppetlabs-concat)
+  - [puppetlabs-stdlib 1.0.0+](https://github.com/puppetlabs/puppetlabs-stdlib)
 
 ## Example
 
