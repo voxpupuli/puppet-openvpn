@@ -103,6 +103,13 @@ class openvpn::params {
         }
       }
     }
+    'FreeBSD': {
+      $group = 'nogroup'
+      $link_openssl_cnf    = true
+      $pam_module_path     = '/usr/local/lib/openvpn/openvpn-auth-pam.so'
+      $additional_packages = ['easy-rsa']
+      $easyrsa_source      = '/usr/local/share/easy-rsa'
+    }
     default: {
       fail("Not supported OS family ${::osfamily}")
     }
