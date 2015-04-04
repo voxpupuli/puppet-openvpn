@@ -59,8 +59,8 @@ define openvpn::revoke(
 
   exec { "revoke certificate for ${name} in context of ${server}":
     command  => ". ./vars && ./revoke-full ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/${name}",
-    cwd      => "/etc/openvpn/${server}/easy-rsa",
-    creates  => "/etc/openvpn/${server}/easy-rsa/revoked/${name}",
+    cwd      => "${etc_directory}/openvpn/${server}/easy-rsa",
+    creates  => "${etc_directory}/openvpn/${server}/easy-rsa/revoked/${name}",
     provider => 'shell',
   }
 }

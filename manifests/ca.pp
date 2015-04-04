@@ -118,86 +118,86 @@ define openvpn::ca(
   }
 
   exec { "copy easy-rsa to openvpn config folder ${name}":
-    command => "/bin/cp -r ${openvpn::params::easyrsa_source} /etc/openvpn/${name}/easy-rsa",
-    creates => "/etc/openvpn/${name}/easy-rsa",
-    require => File["/etc/openvpn/${name}"],
+    command => "/bin/cp -r ${openvpn::params::easyrsa_source} ${etc_directory}/openvpn/${name}/easy-rsa",
+    creates => "${etc_directory}/openvpn/${name}/easy-rsa",
+    require => File["${etc_directory}/openvpn/${name}"],
   }
 
   file { [
-    "/etc/openvpn/${name}/easy-rsa/clean-all",
-    "/etc/openvpn/${name}/easy-rsa/build-dh",
-    "/etc/openvpn/${name}/easy-rsa/pkitool",
+    "${etc_directory}/openvpn/${name}/easy-rsa/clean-all",
+    "${etc_directory}/openvpn/${name}/easy-rsa/build-dh",
+    "${etc_directory}/openvpn/${name}/easy-rsa/pkitool",
   ]:
     ensure  => file,
     mode    => '0550',
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
-  file { "/etc/openvpn/${name}/easy-rsa/revoked":
+  file { "${etc_directory}/openvpn/${name}/easy-rsa/revoked":
     ensure  => directory,
     mode    => '0750',
     recurse => true,
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
-  file { "/etc/openvpn/${name}/easy-rsa/vars":
+  file { "${etc_directory}/openvpn/${name}/easy-rsa/vars":
     ensure  => file,
     mode    => '0550',
     content => template('openvpn/vars.erb'),
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
-  file { "/etc/openvpn/${name}/easy-rsa/openssl.cnf":
+  file { "${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf":
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
   if $openvpn::params::link_openssl_cnf == true {
-    File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] {
+    File["${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf"] {
       ensure => link,
-      target => "/etc/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf",
+      target => "${etc_directory}/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf",
       before => Exec["initca ${name}"],
     }
   }
 
   exec { "generate dh param ${name}":
     command  => '. ./vars && ./clean-all && ./build-dh',
-    cwd      => "/etc/openvpn/${name}/easy-rsa",
-    creates  => "/etc/openvpn/${name}/easy-rsa/keys/dh${ssl_key_size}.pem",
+    cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
+    creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/dh${ssl_key_size}.pem",
     provider => 'shell',
-    require  => File["/etc/openvpn/${name}/easy-rsa/vars"],
+    require  => File["${etc_directory}/openvpn/${name}/easy-rsa/vars"],
   }
 
   exec { "initca ${name}":
     command  => '. ./vars && ./pkitool --initca',
-    cwd      => "/etc/openvpn/${name}/easy-rsa",
-    creates  => "/etc/openvpn/${name}/easy-rsa/keys/ca.key",
+    cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
+    creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/ca.key",
     provider => 'shell',
     require  => Exec["generate dh param ${name}"],
   }
 
   exec { "generate server cert ${name}":
     command  => ". ./vars && ./pkitool --server ${common_name}",
-    cwd      => "/etc/openvpn/${name}/easy-rsa",
-    creates  => "/etc/openvpn/${name}/easy-rsa/keys/${common_name}.key",
+    cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
+    creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/${common_name}.key",
     provider => 'shell',
     require  => Exec["initca ${name}"],
   }
 
-  file { "/etc/openvpn/${name}/keys":
+  file { "${etc_directory}/openvpn/${name}/keys":
     ensure  => link,
-    target  => "/etc/openvpn/${name}/easy-rsa/keys",
+    target  => "${etc_directory}/openvpn/${name}/easy-rsa/keys",
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
   exec { "create crl.pem on ${name}":
-    command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out /etc/openvpn/${name}/crl.pem -config /etc/openvpn/${name}/easy-rsa/openssl.cnf",
-    cwd      => "/etc/openvpn/${name}/easy-rsa",
-    creates  => "/etc/openvpn/${name}/crl.pem",
+    command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${etc_directory}/openvpn/${name}/crl.pem -config ${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
+    cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
+    creates  => "${etc_directory}/openvpn/${name}/crl.pem",
     provider => 'shell',
     require  => Exec["generate server cert ${name}"],
   }
 
-  file { "/etc/openvpn/${name}/crl.pem":
+  file { "${etc_directory}/openvpn/${name}/crl.pem":
     mode    => '0640',
     group   =>  $group_to_set,
     require => Exec["create crl.pem on ${name}"],
@@ -206,16 +206,16 @@ define openvpn::ca(
   if $tls_auth {
     exec { "generate tls key for ${name}":
       command  => 'openvpn --genkey --secret keys/ta.key',
-      cwd      => "/etc/openvpn/${name}/easy-rsa",
-      creates  => "/etc/openvpn/${name}/easy-rsa/keys/ta.key",
+      cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
+      creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/ta.key",
       provider => 'shell',
       require  => Exec["generate server cert ${name}"],
     }
   }
 
-  file { "/etc/openvpn/${name}/easy-rsa/keys/crl.pem":
+  file { "${etc_directory}/openvpn/${name}/easy-rsa/keys/crl.pem":
     ensure  => link,
-    target  => "/etc/openvpn/${name}/crl.pem",
+    target  => "${etc_directory}/openvpn/${name}/crl.pem",
     require => Exec["create crl.pem on ${name}"],
   }
 
