@@ -34,7 +34,7 @@ class openvpn::config {
   if $::osfamily == 'Debian' {
     concat { '/etc/default/openvpn':
       owner => root,
-      group => root,
+      group => $root_group,
       mode  => '0644',
       warn  => true,
     }
@@ -43,6 +43,15 @@ class openvpn::config {
       content => template('openvpn/etc-default-openvpn.erb'),
       target  => '/etc/default/openvpn',
       order   => '01',
+    }
+  }
+
+  if $::operatingsystem == 'FreeBSD' {
+    file { '/etc/rc.conf.d/openvpn.conf':
+      owner   => root,
+      group   => $root_group,
+      mode    => '0644',
+      content => 'openvpn_enable="YES"'
     }
   }
 }
