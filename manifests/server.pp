@@ -579,11 +579,23 @@ define openvpn::server(
     }
   }
 
-  if $::operatingsystem == 'FreeBSD' {
-    file { "${etc_directory}/rc.d/openvpn-${name}":
+  if $::openvpn::params::namespecific_rclink {
+    file { "/usr/local/etc/rc.d/openvpn_${name}":
       ensure => link,
       source => "${etc_directory}/rc.d/openvpn",
     }
-  }
 
+    file { "/etc/rc.conf.d/openvpn_${name}":
+      owner   => root,
+      group   => $root_group,
+      mode    => '0644',
+      content => template('openvpn/etc-rc.d-openvpn.erb'),
+    }
+
+    service { "openvpn_${name}":
+      ensure  => running,
+      enable  => true,
+      require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+    }
+  }
 }
