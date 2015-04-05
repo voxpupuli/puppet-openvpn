@@ -430,8 +430,12 @@ define openvpn::server(
   if $::openvpn::params::systemd {
     $lnotify = Service["openvpn@${name}"]
   } else {
-    $lnotify = Service['openvpn']
-    Openvpn::Server[$name] -> Service['openvpn']
+    if $::openvpn::params::load_main_service {
+      $lnotify = Service['openvpn']
+      Openvpn::Server[$name] -> Service['openvpn']
+    } else {
+      $lnotify = Service["openvpn_${name}"]
+    }
   }
 
   # Selection block to enable or disable tls-server flag
@@ -555,11 +559,23 @@ define openvpn::server(
     }
   }
 
-  if $::operatingsystem == 'FreeBSD' {
-    file { "/usr/local/etc/rc.d/openvpn-${name}":
+  if $::openvpn::params::namespecific_rclink {
+    file { "/usr/local/etc/rc.d/openvpn_${name}":
       ensure => link,
       source => '/usr/local/etc/rc.d/openvpn',
     }
-  }
 
+    file { "/etc/rc.conf.d/openvpn_${name}":
+      owner   => root,
+      group   => $root_group,
+      mode    => '0644',
+      content => template('openvpn/etc-rc.d-openvpn.erb'),
+    }
+
+    service { "openvpn_${name}":
+      ensure  => running,
+      enable  => true,
+      require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+    }
+  }
 }

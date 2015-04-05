@@ -43,16 +43,6 @@ class openvpn(
   $autostart_all = true,
 ) {
 
-  $etc_directory = $::operatingsystem ? {
-    /(?i:FreeBSD)/ => '/usr/local/etc',
-    default        => '/etc',
-  }
-
-  $root_group = $::operatingsystem ? {
-    /(?i:FreeBSD)/ => 'wheel',
-    default        => 'root',
-  }
-
   class { 'openvpn::params': } ->
   class { 'openvpn::install': } ->
   class { 'openvpn::config': } ->
