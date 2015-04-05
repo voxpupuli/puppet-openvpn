@@ -45,13 +45,4 @@ class openvpn::config {
       order   => '01',
     }
   }
-
-  if $::operatingsystem == 'FreeBSD' {
-    file { '/etc/rc.conf.d/openvpn.conf':
-      owner   => root,
-      group   => $root_group,
-      mode    => '0644',
-      content => 'openvpn_enable="YES"'
-    }
-  }
 }
