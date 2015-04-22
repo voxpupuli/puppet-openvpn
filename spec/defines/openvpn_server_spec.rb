@@ -327,9 +327,7 @@ describe 'openvpn::server', :type => :define do
     } }
 
     let(:facts) { { :osfamily => 'RedHat',
-                    :concat_basedir => '/var/lib/puppet/concat',
-                    :operatingsystemmajrelease => 6,
-                    :operatingsystemrelease => '6.4' } }
+                    :concat_basedir => '/var/lib/puppet/concat' } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^group\s+nobody$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so login$}) }

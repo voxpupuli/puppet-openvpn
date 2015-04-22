@@ -49,30 +49,8 @@ describe 'openvpn::install', :type => :class do
 
     context 'redhat/centos' do
       let(:osfamily) { 'RedHat' }
-
-      context '5' do
-        let(:operatingsystemrelease) { '5' }
-        it { should_not contain_package('openvpn-auth-ldap') }
-        it { should_not contain_package('easy-rsa') }
-      end
-
-      context '6.3' do
-        let(:operatingsystemrelease) { '6.3' }
-        it { should_not contain_package('openvpn-auth-ldap') }
-        it { should_not contain_package('easy-rsa') }
-      end
-
-      context '6.4' do
-        let(:operatingsystemrelease) { '6.4' }
-        it { should_not contain_package('openvpn-auth-ldap') }
-        it { should contain_package('easy-rsa') }
-      end
-
-      context '7' do
-        let(:operatingsystemrelease) { '7' }
-        it { should_not contain_package('openvpn-auth-ldap') }
-        it { should contain_package('easy-rsa') }
-      end
+      it { should_not contain_package('openvpn-auth-ldap') }
+      it { should contain_package('easy-rsa') }
     end
 
     context 'Amazon' do
