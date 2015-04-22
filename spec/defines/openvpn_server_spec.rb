@@ -127,6 +127,7 @@ describe 'openvpn::server', :type => :define do
       'server_ipv6'	=> 'fe80:1337:1337:1337::/64',
       'push'            => [ 'dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0' ],
       'route'           => [ '192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0' ],
+      'route_ipv6'      => [ '2001:db8:1234::/64', '2001:db8:abcd::/64' ],
       'keepalive'       => '10 120',
       'topology'        => 'subnet',
       'ssl_key_size'    => 2048,
@@ -182,6 +183,8 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^push\s+"route\s+172\.31\.0\.0\s+255\.255\.0\.0"$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route\s+192.168.30.0\s+255.255.255.0$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route\s+192.168.35.0\s+255.255.0.0$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route-ipv6\s+2001\:db8\:1234\:\:\/64$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^route-ipv6\s+2001\:db8\:abcd\:\:\/64$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^keepalive\s+10\s+120$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^topology\s+subnet$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^management\s+1.3.3.7 1337$/) }
