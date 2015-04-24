@@ -11,6 +11,7 @@ Puppet module to manage OpenVPN servers
 * Support for LDAP-Authentication
 * Support for server instance in client mode
 * Support for TLS
+* Support for OpenVPN configuration directory in alternative location
 
 ## Supported OS
 
