@@ -109,6 +109,11 @@
 #     Multiple routes can be specified.
 #   Default: []
 #
+# [*route_ipv6*]
+#   Array.  Add IPv6 route to routing table after connection is established.
+#     Multiple routes can be specified.
+#   Default: []
+#
 # [*keepalive*]
 #   String.  Add keepalive directive (ping and ping-restart) to server.
 #     Should match the form "n m".
@@ -371,6 +376,7 @@ define openvpn::server(
   $server_bridge             = '',
   $push                      = [],
   $route                     = [],
+  $route_ipv6                = [],
   $keepalive                 = '',
   $fragment                  = false,
   $ssl_key_size              = 1024,

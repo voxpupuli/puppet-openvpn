@@ -68,6 +68,9 @@ push "<%= item %>"
 <% @route.each do |item| -%>
 route <%= item %>
 <% end -%>
+<% @route_ipv6.each do |item| -%>
+route-ipv6 <%= item %>
+<% end -%>
 <% if @sndbuf -%>
 sndbuf <%= @sndbuf %>
 <% end -%>
