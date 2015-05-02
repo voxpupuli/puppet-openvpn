@@ -1,6 +1,9 @@
 <% @iroute.each do |iroute| -%>
 iroute <%= iroute %>
 <% end -%>
+<% @iroute_ipv6.each do |iroute_ipv6| -%>
+iroute-ipv6 <%= iroute_ipv6 %>
+<% end -%>
 <% if ifconfig = @ifconfig -%>
 ifconfig-push <%= ifconfig %>
 <% end -%>
