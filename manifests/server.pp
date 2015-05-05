@@ -438,11 +438,16 @@ define openvpn::server(
   Class['openvpn::install'] ->
   Openvpn::Server[$name]
 
-  if $::openvpn::params::systemd {
-    $lnotify = Service["openvpn@${name}"]
-  } else {
-    $lnotify = Service['openvpn']
-    Openvpn::Server[$name] -> Service['openvpn']
+  if $::openvpn::manage_service {
+    if $::openvpn::params::systemd {
+      $lnotify = Service["openvpn@${name}"]
+    } else {
+      $lnotify = Service['openvpn']
+      Openvpn::Server[$name] -> Service['openvpn']
+    }
+  }
+  else {
+    $lnotify = undef
   }
 
   # Selection block to enable or disable tls-server flag
@@ -559,10 +564,12 @@ define openvpn::server(
   }
 
   if $::openvpn::params::systemd {
-    service { "openvpn@${name}":
-      ensure  => running,
-      enable  => true,
-      require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+    if $::openvpn::manage_service {
+      service { "openvpn@${name}":
+        ensure  => running,
+        enable  => true,
+        require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+      }
     }
   }
 
