@@ -8,6 +8,9 @@
 # [*autostart_all*]
 #   Boolean. Wether the openvpn instances should be started automatically on boot.
 #   Default: true
+# [*manage_service*]
+#   Boolean. Wether the openvpn service should be managed by puppet.
+#   Default: true
 #
 #
 # === Examples
@@ -41,6 +44,7 @@
 #
 class openvpn(
   $autostart_all = true,
+  $manage_service = true,
 ) {
 
   class { 'openvpn::params': } ->
