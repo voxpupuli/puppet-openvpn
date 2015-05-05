@@ -27,7 +27,11 @@ proto <%= @proto %>-server
 <% else -%>
 proto <%= @proto %>
 <% end -%>
+<% if @nobind -%>
+nobind
+<% else -%>
 port <%= @port %>
+<% end -%>
 <% if @real_tls_server -%>
 tls-server
 <% end -%>
