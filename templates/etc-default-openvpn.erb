@@ -17,4 +17,8 @@
 #STATUSREFRESH=0
 # Optional arguments to openvpn's command line
 OPTARGS=""
+<% if scope.lookupvar('openvpn::autostart_all') -%>
+AUTOSTART="all"
+<% else -%>
 AUTOSTART=""
+<% end -%>
