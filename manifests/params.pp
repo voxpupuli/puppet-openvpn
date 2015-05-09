@@ -58,12 +58,14 @@ class openvpn::params {
             $additional_packages       = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+            $systemd                   = true
 
           # Version > 7.0, wheezy
           } elsif(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
             $additional_packages       = ['openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+            $systemd                   = false
           } else {
             $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
           }
@@ -74,6 +76,7 @@ class openvpn::params {
             $additional_packages       = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+            $systemd                   = false
           } else {
             $easyrsa_source = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
           }
@@ -82,8 +85,6 @@ class openvpn::params {
           fail("Not supported OS / Distribution: ${::osfamily}/${::operatingsystem}")
         }
       }
-
-      $systemd = false
     }
     'Linux': {
       case $::operatingsystem {
