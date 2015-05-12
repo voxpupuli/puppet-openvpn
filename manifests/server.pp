@@ -314,6 +314,10 @@
 #   with client configuration
 #   Default: true
 #
+# [*nobind*]
+#   Boolean. Whether or not to bind to a specific port number.
+#   Default: false
+#
 # [*custom_options*]
 #   Hash of additional options that you want to append to the configuration file.
 #
@@ -426,6 +430,7 @@ define openvpn::server(
   $shared_ca                 = undef,
   $autostart                 = undef,
   $ns_cert_type              = true,
+  $nobind                    = false,
   $custom_options            = {},
 ) {
 

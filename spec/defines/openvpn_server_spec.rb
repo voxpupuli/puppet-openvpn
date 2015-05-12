@@ -237,6 +237,7 @@ describe 'openvpn::server', :type => :define do
       'ping_timer_rem'      => true,
       'tls_auth'            => true,
       'tls_client'          => true,
+      'nobind'              => true,
     } }
 
     let(:facts) { {
@@ -267,6 +268,8 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(/^dh/) }
     it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^tls-client$}) }
     it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^key-direction 1$}) }
+    it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^nobind$}) }
+    it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(%r{^port\s+\d+$}) }
 
     it { should_not contain_openvpn__ca('test_client') }
   end
