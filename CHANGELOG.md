@@ -6,6 +6,7 @@
 * Support for `nobind` param for server in client mode ([#156](https://github.com/luxflux/puppet-openvpn/pull/156))
 * Fixing autostart_all behaviour ([#163](https://github.com/luxflux/puppet-openvpn/pull/163))
 * Add systemd support for Debian >= 8.0 ([#161](https://github.com/luxflux/puppet-openvpn/pull/161))
+* Support for Archlinux ([#162](https://github.com/luxflux/puppet-openvpn/pull/162))
 
 ## 2.8.0
 
