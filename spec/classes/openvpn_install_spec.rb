@@ -12,7 +12,6 @@ describe 'openvpn::install', :type => :class do
       :operatingsystemmajrelease => operatingsystemmajrelease,
       :operatingsystemrelease => operatingsystemrelease,
       :operatingsystem => operatingsystem,
-      :operatingsystemrelease => operatingsystemrelease,
     }
   end
 
@@ -79,6 +78,13 @@ describe 'openvpn::install', :type => :class do
       let(:osfamily) { 'Linux' }
       let(:operatingsystem) { 'Amazon' }
       let(:operatingsystemrelease) { nil }
+
+      it { should_not contain_package('openvpn-auth-ldap') }
+      it { should contain_package('easy-rsa') }
+    end
+
+    context 'Archlinux' do
+      let(:osfamily) { 'Archlinux' }
 
       it { should_not contain_package('openvpn-auth-ldap') }
       it { should contain_package('easy-rsa') }
