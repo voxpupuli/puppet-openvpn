@@ -231,14 +231,22 @@ describe 'openvpn::server', :type => :define do
 
   context "creating a server in client mode" do
     let(:title) { 'test_client' }
+    let(:nobind) { false }
     let(:params) { {
       'remote'              => ['vpn.example.com 12345'],
       'server_poll_timeout' => 1,
       'ping_timer_rem'      => true,
       'tls_auth'            => true,
       'tls_client'          => true,
-      'nobind'              => true,
+      'nobind'              => nobind,
     } }
+
+    context 'nobind is true' do
+      let(:nobind) { true }
+
+      it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^nobind$}) }
+      it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(%r{port\s+\d+}) }
+    end
 
     let(:facts) { {
       :ipaddress_eth0 => '1.2.3.4',
@@ -268,8 +276,8 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(/^dh/) }
     it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^tls-client$}) }
     it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^key-direction 1$}) }
-    it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^nobind$}) }
-    it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(%r{^port\s+\d+$}) }
+    it { should_not contain_file('/etc/openvpn/test_client.conf').with_content(%r{nobind}) }
+    it { should contain_file('/etc/openvpn/test_client.conf').with_content(%r{^port\s+\d+$}) }
 
     it { should_not contain_openvpn__ca('test_client') }
   end
