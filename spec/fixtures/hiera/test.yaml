@@ -1,0 +1,44 @@
+---
+classes:
+  - openvpn
+
+openvpn::server_defaults:
+  country: 'CH'
+  province: 'ZH'
+  city: 'Winterthur'
+  organization: 'example.org'
+openvpn::servers:
+  'winterthur':
+    email: 'root@example.org'
+    server: '10.200.200.0 255.255.255.0'
+  'uster':
+    city: 'Uster'
+    email: 'root@example.com'
+    organization: 'example.com'
+    server: '10.100.100.0 255.255.255.0'
+
+openvpn::client_defaults:
+  server: 'winterthur'
+openvpn::clients:
+  'winti-client1': {}
+  'winti-client2': {}
+  'uster-client1': 
+    server: 'uster'
+  'uster-client2': 
+    server: 'uster'
+
+openvpn::client_specific_config_defaults:
+  server: 'winterthur'
+openvpn::client_specific_configs:
+  'winti-client1':
+    ifconfig: '10.200.200.50 10.200.200.51'
+  'uster-client1':
+    server: 'uster'
+    ifconfig: '10.100.100.50 10.100.100.51'
+
+openvpn::revoke_defaults:
+  server: 'winterthur'
+openvpn::revokes:
+  'winti-client2': {}
+  'uster-client2':
+    server: 'uster'
