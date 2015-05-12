@@ -446,7 +446,7 @@ describe 'openvpn::server', :type => :define do
 
   end
 
-  context 'systemd enabled distro' do
+  context 'systemd enabled RedHat' do
     let(:facts) { {
       :concat_basedir         => '/var/lib/puppet/concat',
       :osfamily               => 'RedHat',
@@ -466,4 +466,27 @@ describe 'openvpn::server', :type => :define do
       :enable => true,
     )}
   end
+
+  context 'systemd enabled Debian' do
+    let(:facts) { {
+      :concat_basedir         => '/var/lib/puppet/concat',
+      :osfamily               => 'Debian',
+      :operatingsystem        => 'Debian',
+      :operatingsystemrelease => '8.0',
+    } }
+
+    let(:params) { {
+      'country'       => 'CO',
+      'province'      => 'ST',
+      'city'          => 'Some City',
+      'organization'  => 'example.org',
+      'email'         => 'testemail@example.org'
+    } }
+
+    it { should contain_service('openvpn@test_server').with(
+      :ensure => 'running',
+      :enable => true,
+    )}
+  end
+
 end
