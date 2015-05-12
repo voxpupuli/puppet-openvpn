@@ -1,6 +1,6 @@
 <% unless @remote -%>
 mode server
-client-config-dir /etc/openvpn/<%= @name %>/client-configs
+client-config-dir <%= @etc_directory -%>/openvpn/<%= @name %>/client-configs
 <% else -%>
 client
 <% if @ns_cert_type -%>
@@ -13,14 +13,14 @@ remote <%= rem %>
 server-poll-timeout <%= @server_poll_timeout %>
 <% end -%>
 <% end -%>
-ca /etc/openvpn/<%= @ca_name %>/keys/ca.crt
-cert /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
-key /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
+ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
+cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
+key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
 <% unless @remote -%>
-dh /etc/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
+dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
 <% end -%>
 <% unless @remote -%>
-crl-verify /etc/openvpn/<%= @ca_name %>/crl.pem
+crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
 <% end -%>
 <% if @proto == 'tcp' -%>
 proto <%= @proto %>-server
@@ -127,7 +127,7 @@ down "<%= @down %>"
 username-as-common-name
 <% end -%>
 <% if @ldap_enabled == true -%>
-plugin <%= scope.lookupvar('::openvpn::params::ldap_auth_plugin_location') %> "/etc/openvpn/<%= name %>/auth/ldap.conf"
+plugin <%= scope.lookupvar('::openvpn::params::ldap_auth_plugin_location') %> "<%= @etc_directory -%>/openvpn/<%= name %>/auth/ldap.conf"
 <% end -%>
 <% if @client_cert_not_required -%>
 client-cert-not-required
@@ -140,7 +140,7 @@ ping-timer-rem
 <% end -%>
 <% if @tls_auth -%>
 # tls authentification
-tls-auth /etc/openvpn/<%= @name %>/keys/ta.key
+tls-auth <%= @etc_directory -%>/openvpn/<%= @name %>/keys/ta.key
 <% unless @remote -%>
 key-direction 0
 <% else -%>

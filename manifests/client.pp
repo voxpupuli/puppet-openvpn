@@ -200,79 +200,79 @@ define openvpn::client(
 
   exec { "generate certificate for ${name} in context of ${ca_name}":
     command  => ". ./vars && ./pkitool ${name}",
-    cwd      => "/etc/openvpn/${ca_name}/easy-rsa",
-    creates  => "/etc/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
+    cwd      => "${etc_directory}/openvpn/${ca_name}/easy-rsa",
+    creates  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
     provider => 'shell';
   }
 
-  file { [ "/etc/openvpn/${server}/download-configs/${name}",
-          "/etc/openvpn/${server}/download-configs/${name}/keys",
-          "/etc/openvpn/${server}/download-configs/${name}/keys/${name}" ]:
+  file { [ "${etc_directory}/openvpn/${server}/download-configs/${name}",
+          "${etc_directory}/openvpn/${server}/download-configs/${name}/keys",
+          "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}" ]:
     ensure  => directory,
   }
 
-  file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
+  file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
     ensure  => link,
-    target  => "/etc/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
+    target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
     require => Exec["generate certificate for ${name} in context of ${ca_name}"],
   }
 
-  file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key":
+  file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key":
     ensure  => link,
-    target  => "/etc/openvpn/${ca_name}/easy-rsa/keys/${name}.key",
+    target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.key",
     require => Exec["generate certificate for ${name} in context of ${ca_name}"],
   }
 
-  file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt":
+  file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt":
     ensure  => link,
-    target  => "/etc/openvpn/${ca_name}/easy-rsa/keys/ca.crt",
+    target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/ca.crt",
     require => Exec["generate certificate for ${name} in context of ${ca_name}"],
   }
 
   if $tls_auth {
-    file { "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key":
+    file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key":
       ensure  => link,
-      target  => "/etc/openvpn/${server}/easy-rsa/keys/ta.key",
+      target  => "${etc_directory}/openvpn/${server}/easy-rsa/keys/ta.key",
       require => Exec["generate certificate for ${name} in context of ${server}"],
       before  => Exec["tar the thing ${server} with ${name}"],
       notify  => Exec["tar the thing ${server} with ${name}"],
     }
   }
 
-  file { "/etc/openvpn/${server}/download-configs/${name}/${name}.conf":
+  file { "${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf":
     owner   => root,
-    group   => root,
+    group   => $root_group,
     mode    => '0444',
     content => template('openvpn/client.erb'),
     notify  => Exec["tar the thing ${server} with ${name}"],
   }
 
   exec { "tar the thing ${server} with ${name}":
-    cwd         => "/etc/openvpn/${server}/download-configs/",
+    cwd         => "${etc_directory}/openvpn/${server}/download-configs/",
     command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
     refreshonly => true,
     require     => [
-      File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
-      File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
-      File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
-      File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"]
+      File["${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf"],
+      File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
+      File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
+      File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"]
     ],
     notify      => Exec["generate ${name}.ovpn in ${server}"],
   }
 
   exec { "generate ${name}.ovpn in ${server}":
-    cwd         => "/etc/openvpn/${server}/download-configs/",
+    cwd         => "${etc_directory}/openvpn/${server}/download-configs/",
     command     => "/bin/rm ${name}.ovpn; cat ${name}/${name}.conf | perl -lne 'if(m|^ca keys/${name}/ca.crt|){ chomp(\$ca=`cat ${name}/keys/${name}/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name}/${name}.crt|) { chomp(\$crt=`cat ${name}/keys/${name}/${name}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name}/${name}.key|){ chomp(\$key=`cat ${name}/keys/${name}/${name}.key`); print \"<key>\n\$key\n</key>\"} else { print} ' > ${name}.ovpn",
     refreshonly => true,
     require     => [
-      File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
-      File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
-      File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
-      File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"],
+      File["${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf"],
+      File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
+      File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
+      File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"],
     ],
   }
 
-  file { "/etc/openvpn/${server}/download-configs/${name}.ovpn":
+  file { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn":
     mode    => '0400',
     require => Exec["generate ${name}.ovpn in ${server}"],
   }

@@ -34,7 +34,7 @@ class openvpn::config {
   if $::osfamily == 'Debian' {
     concat { '/etc/default/openvpn':
       owner => root,
-      group => root,
+      group => $root_group,
       mode  => '0644',
       warn  => true,
     }

@@ -441,8 +441,12 @@ define openvpn::server(
   if $::openvpn::params::systemd {
     $lnotify = Service["openvpn@${name}"]
   } else {
-    $lnotify = Service['openvpn']
-    Openvpn::Server[$name] -> Service['openvpn']
+    if $::openvpn::params::load_main_service {
+      $lnotify = Service['openvpn']
+      Openvpn::Server[$name] -> Service['openvpn']
+    } else {
+      $lnotify = Service["openvpn_${name}"]
+    }
   }
 
   # Selection block to enable or disable tls-server flag
@@ -475,7 +479,7 @@ define openvpn::server(
     group => $group_to_set,
   }
 
-  file { "/etc/openvpn/${name}":
+  file { "${etc_directory}/openvpn/${name}":
     ensure => directory,
     mode   => '0750',
     notify => $lnotify,
@@ -515,9 +519,9 @@ define openvpn::server(
     }
 
     file {
-      [ "/etc/openvpn/${name}/auth",
-      "/etc/openvpn/${name}/client-configs",
-      "/etc/openvpn/${name}/download-configs" ]:
+      [ "${etc_directory}/openvpn/${name}/auth",
+      "${etc_directory}/openvpn/${name}/client-configs",
+      "${etc_directory}/openvpn/${name}/download-configs" ]:
         ensure  => directory,
         mode    => '0750',
         recurse => true,
@@ -526,7 +530,7 @@ define openvpn::server(
     # VPN Client Mode
     $ca_common_name = $name
 
-    file { "/etc/openvpn/${name}/keys":
+    file { "${etc_directory}/openvpn/${name}/keys":
       ensure  => directory,
       mode    => '0750',
       recurse => true,
@@ -541,9 +545,9 @@ define openvpn::server(
     }
   }
 
-  file { "/etc/openvpn/${name}.conf":
+  file { "${etc_directory}/openvpn/${name}.conf":
     owner   => root,
-    group   => root,
+    group   => $root_group,
     mode    => '0440',
     content => template('openvpn/server.erb'),
     notify  => $lnotify,
@@ -551,7 +555,7 @@ define openvpn::server(
 
   if $ldap_enabled == true {
     file {
-      "/etc/openvpn/${name}/auth/ldap.conf":
+      "${etc_directory}/openvpn/${name}/auth/ldap.conf":
         ensure  => present,
         content => template('openvpn/ldap.erb'),
         require => Package['openvpn-auth-ldap'],
@@ -562,8 +566,27 @@ define openvpn::server(
     service { "openvpn@${name}":
       ensure  => running,
       enable  => true,
-      require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+      require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
     }
   }
 
+  if $::openvpn::params::namespecific_rclink {
+    file { "/usr/local/etc/rc.d/openvpn_${name}":
+      ensure => link,
+      source => '/usr/local/etc/rc.d/openvpn',
+    }
+
+    file { "/etc/rc.conf.d/openvpn_${name}":
+      owner   => root,
+      group   => $root_group,
+      mode    => '0644',
+      content => template('openvpn/etc-rc.d-openvpn.erb'),
+    }
+
+    service { "openvpn_${name}":
+      ensure  => running,
+      enable  => true,
+      require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+    }
+  }
 }
