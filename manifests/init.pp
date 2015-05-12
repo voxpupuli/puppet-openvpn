@@ -9,11 +9,21 @@
 #   Boolean. Wether the openvpn instances should be started automatically on boot.
 #   Default: true
 #
+# [*config_home*]
+#   String. Directory for OpenVPN configuration files. If set to something other
+#     than "/etc/openvpn" then /etc/openvpn will be created as a symbolic link to
+#     the specified location.
+#   Default: /etc/openvpn
+#
 #
 # === Examples
 #
 #   class { 'openvpn':
 #     autostart_all => true,
+#   }
+#
+#   class { 'openvpn':
+#     config_home => '/home/openvpn',
 #   }
 #
 #
@@ -41,6 +51,7 @@
 #
 class openvpn(
   $autostart_all = true,
+  $config_home = '/etc/openvpn',
 ) {
 
   class { 'openvpn::params': } ->

@@ -39,7 +39,23 @@ class openvpn::install inherits ::openvpn::params {
   }
 
   file {
-    [ '/etc/openvpn', '/etc/openvpn/keys', '/var/log/openvpn', ]:
+    $::openvpn::config_home:
+      ensure   => directory,
+      require  => Package['openvpn'];
+  }
+
+  if $::openvpn::config_home != '/etc/openvpn' {
+    file {
+      '/etc/openvpn':
+        ensure   => link,
+        force    => true,
+        target   => $::openvpn::config_home,
+        require  => File[$::openvpn::config_home];
+    }
+  }
+
+  file {
+    [ '/etc/openvpn/keys', '/var/log/openvpn', ]:
       ensure  => directory,
       require => Package['openvpn'];
   }
