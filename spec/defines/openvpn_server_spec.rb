@@ -364,25 +364,23 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib/openvpn/openvpn-auth-pam.so login$}) }
 
-    context 'enabled autostart' do
+    context 'enabled autostart_all' do
       let(:pre_condition) { 'class { "openvpn": autostart_all => true }' }
 
-      # Configure to start vpn session
-      it { should contain_concat__fragment('openvpn.default.autostart.test_server').with(
-        'content' => "AUTOSTART=\"$AUTOSTART test_server\"\n",
-        'target'  => '/etc/default/openvpn'
-      )}
+      it { should_not contain_concat__fragment('openvpn.default.autostart.test_server') }
     end
 
     context 'disabled autostart_all' do
       let(:pre_condition) { 'class { "openvpn": autostart_all => false }' }
 
-      # Configure to start vpn session
       it { should_not contain_concat__fragment('openvpn.default.autostart.test_server') }
 
       context 'but machine has autostart' do
         before { params['autostart'] = true }
-        it { should contain_concat__fragment('openvpn.default.autostart.test_server') }
+        it { should contain_concat__fragment('openvpn.default.autostart.test_server').with(
+          'content' => "AUTOSTART=\"$AUTOSTART test_server\"\n",
+          'target'  => '/etc/default/openvpn'
+        )}
       end
     end
   end

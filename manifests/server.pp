@@ -533,7 +533,7 @@ define openvpn::server(
     }
   }
 
-  if ($::osfamily == 'Debian' and $::openvpn::autostart_all) or $autostart {
+  if $::osfamily == 'Debian' and !$::openvpn::autostart_all and $autostart {
     concat::fragment { "openvpn.default.autostart.${name}":
       content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
       target  => '/etc/default/openvpn',
