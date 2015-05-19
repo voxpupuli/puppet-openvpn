@@ -7,6 +7,7 @@
 * Fixing autostart_all behaviour ([#163](https://github.com/luxflux/puppet-openvpn/pull/163))
 * Add systemd support for Debian >= 8.0 ([#161](https://github.com/luxflux/puppet-openvpn/pull/161))
 * Support for Archlinux ([#162](https://github.com/luxflux/puppet-openvpn/pull/162))
+* Support to enable/disable service management([#158](https://github.com/luxflux/puppet-openvpn/pull/158))
 
 ## 2.8.0
 
