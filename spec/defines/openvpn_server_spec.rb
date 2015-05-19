@@ -445,46 +445,77 @@ describe 'openvpn::server', :type => :define do
   end
 
   context 'systemd enabled RedHat' do
-    let(:facts) { {
-      :concat_basedir         => '/var/lib/puppet/concat',
-      :osfamily               => 'RedHat',
-      :operatingsystemrelease => '7.0',
-    } }
+    let(:pre_condition) { "class { 'openvpn': manage_service => #{manage_service} }" }
+    let(:facts) do
+      {
+        :concat_basedir         => '/var/lib/puppet/concat',
+        :osfamily               => 'RedHat',
+        :operatingsystemrelease => '7.0',
+      }
+    end
+    let(:params) do
+      {
+        'country'       => 'CO',
+        'province'      => 'ST',
+        'city'          => 'Some City',
+        'organization'  => 'example.org',
+        'email'         => 'testemail@example.org'
+      }
+    end
 
-    let(:params) { {
-      'country'       => 'CO',
-      'province'      => 'ST',
-      'city'          => 'Some City',
-      'organization'  => 'example.org',
-      'email'         => 'testemail@example.org'
-    } }
 
-    it { should contain_service('openvpn@test_server').with(
-      :ensure => 'running',
-      :enable => true,
-    )}
+    context 'service is managed' do
+      let(:manage_service) { true }
+      it { should contain_service('openvpn@test_server').with(
+        :ensure => 'running',
+        :enable => true,
+      )}
+    end
+
+    context 'service is unmanaged' do
+      let(:manage_service) { false }
+      it { should_not contain_service('openvpn@test_server').with(
+        :ensure => 'running',
+        :enable => true,
+      )}
+    end
   end
 
   context 'systemd enabled Debian' do
-    let(:facts) { {
-      :concat_basedir         => '/var/lib/puppet/concat',
-      :osfamily               => 'Debian',
-      :operatingsystem        => 'Debian',
-      :operatingsystemrelease => '8.0',
-    } }
+    let(:pre_condition) { "class { 'openvpn': manage_service => #{manage_service} }" }
+    let(:facts) do
+      {
+        :concat_basedir         => '/var/lib/puppet/concat',
+        :osfamily               => 'Debian',
+        :operatingsystem        => 'Debian',
+        :operatingsystemrelease => '8.0',
+      }
+    end
 
-    let(:params) { {
-      'country'       => 'CO',
-      'province'      => 'ST',
-      'city'          => 'Some City',
-      'organization'  => 'example.org',
-      'email'         => 'testemail@example.org'
-    } }
+    let(:params) do
+      {
+        'country'       => 'CO',
+        'province'      => 'ST',
+        'city'          => 'Some City',
+        'organization'  => 'example.org',
+        'email'         => 'testemail@example.org'
+      }
+    end
 
-    it { should contain_service('openvpn@test_server').with(
-      :ensure => 'running',
-      :enable => true,
-    )}
+    context 'service is managed' do
+      let(:manage_service) { true }
+      it { should contain_service('openvpn@test_server').with(
+        :ensure => 'running',
+        :enable => true,
+      )}
+    end
+
+    context 'service is unmanaged' do
+      let(:manage_service) { false }
+      it { should_not contain_service('openvpn@test_server').with(
+        :ensure => 'running',
+        :enable => true,
+      )}
+    end
   end
-
 end
