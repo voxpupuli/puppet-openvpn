@@ -30,10 +30,12 @@
 # limitations under the License.
 #
 class openvpn::service {
-  service { 'openvpn':
-    ensure     => running,
-    enable     => true,
-    hasrestart => true,
-    hasstatus  => true,
+  if $::openvpn::manage_service {
+    service { 'openvpn':
+      ensure     => running,
+      enable     => true,
+      hasrestart => true,
+      hasstatus  => true,
+    }
   }
 }
