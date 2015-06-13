@@ -124,6 +124,9 @@
 #   String,  The name of an openssl::ca resource to use.
 #   Default: undef
 #
+# [*custom_options*]
+#   Hash of additional options that you want to append to the configuration file.
+#
 # === Examples
 #
 #   openvpn::client {
@@ -185,6 +188,7 @@ define openvpn::client(
   $sndbuf               = undef,
   $rcvbuf               = undef,
   $shared_ca            = undef,
+  $custom_options       = {},
 ) {
 
   if $pam {
