@@ -9,6 +9,7 @@
 * Support for Archlinux ([#162](https://github.com/luxflux/puppet-openvpn/pull/162))
 * Support to enable/disable service management([#158](https://github.com/luxflux/puppet-openvpn/pull/158))
 * Fix installation for older Redhat based systems ([#165](https://github.com/luxflux/puppet-openvpn/pull/165))
+* Add ability to specify custom options for clients ([#167](https://github.com/luxflux/puppet-openvpn/pull/167))
 
 ## 2.8.0
 
