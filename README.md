@@ -76,6 +76,40 @@ Puppet module to manage OpenVPN servers
   }
 ```
 
+## Example with hiera
+
+```yaml
+---
+classes:
+  - openvpn
+
+openvpn::servers:
+  'winterthur':
+    country: 'CH'
+    province: 'ZH'
+    city: 'Winterthur'
+    organization: 'example.org'
+    email: 'root@example.org'
+    server: '10.200.200.0 255.255.255.0'
+
+openvpn::client_defaults:
+  server: 'winterthur'
+
+openvpn::clients:
+  'client1': {}
+  'client2': {}
+  'client3': {}
+
+openvpn::client_specific_configs:
+  'client1':
+    server: 'winterthur'
+    ifconfig: '10.200.200.50 10.200.200.51'
+
+openvpn::revokes:
+  'client3':
+    server: 'winterthur'
+```
+
 Don't forget the sysctl directive ```net.ipv4.ip_forward```!
 
 
