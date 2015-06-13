@@ -24,6 +24,14 @@ Puppet module to manage OpenVPN servers
   - [puppetlabs-concat 1.0.1+](https://github.com/puppetlabs/puppetlabs-concat)
   - [puppetlabs-stdlib 1.0.0+](https://github.com/puppetlabs/puppetlabs-stdlib)
 
+## Puppet
+
+* Version >= 3
+* Version 2.x with `puppet-hiera`
+
+If you want to use it with Puppet 2.7 without hiera, use a [2.x
+version](https://github.com/luxflux/puppet-openvpn/tree/2.x).
+
 ## Example
 
 ```puppet
