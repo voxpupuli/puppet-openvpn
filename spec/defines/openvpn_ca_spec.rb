@@ -98,29 +98,7 @@ describe 'openvpn::ca', :type => :define do
     } }
 
     let(:facts) { { :osfamily => 'RedHat',
-                    :concat_basedir => '/var/lib/puppet/concat',
-                    :operatingsystemmajrelease => 6,
-                    :operatingsystemrelease => '6.4' } }
-
-    context "until version 6.0" do
-      before do
-        facts[:operatingsystemmajrelease] = 5
-        facts[:operatingsystemrelease] = '5.1'
-      end
-      it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
-        'command' => '/bin/cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
-      )}
-    end
-
-    context "from 6.0 to 6.4" do
-      before do
-        facts[:operatingsystemmajrelease] = 6
-        facts[:operatingsystemrelease] = '6.3'
-      end
-      it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
-        'command' => '/bin/cp -r /usr/share/openvpn/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
-      )}
-    end
+                    :concat_basedir => '/var/lib/puppet/concat' } }
 
     it { should contain_package('easy-rsa').with('ensure' => 'present') }
     it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
