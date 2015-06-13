@@ -63,3 +63,8 @@ tls-auth keys/<%= @name %>/ta.key 1
 # x509 name verification
 verify-x509-name "<%= @x509_name %>" name
 <% end -%>
+
+# Additional custom options
+<% @custom_options.each_pair do |key, value| -%>
+<%= key %> <%= value %>
+<% end -%>

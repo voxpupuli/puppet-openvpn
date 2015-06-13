@@ -160,8 +160,19 @@ describe 'openvpn::client', :type => :define do
   context "when using not existed shared ca" do
     let(:params) { {
       'server'    => 'test_server',
-      'shared_ca'       => 'my_already_existing_ca',
+      'shared_ca' => 'my_already_existing_ca',
     } }
     it { expect { should compile }.to raise_error }
+  end
+
+  context 'custom options' do
+    let(:params) do
+      {
+        'server'         => 'test_server',
+        'custom_options' => { 'this' => 'that' }
+      }
+    end
+
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^this that$}) }
   end
 end
