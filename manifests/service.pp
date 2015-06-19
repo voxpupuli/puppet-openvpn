@@ -36,7 +36,6 @@ class openvpn::service {
       enable     => true,
       hasrestart => true,
       hasstatus  => true,
-      provider => 'systemd'
     }
   }
 }
