@@ -58,8 +58,15 @@ class openvpn::params {
           }
         }
         'Ubuntu': {
+          # Version > 15.04, vivid
+          if(versioncmp($::operatingsystemrelease, '15.04') >= 0){
+            $additional_packages       = ['easy-rsa', 'openvpn-auth-ldap']
+            $easyrsa_source            = '/usr/share/easy-rsa/'
+            $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+            $systemd                   = true
+
           # Version > 13.10, saucy
-          if(versioncmp($::operatingsystemrelease, '13.10') >= 0) {
+          } elsif(versioncmp($::operatingsystemrelease, '13.10') >= 0) {
             $additional_packages       = ['easy-rsa', 'openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
