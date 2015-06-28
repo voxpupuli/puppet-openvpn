@@ -2,6 +2,8 @@
 
 ## Next Version
 
+* Support for Ubuntu 15.04 ([#168](https://github.com/luxflux/puppet-openvpn/pull/168)
+
 ## 2.9.0
 
 This will be the last version of version 2.x with new features.
