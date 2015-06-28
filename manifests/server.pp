@@ -568,6 +568,7 @@ define openvpn::server(
       service { "openvpn@${name}":
         ensure  => running,
         enable  => true,
+        provider => 'systemd',
         require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
       }
     }
