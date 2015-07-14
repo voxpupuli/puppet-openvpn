@@ -267,7 +267,7 @@ define openvpn::client(
   $name_escaped = regsubst(regsubst($name, '\.', '\\.', 'G'), '@', '\\@', 'G')
   exec { "generate ${name}.ovpn in ${server}":
     cwd         => "/etc/openvpn/${server}/download-configs/",
-    command     => "/bin/rm ${name}.ovpn; cat ${name}/${name}.conf | perl -lne 'if(m|^ca keys/${name_escaped}/ca.crt|){ chomp(\$ca=`cat ${name_escaped}/keys/${name_escaped}/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name_escaped}/${name_escaped}.crt|) { chomp(\$crt=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name_escaped}/${name_escaped}.key|){ chomp(\$key=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.key`); print \"<key>\n\$key\n</key>\"} else { print} ' > ${name}.ovpn",
+    command     => "/bin/rm ${name}.ovpn; cat ${name}/${name}.conf | perl -lne 'if(m|^ca keys/${name_escaped}/ca.crt|){ chomp(\$ca=`cat ${name_escaped}/keys/${name_escaped}/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name_escaped}/${name_escaped}.crt|) { chomp(\$crt=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name_escaped}/${name_escaped}.key|){ chomp(\$key=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.key`); print \"<key>\n\$key\n</key>\"} elsif(m|^(tls-auth) (keys/${name_escaped}/ta.key)( .+)?|){ chomp(\$tlsauth=`cat ${name_escaped}/keys/${name_escaped}/ta.key`); print \"<tls-auth>\n\$tlsauth\n</tls-auth>\nkey-direction 1\"} else { print} ' > ${name}.ovpn",
     refreshonly => true,
     require     => [
       File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
