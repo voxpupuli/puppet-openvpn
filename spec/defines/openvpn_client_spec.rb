@@ -88,6 +88,7 @@ describe 'openvpn::client', :type => :define do
       'x509_name'             => 'test_server',
       'sndbuf'                => 393216,
       'rcvbuf'                => 393215,
+      'readme'                => 'readme text',
     } }
     let(:facts) { {
       :fqdn => 'somehost',
@@ -117,6 +118,7 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verify-x509-name\s+"test_server"\s+name$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^sndbuf\s+393216$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^rcvbuf\s+393215$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/README').with_content(/^readme text$/)}
   end
 
   context "omitting the cipher key" do

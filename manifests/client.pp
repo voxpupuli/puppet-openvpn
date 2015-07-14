@@ -136,6 +136,11 @@
 #   days the certificate is valid for.
 #   Default: undef
 #
+# [*readme*]
+#   String. Text to place in a README file which is included in download-configs
+#   archive.
+#   Default: undef
+#
 # === Examples
 #
 #   openvpn::client {
@@ -200,6 +205,7 @@ define openvpn::client(
   $shared_ca            = undef,
   $custom_options       = {},
   $expire               = undef,
+  $readme               = undef,
 ) {
 
   if $pam {
@@ -261,6 +267,17 @@ define openvpn::client(
       require => Exec["generate certificate for ${name} in context of ${server}"],
       before  => Exec["tar the thing ${server} with ${name}"],
       notify  => Exec["tar the thing ${server} with ${name}"],
+    }
+  }
+
+  if $readme {
+    file {"/etc/openvpn/${server}/download-configs/${name}/README":
+      ensure  => file,
+      owner   => root,
+      group   => root,
+      mode    => '0444',
+      content => $readme,
+      notify  => Exec["tar the thing ${server} with ${name}"];
     }
   }
 
