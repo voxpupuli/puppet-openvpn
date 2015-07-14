@@ -131,6 +131,11 @@
 # [*custom_options*]
 #   Hash of additional options that you want to append to the configuration file.
 #
+# [*expire*]
+#   Integer. Set a custom expiry time to pass to script. Value is the number of
+#   days the certificate is valid for.
+#   Default: undef
+#
 # === Examples
 #
 #   openvpn::client {
@@ -194,6 +199,7 @@ define openvpn::client(
   $rcvbuf               = undef,
   $shared_ca            = undef,
   $custom_options       = {},
+  $expire               = undef,
 ) {
 
   if $pam {
@@ -207,8 +213,18 @@ define openvpn::client(
   Openvpn::Ca[$ca_name] ->
   Openvpn::Client[$name]
 
+  if $expire {
+    if is_integer($expire){
+      $env_expire = "KEY_EXPIRE=${expire}"
+    } else {
+      warning("Custom expiry time ignored: only integer is accepted but ${expire} is given.")
+    }
+  } else {
+    $env_expire = ''
+  }
+
   exec { "generate certificate for ${name} in context of ${ca_name}":
-    command  => ". ./vars && ./pkitool ${name}",
+    command  => ". ./vars && ${env_expire} ./pkitool ${name}",
     cwd      => "/etc/openvpn/${ca_name}/easy-rsa",
     creates  => "/etc/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
     provider => 'shell';
