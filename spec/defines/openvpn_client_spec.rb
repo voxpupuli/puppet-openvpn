@@ -35,7 +35,7 @@ describe 'openvpn::client', :type => :define do
 
   it { should contain_exec('tar the thing test_server with test_client').with(
     'cwd'     => '/etc/openvpn/test_server/download-configs/',
-    'command' => '/bin/rm test_client.tar.gz; tar --exclude=\*.conf.d -chzvf test_client.tar.gz test_client'
+    'command' => '/bin/rm test_client.tar.gz; tar --exclude=\*.conf.d -chzvf test_client.tar.gz test_client test_client.tblk'
   ) }
 
   context "setting the minimum parameters" do

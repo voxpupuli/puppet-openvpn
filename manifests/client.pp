@@ -265,7 +265,10 @@ define openvpn::client(
       ensure  => link,
       target  => "/etc/openvpn/${server}/easy-rsa/keys/ta.key",
       require => Exec["generate certificate for ${name} in context of ${server}"],
-      before  => Exec["tar the thing ${server} with ${name}"],
+      before  => [
+        Exec["tar the thing ${server} with ${name}"],
+        Exec["generate ${name}.ovpn in ${server}"],
+      ],
       notify  => Exec["tar the thing ${server} with ${name}"],
     }
   }
@@ -281,31 +284,47 @@ define openvpn::client(
     }
   }
 
+  file {
+    "/etc/openvpn/${server}/download-configs/${name}.tblk":
+      ensure  => directory;
+
+    "/etc/openvpn/${server}/download-configs/${name}.tblk/${name}.ovpn":
+      ensure  => link,
+      target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+      require => [
+        Exec["generate ${name}.ovpn in ${server}"],
+        File["/etc/openvpn/${server}/download-configs/${name}.tblk"],
+      ],
+      before =>  Exec["tar the thing ${server} with ${name}"];
+  }
+
   file { "/etc/openvpn/${server}/download-configs/${name}/${name}.conf":
     owner   => root,
     group   => root,
     mode    => '0444',
     content => template('openvpn/client.erb'),
-    notify  => Exec["tar the thing ${server} with ${name}"],
+    notify  => Exec["generate ${name}.ovpn in ${server}"],
   }
 
   exec { "tar the thing ${server} with ${name}":
     cwd         => "/etc/openvpn/${server}/download-configs/",
-    command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
+    command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name} ${name}.tblk",
     refreshonly => true,
     require     => [
       File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
       File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
       File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
-      File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"]
+      File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"],
+      File["/etc/openvpn/${server}/download-configs/${name}.ovpn"],
+      File["/etc/openvpn/${server}/download-configs/${name}.tblk"],
+      File["/etc/openvpn/${server}/download-configs/${name}.tblk/${name}.ovpn"],
     ],
-    notify      => Exec["generate ${name}.ovpn in ${server}"],
   }
 
   $name_escaped = regsubst(regsubst($name, '\.', '\\.', 'G'), '@', '\\@', 'G')
   exec { "generate ${name}.ovpn in ${server}":
     cwd         => "/etc/openvpn/${server}/download-configs/",
-    command     => "/bin/rm ${name}.ovpn; cat ${name}/${name}.conf | perl -lne 'if(m|^ca keys/${name_escaped}/ca.crt|){ chomp(\$ca=`cat ${name_escaped}/keys/${name_escaped}/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name_escaped}/${name_escaped}.crt|) { chomp(\$crt=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name_escaped}/${name_escaped}.key|){ chomp(\$key=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.key`); print \"<key>\n\$key\n</key>\"} elsif(m|^(tls-auth) (keys/${name_escaped}/ta.key)( .+)?|){ chomp(\$tlsauth=`cat ${name_escaped}/keys/${name_escaped}/ta.key`); print \"<tls-auth>\n\$tlsauth\n</tls-auth>\nkey-direction 1\"} else { print} ' > ${name}.ovpn",
+    command     => "/bin/rm ${name}.ovpn; cat ${name}/${name}.conf | perl -lne 'if(m|^ca keys/${name_escaped}/ca.crt|){ chomp(\$ca=`cat ${name_escaped}/keys/${name_escaped}/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name_escaped}/${name_escaped}.crt|) { chomp(\$crt=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name_escaped}/${name_escaped}.key|){ chomp(\$key=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.key`); print \"<key>\n\$key\n</key>\"} elsif(m|^(tls-auth) (keys/${name_escaped}/ta.key)( .+)?|){ chomp(\$tlsauth=`cat ${name_escaped}/keys/${name_escaped}/ta.key`); print \"<tls-auth>\n\$tlsauth\n</tls-auth>\nkey-direction 1\"} elsif(m/^(up|down) /){ next; } else { print} ' > ${name}.ovpn",
     refreshonly => true,
     require     => [
       File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
@@ -318,5 +337,7 @@ define openvpn::client(
   file { "/etc/openvpn/${server}/download-configs/${name}.ovpn":
     mode    => '0400',
     require => Exec["generate ${name}.ovpn in ${server}"],
+    notify  => Exec["tar the thing ${server} with ${name}"],
   }
+
 }
