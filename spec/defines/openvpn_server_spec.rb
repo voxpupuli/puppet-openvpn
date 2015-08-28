@@ -347,7 +347,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so "?login"?$}) }
   end
 
-  context "when RedHat based machine with different pam_module_arguments" do
+  context "when RedHat based machine with different pam_module_arguments and crl_verify disabled" do
     let(:params) { {
       'country'              => 'CO',
       'province'             => 'ST',
@@ -356,12 +356,14 @@ describe 'openvpn::server', :type => :define do
       'email'                => 'testemail@example.org',
       'pam'                  => true,
       'pam_module_arguments' => 'openvpn login USERNAME password PASSWORD',
+      'crl_verify'           => false,
     } }
 
     let(:facts) { { :osfamily => 'RedHat',
                     :concat_basedir => '/var/lib/puppet/concat' } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so "openvpn login USERNAME password PASSWORD"$}) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify/) }
   end
 
   context "when Debian based machine" do

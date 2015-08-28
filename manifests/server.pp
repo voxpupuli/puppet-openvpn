@@ -317,6 +317,10 @@
 #   String.  Name of a openssl::ca resource to use config with
 #   Default: undef
 #
+# [*crl_verify*]
+#   Boolean. Enable CRL checking. Disabling this is not recommended.
+#   Default: true
+#
 # [*autostart*]
 #   Boolean. Enable autostart for server if openvpn::autostart_all is false.
 #   Default: undef
@@ -441,6 +445,7 @@ define openvpn::server(
   $sndbuf                    = undef,
   $rcvbuf                    = undef,
   $shared_ca                 = undef,
+  $crl_verify                = true,
   $autostart                 = undef,
   $ns_cert_type              = true,
   $nobind                    = false,
@@ -571,6 +576,7 @@ define openvpn::server(
   # - $remote
   # - $ns_cert_type
   # - $server_poll_timeout
+  # - $crl_verify
   # - $ca_name
   # - $ca_common_name
   # - $ssl_key_size

@@ -19,7 +19,7 @@ key /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
 <% unless @remote -%>
 dh /etc/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
 <% end -%>
-<% unless @remote -%>
+<% unless @remote or !@crl_verify -%>
 crl-verify /etc/openvpn/<%= @ca_name %>/crl.pem
 <% end -%>
 <% if @proto == 'tcp' -%>
