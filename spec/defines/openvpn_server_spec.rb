@@ -461,6 +461,57 @@ describe 'openvpn::server', :type => :define do
 
   end
 
+  context "RedHat using an external CA and enabling tls-auth" do
+    let(:params) { {
+      'tls_auth'                => true,
+      'extca_enabled'           => true,
+      'extca_ca_cert_file'      => '/etc/ipa/ca.crt',
+      'extca_ca_crl_file'       => '/etc/ipa/ca_crl.pem',
+      'extca_server_cert_file'  => '/etc/pki/tls/certs/localhost.crt',
+      'extca_server_key_file'   => '/etc/pki/tls/private/localhost.key',
+      'extca_dh_file'           => '/etc/ipa/dh.pem',
+      'extca_tls_auth_key_file' => '/etc/openvpn/keys/ta.key',
+    } }
+
+    let(:facts) { { :osfamily => 'RedHat',
+                    :concat_basedir => '/var/lib/puppet/concat' } }
+
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/test_server\/keys\/ca.crt$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/test_server\/keys\/server.crt$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys\/server.key$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh1024.pem$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-auth\s+\/etc\/openvpn\/test_server\/keys\/ta.key$/) }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/ipa\/ca.crt$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/ipa\/ca_crl.pem$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/pki\/tls\/certs\/localhost.crt$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/pki\/tls\/private\/localhost.key$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/ipa\/dh.pem$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-auth\s+\/etc\/openvpn\/keys\/ta.key$/) }
+
+  end
+
+  context "should fail if setting extca_enabled=true without specifying any other extca_* options" do
+    let(:params) { 
+      'extca_enabled'       => true,
+    } }
+    it { expect { should compile }.to raise_error }
+  end
+
+  context "should fail if setting extca_enabled=true and tls_auth=true without providing extca_tls_auth_key_file" do
+    let(:params) { {
+      'tls_auth'                => true,
+      'extca_enabled'           => true,
+      'extca_ca_cert_file'      => '/etc/ipa/ca.crt',
+      'extca_ca_crl_file'       => '/etc/ipa/ca_crl.pem',
+      'extca_server_cert_file'  => '/etc/pki/tls/certs/localhost.crt',
+      'extca_server_key_file'   => '/etc/pki/tls/private/localhost.key',
+      'extca_dh_file'           => '/etc/ipa/dh.pem',
+    } }
+    it { expect { should compile }.to raise_error }
+  end
+
   context 'systemd enabled RedHat' do
     let(:pre_condition) { "class { 'openvpn': manage_service => #{manage_service} }" }
     let(:facts) do
