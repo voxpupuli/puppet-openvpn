@@ -608,6 +608,7 @@ define openvpn::server(
   # - $ccd_exclusive
   # - $pam
   # - $pam_module_path
+  # - $pam_module_arguments
   # - $management
   # - $management_ip
   # - $management_port

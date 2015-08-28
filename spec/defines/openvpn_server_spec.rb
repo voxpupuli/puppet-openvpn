@@ -344,7 +344,24 @@ describe 'openvpn::server', :type => :define do
                     :concat_basedir => '/var/lib/puppet/concat' } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^group\s+nobody$}) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so login$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so "?login"?$}) }
+  end
+
+  context "when RedHat based machine with different pam_module_arguments" do
+    let(:params) { {
+      'country'              => 'CO',
+      'province'             => 'ST',
+      'city'                 => 'Some City',
+      'organization'         => 'example.org',
+      'email'                => 'testemail@example.org',
+      'pam'                  => true,
+      'pam_module_arguments' => 'openvpn login USERNAME password PASSWORD',
+    } }
+
+    let(:facts) { { :osfamily => 'RedHat',
+                    :concat_basedir => '/var/lib/puppet/concat' } }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so "openvpn login USERNAME password PASSWORD"$}) }
   end
 
   context "when Debian based machine" do
@@ -360,7 +377,7 @@ describe 'openvpn::server', :type => :define do
     let(:facts) { { :osfamily => 'Debian', :operatingsystem => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib/openvpn/openvpn-auth-pam.so login$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib/openvpn/openvpn-auth-pam.so "?login"?$}) }
 
     context 'enabled autostart_all' do
       let(:pre_condition) { 'class { "openvpn": autostart_all => true }' }
