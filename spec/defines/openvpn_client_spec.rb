@@ -38,6 +38,7 @@ describe 'openvpn::client', :type => :define do
     'command' => '/bin/rm test_client.tar.gz; tar --exclude=\*.conf.d -chzvf test_client.tar.gz test_client'
   ) }
 
+
   context "setting the minimum parameters" do
     let(:params) { { 'server' => 'test_server' } }
 
@@ -122,6 +123,27 @@ describe 'openvpn::client', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cipher/) }
   end
 
+  context "should fail if specifying an openvpn::server with extca_enabled=true" do
+    let(:params) { {
+      'server' => "test_server_extca",
+    } }
+    before do
+      pre_condition << '
+        openvpn::server { "text_server_extca":
+          tls_auth                => true,
+          extca_enabled           => true,
+          extca_ca_cert_file      => "/etc/ipa/ca.crt",
+          extca_ca_crl_file       => "/etc/ipa/ca_crl.pem",
+          extca_server_cert_file  => "/etc/pki/tls/certs/localhost.crt",
+          extca_server_key_file   => "/etc/pki/tls/private/localhost.key",
+          extca_dh_file           => "/etc/ipa/dh.pem",
+          extca_tls_auth_key_file => "/etc/openvpn/keys/ta.key",
+        }
+      '
+    end
+    it { expect { should compile }.to raise_error }
+  end
+
   context "when using shared ca" do
     let(:params) { {
       'server'    => 'test_server',
@@ -149,6 +171,7 @@ describe 'openvpn::client', :type => :define do
         'target'  => "/etc/openvpn/my_already_existing_ca/easy-rsa/keys/#{file}"
       )}
     end
+
 
     # Check that certificate files point to the provided CA
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^client$/)}
