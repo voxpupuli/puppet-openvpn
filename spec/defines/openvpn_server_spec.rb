@@ -522,7 +522,7 @@ describe 'openvpn::server', :type => :define do
   end
 
   context "should fail if setting extca_enabled=true without specifying any other extca_* options" do
-    let(:params) { 
+    let(:params) { { 
       'extca_enabled'       => true,
     } }
     it { expect { should compile }.to raise_error }
