@@ -19,15 +19,16 @@ class openvpn::params {
     'RedHat': {
       $group = 'nobody'
       $link_openssl_cnf = true
-      $pam_module_path = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
       $additional_packages = ['easy-rsa']
       $easyrsa_source = '/usr/share/easy-rsa/2.0'
 
       # Redhat/Centos >= 7.0
       if(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
+        $pam_module_path = '/usr/lib64/openvpn/plugins/openvpn-plugin-auth-pam.so'
         $systemd = true
       # Redhat/Centos < 7
       } else {
+        $pam_module_path = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
         $systemd = false
       }
 
