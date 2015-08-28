@@ -153,7 +153,7 @@ ping-timer-rem
 <% if @tls_auth -%>
 <%   if @extca_enabled and @extca_tls_auth_key_file -%>
 # tls authentification
-tls-auth <%= @excta_tls_auth_key_file %>
+tls-auth <%= @extca_tls_auth_key_file %>
 <%   elsif !@extca_enabled -%>
 # tls authentification
 tls-auth /etc/openvpn/<%= @name %>/keys/ta.key
