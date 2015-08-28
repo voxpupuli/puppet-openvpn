@@ -127,7 +127,7 @@ down "<%= @down %>"
 username-as-common-name
 <% end -%>
 <% if @ldap_enabled == true -%>
-plugin <%= scope.lookupvar('::openvpn::params::ldap_auth_plugin_location') %> "/etc/openvpn/<%= name %>/auth/ldap.conf"
+plugin <%= @ldap_auth_plugin_location %> "/etc/openvpn/<%= @name %>/auth/ldap.conf"
 <% end -%>
 <% if @client_cert_not_required -%>
 client-cert-not-required

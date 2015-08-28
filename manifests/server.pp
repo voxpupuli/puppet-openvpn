@@ -1,15 +1,18 @@
 # == Define: openvpn::server
 #
-# This define creates the openvpn server instance which can run in server or client mode.
+# This define creates the openvpn server instance which can run in server or
+# client mode.
 #
 # === Parameters
 #
 # [*country*]
-#   String.  Country to be used for the SSL certificate, mandatory for server mode.
+#   String.  Country to be used for the SSL certificate,
+#            mandatory for server mode.
 #   Default: undef
 #
 # [*province*]
-#   String.  Province to be used for the SSL certificate, mandatory for server mode.
+#   String.  Province to be used for the SSL certificate,
+#            mandatory for server mode.
 #   Default: undef
 #
 # [*city*]
@@ -17,11 +20,13 @@
 #   Default: undef
 #
 # [*organization*]
-#   String.  Organization to be used for the SSL certificate, mandatory for server mode.
+#   String.  Organization to be used for the SSL certificate,
+#            mandatory for server mode.
 #   Default: undef
 #
 # [*email*]
-#   String.  Email address to be used for the SSL certificate, mandatory for server mode.
+#   String.  Email address to be used for the SSL certificate,
+#            mandatory for server mode.
 #   Default: undef
 #
 # [*remote*]
@@ -84,7 +89,8 @@
 #   Default: "/var/log/openvpn/${name}-status.log"
 #
 # [*status_version*]
-#   Integer. Choose the status file format version number. Can be 1, 2 or 3 and defaults to 1
+#   Integer. Choose the status file format version number.
+#   Can be 1, 2 or 3 and defaults to 1
 #   Default: None (=1)
 #
 # [*server*]
@@ -306,12 +312,12 @@
 #   Default: undef
 #
 # [*autostart*]
-#   Boolean. Enable autostart for this server if openvpn::autostart_all is false.
+#   Boolean. Enable autostart for server if openvpn::autostart_all is false.
 #   Default: undef
 #
 # [*ns_cert_type*]
-#   Boolean. Enable or disable use of ns-cert-type for the session. Generally used
-#   with client configuration
+#   Boolean. Enable or disable use of ns-cert-type for the session. Generally
+#   used with client configuration
 #   Default: true
 #
 # [*nobind*]
@@ -319,7 +325,7 @@
 #   Default: false
 #
 # [*custom_options*]
-#   Hash of additional options that you want to append to the configuration file.
+#   Hash of additional options to append to the configuration file.
 #
 # === Examples
 #
@@ -464,6 +470,7 @@ define openvpn::server(
   }
 
   $pam_module_path = $::openvpn::params::pam_module_path
+  $ldap_auth_plugin_location = $::openvpn::params::ldap_auth_plugin_location
 
   $group_to_set = $group ? {
     false   => $openvpn::params::group,
@@ -489,10 +496,16 @@ define openvpn::server(
   if !$remote {
     if !$shared_ca {
       # VPN Server Mode
-      if $country == undef { fail('country has to be specified in server mode') }
-      if $province == undef { fail('province has to be specified in server mode') }
+      if $country == undef {
+        fail('country has to be specified in server mode')
+      }
+      if $province == undef {
+        fail('province has to be specified in server mode')
+      }
       if $city == undef { fail('city has to be specified in server mode') }
-      if $organization == undef { fail('organization has to be specified in server mode') }
+      if $organization == undef {
+        fail('organization has to be specified in server mode')
+      }
       if $email == undef { fail('email has to be specified in server mode') }
 
       $ca_common_name = $common_name
@@ -546,6 +559,61 @@ define openvpn::server(
     }
   }
 
+  # Template uses:
+  # - $name
+  # - $remote
+  # - $ns_cert_type
+  # - $server_poll_timeout
+  # - $ca_name
+  # - $ca_common_name
+  # - $ssl_key_size
+  # - $proto
+  # - $nobind
+  # - $port
+  # - $real_tls_server
+  # - $tls_auth
+  # - $tls_client
+  # - $compression
+  # - $user
+  # - $group
+  # - $logfile
+  # - $status_log
+  # - $status_version
+  # - $dev
+  # - $local
+  # - $ipp
+  # - $server
+  # - $server_ipv6
+  # - $server_bridge
+  # - $push
+  # - $route
+  # - $route_ipv6
+  # - $sndbuf
+  # - $rcvbuf
+  # - $keepalive
+  # - $topology
+  # - $verb
+  # - $cipher
+  # - $c2c
+  # - $persist_key
+  # - $persist_tun
+  # - $tcp_nodelay
+  # - $ccd_exclusive
+  # - $pam
+  # - $pam_module_path
+  # - $management
+  # - $management_ip
+  # - $management_port
+  # - $up
+  # - $down
+  # - $username_as_common_name
+  # - $ldap_enabled
+  # - $ldap_auth_plugin_location
+  # - $client_cert_not_required
+  # - $duplicate_cn
+  # - $ping_timer_rem
+  # - $fragment
+  # - $custom_options
   file { "/etc/openvpn/${name}.conf":
     owner   => root,
     group   => root,
@@ -566,10 +634,10 @@ define openvpn::server(
   if $::openvpn::params::systemd {
     if $::openvpn::manage_service {
       service { "openvpn@${name}":
-        ensure  => running,
-        enable  => true,
+        ensure   => running,
+        enable   => true,
         provider => 'systemd',
-        require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        require  => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
       }
     }
   }

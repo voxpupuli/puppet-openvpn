@@ -39,6 +39,8 @@ class openvpn::config {
       warn  => true,
     }
 
+    # Template uses:
+    # - $::openvpn::autostart_all
     concat::fragment { 'openvpn.default.header':
       content => template('openvpn/etc-default-openvpn.erb'),
       target  => '/etc/default/openvpn',
