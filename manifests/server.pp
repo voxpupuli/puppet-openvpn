@@ -149,6 +149,12 @@
 #   Boolean, Enable/Disable.
 #   Default: false
 #
+# [*pam_module_arguments*]
+#    String.  Arguments to pass to the PAM module. For FreeIPA, set this to
+#             "openvpn login USERNAME password PASSWORD" and create HBAC Service
+#             "openvpn".
+#    Default: login
+#
 # [*management*]
 #   Boolean.  Enable management interface
 #   Default: false
@@ -395,6 +401,7 @@ define openvpn::server(
   $tcp_nodelay               = false,
   $ccd_exclusive             = false,
   $pam                       = false,
+  $pam_module_arguments      = 'login',
   $management                = false,
   $management_ip             = 'localhost',
   $management_port           = 7505,

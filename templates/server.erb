@@ -109,7 +109,7 @@ tcp-nodelay
 ccd-exclusive
 <% end -%>
 <% if @pam -%>
-plugin <%= @pam_module_path %> login
+plugin <%= @pam_module_path %> "<%= @pam_module_arguments %>"
 <% end -%>
 <% if @management -%>
 management <%= @management_ip %> <%= @management_port %>
