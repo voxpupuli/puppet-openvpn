@@ -330,7 +330,7 @@ describe 'openvpn::server', :type => :define do
     it { expect { should compile }.to raise_error }
   end
 
-  context "when RedHat based machine" do
+  context "when RedHat 6.3 based machine" do
     let(:params) { {
       'country'       => 'CO',
       'province'      => 'ST',
@@ -341,10 +341,30 @@ describe 'openvpn::server', :type => :define do
     } }
 
     let(:facts) { { :osfamily => 'RedHat',
+                    :operatingsystemrelease => '6.3',
                     :concat_basedir => '/var/lib/puppet/concat' } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^group\s+nobody$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so "?login"?$}) }
+  end
+
+  context "when RedHat 7.1.1503 based machine" do
+    let(:params) { {
+      'country'       => 'CO',
+      'province'      => 'ST',
+      'city'          => 'Some City',
+      'organization'  => 'example.org',
+      'email'         => 'testemail@example.org',
+      'pam'           => true,
+    } }
+
+    let(:facts) { { :osfamily => 'RedHat',
+                    :operatingsystemrelease => '7.1.1503',
+                    :concat_basedir => '/var/lib/puppet/concat' } }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^group\s+nobody$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugins/openvpn-plugin-auth-pam.so "?login"?$}) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so}) }
   end
 
   context "when RedHat based machine with different pam_module_arguments and crl_verify disabled" do
