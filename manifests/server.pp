@@ -321,6 +321,43 @@
 #   Boolean. Enable CRL checking. Disabling this is not recommended.
 #   Default: true
 #
+# [*extca_enabled*]
+#   Boolean. Turn this on if you are using an external CA solution, like FreeIPA.
+#            Once enabled, you must configure the remaining extca_* parameters.
+#   Default: false
+#
+# [*extca_ca_cert_file*]
+#    String. External CA: Path to the CA certificate.
+#    Default: undef
+#
+# [*extca_ca_crl_file*]
+#    String. External CA: Path to the CA's CRL file.
+#            For FreeIPA-based CAs, CRLs expire every four hours, which means you
+#            may need your own solution for maintaining a local copy of your CA's CRL.
+#            Otherwise, you can set crl_verify to false (not recommended).
+#    Default: undef
+#
+# [*extca_server_cert_file*]
+#    String. External CA: Path to the external CA issued OpenVPN server certificate.
+#    Default: undef
+#
+# [*extca_server_key_file*]
+#    String. External CA: Path to the key file that corresponds to $extca_server_cert_file
+#    Default: undef
+#
+# [*extca_dh_file*]
+#    String. External CA: Path to your Dillie-Hellman parameter file. You will need to create one yourself.
+#            Make sure key-size matches the public key size of your CA-issued server certificate.
+#            Like this: openssl dhparam -out /path/to/dh.pem 2048
+#            Note: This is only required if you are enabling $tls_server.
+#    Default: undef
+#
+# [*extca_tls_auth_key_file*]
+#    String. External CA: If you are enabling $extca_enabled and $tls_auth, you will also need to create
+#            the tls-auth key file and specify its location here.
+#            The file can be created like this: openvpn --genkey --secret /path/to/ta.key
+#            Note: you will need to distribute this file to your clients as well.
+#
 # [*autostart*]
 #   Boolean. Enable autostart for server if openvpn::autostart_all is false.
 #   Default: undef
@@ -446,6 +483,13 @@ define openvpn::server(
   $rcvbuf                    = undef,
   $shared_ca                 = undef,
   $crl_verify                = true,
+  $extca_enabled             = false,
+  $extca_ca_cert_file        = undef,
+  $extca_ca_crl_file         = undef,
+  $extca_server_cert_file    = undef,
+  $extca_server_key_file     = undef,
+  $extca_dh_file             = undef,
+  $extca_tls_auth_key_file   = undef,
   $autostart                 = undef,
   $ns_cert_type              = true,
   $nobind                    = false,
@@ -471,13 +515,15 @@ define openvpn::server(
   # Selection block to enable or disable tls-server flag
   # Check if we want to run as a client or not
   if !$tls_client {
-    if $tls_server {
+    if $tls_server and !$extca_enabled {
       $real_tls_server = $tls_server
-    } else {
+    } elsif ($extca_enabled and $extca_dh_file) or (!$extca_enabled) {
       $real_tls_server = $proto ? {
         /tcp/   => true,
         default => false
       }
+    } else {
+      $real_tls_server = false
     }
   }
 
@@ -491,7 +537,7 @@ define openvpn::server(
 
   if $shared_ca {
     $ca_name = $shared_ca
-  } else {
+  } elsif !$extca_enabled {
     $ca_name = $name
   }
 
@@ -505,8 +551,18 @@ define openvpn::server(
     notify => $lnotify,
   }
 
+  if $extca_enabled {
+    # VPN Server or Client with external CA
+    if $extca_ca_cert_file == undef { fail('extca_ca_cert_file has to be specified in extca mode') }
+    if $extca_ca_crl_file == undef and $crl_verify and !$remote { fail('extca_ca_crl_file has to be specified in extca mode if crl_verify is enabled') }
+    if $extca_server_cert_file == undef { fail('extca_server_cert_file has to be specified in extca mode') }
+    if $extca_server_key_file == undef { fail('extca_server_key_file has to be specified in extca mode') }
+    if $extca_dh_file == undef and !$remote and $tls_server { fail('cant enable tls_server: missing extca_dh_file') }
+    if $extca_tls_auth_key_file == undef and !$remote and $tls_auth { fail('cant enable tls_auth: missing extca_tls_auth_key_file') }
+  }
+
   if !$remote {
-    if !$shared_ca {
+    if !$shared_ca and !$extca_enabled {
       # VPN Server Mode
       if $country == undef {
         fail('country has to be specified in server mode')
@@ -537,11 +593,13 @@ define openvpn::server(
         key_ou       => $key_ou,
         tls_auth     => $tls_auth,
       }
-    } else {
+    } elsif !$extca_enabled {
       if !defined(Openvpn::Ca[$shared_ca]) {
         fail("Openvpn::ca[${name}] is not defined for shared_ca")
       }
       $ca_common_name = getparam(Openvpn::Ca[$shared_ca], 'common_name')
+    } else {
+      $ca_common_name = undef
     }
 
     file {
@@ -576,6 +634,13 @@ define openvpn::server(
   # - $remote
   # - $ns_cert_type
   # - $server_poll_timeout
+  # - $extca_enabled
+  # - $extca_ca_cert_file
+  # - $extca_ca_crl_file
+  # - $extca_server_cert_file
+  # - $extca_server_key_file
+  # - $extca_dh_file
+  # - $extca_tls_auth_key_file
   # - $crl_verify
   # - $ca_name
   # - $ca_common_name
@@ -651,7 +716,10 @@ define openvpn::server(
         ensure   => running,
         enable   => true,
         provider => 'systemd',
-        require  => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        require  => File["/etc/openvpn/${name}.conf"],
+      }
+      if !$extca_enabled {
+        Openvpn::Ca[$ca_name] -> Service["openvpn@${name}"]
       }
     }
   }

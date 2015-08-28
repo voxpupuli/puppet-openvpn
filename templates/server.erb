@@ -13,14 +13,26 @@ remote <%= rem %>
 server-poll-timeout <%= @server_poll_timeout %>
 <% end -%>
 <% end -%>
+<% if @extca_enabled -%>
+ca <%= @extca_ca_cert_file %>
+cert <%= @extca_server_cert_file %>
+key <%= @extca_server_key_file %>
+<%   unless @remote or !@extca_dh_file -%>
+dh <%= @extca_dh_file %>
+<%   end -%>
+<%   unless @remote or !@crl_verify or !@extca_ca_crl_file -%>
+crl-verify <%= @extca_ca_crl_file %>
+<%   end -%>
+<% else -%>
 ca /etc/openvpn/<%= @ca_name %>/keys/ca.crt
 cert /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
 key /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
-<% unless @remote -%>
+<%   unless @remote -%>
 dh /etc/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
-<% end -%>
-<% unless @remote or !@crl_verify -%>
+<%   end -%>
+<%   unless @remote or !@crl_verify -%>
 crl-verify /etc/openvpn/<%= @ca_name %>/crl.pem
+<%   end -%>
 <% end -%>
 <% if @proto == 'tcp' -%>
 proto <%= @proto %>-server
@@ -139,13 +151,18 @@ duplicate-cn
 ping-timer-rem
 <% end -%>
 <% if @tls_auth -%>
+<%   if @extca_enabled and @extca_tls_auth_key_file -%>
+# tls authentification
+tls-auth <%= @excta_tls_auth_key_file %>
+<%   elsif !@extca_enabled -%>
 # tls authentification
 tls-auth /etc/openvpn/<%= @name %>/keys/ta.key
-<% unless @remote -%>
+<%   end -%>
+<%   unless @remote -%>
 key-direction 0
-<% else -%>
+<%   else -%>
 key-direction 1
-<% end -%>
+<%   end -%>
 <% end -%>
 <% if @fragment != false -%>
 fragment <%= @fragment %>
