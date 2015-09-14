@@ -9,8 +9,10 @@
   TLSEnable yes
   TLSCACertFile <%= @ldap_tls_ca_cert_file %>
   TLSCACertDir <%= @ldap_tls_ca_cert_dir %>
+<% if @ldap_tls_client_auth_enable -%>
   TLSCertFile <%= @ldap_tls_client_cert_file %>
   TLSKeyFile <%= @ldap_tls_client_key_file %>
+<% end -%>
 <% else %>
   TLSEnable no
 <% end -%>

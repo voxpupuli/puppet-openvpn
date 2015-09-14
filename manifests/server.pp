@@ -216,6 +216,10 @@
 #   String. LDAP TLS authentication: path to the CA certificates.
 #   Default: None
 #
+# [*ldap_tls_client_auth_enable*]
+#   Boolean. LDAP TLS authentication: Enable if TLS client authentication is required
+#   Default: true
+#
 # [*ldap_tls_client_cert_file*]
 #   String. LDAP TLS authentication: path to the tls client certificate
 #   Default: None
@@ -399,6 +403,7 @@ define openvpn::server(
   $ldap_tls_enable           = false,
   $ldap_tls_ca_cert_file     = '',
   $ldap_tls_ca_cert_dir      = '',
+  $ldap_tls_client_auth_enable = true,
   $ldap_tls_client_cert_file = '',
   $ldap_tls_client_key_file  = '',
   $ca_expire                 = 3650,
