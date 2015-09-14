@@ -571,10 +571,10 @@ define openvpn::server(
   if $::openvpn::params::systemd {
     if $::openvpn::manage_service {
       service { "openvpn@${name}":
-        ensure  => running,
-        enable  => true,
+        ensure   => running,
+        enable   => true,
         provider => 'systemd',
-        require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        require  => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
       }
     }
   }
