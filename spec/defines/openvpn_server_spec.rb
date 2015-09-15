@@ -142,6 +142,7 @@ describe 'openvpn::server', :type => :define do
       'key_ou'          => 'NSA',
       'verb'            => 'mute',
       'cipher'          => 'DES-CBC',
+      'tls_cipher'      => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
       'persist_key'     => true,
       'persist_tun'     => true,
       'duplicate_cn'    => true,
@@ -190,6 +191,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^management\s+1.3.3.7 1337$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^verb mute$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cipher DES-CBC$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$/)}
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-key$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-tun$/) }
 

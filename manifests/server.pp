@@ -237,6 +237,10 @@
 #   String,  Cipher to use for packet encryption
 #   Default: None
 #
+# [*tls_cipher*]
+#   String, TLS Ciphers to use
+#   Default: None
+#
 # [*persist_key*]
 #   Boolean.  Try to retain access to resources that may be unavailable
 #     because of privilege downgrades
@@ -418,6 +422,7 @@ define openvpn::server(
   $key_ou                    = '',
   $verb                      = '',
   $cipher                    = '',
+  $tls_cipher                = undef,
   $persist_key               = false,
   $persist_tun               = false,
   $tls_auth                  = false,
@@ -566,10 +571,10 @@ define openvpn::server(
   if $::openvpn::params::systemd {
     if $::openvpn::manage_service {
       service { "openvpn@${name}":
-        ensure  => running,
-        enable  => true,
+        ensure   => running,
+        enable   => true,
         provider => 'systemd',
-        require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        require  => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
       }
     }
   }
