@@ -4,3 +4,4 @@ spec/fixtures
 .gitconfig
 .bundle
 Gemfile.lock
+.idea
