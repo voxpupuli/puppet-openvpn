@@ -131,7 +131,7 @@
 #   Boolean.  Enable client to client visibility
 #   Default: false
 #
-# [*tcp-nodelay*]
+# [*tcp_nodelay*]
 #   Boolean, Enable/Disable.
 #   Default: false
 #
