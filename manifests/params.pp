@@ -18,7 +18,7 @@ class openvpn::params {
 
   case $::osfamily {
     'RedHat': {
-      $etc_directory    = '/etc/
+      $etc_directory    = '/etc/'
       $root_group       = 'root'
       $group            = 'nobody'
       $link_openssl_cnf = true
