@@ -90,16 +90,6 @@ class openvpn(
   validate_hash($server_defaults)
   validate_hash($servers)
 
-  $etc_directory = $::operatingsystem ? {
-    /(?i:FreeBSD)/ => '/usr/local/etc',
-    default        => '/etc',
-  }
-
-  $root_group = $::operatingsystem ? {
-    /(?i:FreeBSD)/ => 'wheel',
-    default        => 'root',
-  }
-
   class { 'openvpn::params': } ->
   class { 'openvpn::install': } ->
   class { 'openvpn::config': } ->

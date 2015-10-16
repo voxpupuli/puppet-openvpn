@@ -87,6 +87,8 @@ class openvpn::params {
       }
     }
     'Archlinux': {
+      $etc_directory             = '/etc'
+      $root_group                = 'root'
       $additional_packages       = ['easy-rsa']
       $easyrsa_source            = '/usr/share/easy-rsa/'
       $group                     = 'nobody'

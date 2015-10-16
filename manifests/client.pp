@@ -219,6 +219,8 @@ define openvpn::client(
   Openvpn::Ca[$ca_name] ->
   Openvpn::Client[$name]
 
+  $etc_directory = $::openvpn::params::etc_directory
+
   if $expire {
     if is_integer($expire){
       $env_expire = "KEY_EXPIRE=${expire}"
@@ -300,7 +302,7 @@ define openvpn::client(
 
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf":
     owner   => root,
-    group   => $root_group,
+    group   => $::openvpn::params::root_group,
     mode    => '0444',
     content => template('openvpn/client.erb'),
   }
