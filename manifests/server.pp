@@ -473,6 +473,8 @@ define openvpn::server(
   }
 
   $pam_module_path = $::openvpn::params::pam_module_path
+  $etc_directory = $::openvpn::params::etc_directory
+  $root_group = $::openvpn::params::root_group
 
   $group_to_set = $group ? {
     false   => $openvpn::params::group,

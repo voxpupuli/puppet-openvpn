@@ -117,6 +117,8 @@ define openvpn::ca(
     group => $group_to_set,
   }
 
+  $etc_directory = $::openvpn::params::etc_directory
+
   exec { "copy easy-rsa to openvpn config folder ${name}":
     command => "/bin/cp -r ${openvpn::params::easyrsa_source} ${etc_directory}/openvpn/${name}/easy-rsa",
     creates => "${etc_directory}/openvpn/${name}/easy-rsa",
