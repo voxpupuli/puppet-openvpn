@@ -447,8 +447,12 @@ define openvpn::server(
     if $::openvpn::params::systemd {
       $lnotify = Service["openvpn@${name}"]
     } else {
-      $lnotify = Service['openvpn']
-      Openvpn::Server[$name] -> Service['openvpn']
+      if $::openvpn::params::namespecific_rclink {
+        $lnotify = Service["openvpn_${name}"]
+      } else {
+        $lnotify = Service['openvpn']
+        Openvpn::Server[$name] -> Service['openvpn']
+      }
     }
   }
   else {
