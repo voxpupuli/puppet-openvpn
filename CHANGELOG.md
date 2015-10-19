@@ -8,6 +8,7 @@
 * Support for README in download configs ([#169](https://github.com/luxflux/puppet-openvpn/pull/169))
 * Support for Tunnelblick configurations ([#169](https://github.com/luxflux/puppet-openvpn/pull/169))
 * Fix certificate revocation in Ubuntu Precise ([#169](https://github.com/luxflux/puppet-openvpn/pull/169))
+* Use concat for ovpn generation ([#176](https://github.com/luxflux/puppet-openvpn/pull/176))
 
 ## 2.9.0
 
