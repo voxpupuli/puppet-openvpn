@@ -334,9 +334,9 @@ define openvpn::client(
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/client_config":
-    target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-    source  => "${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf",
-    order   => '01'
+    target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+    source => "${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf",
+    order  => '01'
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/ca_open_tag":
@@ -346,9 +346,9 @@ define openvpn::client(
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/ca":
-    target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-    source  => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt",
-    order   => '03'
+    target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+    source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt",
+    order  => '03'
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/ca_close_tag":
@@ -364,9 +364,9 @@ define openvpn::client(
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/key":
-    target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-    source  => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key",
-    order   => '06'
+    target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+    source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key",
+    order  => '06'
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/key_close_tag":
@@ -382,9 +382,9 @@ define openvpn::client(
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/cert":
-    target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-    source  => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt",
-    order   => '09'
+    target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+    source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt",
+    order  => '09'
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/cert_close_tag":
