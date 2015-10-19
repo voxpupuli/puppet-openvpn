@@ -267,7 +267,7 @@ define openvpn::client(
       require => Exec["generate certificate for ${name} in context of ${server}"],
       before  => [
         Exec["tar the thing ${server} with ${name}"],
-        Exec["generate ${name}.ovpn in ${server}"],
+        Concat["/etc/openvpn/${server}/download-configs/${name}.ovpn"],
       ],
       notify  => Exec["tar the thing ${server} with ${name}"],
     }
@@ -292,8 +292,8 @@ define openvpn::client(
       ensure  => link,
       target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
       require => [
-        Exec["generate ${name}.ovpn in ${server}"],
-        File["/etc/openvpn/${server}/download-configs/${name}.tblk"],
+        Concat["/etc/openvpn/${server}/download-configs/${name}.ovpn"],
+        File["/etc/openvpn/${server}/download-configs/${name}.tblk"]
       ],
       before =>  Exec["tar the thing ${server} with ${name}"];
   }
@@ -303,7 +303,6 @@ define openvpn::client(
     group   => root,
     mode    => '0444',
     content => template('openvpn/client.erb'),
-    notify  => Exec["generate ${name}.ovpn in ${server}"],
   }
 
   exec { "tar the thing ${server} with ${name}":
@@ -315,18 +314,16 @@ define openvpn::client(
       File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
       File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
       File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"],
-      File["/etc/openvpn/${server}/download-configs/${name}.ovpn"],
+      Concat["/etc/openvpn/${server}/download-configs/${name}.ovpn"],
       File["/etc/openvpn/${server}/download-configs/${name}.tblk"],
       File["/etc/openvpn/${server}/download-configs/${name}.tblk/${name}.ovpn"],
     ],
   }
 
-  $name_escaped = regsubst(regsubst($name, '\.', '\\.', 'G'), '@', '\\@', 'G')
-  exec { "generate ${name}.ovpn in ${server}":
-    cwd         => "/etc/openvpn/${server}/download-configs/",
-    command     => "/bin/rm ${name}.ovpn; cat ${name}/${name}.conf | perl -lne 'if(m|^ca keys/${name_escaped}/ca.crt|){ chomp(\$ca=`cat ${name_escaped}/keys/${name_escaped}/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name_escaped}/${name_escaped}.crt|) { chomp(\$crt=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name_escaped}/${name_escaped}.key|){ chomp(\$key=`cat ${name_escaped}/keys/${name_escaped}/${name_escaped}.key`); print \"<key>\n\$key\n</key>\"} elsif(m|^(tls-auth) (keys/${name_escaped}/ta.key)( .+)?|){ chomp(\$tlsauth=`cat ${name_escaped}/keys/${name_escaped}/ta.key`); print \"<tls-auth>\n\$tlsauth\n</tls-auth>\nkey-direction 1\"} elsif(m/^(up|down) /){ next; } else { print} ' > ${name}.ovpn",
-    refreshonly => true,
-    require     => [
+  concat { "/etc/openvpn/${server}/download-configs/${name}.ovpn":
+    mode    => '0400',
+    notify  => Exec["tar the thing ${server} with ${name}"],
+    require => [
       File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
       File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
       File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
@@ -334,10 +331,91 @@ define openvpn::client(
     ],
   }
 
-  file { "/etc/openvpn/${server}/download-configs/${name}.ovpn":
-    mode    => '0400',
-    require => Exec["generate ${name}.ovpn in ${server}"],
-    notify  => Exec["tar the thing ${server} with ${name}"],
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/client_config":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    source  => "/etc/openvpn/${server}/download-configs/${name}/${name}.conf",
+    order   => '01'
   }
 
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/ca_open_tag":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    content => "<ca>\n",
+    order   => '02'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/ca":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    source  => "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt",
+    order   => '03'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/ca_close_tag":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    content => "</ca>\n",
+    order   => '04'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/key_open_tag":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    content => "<key>\n",
+    order   => '05'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/key":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    source  => "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key",
+    order   => '06'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/key_close_tag":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    content => "</key>\n",
+    order   => '07'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/cert_open_tag":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    content => "<cert>\n",
+    order   => '08'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/cert":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    source  => "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt",
+    order   => '09'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/cert_close_tag":
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    content => "</cert>\n",
+    order   => '10'
+  }
+
+  if $tls_auth {
+    $_tls_ensure = present
+  }
+  else {
+    $_tls_ensure = absent
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_open_tag":
+    ensure  => $_tls_ensure,
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    content => "<tls-auth>\n",
+    order   => '11'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth":
+    ensure  => $_tls_ensure,
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    source  => "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
+    order   => '12'
+  }
+
+  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_close_tag":
+    ensure  => $_tls_ensure,
+    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+    content => "</tls-auth>\n",
+    order   => '13'
+  }
 }
