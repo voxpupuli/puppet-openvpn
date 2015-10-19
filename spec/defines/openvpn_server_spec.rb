@@ -385,6 +385,30 @@ describe 'openvpn::server', :type => :define do
     end
   end
 
+  context "when FreeBSD based machine" do
+    let(:params) { {
+        'country'       => 'CO',
+        'province'      => 'ST',
+        'city'          => 'Some City',
+        'organization'  => 'example.org',
+        'email'         => 'testemail@example.org',
+        'pam'           => true,
+    } }
+
+    let(:facts) { {
+        :osfamily => 'FreeBSD',
+        :operatingsystem => 'FreeBSD',
+        :concat_basedir => '/var/lib/puppet/concat'
+    } }
+
+    it { should contain_file('/etc/rc.conf.d/openvpn_test_server')}
+    it { should contain_service('openvpn_test_server') }
+    it { should contain_file('/usr/local/etc/openvpn/test_server') }
+    it { should contain_file('/usr/local/etc/rc.d/openvpn_test_server') }
+    it { should contain_file('/usr/local/etc/openvpn/test_server.conf').with_content(/\/usr\/local\/etc/) }
+
+  end
+
   context 'ldap' do
     before do
       facts[:osfamily] = 'Debian'
