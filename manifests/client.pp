@@ -392,30 +392,22 @@ define openvpn::client(
   }
 
   if $tls_auth {
-    $_tls_ensure = 'present'
-  }
-  else {
-    $_tls_ensure = 'absent'
-  }
+    concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_open_tag":
+      target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+      content => "<tls-auth>\n",
+      order   => '11'
+    }
 
-  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_open_tag":
-    ensure  => $_tls_ensure,
-    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
-    content => "<tls-auth>\n",
-    order   => '11'
-  }
+    concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth":
+      target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+      source  => "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
+      order   => '12'
+    }
 
-  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth":
-    ensure  => $_tls_ensure,
-    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
-    source  => "/etc/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
-    order   => '12'
-  }
-
-  concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_close_tag":
-    ensure  => $_tls_ensure,
-    target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
-    content => "</tls-auth>\n",
-    order   => '13'
+    concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_close_tag":
+      target  => "/etc/openvpn/${server}/download-configs/${name}.ovpn",
+      content => "</tls-auth>\n",
+      order   => '13'
+    }
   }
 }
