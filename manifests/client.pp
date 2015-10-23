@@ -392,10 +392,10 @@ define openvpn::client(
   }
 
   if $tls_auth {
-    $_tls_ensure = present
+    $_tls_ensure = 'present'
   }
   else {
-    $_tls_ensure = absent
+    $_tls_ensure = 'absent'
   }
 
   concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_open_tag":
