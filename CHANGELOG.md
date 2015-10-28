@@ -2,6 +2,8 @@
 
 ## Next Version
 
+* Support for FreeBSD ([#180](https://github.com/luxflux/puppet-openvpn/pull/180))
+
 ## 3.0.0
 
 * Support for Ubuntu 15.04 ([#168](https://github.com/luxflux/puppet-openvpn/pull/168))
