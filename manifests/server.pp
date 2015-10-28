@@ -600,10 +600,12 @@ define openvpn::server(
       content => template('openvpn/etc-rc.d-openvpn.erb'),
     }
 
-    service { "openvpn_${name}":
-      ensure  => running,
-      enable  => true,
-      require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+    if $::openvpn::manage_service {
+      service { "openvpn_${name}":
+        ensure  => running,
+        enable  => true,
+        require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+      }
     }
   }
 }
