@@ -42,7 +42,6 @@ class openvpn::params {
       $group             = 'nogroup'
       $link_openssl_cnf  = true
       $pam_module_path   = '/usr/lib/openvpn/openvpn-auth-pam.so'
-      $load_main_service = true
 
       case $::operatingsystem {
         'Debian': {
@@ -107,7 +106,6 @@ class openvpn::params {
           $systemd             = false
           $link_openssl_cnf    = true
           $pam_module_path     = '/usr/lib/openvpn/openvpn-auth-pam.so'
-          $load_main_service   = true
         }
         default: {
           fail("Not supported OS / Distribution: ${::osfamily}/${::operatingsystem}")
@@ -123,7 +121,6 @@ class openvpn::params {
       $additional_packages = ['easy-rsa']
       $easyrsa_source      = '/usr/local/share/easy-rsa'
       $namespecific_rclink = true
-      $load_main_service   = false
     }
     default: {
       fail("Not supported OS family ${::osfamily}")
