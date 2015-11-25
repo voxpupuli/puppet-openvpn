@@ -2,7 +2,17 @@
 
 ## Next Version
 
-* Support for Ubuntu 15.04 ([#168](https://github.com/luxflux/puppet-openvpn/pull/168)
+* Support for FreeBSD ([#180](https://github.com/luxflux/puppet-openvpn/pull/180))
+
+## 3.0.0
+
+* Support for Ubuntu 15.04 ([#168](https://github.com/luxflux/puppet-openvpn/pull/168))
+* Support for specifying TLS-Cipher ([#169](https://github.com/luxflux/puppet-openvpn/pull/169))
+* Support for specifying custom certificate expiry ([#169](https://github.com/luxflux/puppet-openvpn/pull/169))
+* Support for README in download configs ([#169](https://github.com/luxflux/puppet-openvpn/pull/169))
+* Support for Tunnelblick configurations ([#169](https://github.com/luxflux/puppet-openvpn/pull/169))
+* Fix certificate revocation in Ubuntu Precise ([#169](https://github.com/luxflux/puppet-openvpn/pull/169))
+* Use concat for ovpn generation ([#176](https://github.com/luxflux/puppet-openvpn/pull/176))
 
 ## 2.9.0
 

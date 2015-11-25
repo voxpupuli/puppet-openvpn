@@ -142,6 +142,7 @@ describe 'openvpn::server', :type => :define do
       'key_ou'          => 'NSA',
       'verb'            => 'mute',
       'cipher'          => 'DES-CBC',
+      'tls_cipher'      => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
       'persist_key'     => true,
       'persist_tun'     => true,
       'duplicate_cn'    => true,
@@ -190,6 +191,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^management\s+1.3.3.7 1337$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^verb mute$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cipher DES-CBC$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$/)}
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-key$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-tun$/) }
 
@@ -400,6 +402,30 @@ describe 'openvpn::server', :type => :define do
         )}
       end
     end
+  end
+
+  context "when FreeBSD based machine" do
+    let(:params) { {
+        'country'       => 'CO',
+        'province'      => 'ST',
+        'city'          => 'Some City',
+        'organization'  => 'example.org',
+        'email'         => 'testemail@example.org',
+        'pam'           => true,
+    } }
+
+    let(:facts) { {
+        :osfamily => 'FreeBSD',
+        :operatingsystem => 'FreeBSD',
+        :concat_basedir => '/var/lib/puppet/concat'
+    } }
+
+    it { should contain_file('/etc/rc.conf.d/openvpn_test_server')}
+    it { should contain_service('openvpn_test_server') }
+    it { should contain_file('/usr/local/etc/openvpn/test_server') }
+    it { should contain_file('/usr/local/etc/rc.d/openvpn_test_server') }
+    it { should contain_file('/usr/local/etc/openvpn/test_server.conf').with_content(/\/usr\/local\/etc/) }
+
   end
 
   context 'ldap' do

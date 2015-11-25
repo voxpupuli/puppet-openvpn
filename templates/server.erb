@@ -1,6 +1,6 @@
 <% unless @remote -%>
 mode server
-client-config-dir /etc/openvpn/<%= @name %>/client-configs
+client-config-dir <%= @etc_directory -%>/openvpn/<%= @name %>/client-configs
 <% else -%>
 client
 <% if @ns_cert_type -%>
@@ -24,14 +24,14 @@ dh <%= @extca_dh_file %>
 crl-verify <%= @extca_ca_crl_file %>
 <%   end -%>
 <% else -%>
-ca /etc/openvpn/<%= @ca_name %>/keys/ca.crt
-cert /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
-key /etc/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
-<%   unless @remote -%>
-dh /etc/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
-<%   end -%>
-<%   unless @remote or !@crl_verify -%>
-crl-verify /etc/openvpn/<%= @ca_name %>/crl.pem
+ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
+cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
+key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
+<% unless @remote -%>
+dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
+<% end -%>
+<% unless @remote -%>
+crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
 <%   end -%>
 <% end -%>
 <% if @proto == 'tcp' -%>
@@ -105,6 +105,9 @@ verb <%= @verb %>
 <% if @cipher != '' -%>
 cipher <%= @cipher %>
 <% end -%>
+<% if @tls_cipher -%>
+tls-cipher <%= @tls_cipher %>
+<% end -%>
 <% if @c2c -%>
 client-to-client
 <% end -%>
@@ -139,7 +142,7 @@ down "<%= @down %>"
 username-as-common-name
 <% end -%>
 <% if @ldap_enabled == true -%>
-plugin <%= @ldap_auth_plugin_location %> "/etc/openvpn/<%= @name %>/auth/ldap.conf"
+plugin <%= scope.lookupvar('::openvpn::params::ldap_auth_plugin_location') %> "<%= @etc_directory -%>/openvpn/<%= name %>/auth/ldap.conf"
 <% end -%>
 <% if @client_cert_not_required -%>
 client-cert-not-required
@@ -156,7 +159,7 @@ ping-timer-rem
 tls-auth <%= @extca_tls_auth_key_file %>
 <%   elsif !@extca_enabled -%>
 # tls authentification
-tls-auth /etc/openvpn/<%= @name %>/keys/ta.key
+tls-auth <%= @etc_directory -%>/openvpn/<%= @name %>/keys/ta.key
 <%   end -%>
 <%   unless @remote -%>
 key-direction 0

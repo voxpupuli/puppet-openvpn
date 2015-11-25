@@ -15,9 +15,12 @@
 # limitations under the License.
 #
 class openvpn::params {
+
   case $::osfamily {
     'RedHat': {
-      $group = 'nobody'
+      $etc_directory    = '/etc'
+      $root_group       = 'root'
+      $group            = 'nobody'
       $link_openssl_cnf = true
       $pam_module_path = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
       $additional_packages = ['easy-rsa']
@@ -34,9 +37,11 @@ class openvpn::params {
       $ldap_auth_plugin_location = undef # no ldap plugin on redhat/centos
     }
     'Debian': { # Debian/Ubuntu
-      $group = 'nogroup'
-      $link_openssl_cnf = true
-      $pam_module_path = '/usr/lib/openvpn/openvpn-auth-pam.so'
+      $etc_directory     = '/etc'
+      $root_group        = 'root'
+      $group             = 'nogroup'
+      $link_openssl_cnf  = true
+      $pam_module_path   = '/usr/lib/openvpn/openvpn-auth-pam.so'
 
       case $::operatingsystem {
         'Debian': {
@@ -87,9 +92,11 @@ class openvpn::params {
       }
     }
     'Archlinux': {
-      $additional_packages = ['easy-rsa']
-      $easyrsa_source = '/usr/share/easy-rsa/'
-      $group = 'nobody'
+      $etc_directory             = '/etc'
+      $root_group                = 'root'
+      $additional_packages       = ['easy-rsa']
+      $easyrsa_source            = '/usr/share/easy-rsa/'
+      $group                     = 'nobody'
       $ldap_auth_plugin_location = undef # unsupported
       $link_openssl_cnf = true
       $systemd = true
@@ -97,7 +104,9 @@ class openvpn::params {
     'Linux': {
       case $::operatingsystem {
         'Amazon': {
-          $group = 'nobody'
+          $etc_directory       = '/etc'
+          $root_group          = 'root'
+          $group               = 'nobody'
           $additional_packages = ['easy-rsa']
           $easyrsa_source = '/usr/share/easy-rsa/2.0'
           $ldap_auth_plugin_location = undef
@@ -109,6 +118,16 @@ class openvpn::params {
           fail("Unsupported OS/Distribution ${::osfamily}/${::operatingsystem}")
         }
       }
+    }
+    'FreeBSD': {
+      $etc_directory       = '/usr/local/etc'
+      $root_group          = 'wheel'
+      $group               = 'nogroup'
+      $link_openssl_cnf    = true
+      $pam_module_path     = '/usr/local/lib/openvpn/openvpn-auth-pam.so'
+      $additional_packages = ['easy-rsa']
+      $easyrsa_source      = '/usr/local/share/easy-rsa'
+      $namespecific_rclink = true
     }
     default: {
       fail("Not supported OS family ${::osfamily}")
