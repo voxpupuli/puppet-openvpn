@@ -664,7 +664,7 @@ define openvpn::server(
         ensure   => running,
         enable   => true,
         provider => 'systemd',
-        require  => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        require  => File["${etc_directory}/openvpn/${name}.conf"],
       }
       if !$extca_enabled {
         Openvpn::Ca[$ca_name] -> Service["openvpn@${name}"]
