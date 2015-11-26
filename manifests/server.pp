@@ -689,7 +689,10 @@ define openvpn::server(
       service { "openvpn_${name}":
         ensure  => running,
         enable  => true,
-        require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        require => File["${etc_directory}/openvpn/${name}.conf"],
+      }
+      if !extca_enabled {
+        Openvpn::Ca[$ca_name] -> Service["openvpn_${name}"]
       }
     }
   }
