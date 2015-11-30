@@ -100,7 +100,7 @@ describe 'openvpn::ca', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with(:mode => '0550') }
     it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf') }
     it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem') }
-    it { should_not contain_file('/etc/openvpn/test_server/keys') }
+    it { should contain_file('/etc/openvpn/test_server/keys') }
 
     # Execs to working with certificates
     it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
