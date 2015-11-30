@@ -170,7 +170,7 @@ define openvpn::ca(
     provider => 'shell',
     require  => [
       File["${etc_directory}/openvpn/${name}/easy-rsa/vars"],
-      File["${etc_directory}/openvpn/${name}/easy-rsa/keys"]
+      File["${etc_directory}/openvpn/${name}/keys"]
     ]
   }
 
