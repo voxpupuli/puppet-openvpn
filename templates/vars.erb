@@ -61,11 +61,21 @@ export KEY_EXPIRE=<%= @key_expire %>
 # These are the default values for fields
 # which will be placed in the certificate.
 # Don't leave any of these fields blank.
+<% if @country -%>
 export KEY_COUNTRY="<%= @country %>"
+<% end -%>
+<% if @province -%>
 export KEY_PROVINCE="<%= @province %>"
+<% end -%>
+<% if @city -%>
 export KEY_CITY="<%= @city %>"
+<% end -%>
+<% if @organization -%>
 export KEY_ORG="<%= @organization %>"
+<% end -%>
+<% if @email -%>
 export KEY_EMAIL="<%= @email %>"
+<% end -%>
 <% if @key_cn != '' -%>
 export KEY_CN="<%= @key_cn %>"
 <% end -%>

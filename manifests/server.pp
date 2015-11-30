@@ -322,6 +322,23 @@
 #   Boolean. Whether or not to bind to a specific port number.
 #   Default: false
 #
+# [*ca_path*]
+#   String. Custom path to ca file. If not set, path to ca file will be built
+#   from $ca_name. If provided, all ca_* parameters will be ignored (no ca built).
+#   Default: ''
+#
+# [*key_path*]
+#   String. Custom path to key file. If not set, path to key file will be built from $ca_name and $ca_common_name
+#   Default: ''
+#
+# [*cert_path*]
+#   String. Custom path to cert file. If not set, path to cert file will be built from $ca_name and $ca_common_name
+#   Default: ''
+#
+# [*crl_path*]
+#   String. Custom path to crl file. If not set, path to crl file will be built from $ca_name and $ca_common_name
+#   Default: ''
+#
 # [*custom_options*]
 #   Hash of additional options that you want to append to the configuration file.
 #
@@ -436,6 +453,10 @@ define openvpn::server(
   $autostart                 = undef,
   $ns_cert_type              = true,
   $nobind                    = false,
+  $ca_path                   = '',
+  $key_path                  = '',
+  $cert_path                 = '',
+  $crl_path                  = '',
   $custom_options            = {},
 ) {
 
@@ -483,6 +504,22 @@ define openvpn::server(
     default => $group
   }
 
+  # Check if custom ca/key/cert have been provided. Either none or all of the 3
+  # parameters must be provided.
+  # Set a $_custom_path var for later checks in the manifest
+  if ($ca_path != '' or $key_path != '' or $cert_path != '') {
+    if ($ca_path == '' or $key_path == '' or $cert_path == '') {
+      fail('Either none or all of the ca_path, key_path, cert_path must be provided')
+    } else {
+      if (!$remote and $crl_path == '') {
+        fail('In server mode, crl_path must be provided if you provide other ca_path, key_path and cert_path')
+      }
+      $_custom_path = true
+    }
+  } else {
+    $_custom_path = false
+  }
+
   if $shared_ca {
     $ca_name = $shared_ca
   } else {
@@ -502,11 +539,13 @@ define openvpn::server(
   if !$remote {
     if !$shared_ca {
       # VPN Server Mode
-      if $country == undef { fail('country has to be specified in server mode') }
-      if $province == undef { fail('province has to be specified in server mode') }
-      if $city == undef { fail('city has to be specified in server mode') }
-      if $organization == undef { fail('organization has to be specified in server mode') }
-      if $email == undef { fail('email has to be specified in server mode') }
+      if (!$_custom_path) {
+        if $country == undef { fail('country has to be specified in server mode') }
+        if $province == undef { fail('province has to be specified in server mode') }
+        if $city == undef { fail('city has to be specified in server mode') }
+        if $organization == undef { fail('organization has to be specified in server mode') }
+        if $email == undef { fail('email has to be specified in server mode') }
+      }
 
       $ca_common_name = $common_name
       ::openvpn::ca { $name:
@@ -524,6 +563,7 @@ define openvpn::server(
         key_name     => $key_name,
         key_ou       => $key_ou,
         tls_auth     => $tls_auth,
+        only_dh      => $_custom_path
       }
     } else {
       if !defined(Openvpn::Ca[$shared_ca]) {
@@ -576,13 +616,18 @@ define openvpn::server(
     }
   }
 
+  $_service_require = $_custom_path ? {
+    true    => File["${etc_directory}/openvpn/${name}.conf"],
+    default => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+  }
+
   if $::openvpn::params::systemd {
     if $::openvpn::manage_service {
       service { "openvpn@${name}":
         ensure   => running,
         enable   => true,
         provider => 'systemd',
-        require  => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        require  => $_service_require
       }
     }
   }
@@ -604,7 +649,7 @@ define openvpn::server(
       service { "openvpn_${name}":
         ensure  => running,
         enable  => true,
-        require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        require => $_service_require
       }
     }
   }
