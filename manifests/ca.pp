@@ -163,18 +163,6 @@ define openvpn::ca(
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
-  file { "${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf":
-    require => Exec["copy easy-rsa to openvpn config folder ${name}"],
-  }
-
-  if $openvpn::params::link_openssl_cnf == true {
-    File["${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf"] {
-      ensure => link,
-      target => "${etc_directory}/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf",
-      before => Exec["initca ${name}"],
-    }
-  }
-
   exec { "generate dh param ${name}":
     command  => '. ./vars && ./clean-all && ./build-dh',
     cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
@@ -184,6 +172,19 @@ define openvpn::ca(
   }
 
   if (!$only_dh) {
+
+    file { "${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf":
+      require => Exec["copy easy-rsa to openvpn config folder ${name}"],
+    }
+
+    if $openvpn::params::link_openssl_cnf == true {
+      File["${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf"] {
+        ensure => link,
+        target => "${etc_directory}/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf",
+        before => Exec["initca ${name}"],
+      }
+    }
+
     exec { "initca ${name}":
       command  => '. ./vars && ./pkitool --initca',
       cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
