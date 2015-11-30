@@ -507,10 +507,13 @@ define openvpn::server(
   # Check if custom ca/key/cert have been provided. Either none or all of the 3
   # parameters must be provided.
   # Set a $_custom_path var for later checks in the manifest
-  if ($ca_path != '' or $key_path != '' or $cert_path != '' or $crl_path != '') {
-    if ($ca_path == '' or $key_path == '' or $cert_path == '' or $crl_path == '') {
-      fail('Either none or all of the ca_path, key_path, cert_path and crl_path must be provided')
+  if ($ca_path != '' or $key_path != '' or $cert_path != '') {
+    if ($ca_path == '' or $key_path == '' or $cert_path == '') {
+      fail('Either none or all of the ca_path, key_path, cert_path must be provided')
     } else {
+      if (!$remote and $crl_path == '') {
+        fail('In server mode, crl_path must be provided if you provide other ca_path, key_path and cert_path')
+      }
       $_custom_path = true
     }
   } else {
