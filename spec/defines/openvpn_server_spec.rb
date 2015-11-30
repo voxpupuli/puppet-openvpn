@@ -354,7 +354,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/tmp\/myca.crt$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/tmp\/mycert.crt$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/tmp\/mykey.key$/) }
-    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^crl\s+\/tmp\/mycrl.pem$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/tmp\/mycrl.pem$/) }
     it { should contain_openvpn__ca('test_server').with(ca_params) }
   end
 
