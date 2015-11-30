@@ -98,8 +98,7 @@ describe 'openvpn::ca', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/build-dh').with(:mode => '0550') }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/pkitool').with(:mode => '0550') }
     it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with(:mode => '0550') }
-    it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').
-         with(:recurse =>nil, :group =>'nogroup') }
+    it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf') }
     it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem') }
     it { should_not contain_file('/etc/openvpn/test_server/keys') }
 
