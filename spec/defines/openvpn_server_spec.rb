@@ -343,16 +343,18 @@ describe 'openvpn::server', :type => :define do
     let(:params) { {
       'ca_path'   => '/tmp/myca.crt',
       'cert_path' => '/tmp/mycert.crt',
-      'key_path'  => '/tmp/mykey.key'
+      'key_path'  => '/tmp/mykey.key',
+      'crl_path'  => '/tmp/mycrl.pem'
     } }
 
-    let(:ca_params) { { 
+    let(:ca_params) { {
       'only_dh' => true
     } }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/tmp\/myca.crt$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/tmp\/mycert.crt$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/tmp\/mykey.key$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^crl\s+\/tmp\/mycrl.pem$/) }
     it { should contain_openvpn__ca('test_server').with(ca_params) }
   end
 
