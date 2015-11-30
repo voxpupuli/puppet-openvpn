@@ -26,7 +26,11 @@ key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.k
 dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
 <% end -%>
 <% unless @remote -%>
+<% if @crl_path != '' -%>
+crl-verify <%= @crl_path %>
+<% else -%>
 crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
+<% end -%>
 <% end -%>
 <% if @proto == 'tcp' -%>
 proto <%= @proto %>-server

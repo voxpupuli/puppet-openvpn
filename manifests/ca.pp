@@ -168,7 +168,16 @@ define openvpn::ca(
     cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
     creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/dh${ssl_key_size}.pem",
     provider => 'shell',
-    require  => File["${etc_directory}/openvpn/${name}/easy-rsa/vars"],
+    require  => [
+      File["${etc_directory}/openvpn/${name}/easy-rsa/vars"],
+      File["${etc_directory}/openvpn/${name}/easy-rsa/keys"]
+    ]
+  }
+
+  file { "${etc_directory}/openvpn/${name}/keys":
+    ensure  => link,
+    target  => "${etc_directory}/openvpn/${name}/easy-rsa/keys",
+    require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
   if (!$only_dh) {
@@ -199,12 +208,6 @@ define openvpn::ca(
       creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/${common_name}.key",
       provider => 'shell',
       require  => Exec["initca ${name}"],
-    }
-
-    file { "${etc_directory}/openvpn/${name}/keys":
-      ensure  => link,
-      target  => "${etc_directory}/openvpn/${name}/easy-rsa/keys",
-      require => Exec["copy easy-rsa to openvpn config folder ${name}"],
     }
 
     exec { "create crl.pem on ${name}":
