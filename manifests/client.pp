@@ -401,9 +401,9 @@ define openvpn::client(
     }
 
     concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_auth":
-      target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-      source  => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
-      order   => '12'
+      target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+      source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
+      order  => '12'
     }
 
     concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_close_tag":

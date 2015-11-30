@@ -13,9 +13,15 @@ remote <%= rem %>
 server-poll-timeout <%= @server_poll_timeout %>
 <% end -%>
 <% end -%>
+<% if @_custom_path -%>
+ca <%= @ca_path %>
+cert <%= @cert_path %>
+key <%= @key_path %>
+<% else -%>
 ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
 cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
 key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
+<% end -%>
 <% unless @remote -%>
 dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
 <% end -%>

@@ -332,6 +332,30 @@ describe 'openvpn::server', :type => :define do
     it { expect { should compile }.to raise_error }
   end
 
+  context "when using bad custom path options" do
+    let(:params) { {
+      'ca_path' => '/tmp/myca.crt'
+    } }
+    it { expect { should compile }.to raise_error }
+  end
+
+  context "when using custom ca & cert paths" do
+    let(:params) { {
+      'ca_path'   => '/tmp/myca.crt',
+      'cert_path' => '/tmp/mycert.crt',
+      'key_path'  => '/tmp/mykey.key'
+    } }
+
+    let(:ca_params) { { 
+      'only_dh' => true
+    } }
+
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/tmp\/myca.crt$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/tmp\/mycert.crt$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/tmp\/mykey.key$/) }
+    it { should contain_openvpn__ca('test_server').with(ca_params) }
+  end
+
   context "when RedHat based machine" do
     let(:params) { {
       'country'       => 'CO',

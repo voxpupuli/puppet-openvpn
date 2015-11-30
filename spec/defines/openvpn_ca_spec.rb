@@ -88,6 +88,38 @@ describe 'openvpn::ca', :type => :define do
     it { should contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh2048.pem') }
   end
 
+  context "when generating only DH file" do
+    let(:params) { {
+      'only_dh' => true
+    } }
+
+
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/clean-all').with(:mode => '0550') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/build-dh').with(:mode => '0550') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/pkitool').with(:mode => '0550') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with(:mode => '0550') }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').
+         with(:recurse =>nil, :group =>'nogroup') }
+    it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem') }
+    it { should_not contain_file('/etc/openvpn/test_server/keys') }
+
+    # Execs to working with certificates
+    it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
+      'command' => '/bin/cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
+    )}
+    it { should contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh1024.pem') }
+    it { should_not contain_exec('initca test_server') }
+    it { should_not contain_exec('generate server cert test_server') }
+    it { should_not contain_exec('create crl.pem on test_server') }
+
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export CA_EXPIRE=3650$/) }
+    it { should contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/^export KEY_EXPIRE=3650$/) }
+    it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/KEY_CN/) }
+    it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/KEY_NAME/) }
+    it { should_not contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(/KEY_OU/) }
+
+  end
+
   context "when RedHat based machine" do
     let(:params) { {
       'country'       => 'CO',
