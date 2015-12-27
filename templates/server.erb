@@ -31,6 +31,9 @@ proto <%= @proto %>
 nobind
 <% else -%>
 port <%= @port %>
+<% if @portshare -%>
+port-share <%= @portshare %>
+<% end -%>
 <% end -%>
 <% if @real_tls_server -%>
 tls-server
