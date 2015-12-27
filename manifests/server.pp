@@ -74,6 +74,10 @@
 #   Integer.  The port the openvpn server service is running on
 #   Default: 1194
 #
+# [*portshare*]
+#   String.  The address and port to which non openvpn request shall be forwared, e.g. 127.0.0.1 8443
+#   Default: undef
+#
 # [*proto*]
 #   String.  What IP protocol is being used.
 #   Default: tcp
@@ -376,6 +380,7 @@ define openvpn::server(
   $local                     = $::ipaddress_eth0,
   $logfile                   = false,
   $port                      = '1194',
+  $portshare                 = undef,
   $proto                     = 'tcp',
   $status_version            = '',
   $status_log                = "/var/log/openvpn/${name}-status.log",

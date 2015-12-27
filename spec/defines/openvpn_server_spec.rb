@@ -101,7 +101,7 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ns-cert-type server/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment}) }
-
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port-share}) }
   end
 
   context "creating a server setting all parameters" do
@@ -150,6 +150,7 @@ describe 'openvpn::server', :type => :define do
       'tls_server'      => true,
       'fragment'        => 1412,
       'custom_options'  => { 'this' => 'that' },
+      'portshare'       => '127.0.0.1 8443',
     } }
 
     let(:facts) { {
@@ -205,6 +206,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^this that$}) }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port-share 127.0.0.1 8443$}) }
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem/) }
