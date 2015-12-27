@@ -326,6 +326,10 @@
 #   Boolean. Whether or not to bind to a specific port number.
 #   Default: false
 #
+# [*secret*]
+#   String. A pre-shared static key.
+#   Default: undef
+#
 # [*custom_options*]
 #   Hash of additional options that you want to append to the configuration file.
 #
@@ -441,6 +445,7 @@ define openvpn::server(
   $autostart                 = undef,
   $ns_cert_type              = true,
   $nobind                    = false,
+  $secret                    = undef,
   $custom_options            = {},
 ) {
 
@@ -569,6 +574,15 @@ define openvpn::server(
     group   => $root_group,
     mode    => '0440',
     content => template('openvpn/server.erb'),
+    notify  => $lnotify,
+  }
+
+  file { "/etc/openvpn/${name}/keys/pre-shared.secret":
+    ensure  => $secret ? { undef => absent, default => present, },
+    owner   => root,
+    group   => root,
+    mode    => '0440',
+    content => $secret,
     notify  => $lnotify,
   }
 
