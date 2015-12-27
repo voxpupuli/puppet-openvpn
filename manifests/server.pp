@@ -74,6 +74,10 @@
 #   Integer.  The port the openvpn server service is running on
 #   Default: 1194
 #
+# [*portshare*]
+#   String.  The address and port to which non openvpn request shall be forwared, e.g. 127.0.0.1 8443
+#   Default: undef
+#
 # [*proto*]
 #   String.  What IP protocol is being used.
 #   Default: tcp
@@ -131,7 +135,7 @@
 #   Boolean.  Enable client to client visibility
 #   Default: false
 #
-# [*tcp-nodelay*]
+# [*tcp_nodelay*]
 #   Boolean, Enable/Disable.
 #   Default: false
 #
@@ -235,6 +239,10 @@
 #
 # [*cipher*]
 #   String,  Cipher to use for packet encryption
+#   Default: None
+#
+# [*tls_cipher*]
+#   String, TLS Ciphers to use
 #   Default: None
 #
 # [*persist_key*]
@@ -376,6 +384,7 @@ define openvpn::server(
   $local                     = $::ipaddress_eth0,
   $logfile                   = false,
   $port                      = '1194',
+  $portshare                 = undef,
   $proto                     = 'tcp',
   $status_version            = '',
   $status_log                = "/var/log/openvpn/${name}-status.log",
@@ -422,6 +431,7 @@ define openvpn::server(
   $key_ou                    = '',
   $verb                      = '',
   $cipher                    = '',
+  $tls_cipher                = undef,
   $persist_key               = false,
   $persist_tun               = false,
   $tls_auth                  = false,
@@ -443,9 +453,15 @@ define openvpn::server(
   Class['openvpn::install'] ->
   Openvpn::Server[$name]
 
+  if $::openvpn::params::systemd and $::openvpn::params::namespecific_rclink {
+    fail("Using systemd and namespecific rclink's (BSD-style) is not allowed")
+  }
+
   if $::openvpn::manage_service {
     if $::openvpn::params::systemd {
       $lnotify = Service["openvpn@${name}"]
+    } elsif $::openvpn::params::namespecific_rclink {
+      $lnotify = Service["openvpn_${name}"]
     } else {
       $lnotify = Service['openvpn']
       Openvpn::Server[$name] -> Service['openvpn']
@@ -469,6 +485,8 @@ define openvpn::server(
   }
 
   $pam_module_path = $::openvpn::params::pam_module_path
+  $etc_directory = $::openvpn::params::etc_directory
+  $root_group = $::openvpn::params::root_group
 
   $group_to_set = $group ? {
     false   => $openvpn::params::group,
@@ -485,7 +503,7 @@ define openvpn::server(
     group => $group_to_set,
   }
 
-  file { "/etc/openvpn/${name}":
+  file { "${etc_directory}/openvpn/${name}":
     ensure => directory,
     mode   => '0750',
     notify => $lnotify,
@@ -525,9 +543,9 @@ define openvpn::server(
     }
 
     file {
-      [ "/etc/openvpn/${name}/auth",
-      "/etc/openvpn/${name}/client-configs",
-      "/etc/openvpn/${name}/download-configs" ]:
+      [ "${etc_directory}/openvpn/${name}/auth",
+      "${etc_directory}/openvpn/${name}/client-configs",
+      "${etc_directory}/openvpn/${name}/download-configs" ]:
         ensure  => directory,
         mode    => '0750',
         recurse => true,
@@ -536,7 +554,7 @@ define openvpn::server(
     # VPN Client Mode
     $ca_common_name = $name
 
-    file { "/etc/openvpn/${name}/keys":
+    file { "${etc_directory}/openvpn/${name}/keys":
       ensure  => directory,
       mode    => '0750',
       recurse => true,
@@ -551,9 +569,9 @@ define openvpn::server(
     }
   }
 
-  file { "/etc/openvpn/${name}.conf":
+  file { "${etc_directory}/openvpn/${name}.conf":
     owner   => root,
-    group   => root,
+    group   => $root_group,
     mode    => '0440',
     content => template('openvpn/server.erb'),
     notify  => $lnotify,
@@ -570,7 +588,7 @@ define openvpn::server(
 
   if $ldap_enabled == true {
     file {
-      "/etc/openvpn/${name}/auth/ldap.conf":
+      "${etc_directory}/openvpn/${name}/auth/ldap.conf":
         ensure  => present,
         content => template('openvpn/ldap.erb'),
         require => Package['openvpn-auth-ldap'],
@@ -580,11 +598,33 @@ define openvpn::server(
   if $::openvpn::params::systemd {
     if $::openvpn::manage_service {
       service { "openvpn@${name}":
-        ensure  => running,
-        enable  => true,
-        require => [ File["/etc/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+        ensure   => running,
+        enable   => true,
+        provider => 'systemd',
+        require  => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
       }
     }
   }
 
+  if $::openvpn::params::namespecific_rclink {
+    file { "/usr/local/etc/rc.d/openvpn_${name}":
+      ensure => link,
+      source => "${etc_directory}/rc.d/openvpn",
+    }
+
+    file { "/etc/rc.conf.d/openvpn_${name}":
+      owner   => root,
+      group   => $root_group,
+      mode    => '0644',
+      content => template('openvpn/etc-rc.d-openvpn.erb'),
+    }
+
+    if $::openvpn::manage_service {
+      service { "openvpn_${name}":
+        ensure  => running,
+        enable  => true,
+        require => [ File["${etc_directory}/openvpn/${name}.conf"], Openvpn::Ca[$ca_name] ]
+      }
+    }
+  }
 }

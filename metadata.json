@@ -1,6 +1,6 @@
 {
   "name": "luxflux-openvpn",
-  "version": "2.9.0",
+  "version": "3.0.0",
   "author": "luxflux",
   "summary": "OpenVPN server puppet module",
   "license": "Apache-2.0",
@@ -10,11 +10,12 @@
   "description": "Puppet module to manage OpenVPN servers",
   "tags": [ "vpn", "openvpn" ],
   "operatingsystem_support": [
-    { "operatingsystem": "Ubuntu", "operatingsystemrelease": ["12.04", "12.10", "13.04", "13.10", "14.04"] },
+    { "operatingsystem": "Ubuntu", "operatingsystemrelease": ["12.04", "12.10", "13.04", "13.10", "14.04", "15.04"] },
     { "operatingsystem": "Debian", "operatingsystemrelease": ["7", "8"] },
     { "operatingsystem": "RedHat", "operatingsystemrelease": ["5", "6", "7"] },
     { "operatingsystem": "CentOS", "operatingsystemrelease": ["5", "6", "7"] },
-    { "operatingsystem": "Archlinux" }
+    { "operatingsystem": "Archlinux" },
+    { "operatingsystem": "FreeBSD" }
   ],
   "dependencies": [
     {"name":"puppetlabs/concat","version_requirement":">= 1.0.1 <2.0.0"},

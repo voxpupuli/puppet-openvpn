@@ -101,7 +101,7 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ns-cert-type server/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment}) }
-
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port-share}) }
   end
 
   context "creating a server setting all parameters" do
@@ -142,6 +142,7 @@ describe 'openvpn::server', :type => :define do
       'key_ou'          => 'NSA',
       'verb'            => 'mute',
       'cipher'          => 'DES-CBC',
+      'tls_cipher'      => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
       'persist_key'     => true,
       'persist_tun'     => true,
       'duplicate_cn'    => true,
@@ -149,6 +150,7 @@ describe 'openvpn::server', :type => :define do
       'tls_server'      => true,
       'fragment'        => 1412,
       'custom_options'  => { 'this' => 'that' },
+      'portshare'       => '127.0.0.1 8443',
     } }
 
     let(:facts) { {
@@ -190,6 +192,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^management\s+1.3.3.7 1337$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^verb mute$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^cipher DES-CBC$/) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$/)}
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-key$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^persist-tun$/) }
 
@@ -203,6 +206,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^this that$}) }
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port-share 127.0.0.1 8443$}) }
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem/) }
@@ -381,6 +385,30 @@ describe 'openvpn::server', :type => :define do
         )}
       end
     end
+  end
+
+  context "when FreeBSD based machine" do
+    let(:params) { {
+        'country'       => 'CO',
+        'province'      => 'ST',
+        'city'          => 'Some City',
+        'organization'  => 'example.org',
+        'email'         => 'testemail@example.org',
+        'pam'           => true,
+    } }
+
+    let(:facts) { {
+        :osfamily => 'FreeBSD',
+        :operatingsystem => 'FreeBSD',
+        :concat_basedir => '/var/lib/puppet/concat'
+    } }
+
+    it { should contain_file('/etc/rc.conf.d/openvpn_test_server')}
+    it { should contain_service('openvpn_test_server') }
+    it { should contain_file('/usr/local/etc/openvpn/test_server') }
+    it { should contain_file('/usr/local/etc/rc.d/openvpn_test_server') }
+    it { should contain_file('/usr/local/etc/openvpn/test_server.conf').with_content(/\/usr\/local\/etc/) }
+
   end
 
   context 'ldap' do
