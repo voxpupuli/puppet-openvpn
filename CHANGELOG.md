@@ -3,6 +3,7 @@
 ## Next Version
 
 * Support for FreeBSD ([#180](https://github.com/luxflux/puppet-openvpn/pull/180))
+* Support for port-share ([#182](https://github.com/luxflux/puppet-openvpn/issues/182)/[#185](https://github.com/luxflux/puppet-openvpn/pull/185))
 
 ## 3.0.0
 
