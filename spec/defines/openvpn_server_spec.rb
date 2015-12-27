@@ -92,6 +92,7 @@ describe 'openvpn::server', :type => :define do
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^local\s+1\.2\.3\.4$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ifconfig-pool-persist/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$/) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^secret}) }
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/verb/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/cipher/) }
@@ -102,6 +103,8 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port-share}) }
+
+    it { should contain_file('/etc/openvpn/test_server/keys/pre-shared.secret').with(:ensure => 'absent') }
   end
 
   context "creating a server setting all parameters" do
@@ -151,6 +154,7 @@ describe 'openvpn::server', :type => :define do
       'fragment'        => 1412,
       'custom_options'  => { 'this' => 'that' },
       'portshare'       => '127.0.0.1 8443',
+      'secret'          => 'secretsecret1234',
     } }
 
     let(:facts) { {
@@ -207,11 +211,14 @@ describe 'openvpn::server', :type => :define do
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port-share 127.0.0.1 8443$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^secret /etc/openvpn/test_server/keys/pre-shared.secret$}) }
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ping-timer-rem/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^sndbuf/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^rcvbuf/) }
+
+    it { should contain_file('/etc/openvpn/test_server/keys/pre-shared.secret').with_content(%r{^secretsecret1234$}).with(:ensure => 'present') }
 
     # OpenVPN easy-rsa CA
     it { should contain_openvpn__ca('test_server').

@@ -157,10 +157,10 @@ key-direction 1
 fragment <%= @fragment %>
 <% end -%>
 <% if @secret -%>
-secret <%= @name %>.key
+secret <%= @etc_directory -%>/openvpn/<%= @name %>/keys/pre-shared.secret
 <% end -%>
 
-#Additional custom options
+# Additional custom options
 <% @custom_options.each_pair do |key, value| -%>
 <%= key %> <%= value %>
 <% end -%>

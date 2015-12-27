@@ -577,7 +577,7 @@ define openvpn::server(
     notify  => $lnotify,
   }
 
-  file { "/etc/openvpn/${name}.key":
+  file { "/etc/openvpn/${name}/keys/pre-shared.secret":
     ensure  => $secret ? { undef => absent, default => present, },
     owner   => root,
     group   => root,
