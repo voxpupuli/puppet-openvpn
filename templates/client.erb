@@ -1,7 +1,4 @@
 client
-ca keys/<%= @name %>/ca.crt
-cert keys/<%= @name %>/<%= @name %>.crt
-key keys/<%= @name %>/<%= @name %>.key
 dev <%= @dev %>
 proto <%= @proto %>
 remote <%= @remote_host %> <%= @port %>
@@ -55,12 +52,6 @@ up "<%= @up %>"
 <% if @down != '' -%>
 down "<%= @down %>"
 <% end -%>
-<% if @tls_auth -%>
-
-# tls authentification
-tls-client
-tls-auth keys/<%= @name %>/ta.key 1
-<% end -%>
 <% if @x509_name -%>
 
 # x509 name verification
@@ -71,3 +62,4 @@ verify-x509-name "<%= @x509_name %>" name
 <% @custom_options.each_pair do |key, value| -%>
 <%= key %> <%= value %>
 <% end -%>
+

@@ -1,0 +1,9 @@
+ca keys/<%= @name %>/ca.crt
+cert keys/<%= @name %>/<%= @name %>.crt
+key keys/<%= @name %>/<%= @name %>.key
+<% if @tls_auth -%>
+
+# tls authentification
+tls-client
+tls-auth keys/<%= @name %>/ta.key 1
+<% end -%>
