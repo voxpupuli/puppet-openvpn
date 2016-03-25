@@ -572,6 +572,13 @@ define openvpn::server(
     mode   => '0750',
     notify => $lnotify,
   }
+  if $shared_ca {
+    file { "${etc_directory}/openvpn/${ca_name}":
+      ensure => directory,
+      mode   => '0750',
+      notify => $lnotify,
+    }
+  }
 
   if $extca_enabled {
     # VPN Server or Client with external CA
