@@ -27,7 +27,7 @@ class openvpn::params {
       $easyrsa_source      = '/usr/share/easy-rsa/2.0'
 
       # Redhat/Centos >= 7.0
-      if(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
+      if(versioncmp($::operatingsystemrelease, '7.0') >= 0) and $::operatingsystem != 'Amazon' {
         $systemd = true
       # Redhat/Centos < 7
       } else {
