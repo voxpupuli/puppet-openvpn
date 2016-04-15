@@ -79,6 +79,10 @@
 #   Integer.  The port the openvpn server service is running on
 #   Default: 1194
 #
+# [*portshare*]
+#   String.  The address and port to which non openvpn request shall be forwared, e.g. 127.0.0.1 8443
+#   Default: undef
+#
 # [*proto*]
 #   String.  What IP protocol is being used.
 #   Default: tcp
@@ -375,6 +379,10 @@
 #   Boolean. Whether or not to bind to a specific port number.
 #   Default: false
 #
+# [*secret*]
+#   String. A pre-shared static key.
+#   Default: undef
+#
 # [*custom_options*]
 #   Hash of additional options to append to the configuration file.
 #
@@ -429,6 +437,7 @@ define openvpn::server(
   $local                     = $::ipaddress_eth0,
   $logfile                   = false,
   $port                      = '1194',
+  $portshare                 = undef,
   $proto                     = 'tcp',
   $status_version            = '',
   $status_log                = "/var/log/openvpn/${name}-status.log",
@@ -498,6 +507,7 @@ define openvpn::server(
   $autostart                 = undef,
   $ns_cert_type              = true,
   $nobind                    = false,
+  $secret                    = undef,
   $custom_options            = {},
 ) {
 
@@ -646,6 +656,15 @@ define openvpn::server(
     group   => $root_group,
     mode    => '0440',
     content => template('openvpn/server.erb'),
+    notify  => $lnotify,
+  }
+
+  file { "/etc/openvpn/${name}/keys/pre-shared.secret":
+    ensure  => $secret ? { undef => absent, default => present, },
+    owner   => root,
+    group   => root,
+    mode    => '0440',
+    content => $secret,
     notify  => $lnotify,
   }
 

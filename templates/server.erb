@@ -43,6 +43,9 @@ proto <%= @proto %>
 nobind
 <% else -%>
 port <%= @port %>
+<% if @portshare -%>
+port-share <%= @portshare %>
+<% end -%>
 <% end -%>
 <% if @real_tls_server -%>
 tls-server
@@ -170,8 +173,11 @@ key-direction 1
 <% if @fragment != false -%>
 fragment <%= @fragment %>
 <% end -%>
+<% if @secret -%>
+secret <%= @etc_directory -%>/openvpn/<%= @name %>/keys/pre-shared.secret
+<% end -%>
 
-#Additional custom options
+# Additional custom options
 <% @custom_options.each_pair do |key, value| -%>
 <%= key %> <%= value %>
 <% end -%>
