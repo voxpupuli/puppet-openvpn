@@ -27,10 +27,10 @@ crl-verify <%= @extca_ca_crl_file %>
 ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
 cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
 key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
-<% unless @remote -%>
+<%   unless @remote -%>
 dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
-<% end -%>
-<% unless @remote -%>
+<%   end -%>
+<%   unless @remote or !@crl_verify -%>
 crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
 <%   end -%>
 <% end -%>
