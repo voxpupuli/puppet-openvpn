@@ -4,12 +4,18 @@ cert keys/<%= @name %>/<%= @name %>.crt
 key keys/<%= @name %>/<%= @name %>.key
 dev <%= @dev %>
 proto <%= @proto %>
-remote <%= @remote_host %> <%= @port %>
+<% @remote_host = [@remote_host] unless @remote_host.kind_of?(Array) -%>
+<% @remote_host.each do |item| -%>
+remote <%= item %> <%= @port %>
+<% end -%>
 <% if @compression != '' -%>
 <%= @compression %>
 <% end -%>
 resolv-retry <%= @resolv_retry %>
 auth-retry <%= @auth_retry %>
+<% if @pull -%>
+pull
+<% end -%>
 <% if @nobind -%>
 nobind
 <% end -%>

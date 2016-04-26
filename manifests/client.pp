@@ -52,7 +52,7 @@
 #   Options: tcp or udp
 #
 # [*remote_host*]
-#   String.  The IP or hostname of the openvpn server service
+#   String/Array.  The IP or hostname of the openvpn server service.
 #   Default: FQDN
 #
 # [*cipher*]
@@ -141,6 +141,10 @@
 #   archive.
 #   Default: undef
 #
+# [*pull*]
+#   Boolean. Allow server to push options like dns or routes
+#   Default: false
+#
 # === Examples
 #
 #   openvpn::client {
@@ -206,6 +210,7 @@ define openvpn::client(
   $custom_options       = {},
   $expire               = undef,
   $readme               = undef,
+  $pull                 = false,
 ) {
 
   if $pam {
