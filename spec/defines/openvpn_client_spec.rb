@@ -63,6 +63,7 @@ describe 'openvpn::client', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verify-x509-name/)}
     it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^sndbuf/)}
     it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^rcvbuf/)}
+    it { should_not contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^pull/)}
   end
 
   context "setting all of the parameters" do
@@ -79,7 +80,7 @@ describe 'openvpn::client', :type => :define do
       'tls_cipher'            => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
       'port'                  => '123',
       'proto'                 => 'udp',
-      'remote_host'           => 'somewhere',
+      'remote_host'           => ['somewhere', 'galaxy'],
       'resolv_retry'          => '2m',
       'auth_retry'            => 'interact',
       'verb'                  => '1',
@@ -90,6 +91,7 @@ describe 'openvpn::client', :type => :define do
       'sndbuf'                => 393216,
       'rcvbuf'                => 393215,
       'readme'                => 'readme text',
+      'pull'                  => true,
     } }
     let(:facts) { {
       :fqdn => 'somehost',
@@ -106,6 +108,7 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^dev\s+tap$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^proto\s+udp$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^remote\s+somewhere\s+123$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^remote\s+galaxy\s+123$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^comp-something$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^resolv-retry\s+2m$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^verb\s+1$/)}
@@ -120,6 +123,8 @@ describe 'openvpn::client', :type => :define do
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^sndbuf\s+393216$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^rcvbuf\s+393215$/)}
     it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/README').with_content(/^readme text$/)}
+    it { should contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^pull$/)}
+
   end
 
   context "omitting the cipher key" do
