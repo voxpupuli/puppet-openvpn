@@ -304,7 +304,7 @@ define openvpn::client(
     owner   => root,
     group   => $::openvpn::params::root_group,
     mode    => '0444',
-    content => template('openvpn/client.erb'),
+    content => template('openvpn/client.erb', 'openvpn/client_external_auth.erb'),
   }
 
   exec { "tar the thing ${server} with ${name}":
@@ -326,7 +326,6 @@ define openvpn::client(
     mode    => '0400',
     notify  => Exec["tar the thing ${server} with ${name}"],
     require => [
-      File["${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf"],
       File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
       File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
       File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"],
@@ -334,14 +333,14 @@ define openvpn::client(
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/client_config":
-    target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-    source => "${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf",
-    order  => '01'
+    target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+    content => template('openvpn/client.erb'),
+    order   => '01'
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/ca_open_tag":
     target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-    content => "<ca>\n",
+    content => "# Authentication \n<ca>\n",
     order   => '02'
   }
 
