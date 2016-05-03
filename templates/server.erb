@@ -13,14 +13,26 @@ remote <%= rem %>
 server-poll-timeout <%= @server_poll_timeout %>
 <% end -%>
 <% end -%>
+<% if @extca_enabled -%>
+ca <%= @extca_ca_cert_file %>
+cert <%= @extca_server_cert_file %>
+key <%= @extca_server_key_file %>
+<%   unless @remote or !@extca_dh_file -%>
+dh <%= @extca_dh_file %>
+<%   end -%>
+<%   unless @remote or !@crl_verify or !@extca_ca_crl_file -%>
+crl-verify <%= @extca_ca_crl_file %>
+<%   end -%>
+<% else -%>
 ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
 cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
 key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
-<% unless @remote -%>
+<%   unless @remote -%>
 dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
-<% end -%>
-<% unless @remote -%>
+<%   end -%>
+<%   unless @remote or !@crl_verify -%>
 crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
+<%   end -%>
 <% end -%>
 <% if @proto == 'tcp' -%>
 proto <%= @proto %>-server
@@ -115,7 +127,7 @@ tcp-nodelay
 ccd-exclusive
 <% end -%>
 <% if @pam -%>
-plugin <%= @pam_module_path %> login
+plugin <%= @pam_module_path %> "<%= @pam_module_arguments %>"
 <% end -%>
 <% if @management -%>
 management <%= @management_ip %> <%= @management_port %>
@@ -145,13 +157,18 @@ duplicate-cn
 ping-timer-rem
 <% end -%>
 <% if @tls_auth -%>
+<%   if @extca_enabled and @extca_tls_auth_key_file -%>
+# tls authentification
+tls-auth <%= @extca_tls_auth_key_file %>
+<%   elsif !@extca_enabled -%>
 # tls authentification
 tls-auth <%= @etc_directory -%>/openvpn/<%= @name %>/keys/ta.key
-<% unless @remote -%>
+<%   end -%>
+<%   unless @remote -%>
 key-direction 0
-<% else -%>
+<%   else -%>
 key-direction 1
-<% end -%>
+<%   end -%>
 <% end -%>
 <% if @fragment != false -%>
 fragment <%= @fragment %>
