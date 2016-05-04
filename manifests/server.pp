@@ -590,6 +590,16 @@ define openvpn::server(
     if $extca_tls_auth_key_file == undef and !$remote and $tls_auth { fail('cant enable tls_auth: missing extca_tls_auth_key_file') }
   }
 
+  if $extca_enabled {
+    # VPN Server or Client with external CA
+    if $extca_ca_cert_file == undef { fail('extca_ca_cert_file has to be specified in extca mode') }
+    if $extca_ca_crl_file == undef and $crl_verify and !$remote { fail('extca_ca_crl_file has to be specified in extca mode if crl_verify is enabled') }
+    if $extca_server_cert_file == undef { fail('extca_server_cert_file has to be specified in extca mode') }
+    if $extca_server_key_file == undef { fail('extca_server_key_file has to be specified in extca mode') }
+    if $extca_dh_file == undef and !$remote and $tls_server { fail('cant enable tls_server: missing extca_dh_file') }
+    if $extca_tls_auth_key_file == undef and !$remote and $tls_auth { fail('cant enable tls_auth: missing extca_tls_auth_key_file') }
+  }
+
   if !$remote {
     if !$shared_ca and !$extca_enabled {
       # VPN Server Mode
