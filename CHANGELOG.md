@@ -12,6 +12,7 @@
 * Fix support for Amazon Linux ([#194](https://github.com/luxflux/puppet-openvpn/pull/194))
 * Client `pull` option ([#195](https://github.com/luxflux/puppet-openvpn/pull/195))
 * Allow `remote_host` to be an array of servers ([#195](https://github.com/luxflux/puppet-openvpn/pull/195))
+* More robust Shared CA handling ([#191](https://github.com/luxflux/puppet-openvpn/pull/191), [#196](https://github.com/luxflux/puppet-openvpn/pull/196))
 
 ## 3.0.0
 
