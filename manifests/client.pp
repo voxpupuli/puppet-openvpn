@@ -220,7 +220,7 @@ define openvpn::client(
   Openvpn::Server[$server] ->
   Openvpn::Client[$name]
 
-  $extca_enabled = getparam(Openvpn::Server[$server], 'extca_enabled')
+  $extca_enabled = pick(getparam(Openvpn::Server[$server], 'extca_enabled'), false)
   if $extca_enabled { fail('cannot currently create client configs when corresponding openvpn::server is extca_enabled') }
 
   $ca_name = pick($shared_ca, $server)
