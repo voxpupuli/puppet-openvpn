@@ -386,6 +386,9 @@
 # [*custom_options*]
 #   Hash of additional options to append to the configuration file.
 #
+# [*easyrsa_source*]
+#   String. Override default easyrsa path
+#
 # === Examples
 #
 #   openvpn::client {

@@ -58,6 +58,9 @@
 #   Boolean. Determins if a tls key is generated
 #   Default: False
 #
+# [*easyrsa_source*]
+#   String. Override default easyrsa path
+#
 # === Examples
 #
 #   openvpn::ca {
