@@ -415,7 +415,7 @@ define openvpn::client(
 
     concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_close_tag":
       target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-      content => "</tls-auth>\n",
+      content => "</tls-auth>\nkey-direction 1\n",
       order   => '13'
     }
   }
