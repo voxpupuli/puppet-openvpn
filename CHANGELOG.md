@@ -3,6 +3,7 @@
 ## Next Version
 
 * Fix for [external CA handling with exported resources](https://github.com/luxflux/puppet-openvpn/pull/200) ([#201](https://github.com/luxflux/puppet-openvpn/pull/201))
+* Drop Support for Puppet 3.x ([#212](https://github.com/luxflux/puppet-openvpn/pull/212)
 
 ## 3.1.0
 

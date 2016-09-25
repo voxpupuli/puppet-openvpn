@@ -665,8 +665,12 @@ define openvpn::server(
     notify  => $lnotify,
   }
 
+  $ensure = $secret ? {
+    undef => absent,
+    default => present,
+  }
   file { "/etc/openvpn/${name}/keys/pre-shared.secret":
-    ensure  => $secret ? { undef => absent, default => present, },
+    ensure  => $ensure,
     owner   => root,
     group   => root,
     mode    => '0440',

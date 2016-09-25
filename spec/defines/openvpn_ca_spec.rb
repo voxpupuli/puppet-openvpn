@@ -97,8 +97,13 @@ describe 'openvpn::ca', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let(:facts) { { :osfamily => 'RedHat',
-                    :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) do
+      {
+        osfamily: 'RedHat',
+        concat_basedir: '/var/lib/puppet/concat',
+        operatingsystemrelease: '7.0',
+      }
+    end
 
     it { should contain_package('easy-rsa').with('ensure' => 'present') }
     it { should contain_exec('copy easy-rsa to openvpn config folder test_server').with(
@@ -128,7 +133,14 @@ describe 'openvpn::ca', :type => :define do
       'email'         => 'testemail@example.org'
     } }
 
-    let(:facts) { { :osfamily => 'Debian', :operatingsystem => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) do
+      {
+        osfamily: 'Debian',
+        operatingsystem: 'Debian',
+        concat_basedir: '/var/lib/puppet/concat',
+        operatingsystemrelease: '7.0',
+      }
+    end
 
     shared_examples_for 'a newer version than wheezy' do
       it { should contain_package('easy-rsa').with('ensure' => 'present') }

@@ -26,11 +26,7 @@ Puppet module to manage OpenVPN servers
 
 ## Puppet
 
-* Version >= 3
-* Version 2.x with `puppet-hiera`
-
-If you want to use it with Puppet 2.7 without hiera, use a [2.x
-version](https://github.com/luxflux/puppet-openvpn/tree/2.x).
+* Version >= 4
 
 ## Example
 
