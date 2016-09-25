@@ -1,14 +1,14 @@
 require 'spec_helper'
- 
+
 describe 'openvpn::config', :type => :class do
-  
   it { should create_class('openvpn::config') }
 
   context "on Debian based machines" do
     let (:facts) { {
-      :osfamily => 'Debian',
-      :operatingsystem => 'Debian',
-      :concat_basedir => '/var/lib/puppet/concat'
+      osfamily: 'Debian',
+      operatingsystem: 'Debian',
+      operatingsystemrelease: '7',
+      concat_basedir: '/var/lib/puppet/concat'
     } }
 
     it { should contain_concat('/etc/default/openvpn') }
@@ -28,5 +28,4 @@ describe 'openvpn::config', :type => :class do
       )}
     end
   end
-
 end

@@ -16,12 +16,12 @@ describe 'openvpn::server', :type => :define do
 
   context 'creating a server without any parameter' do
     let(:params) { { } }
-    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
   end
 
   context 'creating a server partial parameters: country' do
     let(:params) { { 'country' => 'CO' } }
-    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
   end
 
   context 'creating a server partial parameters: country, province' do
@@ -29,7 +29,7 @@ describe 'openvpn::server', :type => :define do
       'country'       => 'CO',
       'province'      => 'ST',
     } }
-    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
   end
 
   context 'creating a server partial parameters: country, province, city' do
@@ -38,7 +38,7 @@ describe 'openvpn::server', :type => :define do
       'province'      => 'ST',
       'city'          => 'Some City',
     } }
-    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
   end
 
   context 'creating a server partial parameters: country, province, city, organization' do
@@ -48,7 +48,7 @@ describe 'openvpn::server', :type => :define do
       'city'          => 'Some City',
       'organization'  => 'example.org',
     } }
-    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
   end
 
   context "creating a server with the minimum parameters" do
@@ -338,7 +338,7 @@ describe 'openvpn::server', :type => :define do
     let(:params) { {
       'shared_ca'       => 'my_already_existing_ca',
     } }
-    it { expect { should compile }.to raise_error }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
   end
 
   context "when RedHat based machine" do
@@ -351,8 +351,13 @@ describe 'openvpn::server', :type => :define do
       'pam'           => true,
     } }
 
-    let(:facts) { { :osfamily => 'RedHat',
-                    :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) do
+      {
+        osfamily: 'RedHat',
+        concat_basedir: '/var/lib/puppet/concat',
+        operatingsystemrelease: '7.0',
+      }
+    end
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^group\s+nobody$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so "?login"?$}) }
@@ -370,8 +375,13 @@ describe 'openvpn::server', :type => :define do
       'crl_verify'           => false,
     } }
 
-    let(:facts) { { :osfamily => 'RedHat',
-                    :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) do
+      {
+        osfamily: 'RedHat',
+        concat_basedir: '/var/lib/puppet/concat',
+        operatingsystemrelease: '7.0',
+      }
+    end
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so "openvpn login USERNAME password PASSWORD"$}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify/) }
@@ -387,7 +397,14 @@ describe 'openvpn::server', :type => :define do
       'pam'           => true,
     } }
 
-    let(:facts) { { :osfamily => 'Debian', :operatingsystem => 'Debian', :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) do
+      {
+        osfamily: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemrelease: '7.0',
+        concat_basedir: '/var/lib/puppet/concat',
+      }
+    end
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^group\s+nogroup$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^plugin /usr/lib/openvpn/openvpn-auth-pam.so "?login"?$}) }
@@ -507,8 +524,13 @@ describe 'openvpn::server', :type => :define do
       'extca_tls_auth_key_file' => '/etc/openvpn/keys/ta.key',
     } }
 
-    let(:facts) { { :osfamily => 'RedHat',
-                    :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) do
+      {
+        osfamily: 'Redhat',
+        operatingsystemrelease: '7.0',
+        concat_basedir: '/var/lib/puppet/concat',
+      }
+    end
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/test_server\/keys/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server/) }
@@ -537,8 +559,13 @@ describe 'openvpn::server', :type => :define do
       'extca_tls_auth_key_file' => '/etc/openvpn/keys/ta.key',
     } }
 
-    let(:facts) { { :osfamily => 'RedHat',
-                    :concat_basedir => '/var/lib/puppet/concat' } }
+    let(:facts) do
+      {
+        osfamily: 'RedHat',
+        operatingsystemrelease: '7.0',
+        concat_basedir: '/var/lib/puppet/concat',
+      }
+    end
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/test_server\/keys\/ca.crt$/) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$/) }
@@ -557,10 +584,10 @@ describe 'openvpn::server', :type => :define do
   end
 
   context "should fail if setting extca_enabled=true without specifying any other extca_* options" do
-    let(:params) { { 
+    let(:params) { {
       'extca_enabled'       => true,
     } }
-    it { expect { should compile }.to raise_error }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
   end
 
   context "should fail if setting extca_enabled=true and tls_auth=true without providing extca_tls_auth_key_file" do
@@ -573,7 +600,7 @@ describe 'openvpn::server', :type => :define do
       'extca_server_key_file'   => '/etc/pki/tls/private/localhost.key',
       'extca_dh_file'           => '/etc/ipa/dh.pem',
     } }
-    it { expect { should compile }.to raise_error }
+    it { expect { should contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
   end
 
   context 'systemd enabled RedHat' do
