@@ -2,8 +2,11 @@
 
 ## Next Version
 
+## 4.0.0
+
+* Workaround for [MODULES-2874](https://tickets.puppetlabs.com/browse/MODULES-2874) ([#201](https://github.com/luxflux/puppet-openvpn/pull/201))
 * Fix for [external CA handling with exported resources](https://github.com/luxflux/puppet-openvpn/pull/200) ([#201](https://github.com/luxflux/puppet-openvpn/pull/201))
-* Drop Support for Puppet 3.x ([#212](https://github.com/luxflux/puppet-openvpn/pull/212)
+* Drop Support for Puppet 3.x ([#212](https://github.com/luxflux/puppet-openvpn/pull/212))
 
 ## 3.1.0
 
