@@ -2,6 +2,8 @@
 
 ## Next Version
 
+* Fix for [external CA handling with exported resources](https://github.com/luxflux/puppet-openvpn/pull/200) ([#201](https://github.com/luxflux/puppet-openvpn/pull/201))
+
 ## 3.1.0
 
 * Support for FreeBSD ([#180](https://github.com/luxflux/puppet-openvpn/pull/180))
