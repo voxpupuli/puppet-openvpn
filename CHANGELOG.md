@@ -2,6 +2,10 @@
 
 ## Next Version
 
+## 4.0.1
+
+* Fix namespecific_rclink warning for non BSD systems ([#214](https://github.com/luxflux/puppet-openvpn/pull/214))
+
 ## 4.0.0
 
 * Workaround for [MODULES-2874](https://tickets.puppetlabs.com/browse/MODULES-2874) ([#201](https://github.com/luxflux/puppet-openvpn/pull/201))
