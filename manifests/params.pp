@@ -42,7 +42,6 @@ class openvpn::params {
       $root_group          = 'root'
       $group               = 'nogroup'
       $link_openssl_cnf    = true
-      $pam_module_path     = '/usr/lib/openvpn/openvpn-auth-pam.so'
       $namespecific_rclink = false
 
       case $::operatingsystem {
@@ -52,6 +51,7 @@ class openvpn::params {
             $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+            $pam_module_path           = '/usr/lib/openvpn/openvpn-plugin-auth-pam.so'
             $systemd                   = true
 
           # Version > 7.0, wheezy
@@ -59,11 +59,13 @@ class openvpn::params {
             $additional_packages       = ['openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+            $pam_module_path           = '/usr/lib/openvpn/openvpn-auth-pam.so'
             $systemd                   = false
           } else {
             $additional_packages       = undef
             $easyrsa_source            = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
             $ldap_auth_plugin_location = undef
+            $pam_module_path           = '/usr/lib/openvpn/openvpn-auth-pam.so'
             $systemd                   = false
           }
         }
@@ -73,6 +75,7 @@ class openvpn::params {
             $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+            $pam_module_path           = '/usr/lib/openvpn/openvpn-plugin-auth-pam.so'
             $systemd                   = true
 
           # Version > 13.10, saucy
@@ -80,11 +83,13 @@ class openvpn::params {
             $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
+            $pam_module_path           = '/usr/lib/openvpn/openvpn-plugin-auth-pam.so'
             $systemd                   = false
           } else {
             $additional_packages       = undef
             $easyrsa_source            = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
             $ldap_auth_plugin_location = undef
+            $pam_module_path           = '/usr/lib/openvpn/openvpn-auth-pam.so'
             $systemd                   = false
           }
         }
