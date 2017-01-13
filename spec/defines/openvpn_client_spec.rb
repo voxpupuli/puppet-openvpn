@@ -150,7 +150,7 @@ describe 'openvpn::client', :type => :define do
         }
       '
     end
-    it { expect { should compile }.to raise_error }
+    it { expect { should contain_file('test') }.to raise_error(Puppet::Error) }
   end
 
   context "when using shared ca" do
@@ -194,7 +194,7 @@ describe 'openvpn::client', :type => :define do
       'server'    => 'test_server',
       'shared_ca' => 'my_already_existing_ca',
     } }
-    it { expect { should compile }.to raise_error }
+    it { expect { should contain_file('test') }.to raise_error(Puppet::Error) }
   end
 
   context 'custom options' do

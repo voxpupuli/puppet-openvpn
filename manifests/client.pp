@@ -145,6 +145,11 @@
 #   Boolean. Allow server to push options like dns or routes
 #   Default: false
 #
+# [*server_extca_enabled*]
+#   Boolean. Turn this on if you are using an external CA solution, like FreeIPA.
+#            Use this in Combination with exported_ressourced, since they don't have Access to the Serverconfig
+#   Default: false
+#
 # === Examples
 #
 #   openvpn::client {
@@ -211,6 +216,7 @@ define openvpn::client(
   $expire               = undef,
   $readme               = undef,
   $pull                 = false,
+  $server_extca_enabled = false
 ) {
 
   if $pam {
@@ -220,7 +226,7 @@ define openvpn::client(
   Openvpn::Server[$server] ->
   Openvpn::Client[$name]
 
-  $extca_enabled = getparam(Openvpn::Server[$server], 'extca_enabled')
+  $extca_enabled = pick(getparam(Openvpn::Server[$server], 'extca_enabled'), $server_extca_enabled)
   if $extca_enabled { fail('cannot currently create client configs when corresponding openvpn::server is extca_enabled') }
 
   $ca_name = pick($shared_ca, $server)
@@ -408,9 +414,9 @@ define openvpn::client(
     }
 
     concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_auth":
-      target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
-      source  => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
-      order   => '12'
+      target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+      source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
+      order  => '12'
     }
 
     concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_close_tag":
