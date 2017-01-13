@@ -53,6 +53,9 @@ tls-server
 <% if @tls_client -%>
 tls-client
 <% end -%>
+<% if @reneg_sec -%>
+reneg-sec <%= @reneg_sec %>
+<% end -%>
 <% if @compression != '' -%>
 <%= @compression %>
 <% end -%>

@@ -305,6 +305,10 @@
 #   Boolean. Allows you to set this server up as a tls-client connection.
 #   Default: false
 #
+# [*reneg_sec*]
+#   Integer. Value for how often to regenotiate keys.
+#   Default: undef
+#
 # [*server_poll_timeout*]
 #   Integer. Value for timeout before trying the next server.
 #   Default: undef
@@ -491,6 +495,7 @@ define openvpn::server(
   $tls_auth                  = false,
   $tls_server                = false,
   $tls_client                = false,
+  $reneg_sec                 = undef,
   $server_poll_timeout       = undef,
   $ping_timer_rem            = false,
   $sndbuf                    = undef,

@@ -103,6 +103,7 @@ describe 'openvpn::server', :type => :define do
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment}) }
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port-share}) }
+    it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(%r{^reneg-sec}) }
 
     it { should contain_file('/etc/openvpn/test_server/keys/pre-shared.secret').with(:ensure => 'absent') }
   end
@@ -154,6 +155,7 @@ describe 'openvpn::server', :type => :define do
       'fragment'        => 1412,
       'custom_options'  => { 'this' => 'that' },
       'portshare'       => '127.0.0.1 8443',
+      'reneg_sec'       => 3600,
       'secret'          => 'secretsecret1234',
     } }
 
@@ -211,6 +213,7 @@ describe 'openvpn::server', :type => :define do
 
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fragment 1412$}) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port-share 127.0.0.1 8443$}) }
+    it { should contain_file('/etc/openvpn/test_server.conf').with_content(/^reneg-sec\s+3600$/) }
     it { should contain_file('/etc/openvpn/test_server.conf').with_content(%r{^secret /etc/openvpn/test_server/keys/pre-shared.secret$}) }
 
     it { should_not contain_file('/etc/openvpn/test_server.conf').with_content(/^server-poll-timeout/) }
