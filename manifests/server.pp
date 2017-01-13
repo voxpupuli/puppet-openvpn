@@ -678,6 +678,8 @@ define openvpn::server(
     file {
       "${etc_directory}/openvpn/${name}/auth/ldap.conf":
         ensure  => present,
+        owner   => root,
+        mode    => '0400',
         content => template('openvpn/ldap.erb'),
         require => Package['openvpn-auth-ldap'],
     }
