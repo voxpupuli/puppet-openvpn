@@ -136,6 +136,10 @@
 #   days the certificate is valid for.
 #   Default: undef
 #
+# [*reneg_sec*]
+#   Integer. Value for how often to regenotiate keys.
+#   Default: undef
+#
 # [*readme*]
 #   String. Text to place in a README file which is included in download-configs
 #   archive.
@@ -214,6 +218,7 @@ define openvpn::client(
   $shared_ca            = undef,
   $custom_options       = {},
   $expire               = undef,
+  $reneg_sec            = undef,
   $readme               = undef,
   $pull                 = false,
   $server_extca_enabled = false

@@ -58,6 +58,9 @@ up "<%= @up %>"
 <% if @down != '' -%>
 down "<%= @down %>"
 <% end -%>
+<% if @reneg_sec -%>
+reneg-sec <%= @reneg_sec %>
+<% end -%>
 <% if @x509_name -%>
 
 # x509 name verification
