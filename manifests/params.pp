@@ -22,7 +22,6 @@ class openvpn::params {
       $root_group          = 'root'
       $group               = 'nobody'
       $link_openssl_cnf    = true
-      $pam_module_path     = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
       $additional_packages = ['easy-rsa']
       $easyrsa_source      = '/usr/share/easy-rsa/2.0'
       $namespecific_rclink = false
@@ -30,9 +29,11 @@ class openvpn::params {
       # Redhat/Centos >= 7.0
       if(versioncmp($::operatingsystemrelease, '7.0') >= 0) and $::operatingsystem != 'Amazon' {
         $systemd = true
+        $pam_module_path     = '/usr/lib64/openvpn/plugins/lib/openvpn-auth-pam.so'
       # Redhat/Centos < 7
       } else {
         $systemd = false
+        $pam_module_path     = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
       }
 
       $ldap_auth_plugin_location = undef # no ldap plugin on redhat/centos
