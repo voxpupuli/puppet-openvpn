@@ -29,7 +29,7 @@ class openvpn::params {
       # Redhat/Centos >= 7.0
       if(versioncmp($::operatingsystemrelease, '7.0') >= 0) and $::operatingsystem != 'Amazon' {
         $systemd = true
-        $pam_module_path     = '/usr/lib64/openvpn/plugins/lib/openvpn-auth-pam.so'
+        $pam_module_path     = '/usr/lib64/openvpn/plugins/openvpn-auth-pam.so'
       # Redhat/Centos < 7
       } else {
         $systemd = false
