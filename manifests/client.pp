@@ -311,7 +311,7 @@ define openvpn::client(
         Concat["${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn"],
         File["${etc_directory}/openvpn/${server}/download-configs/${name}.tblk"],
       ],
-      before =>  Exec["tar the thing ${server} with ${name}"];
+      before  =>  Exec["tar the thing ${server} with ${name}"];
   }
 
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf":
