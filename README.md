@@ -2,7 +2,7 @@
 
 Puppet module to manage OpenVPN servers and clients.
 
-[**Looking for Maintainers**](https://github.com/luxflux/puppet-openvpn/issues/228): This project is not abandoned but is still looking for maintainers.
+[**Looking for Maintainers**](https://github.com/luxflux/puppet-openvpn/issues/228): This project is looking for maintainers.
 
 ## Features
 
