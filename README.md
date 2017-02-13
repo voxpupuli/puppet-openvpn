@@ -1,6 +1,8 @@
 # OpenVPN Puppet module [![Build Status](https://travis-ci.org/luxflux/puppet-openvpn.svg?branch=master)](https://travis-ci.org/luxflux/puppet-openvpn)
 
-Puppet module to manage OpenVPN servers
+Puppet module to manage OpenVPN servers and clients.
+
+[**Looking for Maintainers**](https://github.com/luxflux/puppet-openvpn/issues/228): This project is not abandoned but is still looking for maintainers.
 
 ## Features
 
