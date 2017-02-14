@@ -386,6 +386,9 @@
 # [*custom_options*]
 #   Hash of additional options to append to the configuration file.
 #
+# [*easyrsa_source*]
+#   String. Override default easyrsa path
+#
 # === Examples
 #
 #   openvpn::client {
@@ -509,6 +512,7 @@ define openvpn::server(
   $nobind                    = false,
   $secret                    = undef,
   $custom_options            = {},
+  $easyrsa_source            = $::openvpn::params::easyrsa_source,
 ) {
 
   include openvpn
@@ -606,20 +610,21 @@ define openvpn::server(
 
       $ca_common_name = $common_name
       ::openvpn::ca { $name:
-        country      => $country,
-        province     => $province,
-        city         => $city,
-        organization => $organization,
-        email        => $email,
-        common_name  => $common_name,
-        group        => $group,
-        ssl_key_size => $ssl_key_size,
-        ca_expire    => $ca_expire,
-        key_expire   => $key_expire,
-        key_cn       => $key_cn,
-        key_name     => $key_name,
-        key_ou       => $key_ou,
-        tls_auth     => $tls_auth,
+        country        => $country,
+        province       => $province,
+        city           => $city,
+        organization   => $organization,
+        email          => $email,
+        common_name    => $common_name,
+        group          => $group,
+        ssl_key_size   => $ssl_key_size,
+        ca_expire      => $ca_expire,
+        key_expire     => $key_expire,
+        key_cn         => $key_cn,
+        key_name       => $key_name,
+        key_ou         => $key_ou,
+        tls_auth       => $tls_auth,
+        easyrsa_source => $easyrsa_source,
       }
     } elsif !$extca_enabled {
       if !defined(Openvpn::Ca[$shared_ca]) {

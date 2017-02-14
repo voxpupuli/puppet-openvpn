@@ -58,6 +58,9 @@
 #   Boolean. Determins if a tls key is generated
 #   Default: False
 #
+# [*easyrsa_source*]
+#   String. Override default easyrsa path
+#
 # === Examples
 #
 #   openvpn::ca {
@@ -104,6 +107,7 @@ define openvpn::ca(
   $key_name     = '',
   $key_ou       = '',
   $tls_auth     = false,
+  $easyrsa_source = $::openvpn::params::easyrsa_source,
 ) {
 
   include openvpn
@@ -120,7 +124,7 @@ define openvpn::ca(
   $etc_directory = $::openvpn::params::etc_directory
 
   exec { "copy easy-rsa to openvpn config folder ${name}":
-    command => "/bin/cp -r ${openvpn::params::easyrsa_source} ${etc_directory}/openvpn/${name}/easy-rsa",
+    command => "/bin/cp -r ${easyrsa_source} ${etc_directory}/openvpn/${name}/easy-rsa",
     creates => "${etc_directory}/openvpn/${name}/easy-rsa",
     require => File["${etc_directory}/openvpn/${name}"],
   }
