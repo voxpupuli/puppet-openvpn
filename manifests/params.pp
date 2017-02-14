@@ -22,7 +22,6 @@ class openvpn::params {
       $root_group          = 'root'
       $group               = 'nobody'
       $link_openssl_cnf    = true
-      $pam_module_path     = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
       $easyrsa_source      = '/usr/share/easy-rsa/2.0'
       $namespecific_rclink = false
 
@@ -31,19 +30,20 @@ class openvpn::params {
         $additional_packages = ['easy-rsa']
         $ldap_auth_plugin_location = undef
         $systemd = true
+        $pam_module_path = '/usr/lib64/openvpn/plugins/openvpn-plugin-auth-pam.so'
       # Redhat/Centos == 6.0
       } elsif(versioncmp($::operatingsystemrelease, '6.0') >= 0) and $::operatingsystem != 'Amazon' {
-        $additional_packages = ['easy-rsa','openvpn-auth-ldap']
+        $additional_packages = ['easy-rsa', 'openvpn-auth-ldap']
         $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
         $systemd = false
+        $pam_module_path = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
       # Redhat/Centos < 6.0
       } else {
         $additional_packages = ['easy-rsa']
         $ldap_auth_plugin_location = undef
         $systemd = false
+        $pam_module_path = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
       }
-
-      $ldap_auth_plugin_location = undef # no ldap plugin on redhat/centos
     }
     'Debian': { # Debian/Ubuntu
       $etc_directory       = '/etc'
