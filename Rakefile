@@ -8,13 +8,13 @@ exclude_paths = [
   "spec/**/*",
 ]
 
-PuppetLint.configuration.relative = true
-PuppetLint.configuration.fail_on_warnings
-PuppetLint.configuration.ignore_paths = exclude_paths
-PuppetLint.configuration.send('relative')
-PuppetLint.configuration.send('disable_80chars')
-PuppetLint.configuration.send('disable_class_inherits_from_params_class')
-PuppetSyntax.exclude_paths = exclude_paths
+Rake::Task[:lint].clear
+PuppetLint::RakeTask.new :lint do |config|
+  config.ignore_paths = exclude_paths
+  config.disable_checks = ['140chars']
+  config.fail_on_warnings = true
+  config.disable_class_inherits_from_params_class = true
+end
 
 desc "Run acceptance tests"
 RSpec::Core::RakeTask.new(:acceptance) do |t|
