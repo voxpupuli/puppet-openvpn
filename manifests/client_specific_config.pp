@@ -93,7 +93,7 @@ define openvpn::client_specific_config(
 
   file { "${::openvpn::params::etc_directory}/openvpn/${server}/client-configs/${name}":
     ensure  => $ensure,
-    content => template('openvpn/client_specific_config.erb')
+    content => template('openvpn/client_specific_config.erb'),
   }
 
 }

@@ -15,7 +15,7 @@
 #   Hash of defaults for clients passed to openvpn::client defined type.
 #   Default: {} (hiera_hash)
 # [*clients*]
-#   Hash of clients passed to openvpn::client defined type. 
+#   Hash of clients passed to openvpn::client defined type.
 #   Default: {} (hiera_hash)
 # [*client_specific_config_defaults*]
 #   Hash of defaults for client specific configurations passed to
@@ -90,13 +90,13 @@ class openvpn (
   validate_hash($server_defaults)
   validate_hash($servers)
 
-  class { 'openvpn::params': } ->
-  class { 'openvpn::install': } ->
-  class { 'openvpn::config': } ->
-  Class['openvpn']
+  class { '::openvpn::params': } ->
+  class { '::openvpn::install': } ->
+  class { '::openvpn::config': } ->
+  Class['::openvpn']
 
   if ! $::openvpn::params::systemd {
-    class { 'openvpn::service':
+    class { '::openvpn::service':
       subscribe => [Class['openvpn::config'], Class['openvpn::install'] ],
     }
     if empty($servers) {

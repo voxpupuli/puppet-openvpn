@@ -100,13 +100,13 @@ define openvpn::ca(
   $ssl_key_size = 1024,
   $ca_expire    = 3650,
   $key_expire   = 3650,
-  $key_cn       = '',
-  $key_name     = '',
-  $key_ou       = '',
+  $key_cn       = undef,
+  $key_name     = undef,
+  $key_ou       = undef,
   $tls_auth     = false,
 ) {
 
-  include openvpn
+  include ::openvpn
 
   $group_to_set = $group ? {
     false   => $openvpn::params::group,

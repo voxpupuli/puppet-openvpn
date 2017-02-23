@@ -439,15 +439,15 @@ define openvpn::server(
   $port                      = '1194',
   $portshare                 = undef,
   $proto                     = 'tcp',
-  $status_version            = '',
+  $status_version            = undef,
   $status_log                = "/var/log/openvpn/${name}-status.log",
-  $server                    = '',
-  $server_ipv6               = '',
-  $server_bridge             = '',
+  $server                    = undef,
+  $server_ipv6               = undef,
+  $server_bridge             = undef,
   $push                      = [],
   $route                     = [],
   $route_ipv6                = [],
-  $keepalive                 = '',
+  $keepalive                 = undef,
   $fragment                  = false,
   $ssl_key_size              = 1024,
   $topology                  = 'net30',
@@ -459,32 +459,32 @@ define openvpn::server(
   $management                = false,
   $management_ip             = 'localhost',
   $management_port           = 7505,
-  $up                        = '',
-  $down                      = '',
+  $up                        = undef,
+  $down                      = undef,
   $username_as_common_name   = false,
   $client_cert_not_required  = false,
   $ldap_enabled              = false,
-  $ldap_server               = '',
-  $ldap_binddn               = '',
-  $ldap_bindpass             = '',
-  $ldap_u_basedn             = '',
-  $ldap_g_basedn             = '',
+  $ldap_server               = undef,
+  $ldap_binddn               = undef,
+  $ldap_bindpass             = undef,
+  $ldap_u_basedn             = undef,
+  $ldap_g_basedn             = undef,
   $ldap_gmember              = false,
-  $ldap_u_filter             = '',
-  $ldap_g_filter             = '',
-  $ldap_memberatr            = '',
+  $ldap_u_filter             = undef,
+  $ldap_g_filter             = undef,
+  $ldap_memberatr            = undef,
   $ldap_tls_enable           = false,
-  $ldap_tls_ca_cert_file     = '',
-  $ldap_tls_ca_cert_dir      = '',
-  $ldap_tls_client_cert_file = '',
-  $ldap_tls_client_key_file  = '',
+  $ldap_tls_ca_cert_file     = undef,
+  $ldap_tls_ca_cert_dir      = undef,
+  $ldap_tls_client_cert_file = undef,
+  $ldap_tls_client_key_file  = undef,
   $ca_expire                 = 3650,
   $key_expire                = 3650,
-  $key_cn                    = '',
-  $key_name                  = '',
-  $key_ou                    = '',
-  $verb                      = '',
-  $cipher                    = '',
+  $key_cn                    = undef,
+  $key_name                  = undef,
+  $key_ou                    = undef,
+  $verb                      = undef,
+  $cipher                    = undef,
   $tls_cipher                = undef,
   $persist_key               = false,
   $persist_tun               = false,
@@ -511,8 +511,8 @@ define openvpn::server(
   $custom_options            = {},
 ) {
 
-  include openvpn
-  Class['openvpn::install'] ->
+  include ::openvpn
+  Class['::openvpn::install'] ->
   Openvpn::Server[$name]
 
   if $::openvpn::params::systemd and $::openvpn::params::namespecific_rclink {
@@ -679,9 +679,11 @@ define openvpn::server(
   }
 
   if $ldap_enabled == true {
+    validate_string($ldap_server)
+
     file {
       "${etc_directory}/openvpn/${name}/auth/ldap.conf":
-        ensure  => present,
+        ensure  => file,
         owner   => root,
         mode    => '0400',
         content => template('openvpn/ldap.erb'),
