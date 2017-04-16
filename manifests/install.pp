@@ -33,7 +33,10 @@
 #
 class openvpn::install inherits openvpn::params {
 
-  ensure_packages(['openvpn'])
+  package { 'openvpn':
+    notify => Class['openvpn::service'],
+  }
+
   if $::openvpn::params::additional_packages != undef {
     ensure_packages( any2array($::openvpn::params::additional_packages) )
   }
