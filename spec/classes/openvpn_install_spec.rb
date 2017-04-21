@@ -41,7 +41,14 @@ describe 'openvpn::install', type: :class do
       end
 
       context 'jessie' do
-        let(:operatingsystemrelease) { '8.0.0' }
+        let(:operatingsystemrelease) { '8.0' }
+
+        it { is_expected.to contain_package('openvpn-auth-ldap') }
+        it { is_expected.to contain_package('easy-rsa') }
+      end
+
+      context 'stretch' do
+        let(:operatingsystemrelease) { '9.0' }
 
         it { is_expected.to contain_package('openvpn-auth-ldap') }
         it { is_expected.to contain_package('easy-rsa') }

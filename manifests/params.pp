@@ -52,7 +52,7 @@ class openvpn::params {
 
       case $::operatingsystem {
         'Debian': {
-          # Version > 8.0, jessie
+          # Version > 8.0, jessie, stretch
           if(versioncmp($::operatingsystemrelease, '8.0') >= 0) {
             $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/easy-rsa/'

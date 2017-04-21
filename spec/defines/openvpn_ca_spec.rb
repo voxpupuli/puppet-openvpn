@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'openvpn::ca', type: :define do
-  let(:pre_condition) { "file { '/etc/openvpn/#{title}': ensure => directory }" }
   let(:title) { 'test_server' }
 
   let(:facts) do
@@ -57,6 +56,7 @@ describe 'openvpn::ca', type: :define do
     it { is_expected.to contain_exec('initca test_server') }
     it { is_expected.to contain_exec('generate server cert test_server') }
     it { is_expected.to contain_exec('create crl.pem on test_server') }
+    it { is_expected.not_to contain_exec('update crl.pem on test_server') }
 
     it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export CA_EXPIRE=3650$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export KEY_EXPIRE=3650$}) }
@@ -177,7 +177,7 @@ describe 'openvpn::ca', type: :define do
         )
       }
     end
-    context 'when jessie/sid' do
+    context 'when jessie/stretch/sid' do
       before do
         facts[:operatingsystem] = 'Debian'
         facts[:operatingsystemrelease] = '8.0.1'

@@ -329,6 +329,20 @@
 #   Boolean. Enable CRL checking. Disabling this is not recommended.
 #   Default: true
 #
+# [*crl_auto_renew*]
+#   Boolen. Enables automatic renewing of crl.pem.
+#   Default: false
+#
+# [*crl_renew_schedule_period*]
+#   String. Sets the "period" Parameter of the schedule for renewing the CRL.
+#           Since changing the expiry of 30 days is not possible with easy-rsa2, twice a month should be good
+#   Default: 'monthly'
+#
+# [*crl_renew_schedule_repeat*]
+#   Integer. Sets the "repeat" Parameter of the schedule for renewing the CRL.
+#            Since changing the expiry of 30 days is not possible with easy-rsa2, twice a month should be good
+#   Default: 2
+#
 # [*extca_enabled*]
 #   Boolean. Turn this on if you are using an external CA solution, like FreeIPA.
 #            Once enabled, you must configure the remaining extca_* parameters.
@@ -497,6 +511,9 @@ define openvpn::server (
   Optional[Integer] $rcvbuf                 = undef,
   Optional[String] $shared_ca               = undef,
   Boolean $crl_verify                       = true,
+  Boolean $crl_auto_renew                   = false,
+  String $crl_renew_schedule_period         = 'monthly',
+  Integer $crl_renew_schedule_repeat        = 2,
   Boolean $extca_enabled                    = false,
   Optional[String] $extca_ca_cert_file      = undef,
   Optional[String] $extca_ca_crl_file       = undef,
@@ -620,6 +637,21 @@ define openvpn::server (
         key_name     => $key_name,
         key_ou       => $key_ou,
         tls_auth     => $tls_auth,
+      }
+
+      ## Renewal of crl.pem
+      if ($crl_auto_renew) {
+        schedule { "renew crl.pem schedule on ${name}":
+          range  => '1 - 4',
+          period => $crl_renew_schedule_period,
+          repeat => $crl_renew_schedule_repeat,
+        }
+        exec { "renew crl.pem on ${name}":
+          command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${::openvpn::params::etc_directory}/openvpn/${name}/crl.pem -config ${::openvpn::params::etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
+          cwd      => "${::openvpn::params::etc_directory}/openvpn/${name}/easy-rsa",
+          provider => 'shell',
+          schedule => "renew crl.pem schedule on ${name}",
+        }
       }
     } elsif !$extca_enabled {
       if !defined(Openvpn::Ca[$shared_ca]) {
