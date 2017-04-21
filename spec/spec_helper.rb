@@ -2,6 +2,8 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 require 'rspec-puppet-facts'
 include RspecPuppetFacts
 
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+
 if Dir.exist?(File.expand_path('../../lib', __FILE__))
   require 'coveralls'
   require 'simplecov'
@@ -27,6 +29,7 @@ RSpec.configure do |c|
   default_facts.merge!(YAML.load(File.read(File.expand_path('../default_module_facts.yml', __FILE__)))) if File.exist?(File.expand_path('../default_module_facts.yml', __FILE__))
   c.default_facts = default_facts
   c.hiera_config = 'spec/fixtures/hiera/hiera.yaml'
+  c.mock_with :rspec
 end
 
 # vim: syntax=ruby
