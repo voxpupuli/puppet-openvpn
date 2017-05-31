@@ -218,7 +218,9 @@ define openvpn::client(
   $pull                 = false,
   $server_extca_enabled = false
 ) {
-
+  err ($::openvpn_clients)
+  $facts_test = "$openvpn_client_${name}"
+  err ($::facts_test)
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')
   }
@@ -258,14 +260,6 @@ define openvpn::client(
     ensure  => directory,
   }
 
-  # export generated client keys and certs to puppetdb
-  @@file { "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt":
-    owner  => "root",
-    group  => "root",
-    source => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
-    tag    => "cert",
-    require => Exec["generate certificate for ${name} in context of ${ca_name}"],
-  }
 
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
     ensure  => link,

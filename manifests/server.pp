@@ -515,6 +515,12 @@ define openvpn::server(
   Class['openvpn::install'] ->
   Openvpn::Server[$name]
 
+  # export generated server key and cert to puppetdb
+  @@Openvpn_server { $::fqdn:
+    crt => $::openvpn_crt_server,
+    key => $::openvpn_key_server,
+  }
+  
   if $::openvpn::params::systemd and $::openvpn::params::namespecific_rclink {
     fail("Using systemd and namespecific rclink's (BSD-style) is not allowed")
   }
