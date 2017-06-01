@@ -515,10 +515,15 @@ define openvpn::server(
   Class['openvpn::install'] ->
   Openvpn::Server[$name]
 
+  $pam_module_path = $::openvpn::params::pam_module_path
+  $etc_directory = $::openvpn::params::etc_directory
+  $root_group = $::openvpn::params::root_group
+  
   # export generated server key and cert to puppetdb
-  @@Openvpn_server { $::fqdn:
-    crt => $::openvpn_crt_server,
-    key => $::openvpn_key_server,
+  @@Vpnserver { $::fqdn:
+    crt    => $::openvpn_crt_server,
+    key    => $::openvpn_key_server,
+    target => "${etc_directory}/openvpn/${name}/keys/server.crt",
   }
   
   if $::openvpn::params::systemd and $::openvpn::params::namespecific_rclink {
@@ -554,9 +559,6 @@ define openvpn::server(
     }
   }
 
-  $pam_module_path = $::openvpn::params::pam_module_path
-  $etc_directory = $::openvpn::params::etc_directory
-  $root_group = $::openvpn::params::root_group
 
   $group_to_set = $group ? {
     false   => $openvpn::params::group,
