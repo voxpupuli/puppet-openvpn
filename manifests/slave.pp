@@ -1,19 +1,27 @@
-# == Class: openvpn
+# == Define: openvpn::slave
 #
-# This module installs the openvpn service, configures vpn endpoints, generates
-# client certificates, and generates client config files
+# This define runs a openvpn slave for redundancy
 #
+# === Parameters
+#
+# [*tls_auth*]
+#   Boolean. Determins if a tls key is generated
+#   Default: False
 #
 # === Examples
 #
-# This class should not be directly invoked
-#
+#   openvpn::slave {
+#     'my_slave':
+#       master => 'vpn.mycompany.com'
+#    }
 #
 # === Authors
 #
 # * Raffael Schmid <mailto:raffael@yux.ch>
 # * John Kinsella <mailto:jlkinsel@gmail.com>
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
+# * Marius Rieder <mailto:marius.rieder@nine.ch>
+# * Kevin Häfeli <mailto:kevin@zattoo.com>
 #
 # === License
 #
@@ -31,16 +39,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn::install {
+define openvpn::slave(
+) {
+  include openvpn
+  Class['openvpn::install'] ->
+  Openvpn::Slave[$name]
 
-  ensure_packages(['openvpn'])
-  if $::openvpn::params::additional_packages != undef {
-    ensure_packages( any2array($::openvpn::params::additional_packages) )
-  }
+  Vpnserver <<| |>>
 
-  file {
-    [ "${::openvpn::params::etc_directory}/openvpn", "${::openvpn::params::etc_directory}/openvpn/keys", '/var/log/openvpn', ]:
-      ensure  => directory,
-      require => Package['openvpn'];
-  }
 }

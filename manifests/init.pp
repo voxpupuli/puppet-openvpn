@@ -79,7 +79,7 @@ class openvpn (
   $revokes                         = hiera_hash('openvpn::revokes', {}),
   $server_defaults                 = hiera_hash('openvpn::server_defaults', {}),
   $servers                         = hiera_hash('openvpn::servers', {}),
-) {
+) inherits ::openvpn::params {
 
   validate_hash($client_defaults)
   validate_hash($clients)
@@ -90,7 +90,6 @@ class openvpn (
   validate_hash($server_defaults)
   validate_hash($servers)
 
-  class { 'openvpn::params': } ->
   class { 'openvpn::install': } ->
   class { 'openvpn::config': } ->
   Class['openvpn']

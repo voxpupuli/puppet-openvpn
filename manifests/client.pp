@@ -218,7 +218,9 @@ define openvpn::client(
   $pull                 = false,
   $server_extca_enabled = false
 ) {
-
+  err ($::openvpn_clients)
+  $facts_test = "$openvpn_client_${name}"
+  err ($::facts_test)
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')
   }
@@ -257,6 +259,7 @@ define openvpn::client(
           "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}" ]:
     ensure  => directory,
   }
+
 
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
     ensure  => link,
