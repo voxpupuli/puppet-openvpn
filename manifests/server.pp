@@ -509,6 +509,7 @@ define openvpn::server(
   $nobind                    = false,
   $secret                    = undef,
   $custom_options            = {},
+  $slave                     = false,
 ) {
 
   include openvpn
@@ -520,12 +521,29 @@ define openvpn::server(
   $root_group = $::openvpn::params::root_group
   
   # export generated server key and cert to puppetdb
-  @@Vpnserver { $::fqdn:
-    crt    => $::openvpn_crt_server,
-    key    => $::openvpn_key_server,
-    target => "${etc_directory}/openvpn/${name}/keys/server.crt",
+  if !$slave {
+    @@Vpnserver { "${::fqdn}_crt_ca":
+      tag    => $::fqdn,
+      crt    => $::openvpn_crt_ca,
+      target => "${etc_directory}/openvpn/${name}/keys/ca.crt",
+    }
+    @@Vpnserver { "${::fqdn}_key_ca":
+      tag    => $::fqdn,
+      key    => $::openvpn_key_ca,
+      target => "${etc_directory}/openvpn/${name}/keys/ca.key",
+    }
+    @@Vpnserver { "${::fqdn}_crt":
+      tag    => $::fqdn,
+      crt    => $::openvpn_crt_server,
+      target => "${etc_directory}/openvpn/${name}/keys/server.crt",
+    }
+    @@Vpnserver { "${::fqdn}_key":
+      tag    => $::fqdn,
+      key    => $::openvpn_key_server,
+      target => "${etc_directory}/openvpn/${name}/keys/server.key",
+    }
   }
-  
+
   if $::openvpn::params::systemd and $::openvpn::params::namespecific_rclink {
     fail("Using systemd and namespecific rclink's (BSD-style) is not allowed")
   }
@@ -598,7 +616,7 @@ define openvpn::server(
   }
 
   if !$remote {
-    if !$shared_ca and !$extca_enabled {
+    if !$shared_ca and !$extca_enabled and !$slave{
       # VPN Server Mode
       if $country == undef {
         fail('country has to be specified in server mode')
@@ -705,7 +723,7 @@ define openvpn::server(
         provider => 'systemd',
         require  => File["${etc_directory}/openvpn/${name}.conf"],
       }
-      if !$extca_enabled {
+      if !$extca_enabled and !$slave {
         Openvpn::Ca[$ca_name] -> Service["openvpn@${name}"]
       }
     }
@@ -733,7 +751,7 @@ define openvpn::server(
           File["/usr/local/etc/rc.d/openvpn_${name}"],
         ],
       }
-      if !extca_enabled {
+      if !$extca_enabled and !$slave {
         Openvpn::Ca[$ca_name] -> Service["openvpn_${name}"]
       }
     }

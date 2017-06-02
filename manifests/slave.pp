@@ -45,10 +45,6 @@ define openvpn::slave(
   Class['openvpn::install'] ->
   Openvpn::Slave[$name]
 
-
   Vpnserver <<| |>>
 
-  #$query_profiles = ['from', 'resources', ['=', 'type','Vpnserver'], ['=', 'parameters.tag','crt']]
-  #$crt = puppetdb_query($query_profiles)
-  #err("result ${crt}")
 }
