@@ -1,7 +1,9 @@
 module Puppet
-Type.newtype(:Vpnserver) do
+Type.newtype(:vpnserver) do
   @doc = "Install certificates for the openvpn server slave. 
   Copied from the master over PuppetDB"
+
+  ensurable
 
   newparam(:name, :namevar => true) do
     desc "Vpnserver name"

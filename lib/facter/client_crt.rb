@@ -16,6 +16,20 @@ Facter.add(:openvpn_ca) do
   end
 end
 
+Facter.add('openvpn_crt_ca') do
+  setcode do
+    crt = File.read("/etc/openvpn/#{openvpn_ca.first}/easy-rsa/keys/ca.crt")
+    crt
+  end
+end
+
+Facter.add('openvpn_key_ca') do
+  setcode do
+    key = File.read("/etc/openvpn/#{openvpn_ca.first}/easy-rsa/keys/ca.key")
+    key
+  end
+end
+
 openvpn_clients.each do |openvpn_client|
   Facter.add('openvpn_crt_' + openvpn_client) do
     setcode do
@@ -28,8 +42,8 @@ end
 openvpn_clients.each do |openvpn_client|
   Facter.add('openvpn_key_' + openvpn_client) do
     setcode do
-      crt = File.read("/etc/openvpn/#{openvpn_ca.first}/easy-rsa/keys/#{openvpn_client}.key")
-      crt
+      key = File.read("/etc/openvpn/#{openvpn_ca.first}/easy-rsa/keys/#{openvpn_client}.key")
+      key
     end
   end
 end

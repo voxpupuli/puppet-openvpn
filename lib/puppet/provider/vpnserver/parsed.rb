@@ -11,5 +11,7 @@ Puppet::Type.type(:vpnserver).provide(
   text_line :comment, :match => /^#/;
   text_line :blank, :match => /^\s*$/;
 
-  record_line :parsed, :fields => %w{crt}
+  record_line :parsed, 
+    :fields   => %w{crt key},
+    :optional => %w{crt key}
 end
