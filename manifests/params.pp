@@ -143,6 +143,7 @@ class openvpn::params {
       $additional_packages = ['easy-rsa']
       $easyrsa_source      = '/usr/local/share/easy-rsa'
       $namespecific_rclink = true
+      $systemd             = false
     }
     default: {
       fail("Not supported OS family ${::osfamily}")

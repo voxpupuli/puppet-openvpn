@@ -1,28 +1,31 @@
 require 'spec_helper'
 
-describe 'openvpn', :type => :class do
-
+describe 'openvpn', type: :class do
   context 'non-systemd systems' do
-    let(:facts) { {
-      :concat_basedir => '/var/lib/puppet/concat',
-      :osfamily => 'Debian',
-      :operatingsystem => 'Ubuntu',
-      :operatingsystemrelease => '12.04',
-    } }
+    let(:facts) do
+      {
+        concat_basedir: '/var/lib/puppet/concat',
+        osfamily: 'Debian',
+        operatingsystem: 'Ubuntu',
+        operatingsystemrelease: '12.04'
+      }
+    end
 
-    it { should create_class('openvpn') }
-    it { should contain_class('openvpn::service') }
+    it { is_expected.to create_class('openvpn') }
+    it { is_expected.to contain_class('openvpn::service') }
   end
 
   context 'systemd systems' do
-    let(:facts) { {
-      :concat_basedir => '/var/lib/puppet/concat',
-      :osfamily => 'RedHat',
-      :operatingsystemrelease => '7.0',
-    } }
+    let(:facts) do
+      {
+        concat_basedir: '/var/lib/puppet/concat',
+        osfamily: 'RedHat',
+        operatingsystem: 'CentOS',
+        operatingsystemrelease: '7.0'
+      }
+    end
 
-    it { should create_class('openvpn') }
-    it { should_not contain_class('openvpn::service') }
+    it { is_expected.to create_class('openvpn') }
+    it { is_expected.not_to contain_class('openvpn::service') }
   end
-
 end

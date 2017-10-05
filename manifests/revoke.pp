@@ -51,11 +51,11 @@ define openvpn::revoke(
   $server,
 ) {
 
-  Openvpn::Server[$server] ->
-  Openvpn::Revoke[$name]
+  Openvpn::Server[$server]
+  -> Openvpn::Revoke[$name]
 
-  Openvpn::Client[$name] ->
-  Openvpn::Revoke[$name]
+  Openvpn::Client[$name]
+  -> Openvpn::Revoke[$name]
 
   $etc_directory = $::openvpn::params::etc_directory
 

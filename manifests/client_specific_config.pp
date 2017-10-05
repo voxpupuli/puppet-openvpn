@@ -87,13 +87,13 @@ define openvpn::client_specific_config(
   $redirect_gateway = false,
 ) {
 
-  Openvpn::Server[$server] ->
-  Openvpn::Client[$name] ->
-  Openvpn::Client_specific_config[$name]
+  Openvpn::Server[$server]
+  -> Openvpn::Client[$name]
+  -> Openvpn::Client_specific_config[$name]
 
   file { "${::openvpn::params::etc_directory}/openvpn/${server}/client-configs/${name}":
     ensure  => $ensure,
-    content => template('openvpn/client_specific_config.erb')
+    content => template('openvpn/client_specific_config.erb'),
   }
 
 }
