@@ -97,23 +97,23 @@ describe 'openvpn::server', type: :define do
 
     # VPN server config file itself
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^mode\s+server$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^client\-config\-dir\s+\/etc\/openvpn\/test_server\/client\-configs$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/test_server\/keys\/ca.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/test_server\/keys\/server.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys\/server.key$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh1024.pem$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client\-config\-dir\s+/etc/openvpn/test_server/client\-configs$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ca\s+/etc/openvpn/test_server/keys/ca.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^cert\s+/etc/openvpn/test_server/keys/server.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^key\s+/etc/openvpn/test_server/keys/server.key$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dh\s+/etc/openvpn/test_server/keys/dh1024.pem$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^proto\s+tcp-server$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-server$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port\s+1194$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^comp-lzo$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^group\s+nogroup$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^user\s+nobody$}) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^log\-append\s+test_server\/openvpn\.log$/) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^log\-append\s+test_server/openvpn\.log$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^status\s+/var/log/openvpn/test_server-status\.log$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dev\s+tun0$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^local\s+1\.2\.3\.4$}) }
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ifconfig-pool-persist}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^crl-verify\s+/etc/openvpn/test_server/crl.pem$}) }
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^secret}) }
 
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{verb}) }
@@ -210,13 +210,13 @@ describe 'openvpn::server', type: :define do
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dev\s+tun1$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^local\s+2\.3\.4\.5$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^server\s+2\.3\.4\.0\s+255\.255\.0\.0$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^server-ipv6\s+fe80\:1337\:1337\:1337\:\:\/64$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^server-ipv6\s+fe80:1337:1337:1337::/64$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^push\s+"dhcp-option\s+DNS\s+172\.31\.0\.30"$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^push\s+"route\s+172\.31\.0\.0\s+255\.255\.0\.0"$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^route\s+192.168.30.0\s+255.255.255.0$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^route\s+192.168.35.0\s+255.255.0.0$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^route-ipv6\s+2001\:db8\:1234\:\:\/64$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^route-ipv6\s+2001\:db8\:abcd\:\:\/64$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^route-ipv6\s+2001:db8:1234::/64$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^route-ipv6\s+2001:db8:abcd::/64$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^keepalive\s+10\s+120$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^topology\s+subnet$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^management\s+1.3.3.7 1337$}) }
@@ -279,14 +279,6 @@ describe 'openvpn::server', type: :define do
         'nobind'              => nobind
       }
     end
-
-    context 'nobind is true' do
-      let(:nobind) { true }
-
-      it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^nobind$}) }
-      it { is_expected.not_to contain_file('/etc/openvpn/test_client.conf').with_content(%r{port\s+\d+}) }
-    end
-
     let(:facts) do
       {
         ipaddress_eth0: '1.2.3.4',
@@ -297,6 +289,13 @@ describe 'openvpn::server', type: :define do
         operatingsystem: 'Ubuntu',
         operatingsystemrelease: '12.04'
       }
+    end
+
+    context 'nobind is true' do
+      let(:nobind) { true }
+
+      it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^nobind$}) }
+      it { is_expected.not_to contain_file('/etc/openvpn/test_client.conf').with_content(%r{port\s+\d+}) }
     end
 
     it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^client$}) }
@@ -373,12 +372,11 @@ describe 'openvpn::server', type: :define do
 
     # Check that certificate files point to the provide CA
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^mode\s+server$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^client\-config\-dir\s+\/etc\/openvpn\/test_server\/client\-configs$/) }
-
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/my_already_existing_ca\/keys\/ca.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/my_already_existing_ca\/keys\/custom_common_name.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/my_already_existing_ca\/keys\/custom_common_name.key$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/my_already_existing_ca\/keys\/dh1024.pem$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client\-config\-dir\s+/etc/openvpn/test_server/client\-configs$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ca\s+/etc/openvpn/my_already_existing_ca/keys/ca.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^cert\s+/etc/openvpn/my_already_existing_ca/keys/custom_common_name.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^key\s+/etc/openvpn/my_already_existing_ca/keys/custom_common_name.key$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dh\s+/etc/openvpn/my_already_existing_ca/keys/dh1024.pem$}) }
   end
 
   context 'when using not existed shared ca' do
@@ -512,7 +510,7 @@ describe 'openvpn::server', type: :define do
     it { is_expected.to contain_service('openvpn_test_server') }
     it { is_expected.to contain_file('/usr/local/etc/openvpn/test_server') }
     it { is_expected.to contain_file('/usr/local/etc/rc.d/openvpn_test_server') }
-    it { is_expected.to contain_file('/usr/local/etc/openvpn/test_server.conf').with_content(/\/usr\/local\/etc/) }
+    it { is_expected.to contain_file('/usr/local/etc/openvpn/test_server.conf').with_content(%r{/usr/local/etc}) }
   end
 
   context 'ldap' do
@@ -596,18 +594,18 @@ describe 'openvpn::server', type: :define do
       }
     end
 
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/test_server\/keys/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/test_server\/keys/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys/) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ca\s+/etc/openvpn/test_server/keys}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^crl-verify\s+/etc/openvpn/test_server}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^cert\s+/etc/openvpn/test_server/keys}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^key\s+/etc/openvpn/test_server/keys}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dh\s+/etc/openvpn/test_server/keys}) }
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth}) }
 
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/ipa\/ca.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/ipa\/ca_crl.pem$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/pki\/tls\/certs\/localhost.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/pki\/tls\/private\/localhost.key$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/ipa\/dh.pem$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ca\s+/etc/ipa/ca.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^crl-verify\s+/etc/ipa/ca_crl.pem$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^cert\s+/etc/pki/tls/certs/localhost.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^key\s+/etc/pki/tls/private/localhost.key$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dh\s+/etc/ipa/dh.pem$}) }
   end
 
   context 'RedHat using an external CA and enabling tls-auth' do
@@ -632,19 +630,19 @@ describe 'openvpn::server', type: :define do
       }
     end
 
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/openvpn\/test_server\/keys\/ca.crt$/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/openvpn\/test_server\/keys\/server.crt$/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/openvpn\/test_server\/keys\/server.key$/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/openvpn\/test_server\/keys\/dh1024.pem$/) }
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-auth\s+\/etc\/openvpn\/test_server\/keys\/ta.key$/) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ca\s+/etc/openvpn/test_server/keys/ca.crt$}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^crl-verify\s+/etc/openvpn/test_server/crl.pem$}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^cert\s+/etc/openvpn/test_server/keys/server.crt$}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^key\s+/etc/openvpn/test_server/keys/server.key$}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dh\s+/etc/openvpn/test_server/keys/dh1024.pem$}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/test_server/keys/ta.key$}) }
 
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^ca\s+\/etc\/ipa\/ca.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^crl-verify\s+\/etc\/ipa\/ca_crl.pem$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^cert\s+\/etc\/pki\/tls\/certs\/localhost.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^key\s+\/etc\/pki\/tls\/private\/localhost.key$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^dh\s+\/etc\/ipa\/dh.pem$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(/^tls-auth\s+\/etc\/openvpn\/keys\/ta.key$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ca\s+/etc/ipa/ca.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^crl-verify\s+/etc/ipa/ca_crl.pem$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^cert\s+/etc/pki/tls/certs/localhost.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^key\s+/etc/pki/tls/private/localhost.key$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dh\s+/etc/ipa/dh.pem$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-auth\s+/etc/openvpn/keys/ta.key$}) }
   end
 
   context 'should fail if setting extca_enabled=true without specifying any other extca_* options' do

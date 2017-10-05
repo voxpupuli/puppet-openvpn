@@ -48,9 +48,9 @@ describe 'openvpn::client', type: :define do
     let(:params) { { 'server' => 'test_server' } }
 
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^client$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/test_client\/ca\.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client\/test_client.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\/test_client\.key$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^ca\s+keys/test_client/ca\.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cert\s+keys/test_client/test_client.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^key\s+keys/test_client/test_client\.key$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^dev\s+tun$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^proto\s+tcp$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^remote\s+somehost\s+1194$}) }
@@ -111,9 +111,9 @@ describe 'openvpn::client', type: :define do
     end
 
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^client$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/test_client\/ca\.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client\/test_client.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\/test_client\.key$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^ca\s+keys/test_client/ca\.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cert\s+keys/test_client/test_client.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^key\s+keys/test_client/test_client\.key$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^dev\s+tap$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^proto\s+udp$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^remote\s+somewhere\s+123$}) }
@@ -199,9 +199,9 @@ describe 'openvpn::client', type: :define do
 
     # Check that certificate files point to the provided CA
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^client$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^ca\s+keys\/test_client\/ca\.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^cert\s+keys\/test_client\/test_client.crt$/) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(/^key\s+keys\/test_client\/test_client\.key$/) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^ca\s+keys/test_client/ca\.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cert\s+keys/test_client/test_client.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^key\s+keys/test_client/test_client\.key$}) }
   end
 
   context 'when using not existed shared ca' do
