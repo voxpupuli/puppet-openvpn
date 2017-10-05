@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe 'openvpn::config', type: :class do
-  it { is_expected.to create_class('openvpn::config') }
-
   context 'on Debian based machines' do
     let(:facts) do
       {

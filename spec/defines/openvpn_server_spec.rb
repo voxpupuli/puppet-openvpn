@@ -404,6 +404,7 @@ describe 'openvpn::server', type: :define do
     let(:facts) do
       {
         osfamily: 'RedHat',
+        operatingsystem: 'CentOS',
         concat_basedir: '/var/lib/puppet/concat',
         operatingsystemrelease: '7.0'
       }
@@ -430,6 +431,7 @@ describe 'openvpn::server', type: :define do
     let(:facts) do
       {
         osfamily: 'RedHat',
+        operatingsystem: 'CentOS',
         concat_basedir: '/var/lib/puppet/concat',
         operatingsystemrelease: '7.0'
       }
@@ -589,6 +591,7 @@ describe 'openvpn::server', type: :define do
     let(:facts) do
       {
         osfamily: 'Redhat',
+        operatingsystem: 'CentOS',
         operatingsystemrelease: '7.0',
         concat_basedir: '/var/lib/puppet/concat'
       }
@@ -625,6 +628,7 @@ describe 'openvpn::server', type: :define do
     let(:facts) do
       {
         osfamily: 'RedHat',
+        operatingsystem: 'CentOS',
         operatingsystemrelease: '7.0',
         concat_basedir: '/var/lib/puppet/concat'
       }
@@ -676,6 +680,7 @@ describe 'openvpn::server', type: :define do
     let(:facts) do
       {
         concat_basedir: '/var/lib/puppet/concat',
+        operatingsystem: 'CentOS',
         osfamily: 'RedHat',
         operatingsystemrelease: '7.0'
       }
