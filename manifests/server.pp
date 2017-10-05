@@ -512,8 +512,8 @@ define openvpn::server(
 ) {
 
   include openvpn
-  Class['openvpn::install'] ->
-  Openvpn::Server[$name]
+  Class['openvpn::install']
+  -> Openvpn::Server[$name]
 
   if $::openvpn::params::systemd and $::openvpn::params::namespecific_rclink {
     fail("Using systemd and namespecific rclink's (BSD-style) is not allowed")
