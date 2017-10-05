@@ -5,7 +5,7 @@ node default {
     city         => 'Winterthur',
     organization => 'example.org',
     email        => 'root@example.org',
-    server       => '10.200.200.0 255.255.255.0'
+    server       => '10.200.200.0 255.255.255.0',
   }
 
   openvpn::client { 'client1':
@@ -14,7 +14,7 @@ node default {
 
   openvpn::client_specific_config { 'client1':
     server   => 'winterthur',
-    ifconfig => '10.200.200.100 255.255.255.0'
+    ifconfig => '10.200.200.100 255.255.255.0',
   }
 
   openvpn::client { 'client2':
