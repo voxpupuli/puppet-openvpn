@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'openvpn::service', type: :class do
-  let (:pre_condition) { 'class { "openvpn": manage_service => true }' }
-  let (:facts) do
+  let(:pre_condition) { 'class { "openvpn": manage_service => true }' }
+  let(:facts) do
     {
       osfamily: 'Debian',
       operatingsystem: 'Debian',

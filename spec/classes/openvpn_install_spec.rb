@@ -3,7 +3,6 @@ require 'spec_helper'
 describe 'openvpn::install', type: :class do
   let(:osfamily) { 'Debian' }
   let(:operatingsystemmajrelease) { nil }
-  let(:operatingsystemrelease) { nil }
   let(:operatingsystem) { 'Ubuntu' }
   let(:operatingsystemrelease) { '13.10' }
   let(:facts) do
