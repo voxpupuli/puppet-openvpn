@@ -20,7 +20,6 @@ def client_config(config)
 end
 
 Vagrant::Config.run(2) do |config|
-
   config.vm.provision :shell, path: 'vagrant/provision_module.sh'
 
   config.vm.define :server_ubuntu do |c|
