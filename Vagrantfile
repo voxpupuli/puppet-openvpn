@@ -1,3 +1,4 @@
+# rubocop:disable Style/FileName
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
