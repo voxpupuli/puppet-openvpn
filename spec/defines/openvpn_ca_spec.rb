@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe 'openvpn::ca', type: :define do
-  let(:pre_condition) {
-    "file { '/etc/openvpn/#{title}': ensure => directory }"
-  }
+  let(:pre_condition) { "file { '/etc/openvpn/#{title}': ensure => directory }" }
   let(:title) { 'test_server' }
 
   let(:facts) do

@@ -44,7 +44,7 @@ describe 'openvpn', type: :class do
   end
 
   it do
-    is_expected.to contain_openvpn__client('winti-client1').with(
+    is_expected.to contain_openvpn__client('winti-client2').with(
       'server' => 'winterthur'
     )
   end
