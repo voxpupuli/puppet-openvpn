@@ -29,7 +29,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn::config {
+class openvpn::config inherits openvpn::params {
 
   if $::osfamily == 'Debian' {
     concat { '/etc/default/openvpn':

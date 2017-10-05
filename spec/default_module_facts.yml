@@ -1,0 +1,6 @@
+id: root
+path: 
+ipaddress_eth0: 10.0.0.1
+osfamily: Debian
+operatingsystem: Debian
+operatingsystemrelease: '8.0'
