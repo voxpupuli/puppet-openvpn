@@ -90,10 +90,10 @@ class openvpn (
   validate_hash($server_defaults)
   validate_hash($servers)
 
-  class { 'openvpn::params': } ->
-  class { 'openvpn::install': } ->
-  class { 'openvpn::config': } ->
-  Class['openvpn']
+  class { 'openvpn::params': }
+  -> class { 'openvpn::install': }
+  -> class { 'openvpn::config': }
+  -> Class['openvpn']
 
   if ! $::openvpn::params::systemd {
     class { 'openvpn::service':

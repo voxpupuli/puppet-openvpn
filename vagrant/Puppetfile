@@ -1,1 +1,2 @@
+# rubocop:disable Style/FileName
 mod 'luxflux-openvpn', path: '/vagrant'

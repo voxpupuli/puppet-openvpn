@@ -223,15 +223,15 @@ define openvpn::client(
     warning('Using $pam is deprecated. Use $authuserpass instead!')
   }
 
-  Openvpn::Server[$server] ->
-  Openvpn::Client[$name]
+  Openvpn::Server[$server]
+  -> Openvpn::Client[$name]
 
   $extca_enabled = pick(getparam(Openvpn::Server[$server], 'extca_enabled'), $server_extca_enabled)
   if $extca_enabled { fail('cannot currently create client configs when corresponding openvpn::server is extca_enabled') }
 
   $ca_name = pick($shared_ca, $server)
-  Openvpn::Ca[$ca_name] ->
-  Openvpn::Client[$name]
+  Openvpn::Ca[$ca_name]
+  -> Openvpn::Client[$name]
 
   $etc_directory = $::openvpn::params::etc_directory
 
@@ -349,80 +349,80 @@ define openvpn::client(
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/client_config":
     target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     content => template('openvpn/client.erb'),
-    order   => '01'
+    order   => '01',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/ca_open_tag":
     target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     content => "# Authentication \n<ca>\n",
-    order   => '02'
+    order   => '02',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/ca":
     target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt",
-    order  => '03'
+    order  => '03',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/ca_close_tag":
     target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     content => "</ca>\n",
-    order   => '04'
+    order   => '04',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/key_open_tag":
     target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     content => "<key>\n",
-    order   => '05'
+    order   => '05',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/key":
     target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key",
-    order  => '06'
+    order  => '06',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/key_close_tag":
     target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     content => "</key>\n",
-    order   => '07'
+    order   => '07',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/cert_open_tag":
     target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     content => "<cert>\n",
-    order   => '08'
+    order   => '08',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/cert":
     target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt",
-    order  => '09'
+    order  => '09',
   }
 
   concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/cert_close_tag":
     target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
     content => "</cert>\n",
-    order   => '10'
+    order   => '10',
   }
 
   if $tls_auth {
     concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_open_tag":
       target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
       content => "<tls-auth>\n",
-      order   => '11'
+      order   => '11',
     }
 
     concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_auth":
       target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
       source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
-      order  => '12'
+      order  => '12',
     }
 
     concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_close_tag":
       target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
       content => "</tls-auth>\nkey-direction 1\n",
-      order   => '13'
+      order   => '13',
     }
   }
 }
