@@ -1,35 +1,56 @@
 require 'puppetlabs_spec_helper/rake_tasks'
-require 'puppet-lint/tasks/puppet-lint'
-require 'puppet-syntax/tasks/puppet-syntax'
+require 'puppet_blacksmith/rake_tasks'
+require 'voxpupuli/release/rake_tasks'
+require 'puppet-strings/tasks'
 
-exclude_paths = [
-  "pkg/**/*",
-  "vendor/**/*",
-  "spec/**/*",
-]
-
-PuppetLint.configuration.relative = true
-PuppetLint.configuration.fail_on_warnings
-PuppetLint.configuration.ignore_paths = exclude_paths
-PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
+PuppetLint.configuration.log_format = '%{path}:%{line}:%{check}:%{KIND}:%{message}'
+PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('relative')
-PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_140chars')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
+PuppetLint.configuration.send('disable_documentation')
+PuppetLint.configuration.send('disable_single_quote_string_with_variables')
+
+exclude_paths = %w(
+  pkg/**/*
+  vendor/**/*
+  .vendor/**/*
+  spec/**/*
+)
+PuppetLint.configuration.ignore_paths = exclude_paths
 PuppetSyntax.exclude_paths = exclude_paths
 
-desc "Run acceptance tests"
+desc 'Run acceptance tests'
 RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance'
 end
 
-task :metadata do
-  sh "metadata-json-lint metadata.json"
+desc 'Run tests metadata_lint, release_checks'
+task test: [
+  :metadata_lint,
+  :release_checks,
+]
+
+desc "Run main 'test' task and report merged results to coveralls"
+task test_with_coveralls: [:test] do
+  if Dir.exist?(File.expand_path('../lib', __FILE__))
+    require 'coveralls/rake/task'
+    Coveralls::RakeTask.new
+    Rake::Task['coveralls:push'].invoke
+  else
+    puts 'Skipping reporting to coveralls.  Module has no lib dir'
+  end
 end
 
-desc "Run syntax, lint, and spec tests."
-task :test => [
-  :syntax,
-  :lint,
-  :metadata,
-  :spec,
-]
+begin
+  require 'github_changelog_generator/task'
+  GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+    version = (Blacksmith::Modulefile.new).version
+    config.future_release = "v#{version}" if version =~ /^\d+\.\d+.\d+$/
+    config.header = "# Changelog\n\nAll notable changes to this project will be documented in this file.\nEach new release typically also includes the latest modulesync defaults.\nThese should not affect the functionality of the module."
+    config.exclude_labels = %w{duplicate question invalid wontfix wont-fix modulesync skip-changelog}
+    config.user = 'voxpupuli'
+  end
+rescue LoadError
+end
+# vim: syntax=ruby
