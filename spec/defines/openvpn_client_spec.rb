@@ -175,8 +175,7 @@ describe 'openvpn::client', type: :define do
 
     before do
       pre_condition << '
-        openvpn::ca{ "my_already_existing_ca":
-          common_name   => "custom_common_name",
+        openvpn::server { "my_already_existing_ca":
           country       => "CO",
           province      => "ST",
           city          => "Some City",
