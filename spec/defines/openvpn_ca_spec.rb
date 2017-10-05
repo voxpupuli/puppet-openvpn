@@ -118,6 +118,7 @@ describe 'openvpn::ca', type: :define do
     let(:facts) do
       {
         osfamily: 'RedHat',
+        operatingsystem: 'CentOS',
         concat_basedir: '/var/lib/puppet/concat',
         operatingsystemrelease: '7.0'
       }

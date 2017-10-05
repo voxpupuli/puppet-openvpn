@@ -20,6 +20,7 @@ describe 'openvpn', type: :class do
       {
         concat_basedir: '/var/lib/puppet/concat',
         osfamily: 'RedHat',
+        operatingsystem: 'CentOS',
         operatingsystemrelease: '7.0'
       }
     end
