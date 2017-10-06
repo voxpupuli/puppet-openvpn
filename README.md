@@ -1,6 +1,12 @@
-[**Looking for Maintainers**](https://github.com/luxflux/puppet-openvpn/issues/228): This project is looking for maintainers.
+# OpenVPN Puppet module 
 
-# OpenVPN Puppet module [![Build Status](https://travis-ci.org/luxflux/puppet-openvpn.svg?branch=master)](https://travis-ci.org/luxflux/puppet-openvpn)
+[![License](https://img.shields.io/github/license/voxpupuli/puppet-openvpn.svg)](https://github.com/voxpupuli/puppet-openvpn/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-openvpn.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-openvpn)
+[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-openvpn/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-openvpn)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/openvpn.svg)](https://forge.puppetlabs.com/puppet/openvpn)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/openvpn.svg)](https://forge.puppetlabs.com/puppet/openvpn)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/openvpn.svg)](https://forge.puppetlabs.com/puppet/openvpn)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/openvpn.svg)](https://forge.puppetlabs.com/puppet/openvpn)
 
 Puppet module to manage OpenVPN servers and clients.
 
@@ -119,8 +125,15 @@ openvpn::revokes:
 Don't forget the sysctl directive ```net.ipv4.ip_forward```!
 
 
-# Contributions
+## Contributions
 
-Pull requests are very welcome. Join [these fine folks](https://github.com/luxflux/puppet-openvpn/graphs/contributors) who already helped to get this far with this module.
+This module is maintained by [Vox Pupuli](https://voxpupuli.org/). Voxpupuli
+welcomes new contributions to this module, especially those that include
+documentation and rspec tests. We are happy to provide guidance if necessary.
 
-**To help guaranteeing the stability of the module, please make sure to add tests to your pull request.**
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for more details.
+
+### Authors
+
+* Raffael Schmid <raffael@yux.ch>
+* Vox Pupuli Team
