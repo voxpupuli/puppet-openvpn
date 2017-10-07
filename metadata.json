@@ -1,6 +1,6 @@
 {
   "name": "puppet-openvpn",
-  "version": "4.1.1",
+  "version": "4.1.2-rc0",
   "author": "voxpupuli",
   "summary": "OpenVPN server puppet module",
   "license": "Apache-2.0",
