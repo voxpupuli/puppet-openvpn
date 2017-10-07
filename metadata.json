@@ -11,14 +11,17 @@
   "tags": [ "vpn", "openvpn" ],
   "operatingsystem_support": [
     { "operatingsystem": "Ubuntu", "operatingsystemrelease": ["12.04", "12.10", "13.04", "13.10", "14.04", "15.04"] },
-    { "operatingsystem": "Debian", "operatingsystemrelease": ["7", "8"] },
+    { "operatingsystem": "Debian", "operatingsystemrelease": ["7", "8", "9"] },
     { "operatingsystem": "RedHat", "operatingsystemrelease": ["5", "6", "7"] },
     { "operatingsystem": "CentOS", "operatingsystemrelease": ["5", "6", "7"] },
     { "operatingsystem": "Archlinux" },
     { "operatingsystem": "FreeBSD" }
   ],
   "dependencies": [
-    {"name":"puppetlabs/concat","version_requirement":">= 1.0.1 <=4.0.1"},
+    {"name":"puppetlabs/concat","version_requirement":">= 1.0.1 <5.0.0"},
     {"name":"puppetlabs/stdlib","version_requirement":">= 1.0.0 <5.0.0"}
+  ],
+  "requirements": [
+    { "name": "puppet", "version_requirement": ">= 4.7.1 < 6.0.0" }
   ]
 }
