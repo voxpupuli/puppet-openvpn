@@ -534,3 +534,8 @@ Security/YAMLLoad:
 # This affects hiera interpolation, as well as some configs that we push.
 Style/FormatStringToken:
   Enabled: false
+
+# This is useful, but sometimes a little too picky about where unit tests files
+# are located.
+RSpec/FilePath:
+  Enabled: false
