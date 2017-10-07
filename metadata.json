@@ -1,6 +1,6 @@
 {
   "name": "puppet-openvpn",
-  "version": "4.1.2-rc0",
+  "version": "5.0.0-rc0",
   "author": "voxpupuli",
   "summary": "OpenVPN server puppet module",
   "license": "Apache-2.0",
@@ -46,14 +46,20 @@
       "operatingsystem": "FreeBSD"
     }
   ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.7.1 < 6.0.0"
+    }
+  ],
   "dependencies": [
     {
-      "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.0.1 < 5.0.0"
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.13.1 < 5.0.0"
     },
     {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 1.0.0 < 5.0.0"
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 4.0.0 < 5.0.0"
     }
   ],
   "tags": [
