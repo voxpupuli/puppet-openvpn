@@ -74,7 +74,7 @@ describe 'openvpn::client', type: :define do
   context 'setting all of the parameters' do
     let(:params) do
       {
-        'server' => 'test_server',
+        'server'                => 'test_server',
         'compression'           => 'comp-something',
         'dev'                   => 'tap',
         'mute'                  => 10,
@@ -82,7 +82,7 @@ describe 'openvpn::client', type: :define do
         'nobind'                => false,
         'persist_key'           => false,
         'persist_tun'           => false,
-        'cipher'                => 'BF-CBC',
+        'cipher'                => 'AES-256-CBC',
         'tls_cipher'            => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
         'port'                  => '123',
         'proto'                 => 'udp',
@@ -111,9 +111,9 @@ describe 'openvpn::client', type: :define do
     end
 
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^client$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^ca\s+keys/test_client/ca\.crt$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cert\s+keys/test_client/test_client.crt$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^key\s+keys/test_client/test_client\.key$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^ca\s+keys\/test_client\/ca\.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cert\s+keys\/test_client\/test_client.crt$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^key\s+keys\/test_client\/test_client\.key$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^dev\s+tap$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^proto\s+udp$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^remote\s+somewhere\s+123$}) }
@@ -125,7 +125,7 @@ describe 'openvpn::client', type: :define do
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^auth-retry\s+interact$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^setenv\s+CLIENT_CERT\s+0$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^setenv_safe\s+FORWARD_COMPATIBLE\s+1$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cipher\s+BF-CBC$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cipher\s+AES-256-CBC$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^tls-client$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^verify-x509-name\s+"test_server"\s+name$}) }
@@ -138,7 +138,7 @@ describe 'openvpn::client', type: :define do
   context 'omitting the cipher key' do
     let(:params) { { 'server' => 'test_server' } }
 
-    it { is_expected.not_to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cipher}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^cipher AES-256-CBC$}) }
   end
 
   context 'should fail if specifying an openvpn::server with extca_enabled=true' do

@@ -57,11 +57,11 @@
 #
 # [*cipher*]
 #   String,  Cipher to use for packet encryption
-#   Default: None
+#   Default: AES-256-CBC
 #
 # [*tls_cipher*]
 #   String, TLS Ciphers to use
-#   Default: None
+#   Default: TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256
 #
 # [*resolv_retry*]
 #   Integer/String. How many seconds should the openvpn client try to resolve
@@ -200,8 +200,8 @@ define openvpn::client(
   $auth_retry           = 'none',
   $verb                 = '3',
   $pam                  = false,
-  $cipher               = undef,
-  $tls_cipher           = undef,
+  $cipher               = 'AES-256-CBC',
+  $tls_cipher           = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
   $authuserpass         = false,
   $setenv               = {},
   $setenv_safe          = {},

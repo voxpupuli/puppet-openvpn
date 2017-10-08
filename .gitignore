@@ -1,5 +1,7 @@
 pkg/
 Gemfile.lock
+modules
+.tmp
 Gemfile.local
 vendor/
 .vendor/
