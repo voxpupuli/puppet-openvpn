@@ -421,94 +421,94 @@
 # limitations under the License.
 #
 define openvpn::server(
-  $country                   = undef,
-  $province                  = undef,
-  $city                      = undef,
-  $organization              = undef,
-  $email                     = undef,
-  $remote                    = undef,
-  $common_name               = 'server',
-  $compression               = 'comp-lzo',
-  $dev                       = 'tun0',
-  $user                      = 'nobody',
-  $group                     = false,
-  $ipp                       = false,
-  $duplicate_cn              = false,
-  $local                     = $::ipaddress_eth0,
-  $logfile                   = false,
-  $port                      = '1194',
-  $portshare                 = undef,
-  $proto                     = 'tcp',
-  $status_version            = '',
-  $status_log                = "/var/log/openvpn/${name}-status.log",
-  $server                    = '',
-  $server_ipv6               = '',
-  $server_bridge             = '',
-  $push                      = [],
-  $route                     = [],
-  $route_ipv6                = [],
-  $keepalive                 = '',
-  $fragment                  = false,
-  $ssl_key_size              = 2048,
-  $topology                  = 'net30',
-  $c2c                       = false,
-  $tcp_nodelay               = false,
-  $ccd_exclusive             = false,
-  $pam                       = false,
-  $pam_module_arguments      = 'login',
-  $management                = false,
-  $management_ip             = 'localhost',
-  $management_port           = 7505,
-  $up                        = '',
-  $down                      = '',
-  $username_as_common_name   = false,
-  $client_cert_not_required  = false,
-  $ldap_enabled              = false,
-  $ldap_server               = '',
-  $ldap_binddn               = '',
-  $ldap_bindpass             = '',
-  $ldap_u_basedn             = '',
-  $ldap_g_basedn             = '',
-  $ldap_gmember              = false,
-  $ldap_u_filter             = '',
-  $ldap_g_filter             = '',
-  $ldap_memberatr            = '',
-  $ldap_tls_enable           = false,
-  $ldap_tls_ca_cert_file     = '',
-  $ldap_tls_ca_cert_dir      = '',
-  $ldap_tls_client_cert_file = '',
-  $ldap_tls_client_key_file  = '',
-  $ca_expire                 = 3650,
-  $key_expire                = 3650,
-  $key_cn                    = '',
-  $key_name                  = '',
-  $key_ou                    = '',
-  $verb                      = '',
-  $cipher                    = 'AES-256-CBC',
-  $tls_cipher                = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
-  $persist_key               = false,
-  $persist_tun               = false,
-  $tls_auth                  = false,
-  $tls_server                = false,
-  $tls_client                = false,
-  $server_poll_timeout       = undef,
-  $ping_timer_rem            = false,
-  $sndbuf                    = undef,
-  $rcvbuf                    = undef,
-  $shared_ca                 = undef,
-  $crl_verify                = true,
-  $extca_enabled             = false,
-  $extca_ca_cert_file        = undef,
-  $extca_ca_crl_file         = undef,
-  $extca_server_cert_file    = undef,
-  $extca_server_key_file     = undef,
-  $extca_dh_file             = undef,
-  $extca_tls_auth_key_file   = undef,
-  $autostart                 = undef,
-  $ns_cert_type              = true,
-  $nobind                    = false,
-  $secret                    = undef,
-  $custom_options            = {},
+  Optional[String] $country                                 = undef,
+  Optional[String] $province                                = undef,
+  Optional[String] $city                                    = undef,
+  Optional[String] $organization                            = undef,
+  Optional[String] $email                                   = undef,
+  Array $remote                                             = [],
+  String $common_name                                       = 'server',
+  String $compression                                       = 'comp-lzo',
+  String $dev                                               = 'tun0',
+  String $user                                              = 'nobody',
+  Optional[String] $group                                   = undef,
+  Boolean $ipp                                              = false,
+  Boolean $duplicate_cn                                     = false,
+  Optional[Stdlib::Compat::Ip_address] $local               = $::ipaddress_eth0,
+  Optional[Stdlib::Absolutepath] $logfile                   = undef,
+  Integer $port                                             = 1194,
+  Optional[String] $portshare                               = undef,
+  String $proto                                             = 'tcp',
+  Optional[Integer] $status_version                         = undef,
+  String $status_log                                        = "/var/log/openvpn/${name}-status.log",
+  Optional[String] $server                                  = undef,
+  Optional[String] $server_ipv6                             = undef,
+  Optional[String] $server_bridge                           = undef,
+  Array $push                                               = [],
+  Array $route                                              = [],
+  Array $route_ipv6                                         = [],
+  Optional[String] $keepalive                               = undef,
+  Optional[Integer] $fragment                               = undef,
+  Integer $ssl_key_size                                     = 2048,
+  String $topology                                          = 'net30',
+  Boolean $c2c                                              = false,
+  Boolean $tcp_nodelay                                      = false,
+  Boolean $ccd_exclusive                                    = false,
+  Boolean $pam                                              = false,
+  $pam_module_arguments                                     = 'login',
+  Boolean $management                                       = false,
+  $management_ip                                            = 'localhost',
+  $management_port                                          = 7505,
+  Optional[String] $up                                      = undef,
+  Optional[String] $down                                    = undef,
+  Boolean $username_as_common_name                          = false,
+  Boolean $client_cert_not_required                         = false,
+  Boolean $ldap_enabled                                     = false,
+  Optional[String] $ldap_server                             = undef,
+  Optional[String] $ldap_binddn                             = undef,
+  Optional[String] $ldap_bindpass                           = undef,
+  Optional[String] $ldap_u_basedn                           = undef,
+  Optional[String] $ldap_g_basedn                           = undef,
+  Boolean $ldap_gmember                                     = false,
+  Optional[String] $ldap_u_filter                           = undef,
+  Optional[String] $ldap_g_filter                           = undef,
+  Optional[String] $ldap_memberatr                          = undef,
+  Boolean $ldap_tls_enable                                  = false,
+  Optional[Stdlib::Absolutepath] $ldap_tls_ca_cert_file     = undef,
+  Optional[Stdlib::Absolutepath] $ldap_tls_ca_cert_dir      = undef,
+  Optional[Stdlib::Absolutepath] $ldap_tls_client_cert_file = undef,
+  Optional[Stdlib::Absolutepath] $ldap_tls_client_key_file  = undef,
+  Integer $ca_expire                                        = 3650,
+  Integer $key_expire                                       = 3650,
+  Optional[String] $key_cn                                  = undef,
+  Optional[String] $key_name                                = undef,
+  Optional[String] $key_ou                                  = undef,
+  Optional[Integer] $verb                                   = undef,
+  String $cipher                                            = 'AES-256-CBC',
+  String $tls_cipher                                        = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
+  Boolean $persist_key                                      = false,
+  Boolean $persist_tun                                      = false,
+  Boolean $tls_auth                                         = false,
+  Boolean $tls_server                                       = false,
+  Boolean $tls_client                                       = false,
+  Optional[Integer] $server_poll_timeout                    = undef,
+  Boolean $ping_timer_rem                                   = false,
+  Optional[Integer] $sndbuf                                 = undef,
+  Optional[Integer] $rcvbuf                                 = undef,
+  Optional[String] $shared_ca                               = undef,
+  Boolean $crl_verify                                       = true,
+  Boolean $extca_enabled                                    = false,
+  Optional[Stdlib::Absolutepath] $extca_ca_cert_file        = undef,
+  Optional[Stdlib::Absolutepath] $extca_ca_crl_file         = undef,
+  Optional[Stdlib::Absolutepath] $extca_server_cert_file    = undef,
+  Optional[Stdlib::Absolutepath] $extca_server_key_file     = undef,
+  Optional[Stdlib::Absolutepath] $extca_dh_file             = undef,
+  Optional[Stdlib::Absolutepath] $extca_tls_auth_key_file   = undef,
+  Boolean $autostart                                        = false,
+  Boolean $ns_cert_type                                     = true,
+  Boolean $nobind                                           = false,
+  Optional[String] $secret                                  = undef,
+  Hash $custom_options                                      = {},
 ) {
 
   include openvpn
@@ -581,12 +581,24 @@ define openvpn::server(
 
   if $extca_enabled {
     # VPN Server or Client with external CA
-    if $extca_ca_cert_file == undef { fail('extca_ca_cert_file has to be specified in extca mode') }
-    if $extca_ca_crl_file == undef and $crl_verify and !$remote { fail('extca_ca_crl_file has to be specified in extca mode if crl_verify is enabled') }
-    if $extca_server_cert_file == undef { fail('extca_server_cert_file has to be specified in extca mode') }
-    if $extca_server_key_file == undef { fail('extca_server_key_file has to be specified in extca mode') }
-    if $extca_dh_file == undef and !$remote and $tls_server { fail('cant enable tls_server: missing extca_dh_file') }
-    if $extca_tls_auth_key_file == undef and !$remote and $tls_auth { fail('cant enable tls_auth: missing extca_tls_auth_key_file') }
+    if $extca_ca_cert_file == undef {
+      fail('extca_ca_cert_file has to be specified in extca mode')
+    }
+    if $extca_ca_crl_file == undef and $crl_verify and !$remote {
+      fail('extca_ca_crl_file has to be specified in extca mode if crl_verify is enabled')
+    }
+    if $extca_server_cert_file == undef {
+      fail('extca_server_cert_file has to be specified in extca mode')
+    }
+    if $extca_server_key_file == undef {
+      fail('extca_server_key_file has to be specified in extca mode')
+    }
+    if $extca_dh_file == undef and !$remote and $tls_server {
+      fail('cant enable tls_server: missing extca_dh_file')
+    }
+    if $extca_tls_auth_key_file == undef and !$remote and $tls_auth {
+      fail('cant enable tls_auth: missing extca_tls_auth_key_file')
+    }
   }
 
   if !$remote {
@@ -605,7 +617,7 @@ define openvpn::server(
       if $email == undef { fail('email has to be specified in server mode') }
 
       $ca_common_name = $common_name
-      ::openvpn::ca { $name:
+      openvpn::ca { $name:
         country      => $country,
         province     => $province,
         city         => $city,

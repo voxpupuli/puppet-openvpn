@@ -12,7 +12,7 @@ describe 'openvpn::ca', type: :define do
       concat_basedir: '/var/lib/puppet/concat',
       osfamily: 'Debian',
       operatingsystem: 'Ubuntu',
-      operatingsystemrelease: '12.04'
+      operatingsystemrelease: '14.04'
     }
   end
 
@@ -92,7 +92,7 @@ describe 'openvpn::ca', type: :define do
         concat_basedir: '/var/lib/puppet/concat',
         osfamily: 'Debian',
         operatingsystem: 'Ubuntu',
-        operatingsystemrelease: '12.04'
+        operatingsystemrelease: '14.04'
       }
     end
 

@@ -90,26 +90,26 @@
 # limitations under the License.
 #
 define openvpn::ca(
-  $country,
-  $province,
-  $city,
-  $organization,
-  $email,
-  $common_name  = 'server',
-  $group        = false,
-  $ssl_key_size = 2048,
-  $ca_expire    = 3650,
-  $key_expire   = 3650,
-  $key_cn       = '',
-  $key_name     = '',
-  $key_ou       = '',
-  $tls_auth     = false,
+  String $country,
+  String $province,
+  String $city,
+  String $organization,
+  String $email,
+  String $common_name        = 'server',
+  Optional[String] $group    = undef,
+  Integer $ssl_key_size      = 2048,
+  Integer $ca_expire         = 3650,
+  Integer $key_expire        = 3650,
+  Optional[String] $key_cn   = undef,
+  Optional[String] $key_name = undef,
+  Optional[String] $key_ou   = undef,
+  Boolean $tls_auth          = false,
 ) {
 
   include openvpn
 
   $group_to_set = $group ? {
-    false   => $openvpn::params::group,
+    undef   => $openvpn::params::group,
     default => $group
   }
 
