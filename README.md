@@ -29,7 +29,7 @@ Puppet module to manage OpenVPN servers and clients.
 * Amazon
 
 ## Dependencies
-  - [puppetlabs-concat 4.0.0+](https://github.com/puppetlabs/puppetlabs-concat)
+  - [puppetlabs-concat 3.0.0+](https://github.com/puppetlabs/puppetlabs-concat)
   - [puppetlabs-stdlib 4.13.1+](https://github.com/puppetlabs/puppetlabs-stdlib)
 
 ## Puppet
