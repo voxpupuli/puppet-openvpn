@@ -1,5 +1,6 @@
 require 'facter'
 
+if File.directory?('/etc/openvpn/')
 openvpn_clients = Dir['/etc/openvpn/*/easy-rsa/keys/*.crt'].map { |a| a.gsub(%r{\.crt$}, '').gsub(%r{^.*/}, '') }
 openvpn_ca = Dir.entries('/etc/openvpn').select {|entry| File.directory? File.join('/etc/openvpn',entry) and !(entry =='.' || entry == '..' || entry == 'keys') }
 
@@ -46,4 +47,5 @@ openvpn_clients.each do |openvpn_client|
       key
     end
   end
+end
 end
