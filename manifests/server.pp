@@ -478,6 +478,7 @@ define openvpn::server(
   $ldap_tls_ca_cert_dir      = '',
   $ldap_tls_client_cert_file = '',
   $ldap_tls_client_key_file  = '',
+  $ldap_auth_plugin_package  = '',
   $ca_expire                 = 3650,
   $key_expire                = 3650,
   $key_cn                    = '',
@@ -680,7 +681,7 @@ define openvpn::server(
 
   if $ldap_enabled == true {
     package {$openvpn::params::ldap_auth_plugin_package:
-      ensure => installed,
+      ensure => present,
     }
     file {
       "${etc_directory}/openvpn/${name}/auth/ldap.conf":
