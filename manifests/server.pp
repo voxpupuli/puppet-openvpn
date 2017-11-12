@@ -679,6 +679,9 @@ define openvpn::server(
   }
 
   if $ldap_enabled == true {
+    package {$openvpn::params::ldap_auth_plugin_package:
+      ensure => installed,
+    }
     file {
       "${etc_directory}/openvpn/${name}/auth/ldap.conf":
         ensure  => present,
