@@ -12,6 +12,7 @@ AllCops:
     - Gemfile
     - Rakefile
     - Guardfile
+    - Vagrantfile
 Lint/ConditionPosition:
   Enabled: True
 
@@ -44,6 +45,9 @@ Style/HashSyntax:
 
 Style/RedundantReturn:
   Enabled: True
+
+Style/EndOfLine:
+  Enabled: False
 
 Lint/AmbiguousOperator:
   Enabled: True
