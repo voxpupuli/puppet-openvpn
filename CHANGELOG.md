@@ -4,9 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v5.0.0) (2017-11-13)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v4.1.1...v5.0.0)
+
+**Breaking changes:**
+
+- Breaking: Update puppet, stdlib, and concat requirements in prep for release [\#242](https://github.com/voxpupuli/puppet-openvpn/pull/242) ([wyardley](https://github.com/wyardley))
+
+**Implemented enhancements:**
+
+- Upped version requirement of concat and added Debian 9 \(stretch\) [\#243](https://github.com/voxpupuli/puppet-openvpn/pull/243) ([hp197](https://github.com/hp197))
+
+**Merged pull requests:**
+
+- Release 4.1.1 [\#241](https://github.com/voxpupuli/puppet-openvpn/pull/241) ([wyardley](https://github.com/wyardley))
+
 ## [v4.1.1](https://github.com/voxpupuli/puppet-openvpn/tree/v4.1.1) (2017-10-07)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/4.0.1...v4.1.1)
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v4.1.0...v4.1.1)
+
+**Merged pull requests:**
+
+- Updates for 4.1.0 release [\#239](https://github.com/voxpupuli/puppet-openvpn/pull/239) ([wyardley](https://github.com/wyardley))
+
+## [v4.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v4.1.0) (2017-10-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/4.0.1...v4.1.0)
 
 **Closed issues:**
 
@@ -15,7 +39,6 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- Updates for 4.1.0 release [\#239](https://github.com/voxpupuli/puppet-openvpn/pull/239) ([wyardley](https://github.com/wyardley))
 - Fix auth tls ovpn profile and ldap auth file perms [\#220](https://github.com/voxpupuli/puppet-openvpn/pull/220) ([szponek](https://github.com/szponek))
 - Correct path of openvpn-auth-pam.so on modern Debian distros. [\#217](https://github.com/voxpupuli/puppet-openvpn/pull/217) ([oc243](https://github.com/oc243))
 - Add rhel6 support for ldap auth plugin [\#215](https://github.com/voxpupuli/puppet-openvpn/pull/215) ([miguelwhite](https://github.com/miguelwhite))
