@@ -29,13 +29,13 @@ class openvpn::params {
       # Redhat/Centos >= 7.0
       if(versioncmp($::operatingsystemrelease, '7.0') >= 0) and $::operatingsystem != 'Amazon' {
         $additional_packages = ['easy-rsa']
-        $ldap_auth_plugin_package = "openvpn-auth-ldap"
+        $ldap_auth_plugin_package = 'openvpn-auth-ldap'
         $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
         $systemd = true
       # Redhat/Centos == 6.0
       } elsif(versioncmp($::operatingsystemrelease, '6.0') >= 0) and $::operatingsystem != 'Amazon' {
         $additional_packages = ['easy-rsa']
-        $ldap_auth_plugin_package = "openvpn-auth-ldap"
+        $ldap_auth_plugin_package = 'openvpn-auth-ldap'
         $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
         $systemd = false
       # Redhat/Centos < 6.0
@@ -56,7 +56,8 @@ class openvpn::params {
         'Debian': {
           # Version > 8.0, jessie, stretch
           if(versioncmp($::operatingsystemrelease, '8.0') >= 0) {
-            $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
+            $additional_packages       = ['easy-rsa']
+            $ldap_auth_plugin_package  = 'openvpn-auth-ldap'
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
             $pam_module_path           = '/usr/lib/openvpn/openvpn-plugin-auth-pam.so'
@@ -64,7 +65,8 @@ class openvpn::params {
 
           # Version > 7.0, wheezy
           } elsif(versioncmp($::operatingsystemrelease, '7.0') >= 0) {
-            $additional_packages       = ['openvpn-auth-ldap']
+            $additional_packages       = undef
+            $ldap_auth_plugin_package  = 'openvpn-auth-ldap'
             $easyrsa_source            = '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
             $pam_module_path           = '/usr/lib/openvpn/openvpn-auth-pam.so'
@@ -80,7 +82,8 @@ class openvpn::params {
         'Ubuntu': {
           # Version > 15.04, vivid
           if(versioncmp($::operatingsystemrelease, '15.04') >= 0){
-            $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
+            $additional_packages       = ['easy-rsa']
+            $ldap_auth_plugin_package  = 'openvpn-auth-ldap'
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
             $pam_module_path           = '/usr/lib/openvpn/openvpn-plugin-auth-pam.so'
@@ -88,7 +91,8 @@ class openvpn::params {
 
           # Version > 13.10, saucy
           } elsif(versioncmp($::operatingsystemrelease, '13.10') >= 0) {
-            $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
+            $additional_packages       = ['easy-rsa']
+            $ldap_auth_plugin_package  = 'openvpn-auth-ldap'
             $easyrsa_source            = '/usr/share/easy-rsa/'
             $ldap_auth_plugin_location = '/usr/lib/openvpn/openvpn-auth-ldap.so'
             $pam_module_path           = '/usr/lib/openvpn/openvpn-plugin-auth-pam.so'
