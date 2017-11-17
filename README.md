@@ -1,4 +1,4 @@
-# OpenVPN Puppet module 
+# OpenVPN Puppet module
 
 [![License](https://img.shields.io/github/license/voxpupuli/puppet-openvpn.svg)](https://github.com/voxpupuli/puppet-openvpn/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/voxpupuli/puppet-openvpn.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-openvpn)
@@ -123,6 +123,60 @@ openvpn::revokes:
 ```
 
 Don't forget the sysctl directive ```net.ipv4.ip_forward```!
+
+## Encryption Choices
+
+This module provides certain default parameters for the openvpn encryption
+settings.
+
+These settings have been applied in line with current "best practices" but no
+guarantee is given for their saftey and they could change in future.
+
+You should double check these settings yourself to make sure they are suitable for your needs and in line with current best practices.
+
+
+##### References
+
+* The readme file of [github.com/Angristan/OpenVPN-install](https://github.com/Angristan/OpenVPN-install/tree/f47fc795d5e2d53f74431aadc58ef9de5784103a) outlines some of reasoning behind
+such choices.
+
+* The OpenVPN documentation about the [SWEET32](https://community.openvpn.net/openvpn/wiki/SWEET32) attack gives some reasons and
+recommendations for which ciphers to use.
+
+* The OpenVPN [hardening documentation](https://community.openvpn.net/openvpn/wiki/Hardening) also gives further examples
+
+### ssl_key_size
+
+The default key size is now set to `2048` bits.
+This setting also affects the size of the dhparam file.
+
+##### Why
+
+> 2048 bits is OK, but both [NSA](https://cryptome.org/2016/01/CNSA-Suite-and-Quantum-Computing-FAQ.pdf) and [ANSSI](https://www.ssi.gouv.fr/uploads/2015/01/RGS_v-2-0_B1.pdf) recommend at least a 3072 bits for a future-proof key. As the size of the key will have an impact on speed, I leave the choice to use 2048, 3072 or 4096 bits RSA key. 4096 bits is what's most used and recommened today, but 3072 bits is still good.
+
+
+
+### Cipher
+
+The default data channel cipher is now set to `AES-256-CBC`
+
+##### Why
+
+OpenVPN was setting its default value to `BF-CBC`. In newer versions of OpenVPN
+it warns that this is no longer a secure cipher.
+The OpenVPN documentation recommends using this setting.
+
+
+
+### tls_cipher
+
+The default tls_cipher option is now set to: `TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256`
+
+##### Why
+
+Details of these ciphers and their uses can be found in the documentation links
+above.
+
 
 
 ## Contributions
