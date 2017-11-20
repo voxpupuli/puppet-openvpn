@@ -15,7 +15,7 @@
 #   Hash of defaults for clients passed to openvpn::client defined type.
 #   Default: {} (hiera_hash)
 # [*clients*]
-#   Hash of clients passed to openvpn::client defined type. 
+#   Hash of clients passed to openvpn::client defined type.
 #   Default: {} (hiera_hash)
 # [*client_specific_config_defaults*]
 #   Hash of defaults for client specific configurations passed to
