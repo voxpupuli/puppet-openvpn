@@ -15,7 +15,7 @@
 #   Hash of defaults for clients passed to openvpn::client defined type.
 #   Default: {} (hiera_hash)
 # [*clients*]
-#   Hash of clients passed to openvpn::client defined type. 
+#   Hash of clients passed to openvpn::client defined type.
 #   Default: {} (hiera_hash)
 # [*client_specific_config_defaults*]
 #   Hash of defaults for client specific configurations passed to
@@ -69,26 +69,17 @@
 # limitations under the License.
 #
 class openvpn (
-  $autostart_all                   = true,
-  $manage_service                  = true,
-  $client_defaults                 = hiera_hash('openvpn::client_defaults', {}),
-  $clients                         = hiera_hash('openvpn::clients', {}),
-  $client_specific_config_defaults = hiera_hash('openvpn::client_specific_config_defaults', {}),
-  $client_specific_configs         = hiera_hash('openvpn::client_specific_configs', {}),
-  $revoke_defaults                 = hiera_hash('openvpn::revoke_defaults', {}),
-  $revokes                         = hiera_hash('openvpn::revokes', {}),
-  $server_defaults                 = hiera_hash('openvpn::server_defaults', {}),
-  $servers                         = hiera_hash('openvpn::servers', {}),
+  $autostart_all                        = true,
+  $manage_service                       = true,
+  Hash $client_defaults                 = hiera_hash('openvpn::client_defaults', {}),
+  Hash $clients                         = hiera_hash('openvpn::clients', {}),
+  Hash $client_specific_config_defaults = hiera_hash('openvpn::client_specific_config_defaults', {}),
+  Hash $client_specific_configs         = hiera_hash('openvpn::client_specific_configs', {}),
+  Hash $revoke_defaults                 = hiera_hash('openvpn::revoke_defaults', {}),
+  Hash $revokes                         = hiera_hash('openvpn::revokes', {}),
+  Hash $server_defaults                 = hiera_hash('openvpn::server_defaults', {}),
+  Hash $servers                         = hiera_hash('openvpn::servers', {}),
 ) {
-
-  validate_hash($client_defaults)
-  validate_hash($clients)
-  validate_hash($client_specific_config_defaults)
-  validate_hash($client_specific_configs)
-  validate_hash($revoke_defaults)
-  validate_hash($revokes)
-  validate_hash($server_defaults)
-  validate_hash($servers)
 
   class { 'openvpn::params': }
   -> class { 'openvpn::install': }
