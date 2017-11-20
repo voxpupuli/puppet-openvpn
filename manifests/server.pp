@@ -697,7 +697,7 @@ define openvpn::server(
         provider => 'systemd',
         require  => File["${etc_directory}/openvpn/${name}.conf"],
       }
-      if !$extca_enabled {
+      if !$extca_enabled and !$remote {
         Openvpn::Ca[$ca_name] -> Service["openvpn@${name}"]
       }
     }
@@ -725,7 +725,7 @@ define openvpn::server(
           File["/usr/local/etc/rc.d/openvpn_${name}"],
         ],
       }
-      if !extca_enabled {
+      if !extca_enabled and !$remote {
         Openvpn::Ca[$ca_name] -> Service["openvpn_${name}"]
       }
     }
