@@ -330,6 +330,33 @@ describe 'openvpn::server', type: :define do
     it { is_expected.not_to contain_file('/etc/openvpn/test_client.conf').with_content(%r{nobind}) }
     it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^port\s+\d+$}) }
 
+    context 'systemd enabled RedHat' do
+      let(:pre_condition) { "class { 'openvpn': manage_service => true }" }
+      let(:params) do
+        {
+          'remote' => ['vpn.example.com 12345']
+        }
+      end
+      let(:facts) do
+        {
+          concat_basedir: '/var/lib/puppet/concat',
+          operatingsystem: 'CentOS',
+          osfamily: 'RedHat',
+          operatingsystemrelease: '7.0'
+        }
+      end
+
+      it {
+        is_expected.to contain_service('openvpn@test_client').with(
+          ensure: 'running',
+          enable: true
+        )
+      }
+      it {
+        is_expected.not_to contain_service('openvpn@test_client').that_requires('Openvpn::Ca[test_client]')
+      }
+    end
+
     it { is_expected.not_to contain_openvpn__ca('test_client') }
   end
 
