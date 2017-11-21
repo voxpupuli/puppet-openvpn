@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v6.0.0) (2017-11-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v5.0.0...v6.0.0)
+
+**Breaking changes:**
+
+- Turned up options for encryption [\#223](https://github.com/voxpupuli/puppet-openvpn/pull/223) ([mcrmonkey](https://github.com/mcrmonkey))
+
+**Fixed bugs:**
+
+- Correct 252 [\#253](https://github.com/voxpupuli/puppet-openvpn/pull/253) ([cjeanneret](https://github.com/cjeanneret))
+
+**Merged pull requests:**
+
+- replace validate\_\* with datatypes in init.pp [\#251](https://github.com/voxpupuli/puppet-openvpn/pull/251) ([bastelfreak](https://github.com/bastelfreak))
+- release 5.0.0 [\#249](https://github.com/voxpupuli/puppet-openvpn/pull/249) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v5.0.0) (2017-11-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v4.1.1...v5.0.0)

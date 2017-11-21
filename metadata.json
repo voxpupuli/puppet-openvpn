@@ -1,7 +1,7 @@
 {
   "name": "puppet-openvpn",
-  "version": "5.0.1-rc0",
-  "author": "voxpupuli",
+  "version": "6.0.0",
+  "author": "Vox Pupuli",
   "summary": "OpenVPN server puppet module",
   "license": "Apache-2.0",
   "source": "https://github.com/voxpupuli/puppet-openvpn",
