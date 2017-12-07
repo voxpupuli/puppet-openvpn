@@ -9,7 +9,7 @@ describe 'openvpn::client', type: :define do
       concat_basedir: '/var/lib/puppet/concat',
       osfamily: 'Debian',
       operatingsystem: 'Ubuntu',
-      operatingsystemrelease: '12.04'
+      operatingsystemrelease: '14.04'
     }
   end
   let(:pre_condition) do
@@ -84,12 +84,12 @@ describe 'openvpn::client', type: :define do
         'persist_tun'           => false,
         'cipher'                => 'AES-256-CBC',
         'tls_cipher'            => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
-        'port'                  => '123',
+        'port'                  => 123,
         'proto'                 => 'udp',
         'remote_host'           => %w[somewhere galaxy],
         'resolv_retry'          => '2m',
         'auth_retry'            => 'interact',
-        'verb'                  => '1',
+        'verb'                  => 1,
         'setenv'                => { 'CLIENT_CERT' => '0' },
         'setenv_safe'           => { 'FORWARD_COMPATIBLE' => '1' },
         'tls_auth'              => true,
@@ -106,7 +106,7 @@ describe 'openvpn::client', type: :define do
         concat_basedir: '/var/lib/puppet/concat',
         osfamily: 'Debian',
         operatingsystem: 'Ubuntu',
-        operatingsystemrelease: '12.04'
+        operatingsystemrelease: '14.04'
       }
     end
 

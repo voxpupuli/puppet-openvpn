@@ -78,13 +78,13 @@
 #
 define openvpn::client_specific_config(
   $server,
-  $ensure           = present,
-  $iroute           = [],
-  $iroute_ipv6      = [],
-  $route            = [],
-  $ifconfig         = false,
-  $dhcp_options     = [],
-  $redirect_gateway = false,
+  Enum['present', 'absent'] $ensure = present,
+  Array $iroute                     = [],
+  Array $iroute_ipv6                = [],
+  Array $route                      = [],
+  Optional[String] $ifconfig        = undef,
+  Array $dhcp_options               = [],
+  Boolean $redirect_gateway         = false,
 ) {
 
   Openvpn::Server[$server]

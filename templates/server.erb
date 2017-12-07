@@ -53,7 +53,7 @@ tls-server
 <% if @tls_client -%>
 tls-client
 <% end -%>
-<% if @compression != '' -%>
+<% if @compression -%>
 <%= @compression %>
 <% end -%>
 group <%= @group_to_set %>
@@ -62,23 +62,23 @@ user <%= @user %>
 log-append <%= @logfile %>
 <% end -%>
 status <%= @status_log %>
-<% if @status_version != '' -%>
+<% if @status_version -%>
 status-version <%= @status_version %>
 <% end -%>
 dev <%= @dev %>
-<% if @local != '' -%>
+<% if @local -%>
 local <%= @local %>
 <% end -%>
 <% if @ipp -%>
 ifconfig-pool-persist <%= @name %>/vpn-ipp.txt
 <% end -%>
-<% if @server != '' -%>
+<% if @server -%>
 server <%= @server %>
 <% end -%>
-<% if @server_ipv6 != '' -%>
+<% if @server_ipv6 -%>
 server-ipv6 <%= @server_ipv6 %>
 <% end -%>
-<% if @server_bridge != '' -%>
+<% if @server_bridge -%>
 server-bridge <%= @server_bridge %>
 <% end -%>
 <% @push.each do |item| -%>
@@ -96,16 +96,16 @@ sndbuf <%= @sndbuf %>
 <% if @rcvbuf -%>
 rcvbuf <%= @rcvbuf %>
 <% end -%>
-<% if @keepalive != '' -%>
+<% if @keepalive -%>
 keepalive <%= @keepalive %>
 <% end -%>
-<% if @topology != '' -%>
+<% if @topology -%>
 topology <%= @topology %>
 <% end -%>
-<% if @verb != '' -%>
+<% if @verb -%>
 verb <%= @verb %>
 <% end -%>
-<% if @cipher != '' -%>
+<% if @cipher -%>
 cipher <%= @cipher %>
 <% end -%>
 <% if @tls_cipher -%>
@@ -132,13 +132,13 @@ plugin <%= @pam_module_path %> "<%= @pam_module_arguments %>"
 <% if @management -%>
 management <%= @management_ip %> <%= @management_port %>
 <% end -%>
-<% if @up != '' or @down != ''-%>
+<% if @up or @down -%>
 script-security 2
 <% end -%>
-<% if @up != '' -%>
+<% if @up -%>
 up "<%= @up %>"
 <% end -%>
-<% if @down != '' -%>
+<% if @down -%>
 down "<%= @down %>"
 <% end -%>
 <% if @username_as_common_name -%>

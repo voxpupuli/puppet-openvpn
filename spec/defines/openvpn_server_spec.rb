@@ -11,7 +11,7 @@ describe 'openvpn::server', type: :define do
       concat_basedir: '/var/lib/puppet/concat',
       osfamily: 'Debian',
       operatingsystem: 'Ubuntu',
-      operatingsystemrelease: '12.04'
+      operatingsystemrelease: '14.04'
     }
   end
 
@@ -138,7 +138,7 @@ describe 'openvpn::server', type: :define do
         'organization'    => 'example.org',
         'email'           => 'testemail@example.org',
         'compression'     => 'fake_compression',
-        'port'            => '123',
+        'port'            => 123,
         'proto'           => 'udp',
         'group'           => 'someone',
         'user'            => 'someone',
@@ -166,7 +166,7 @@ describe 'openvpn::server', type: :define do
         'key_cn'          => 'yolo',
         'key_name'        => 'burp',
         'key_ou'          => 'NSA',
-        'verb'            => 'mute',
+        'verb'            => 0,
         'cipher'          => 'DES-CBC',
         'tls_cipher'      => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
         'persist_key'     => true,
@@ -189,7 +189,7 @@ describe 'openvpn::server', type: :define do
         concat_basedir: '/var/lib/puppet/concat',
         osfamily: 'Debian',
         operatingsystem: 'Ubuntu',
-        operatingsystemrelease: '12.04'
+        operatingsystemrelease: '14.04'
       }
     end
 
@@ -220,7 +220,7 @@ describe 'openvpn::server', type: :define do
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^keepalive\s+10\s+120$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^topology\s+subnet$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^management\s+1.3.3.7 1337$}) }
-    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^verb mute$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^verb 0$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^cipher DES-CBC$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^persist-key$}) }
@@ -287,7 +287,7 @@ describe 'openvpn::server', type: :define do
         concat_basedir: '/var/lib/puppet/concat',
         osfamily: 'Debian',
         operatingsystem: 'Ubuntu',
-        operatingsystemrelease: '12.04'
+        operatingsystemrelease: '14.04'
       }
     end
 
