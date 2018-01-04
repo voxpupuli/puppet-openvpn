@@ -69,8 +69,8 @@
 # limitations under the License.
 #
 class openvpn (
-  $autostart_all                        = true,
-  $manage_service                       = true,
+  Boolean $autostart_all                = true,
+  Boolean $manage_service               = true,
   Hash $client_defaults                 = hiera_hash('openvpn::client_defaults', {}),
   Hash $clients                         = hiera_hash('openvpn::clients', {}),
   Hash $client_specific_config_defaults = hiera_hash('openvpn::client_specific_config_defaults', {}),
@@ -86,7 +86,7 @@ class openvpn (
   -> class { 'openvpn::config': }
   -> Class['openvpn']
 
-  if ! $::openvpn::params::systemd {
+  if !$::openvpn::params::systemd {
     class { 'openvpn::service':
       subscribe => [Class['openvpn::config'], Class['openvpn::install'] ],
     }
@@ -96,8 +96,7 @@ class openvpn (
   }
 
   create_resources('openvpn::client', $clients, $client_defaults)
-  create_resources('openvpn::client_specific_config', $client_specific_configs,
-    $client_specific_config_defaults)
+  create_resources('openvpn::client_specific_config', $client_specific_configs, $client_specific_config_defaults)
   create_resources('openvpn::revoke', $revokes, $revoke_defaults)
   create_resources('openvpn::server', $servers, $server_defaults)
 
