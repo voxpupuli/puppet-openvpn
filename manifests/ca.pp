@@ -119,6 +119,11 @@ define openvpn::ca (
 
   $etc_directory = $::openvpn::params::etc_directory
 
+  ensure_resource('file', "${etc_directory}/openvpn/${name}", {
+    ensure => directory,
+    mode   => '0750'
+  })
+
   exec { "copy easy-rsa to openvpn config folder ${name}":
     command => "/bin/cp -r ${openvpn::params::easyrsa_source} ${etc_directory}/openvpn/${name}/easy-rsa",
     creates => "${etc_directory}/openvpn/${name}/easy-rsa",

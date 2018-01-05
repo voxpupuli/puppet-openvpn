@@ -115,7 +115,10 @@ describe 'openvpn::server', type: :define do
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^local\s+1\.2\.3\.4$}) }
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ifconfig-pool-persist}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$}) }
+    it { is_expected.not_to contain_schedule('renew crl.pem schedule on test_server') }
+    it { is_expected.not_to contain_exec('renew crl.pem on test_server') }
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^secret}) }
+
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{verb}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{cipher AES-256-CBC}) }
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{persist-key}) }
@@ -162,6 +165,7 @@ describe 'openvpn::server', type: :define do
         'management_port' => 1337,
         'common_name'     => 'mylittlepony',
         'ca_expire'       => 365,
+        'crl_auto_renew'  => true,
         'key_expire'      => 365,
         'key_cn'          => 'yolo',
         'key_name'        => 'burp',
@@ -245,6 +249,8 @@ describe 'openvpn::server', type: :define do
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^rcvbuf}) }
 
     it { is_expected.to contain_file('/etc/openvpn/test_server/keys/pre-shared.secret').with_content(%r{^secretsecret1234$}).with(ensure: 'present') }
+    it { is_expected.to contain_schedule('renew crl.pem schedule on test_server') }
+    it { is_expected.to contain_exec('renew crl.pem on test_server') }
 
     # OpenVPN easy-rsa CA
     it {
