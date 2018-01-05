@@ -184,39 +184,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-define openvpn::client(
-  $server,
-  $compression          = 'comp-lzo',
-  $dev                  = 'tun',
-  $mute                 = '20',
-  $mute_replay_warnings = true,
-  $nobind               = true,
-  $persist_key          = true,
-  $persist_tun          = true,
-  $port                 = '1194',
-  $proto                = 'tcp',
-  $remote_host          = $::fqdn,
-  $resolv_retry         = 'infinite',
-  $auth_retry           = 'none',
-  $verb                 = '3',
-  $pam                  = false,
-  $cipher               = 'AES-256-CBC',
-  $tls_cipher           = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
-  $authuserpass         = false,
-  $setenv               = {},
-  $setenv_safe          = {},
-  $up                   = '',
-  $down                 = '',
-  $tls_auth             = false,
-  $x509_name            = undef,
-  $sndbuf               = undef,
-  $rcvbuf               = undef,
-  $shared_ca            = undef,
-  $custom_options       = {},
-  $expire               = undef,
-  $readme               = undef,
-  $pull                 = false,
-  $server_extca_enabled = false
+define openvpn::client (
+  String $server,
+  String $compression                         = 'comp-lzo',
+  String $dev                                 = 'tun',
+  Integer $mute                               = 20,
+  Boolean $mute_replay_warnings               = true,
+  Boolean $nobind                             = true,
+  Boolean $persist_key                        = true,
+  Boolean $persist_tun                        = true,
+  String $port                                = '1194',
+  String $proto                               = 'tcp',
+  Variant[String, Array[String]] $remote_host = $::fqdn,
+  String $resolv_retry                        = 'infinite',
+  String $auth_retry                          = 'none',
+  String $verb                                = '3',
+  Boolean $pam                                = false,
+  String $cipher                              = 'AES-256-CBC',
+  String $tls_cipher                          = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
+  Boolean $authuserpass                       = false,
+  Hash $setenv                                = {},
+  Hash $setenv_safe                           = {},
+  String $up                                  = '',
+  String $down                                = '',
+  Boolean $tls_auth                           = false,
+  Optional[String] $x509_name                 = undef,
+  Optional[Integer] $sndbuf                   = undef,
+  Optional[Integer] $rcvbuf                   = undef,
+  Optional[String] $shared_ca                 = undef,
+  Hash $custom_options                        = {},
+  Optional[Integer] $expire                   = undef,
+  Optional[String] $readme                    = undef,
+  Boolean $pull                               = false,
+  Boolean $server_extca_enabled               = false
 ) {
 
   if $pam {
@@ -236,7 +236,7 @@ define openvpn::client(
   $etc_directory = $::openvpn::params::etc_directory
 
   if $expire {
-    if is_integer($expire){
+    if is_integer($expire) {
       $env_expire = "KEY_EXPIRE=${expire}"
     } else {
       warning("Custom expiry time ignored: only integer is accepted but ${expire} is given.")
@@ -253,9 +253,9 @@ define openvpn::client(
   }
 
   file { [ "${etc_directory}/openvpn/${server}/download-configs/${name}",
-          "${etc_directory}/openvpn/${server}/download-configs/${name}/keys",
-          "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}" ]:
-    ensure  => directory,
+    "${etc_directory}/openvpn/${server}/download-configs/${name}/keys",
+    "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}" ]:
+    ensure => directory,
   }
 
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
@@ -290,7 +290,7 @@ define openvpn::client(
   }
 
   if $readme {
-    file {"${etc_directory}/openvpn/${server}/download-configs/${name}/README":
+    file { "${etc_directory}/openvpn/${server}/download-configs/${name}/README":
       ensure  => file,
       owner   => root,
       group   => root,
@@ -302,7 +302,7 @@ define openvpn::client(
 
   file {
     "${etc_directory}/openvpn/${server}/download-configs/${name}.tblk":
-      ensure  => directory;
+      ensure => directory;
 
     "${etc_directory}/openvpn/${server}/download-configs/${name}.tblk/${name}.ovpn":
       ensure  => link,
@@ -311,7 +311,7 @@ define openvpn::client(
         Concat["${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn"],
         File["${etc_directory}/openvpn/${server}/download-configs/${name}.tblk"],
       ],
-      before  =>  Exec["tar the thing ${server} with ${name}"];
+      before  => Exec["tar the thing ${server} with ${name}"];
   }
 
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf":

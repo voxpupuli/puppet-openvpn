@@ -89,27 +89,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-define openvpn::ca(
-  $country,
-  $province,
-  $city,
-  $organization,
-  $email,
-  $common_name  = 'server',
-  $group        = false,
-  $ssl_key_size = 2048,
-  $ca_expire    = 3650,
-  $key_expire   = 3650,
-  $key_cn       = '',
-  $key_name     = '',
-  $key_ou       = '',
-  $tls_auth     = false,
+define openvpn::ca (
+  String $country,
+  String $province,
+  String $city,
+  String $organization,
+  String $email,
+  String $common_name     = 'server',
+  Optional[String] $group = undef,
+  Integer $ssl_key_size   = 2048,
+  Integer $ca_expire      = 3650,
+  Integer $key_expire     = 3650,
+  String $key_cn          = '',
+  String $key_name        = '',
+  String $key_ou          = '',
+  Boolean $tls_auth       = false,
 ) {
 
   include openvpn
 
   $group_to_set = $group ? {
-    false   => $openvpn::params::group,
+    undef   => $openvpn::params::group,
     default => $group
   }
 
@@ -163,7 +163,7 @@ define openvpn::ca(
 
   exec { "generate dh param ${name}":
     command  => '. ./vars && ./clean-all && ./build-dh',
-    timeout  =>  1800,
+    timeout  => 1800,
     cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
     creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/dh${ssl_key_size}.pem",
     provider => 'shell',
@@ -202,7 +202,7 @@ define openvpn::ca(
 
   file { "${etc_directory}/openvpn/${name}/crl.pem":
     mode    => '0640',
-    group   =>  $group_to_set,
+    group   => $group_to_set,
     require => Exec["create crl.pem on ${name}"],
   }
 
