@@ -213,7 +213,7 @@ define openvpn::client (
   Optional[Integer] $rcvbuf                   = undef,
   Optional[String] $shared_ca                 = undef,
   Hash $custom_options                        = {},
-  Optional[Boolean] $expire                   = undef,
+  Optional[Integer] $expire                   = undef,
   Optional[String] $readme                    = undef,
   Boolean $pull                               = false,
   Boolean $server_extca_enabled               = false
