@@ -34,9 +34,9 @@ define openvpn::deploy::export (
   -> Openvpn::Client[$name]
   -> Openvpn::Deploy::Export[$name]
 
-  if $::openvpn::client_configs {
-    if $::openvpn::client_configs[$server][$name] {
-      $data = $::openvpn::client_configs[$server][$name]
+  if $facts['openvpn::client_configs'] {
+    if $facts['openvpn::client_configs'][$server][$name] {
+      $data = $facts['openvpn::client_configs'][$server][$name]
 
       @@file { "exported-${server}-${name}-config":
         ensure  => file,
