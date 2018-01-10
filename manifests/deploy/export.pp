@@ -34,9 +34,9 @@ define openvpn::deploy::export (
   -> Openvpn::Client[$name]
   -> Openvpn::Deploy::Export[$name]
 
-  if $facts['openvpn::client_configs'] {
-    if $facts['openvpn::client_configs'][$server][$name] {
-      $data = $facts['openvpn::client_configs'][$server][$name]
+  if $facts['openvpn'] {
+    if $facts['openvpn'][$server][$name] {
+      $data = $facts['openvpn'][$server][$name]
 
       @@file { "exported-${server}-${name}-config":
         ensure  => file,
@@ -91,6 +91,6 @@ define openvpn::deploy::export (
       }
     }
   } else {
-    fail('openvpn::client_configs not defined, is pluginsync enabled?')
+    fail('openvpn not defined, is pluginsync enabled?')
   }
 }

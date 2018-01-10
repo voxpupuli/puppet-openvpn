@@ -51,7 +51,7 @@ module Openvpn
   # @return [NilClass]
   def self.add_facts
     certs = client_certs
-    Facter.add('openvpn::client_configs') do
+    Facter.add('openvpn') do
       setcode do
         certs
       end

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'lib/facter/openvpn'
+require_relative '../../lib/facter/openvpn'
 
 describe Openvpn do
   describe '.etc_path' do
@@ -83,8 +83,8 @@ describe Openvpn do
     end
   end
 
-  describe 'openvpn::client_configs fact' do
-    subject(:fact) { Facter.fact('openvpn::client_configs').value }
+  describe 'openvpn fact' do
+    subject(:fact) { Facter.fact('openvpn').value }
 
     before do
       # Ensure we're populating Facter's internal collection with our Fact

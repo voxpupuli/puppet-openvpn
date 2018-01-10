@@ -2,8 +2,6 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 require 'rspec-puppet-facts'
 include RspecPuppetFacts
 
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
-
 if Dir.exist?(File.expand_path('../../lib', __FILE__))
   require 'coveralls'
   require 'simplecov'

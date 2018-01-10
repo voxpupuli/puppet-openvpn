@@ -10,7 +10,7 @@ describe 'openvpn::deploy::export', type: :define do
       'osfamily' => 'Debian',
       'operatingsystem' => 'Ubuntu',
       'operatingsystemrelease' => '12.04',
-      'openvpn::client_configs' => {
+      'openvpn' => {
         'test_server' => {
           'test_client' => {
             'conf' => 'config',
