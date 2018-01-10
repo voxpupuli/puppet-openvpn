@@ -134,6 +134,20 @@ guarantee is given for their saftey and they could change in future.
 
 You should double check these settings yourself to make sure they are suitable for your needs and in line with current best practices.
 
+## Example for automating client deployment to nodes managed by Puppet
+
+Exporting the configurations for a client in the VPN server manifest:
+```
+  openvpn::deploy::export { 'client1':
+    server => 'winterthur',
+  }
+```
+Installation, configuration and starting the OpenVPN client in a configured node manifest:
+```
+  openvpn::deploy::client { 'client1':
+    server => 'winterthur',
+  }
+```
 
 ##### References
 
