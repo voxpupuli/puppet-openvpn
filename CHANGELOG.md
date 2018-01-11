@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.1.0) (2018-01-12)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v7.0.0...v7.1.0)
+
+**Implemented enhancements:**
+
+- add openvpn::deploy::\(export/client\) [\#261](https://github.com/voxpupuli/puppet-openvpn/pull/261) ([to-kn](https://github.com/to-kn))
+
+**Closed issues:**
+
+- Elegant solution for renewing CRL [\#236](https://github.com/voxpupuli/puppet-openvpn/issues/236)
+- Install openvpn & certs also on client nodes [\#231](https://github.com/voxpupuli/puppet-openvpn/issues/231)
+
+**Merged pull requests:**
+
+- release 7.0.0 [\#260](https://github.com/voxpupuli/puppet-openvpn/pull/260) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v7.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.0.0) (2018-01-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v6.0.0...v7.0.0)
