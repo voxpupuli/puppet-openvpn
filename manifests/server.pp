@@ -492,6 +492,7 @@ define openvpn::server (
   String $ldap_tls_ca_cert_dir              = '',
   String $ldap_tls_client_cert_file         = '',
   String $ldap_tls_client_key_file          = '',
+  String $ldap_auth_plugin_package          = '',
   Integer $ca_expire                        = 3650,
   Integer $key_expire                       = 3650,
   String $key_cn                            = '',
