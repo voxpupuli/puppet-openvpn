@@ -257,6 +257,13 @@
 #   String, TLS Ciphers to use
 #   Default: TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256
 #
+# [*tls_version_min*]
+#   String, enforce a minimum TLS version
+#     As of OpenVPN 2.3.3, OpenVPN supports TLS version negotiation.
+#     Used to enforce a minimum TLS version. Be aware pre-2.3.3 clients 
+#     won't be able to connect if minimum version is set greater than 1.1
+#   Default: None / unset
+#
 # [*persist_key*]
 #   Boolean.  Try to retain access to resources that may be unavailable
 #     because of privilege downgrades
@@ -500,6 +507,7 @@ define openvpn::server (
   String $verb                              = '',
   String $cipher                            = 'AES-256-CBC',
   String $tls_cipher                        = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
+  String $tls_version_min                   = '',
   Boolean $persist_key                      = false,
   Boolean $persist_tun                      = false,
   Boolean $tls_auth                         = false,

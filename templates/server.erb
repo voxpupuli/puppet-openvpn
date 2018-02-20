@@ -53,6 +53,9 @@ tls-server
 <% if @tls_client -%>
 tls-client
 <% end -%>
+<% if @tls_version_min != '' -%>
+tls-version-min <%= @tls_version_min %>
+<% end -%>
 <% if @compression != '' -%>
 <%= @compression %>
 <% end -%>
