@@ -181,7 +181,8 @@ describe 'openvpn::server', type: :define do
         'fragment'        => 1412,
         'custom_options'  => { 'this' => 'that' },
         'portshare'       => '127.0.0.1 8443',
-        'secret'          => 'secretsecret1234'
+        'secret'          => 'secretsecret1234',
+        'remote_cert_tls' => true,
       }
     end
 
@@ -247,6 +248,7 @@ describe 'openvpn::server', type: :define do
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ping-timer-rem}) }
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^sndbuf}) }
     it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^rcvbuf}) }
+    it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^remote-cert-tls server$}) }
 
     it { is_expected.to contain_file('/etc/openvpn/test_server/keys/pre-shared.secret').with_content(%r{^secretsecret1234$}).with(ensure: 'present') }
     it { is_expected.to contain_schedule('renew crl.pem schedule on test_server') }
