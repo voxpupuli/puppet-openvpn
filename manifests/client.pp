@@ -150,6 +150,15 @@
 #            Use this in Combination with exported_ressourced, since they don't have Access to the Serverconfig
 #   Default: false
 #
+# [*ns_cert_type*]
+#   Boolean. Enable or disable use of ns-cert-type.
+#   Deprecated in OpenVPN 2.4 and replaced with remote-cert-tls
+#   Default: true
+#
+# [*remote_cert_tls*]
+#   Boolean. Enable or disable use of remote-cert-tls
+#   used with client configuration
+#   Default: false
 # === Examples
 #
 #   openvpn::client {
@@ -216,7 +225,9 @@ define openvpn::client (
   Optional[Integer] $expire                   = undef,
   Optional[String] $readme                    = undef,
   Boolean $pull                               = false,
-  Boolean $server_extca_enabled               = false
+  Boolean $server_extca_enabled               = false,
+  Boolean $ns_cert_type                       = false,
+  Boolean $remote_cert_tls                    = false,
 ) {
 
   if $pam {
