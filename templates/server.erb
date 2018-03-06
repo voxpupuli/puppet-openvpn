@@ -5,6 +5,8 @@ client-config-dir <%= @etc_directory -%>/openvpn/<%= @name %>/client-configs
 client
 <% if @ns_cert_type -%>
 ns-cert-type server
+<% elsif @remote_cert_tls -%>
+remote-cert-tls server
 <% end -%>
 <% @remote.to_a.each do |rem| -%>
 remote <%= rem %>
