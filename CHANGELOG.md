@@ -4,7 +4,23 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v7.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.1.0) (2018-01-12)
+## [v7.2.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.2.0) (2018-03-17)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v7.1.0...v7.2.0)
+
+**Implemented enhancements:**
+
+- Allow to define remote-cert-tls [\#266](https://github.com/voxpupuli/puppet-openvpn/pull/266) ([jkroepke](https://github.com/jkroepke))
+
+**Fixed bugs:**
+
+- Bug Fix: Ensure cipher and tls\_cipher can be disabled entirely [\#270](https://github.com/voxpupuli/puppet-openvpn/pull/270) ([jcarr-sailthru](https://github.com/jcarr-sailthru))
+
+**Closed issues:**
+
+- Looking for Maintainers [\#228](https://github.com/voxpupuli/puppet-openvpn/issues/228)
+
+## [v7.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.1.0) (2018-01-11)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v7.0.0...v7.1.0)
 
@@ -17,10 +33,6 @@ These should not affect the functionality of the module.
 - Elegant solution for renewing CRL [\#236](https://github.com/voxpupuli/puppet-openvpn/issues/236)
 - Install openvpn & certs also on client nodes [\#231](https://github.com/voxpupuli/puppet-openvpn/issues/231)
 
-**Merged pull requests:**
-
-- release 7.0.0 [\#260](https://github.com/voxpupuli/puppet-openvpn/pull/260) ([bastelfreak](https://github.com/bastelfreak))
-
 ## [v7.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.0.0) (2018-01-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v6.0.0...v7.0.0)
@@ -32,10 +44,6 @@ These should not affect the functionality of the module.
 **Implemented enhancements:**
 
 - Add crl renewal [\#256](https://github.com/voxpupuli/puppet-openvpn/pull/256) ([to-kn](https://github.com/to-kn))
-
-**Merged pull requests:**
-
-- release 6.0.0 [\#254](https://github.com/voxpupuli/puppet-openvpn/pull/254) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v6.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v6.0.0) (2017-11-21)
 
@@ -53,7 +61,6 @@ These should not affect the functionality of the module.
 **Merged pull requests:**
 
 - replace validate\_\* with datatypes in init.pp [\#251](https://github.com/voxpupuli/puppet-openvpn/pull/251) ([bastelfreak](https://github.com/bastelfreak))
-- release 5.0.0 [\#249](https://github.com/voxpupuli/puppet-openvpn/pull/249) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v5.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v5.0.0) (2017-11-13)
 
@@ -74,10 +81,6 @@ These should not affect the functionality of the module.
 ## [v4.1.1](https://github.com/voxpupuli/puppet-openvpn/tree/v4.1.1) (2017-10-07)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v4.1.0...v4.1.1)
-
-**Merged pull requests:**
-
-- Updates for 4.1.0 release [\#239](https://github.com/voxpupuli/puppet-openvpn/pull/239) ([wyardley](https://github.com/wyardley))
 
 ## [v4.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v4.1.0) (2017-10-06)
 
