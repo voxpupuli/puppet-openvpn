@@ -387,7 +387,13 @@
 # [*ns_cert_type*]
 #   Boolean. Enable or disable use of ns-cert-type for the session. Generally
 #   used with client configuration
+#   Deprecated in OpenVPN 2.4 and replaced with remote-cert-tls
 #   Default: true
+#
+# [*remote_cert_tls*]
+#   Boolean. Enable or disable use of remote-cert-tls for the session. Generally
+#   used with client configuration
+#   Default: false
 #
 # [*nobind*]
 #   Boolean. Whether or not to bind to a specific port number.
@@ -524,6 +530,7 @@ define openvpn::server (
   Optional[String] $extca_tls_auth_key_file = undef,
   Optional[Boolean] $autostart              = undef,
   Boolean $ns_cert_type                     = true,
+  Boolean $remote_cert_tls                  = false,
   Boolean $nobind                           = false,
   Optional[String] $secret                  = undef,
   Hash $custom_options                      = {},
