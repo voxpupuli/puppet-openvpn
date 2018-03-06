@@ -97,7 +97,9 @@ describe 'openvpn::client', type: :define do
         'sndbuf'                => 393_216,
         'rcvbuf'                => 393_215,
         'readme'                => 'readme text',
-        'pull'                  => true
+        'pull'                  => true,
+        'ns_cert_type'          => false,
+        'remote_cert_tls'       => true,
       }
     end
     let(:facts) do
@@ -133,6 +135,7 @@ describe 'openvpn::client', type: :define do
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^rcvbuf\s+393215$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/README').with_content(%r{^readme text$}) }
     it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^pull$}) }
+    it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^remote-cert-tls\s+server$}) }
   end
 
   context 'omitting the cipher key' do

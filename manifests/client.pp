@@ -226,7 +226,7 @@ define openvpn::client (
   Optional[String] $readme                    = undef,
   Boolean $pull                               = false,
   Boolean $server_extca_enabled               = false,
-  Boolean $ns_cert_type                       = false,
+  Boolean $ns_cert_type                       = true,
   Boolean $remote_cert_tls                    = false,
 ) {
 
