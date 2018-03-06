@@ -182,7 +182,7 @@ describe 'openvpn::server', type: :define do
         'custom_options'  => { 'this' => 'that' },
         'portshare'       => '127.0.0.1 8443',
         'secret'          => 'secretsecret1234',
-        'remote_cert_tls' => true,
+        'remote_cert_tls' => true
       }
     end
 

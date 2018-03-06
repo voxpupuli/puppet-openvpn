@@ -99,7 +99,7 @@ describe 'openvpn::client', type: :define do
         'readme'                => 'readme text',
         'pull'                  => true,
         'ns_cert_type'          => false,
-        'remote_cert_tls'       => true,
+        'remote_cert_tls'       => true
       }
     end
     let(:facts) do
