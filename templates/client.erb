@@ -22,10 +22,10 @@ persist-key
 <% if @persist_tun -%>
 persist-tun
 <% end -%>
-<% if @cipher -%>
+<% if @cipher != '' -%>
 cipher <%= @cipher %>
 <% end -%>
-<% if @tls_cipher -%>
+<% if @tls_cipher != '' -%>
 tls-cipher <%= @tls_cipher %>
 <% end -%>
 <% if @mute_replay_warnings -%>
