@@ -76,7 +76,7 @@
 #   Options: false (syslog) or log file name
 #
 # [*port*]
-#   Integer.  The port the openvpn server service is running on
+#   String.  The port the openvpn server service is running on
 #   Default: 1194
 #
 # [*portshare*]
