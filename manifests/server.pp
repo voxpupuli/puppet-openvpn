@@ -478,7 +478,7 @@ define openvpn::server (
   String $pam_module_arguments              = 'login',
   Boolean $management                       = false,
   String $management_ip                     = 'localhost',
-  Integer $management_port                  = 7505,
+  Variant[Integer,String] $management_port  = 7505,
   String $up                                = '',
   String $down                              = '',
   Boolean $username_as_common_name          = false,
