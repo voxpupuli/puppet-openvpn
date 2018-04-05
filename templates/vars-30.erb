@@ -1,0 +1,80 @@
+# easy-rsa parameter settings
+
+# NOTE: If you installed from an RPM,
+# don't edit this file in place in
+# /usr/share/openvpn/easy-rsa --
+# instead, you should copy the whole
+# easy-rsa directory to another location
+# (such as /etc/openvpn) so that your
+# edits will not be wiped out by a future
+# OpenVPN package upgrade.
+
+# This variable should point to
+# the top level of the easy-rsa
+# tree.
+export EASY_RSA="<%= @etc_directory -%>/openvpn/<%= @name %>/easy-rsa"
+
+#
+# This variable should point to
+# the requested executables
+#
+export EASYRSA_OPENSSL="openssl"
+export PKCS11TOOL="pkcs11-tool"
+export GREP="grep"
+
+
+# This variable should point to
+# the openssl.cnf file included
+# with easy-rsa.
+export EASYRSA_SSL_CONF="$EASY_RSA/openssl-1.0.cnf"
+
+# Edit this variable to point to
+# your soon-to-be-created key
+# directory.
+#
+# WARNING: clean-all will do
+# a rm -rf on this directory
+# so make sure you define
+# it correctly!
+export EASYRSA_PKI="$EASY_RSA/keys"
+
+# Issue rm -rf warning
+echo NOTE: If you run ./clean-all, I will be doing a rm -rf on $KEY_DIR
+
+# PKCS11 fixes
+export PKCS11_MODULE_PATH="dummy"
+export PKCS11_PIN="dummy"
+
+# Increase this to 2048 if you
+# are paranoid.  This will slow
+# down TLS negotiation performance
+# as well as the one-time DH parms
+# generation process.
+export EASYRSA_KEY_SIZE=<%= @ssl_key_size %>
+
+# In how many days should the root CA key expire?
+export EASYRSA_CA_EXPIRE=<%= @ca_expire %>
+
+# In how many days should certificates expire?
+export EASYRSA_CERT_EXPIRE=<%= @key_expire %>
+
+export EASYRSA_CRL_DAYS=<%= @crl_days %>
+
+export EASYRSA_DIGEST="sha512"
+
+export EASYRSA_DN="org"
+
+# These are the default values for fields
+# which will be placed in the certificate.
+# Don't leave any of these fields blank.
+export EASYRSA_REQ_COUNTRY="<%= @country %>"
+export EASYRSA_REQ_PROVINCE="<%= @province %>"
+export EASYRSA_REQ_CITY="<%= @city %>"
+export EASYRSA_REQ_ORG="<%= @organization %>"
+export EASYRSA_REQ_EMAIL="<%= @email %>"
+<% if @key_cn != '' -%>
+export EASYRSA_REQ_CN="<%= @key_cn %>"
+<% end -%>
+<% if @key_ou != '' -%>
+export EASYRSA_REQ_OU="<%= @key_ou %>"
+<% end -%>
