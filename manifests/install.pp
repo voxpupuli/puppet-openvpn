@@ -31,11 +31,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn::install inherits openvpn::params {
+class openvpn::install (
+  Optional[Array] $additional_packages = $::openvpn::params::additional_packages,
+) inherits openvpn::params {
 
   ensure_packages(['openvpn'])
-  if $::openvpn::params::additional_packages != undef {
-    ensure_packages( any2array($::openvpn::params::additional_packages) )
+  if $additional_packages {
+    ensure_packages($additional_packages)
   }
 
   file {
