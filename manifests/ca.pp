@@ -161,7 +161,7 @@ define openvpn::ca (
     file { "${etc_directory}/openvpn/${name}/easy-rsa/vars":
       ensure  => file,
       mode    => '0550',
-      content => template('openvpn/vars-30.erb'),
+      content => template('openvpn/vars-30.epp'),
       require => Exec["copy easy-rsa to openvpn config folder ${name}"],
     }
   }
@@ -254,7 +254,7 @@ define openvpn::ca (
     }
 
     exec { "create crl.pem on ${name}":
-      command  => ". ./vars && && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out ${etc_directory}/openvpn/${name}/crl.pem -config ${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
+      command  => ". ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out ${etc_directory}/openvpn/${name}/crl.pem -config ${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
       cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
       creates  => "${etc_directory}/openvpn/${name}/crl.pem",
       provider => 'shell',
@@ -265,8 +265,8 @@ define openvpn::ca (
   file { "${etc_directory}/openvpn/${name}/keys":
     ensure  => link,
     target  => "${etc_directory}/openvpn/${name}/easy-rsa/keys",
-    mode   => '0640',
-    group  => $group_to_set,    
+    mode    => '0640',
+    group   => $group_to_set,
     require => Exec["copy easy-rsa to openvpn config folder ${name}"],
   }
 
