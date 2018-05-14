@@ -12,7 +12,7 @@
 # This variable should point to
 # the top level of the easy-rsa
 # tree.
-export EASY_RSA="<%= @etc_directory -%>/openvpn/<%= @name %>/easy-rsa"
+export EASY_RSA="<%= $etc_directory -%>/openvpn/<%= $name %>/easy-rsa"
 
 #
 # This variable should point to
@@ -50,15 +50,15 @@ export PKCS11_PIN="dummy"
 # down TLS negotiation performance
 # as well as the one-time DH parms
 # generation process.
-export EASYRSA_KEY_SIZE=<%= @ssl_key_size %>
+export EASYRSA_KEY_SIZE=<%= $ssl_key_size %>
 
 # In how many days should the root CA key expire?
-export EASYRSA_CA_EXPIRE=<%= @ca_expire %>
+export EASYRSA_CA_EXPIRE=<%= $ca_expire %>
 
 # In how many days should certificates expire?
-export EASYRSA_CERT_EXPIRE=<%= @key_expire %>
+export EASYRSA_CERT_EXPIRE=<%= $key_expire %>
 
-export EASYRSA_CRL_DAYS=<%= @crl_days %>
+export EASYRSA_CRL_DAYS=<%= $crl_days %>
 
 export EASYRSA_DIGEST="sha512"
 
@@ -67,14 +67,14 @@ export EASYRSA_DN="org"
 # These are the default values for fields
 # which will be placed in the certificate.
 # Don't leave any of these fields blank.
-export EASYRSA_REQ_COUNTRY="<%= @country %>"
-export EASYRSA_REQ_PROVINCE="<%= @province %>"
-export EASYRSA_REQ_CITY="<%= @city %>"
-export EASYRSA_REQ_ORG="<%= @organization %>"
-export EASYRSA_REQ_EMAIL="<%= @email %>"
-<% if @key_cn != '' -%>
-export EASYRSA_REQ_CN="<%= @key_cn %>"
-<% end -%>
-<% if @key_ou != '' -%>
-export EASYRSA_REQ_OU="<%= @key_ou %>"
-<% end -%>
+export EASYRSA_REQ_COUNTRY="<%= $country %>"
+export EASYRSA_REQ_PROVINCE="<%= $province %>"
+export EASYRSA_REQ_CITY="<%= $city %>"
+export EASYRSA_REQ_ORG="<%= $organization %>"
+export EASYRSA_REQ_EMAIL="<%= $email %>"
+<% if $key_cn != '' { -%>
+export EASYRSA_REQ_CN="<%= $key_cn %>"
+<% } -%>
+<% if $key_ou != '' { -%>
+export EASYRSA_REQ_OU="<%= $key_ou %>"
+<% } -%>
