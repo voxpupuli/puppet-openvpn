@@ -13,18 +13,13 @@ describe 'openvpn::client_specific_config', type: :define do
     }
   end
   let(:pre_condition) do
-    [
       'openvpn::server { "test_server":
         country       => "CO",
         province      => "ST",
         city          => "Some City",
         organization  => "example.org",
         email         => "testemail@example.org"
-      }',
-      'openvpn::client { "test_client":
-        server => "test_server"
       }'
-    ].join
   end
 
   it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client') }
