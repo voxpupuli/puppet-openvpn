@@ -3,8 +3,11 @@ sudo: false
 dist: trusty
 language: ruby
 cache: bundler
+# related to https://github.com/rubygems/rubygems/issues/2123
 before_install:
-  - rm -f Gemfile.lock
+  - 'rm -f Gemfile.lock'
+  - 'gem update --system'
+  - 'gem install bundler'
 script:
   - 'bundle exec rake $CHECK'
 matrix:
@@ -13,16 +16,16 @@ matrix:
   - rvm: 2.1.9
     bundler_args: --without system_tests development release
     env: PUPPET_VERSION="~> 4.0" CHECK=test PARALLEL_TEST_PROCESSORS=12
-  - rvm: 2.4.3
+  - rvm: 2.4.4
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 5.0" CHECK=test
+  - rvm: 2.5.1
     bundler_args: --without system_tests development release
     env: PUPPET_VERSION="~> 5.0" CHECK=test_with_coveralls
-  - rvm: 2.5.0
-    bundler_args: --without system_tests development release
-    env: PUPPET_VERSION="~> 5.0" CHECK=test_with_coveralls
-  - rvm: 2.4.3
+  - rvm: 2.4.4
     bundler_args: --without system_tests development release
     env: PUPPET_VERSION="~> 5.0" CHECK=rubocop
-  - rvm: 2.4.3
+  - rvm: 2.5.1
     bundler_args: --without system_tests development release
     env: PUPPET_VERSION="~> 5.0" CHECK=build DEPLOY_TO_FORGE=yes
 branches:
