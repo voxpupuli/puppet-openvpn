@@ -161,7 +161,7 @@ define openvpn::ca (
     file { "${etc_directory}/openvpn/${name}/easy-rsa/vars":
       ensure  => file,
       mode    => '0550',
-      content => template('openvpn/vars-30.epp'),
+      content => epp('openvpn/vars-30.epp'),
       require => Exec["copy easy-rsa to openvpn config folder ${name}"],
     }
   }
