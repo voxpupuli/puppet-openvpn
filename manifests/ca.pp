@@ -118,10 +118,9 @@ define openvpn::ca (
     group => $group_to_set,
   }
 
-  $openvpn::etc_directory = $::openvpn::params::etc_directory
   $etc_directory = $::openvpn::params::etc_directory
 
-  ensure_resource('file', "${openvpn::etc_directory}/openvpn/${name}", {
+  ensure_resource('file', "${etc_directory}/openvpn/${name}", {
     ensure => directory,
     mode   => '0750'
   })
