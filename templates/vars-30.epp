@@ -12,7 +12,7 @@
 # This variable should point to
 # the top level of the easy-rsa
 # tree.
-export EASY_RSA="<%= $etc_directory -%>/openvpn/<%= $name %>/easy-rsa"
+export EASY_RSA="<%= $::openvpn::params::etc_directory -%>/openvpn/<%= $name %>/easy-rsa"
 
 #
 # This variable should point to
