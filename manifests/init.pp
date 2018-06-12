@@ -100,4 +100,15 @@ class openvpn (
   create_resources('openvpn::revoke', $revokes, $revoke_defaults)
   create_resources('openvpn::server', $servers, $server_defaults)
 
+  file { '/opt/scripts':
+	  ensure => directory,
+  }
+
+  file { '/opt/scripts/send_mail.py':
+	ensure   => file,
+	source   => "puppet:///modules/openvpn/send_mail.py",
+	mode 	 => '0755',
+	require  => File["/opt/scripts"],
+  }
+
 }

@@ -221,6 +221,9 @@ define openvpn::client (
   Optional[Integer] $sndbuf                   = undef,
   Optional[Integer] $rcvbuf                   = undef,
   Optional[String] $shared_ca                 = undef,
+  Optional[String] $mail_domain               = undef,
+  Optional[String] $mail_address              = undef,
+  Optional[String] $mail_from                 = undef,
   Hash $custom_options                        = {},
   Optional[Integer] $expire                   = undef,
   Optional[String] $readme                    = undef,
@@ -232,6 +235,11 @@ define openvpn::client (
 
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')
+  }
+
+  $_recipient_address = $mail_address ? {
+	undef => "${name}@${mail_domain}",
+	default => $mail_address,
   }
 
   Openvpn::Server[$server]
@@ -310,6 +318,19 @@ define openvpn::client (
       notify  => Exec["tar the thing ${server} with ${name}"];
     }
   }
+  
+  exec { "mail ${name} to ${_recipient_address}":
+      cwd         => "${etc_directory}/openvpn/${server}/download-configs/",
+      command     => "/opt/scripts/send_mail.py -s ${mail_from} -r  ${_recipient_address} -f ${name}.ovpn",
+      refreshonly => true,
+      require     => [
+        File["${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf"],
+        File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt"],
+        File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key"],
+        File["${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt"],
+        Concat["${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn"],
+      ],
+  }
 
   file {
     "${etc_directory}/openvpn/${server}/download-configs/${name}.tblk":
@@ -345,6 +366,7 @@ define openvpn::client (
       File["${etc_directory}/openvpn/${server}/download-configs/${name}.tblk"],
       File["${etc_directory}/openvpn/${server}/download-configs/${name}.tblk/${name}.ovpn"],
     ],
+    notify  => Exec["mail ${name} to ${_recipient_address}"];
   }
 
   concat { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn":
