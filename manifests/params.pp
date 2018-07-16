@@ -23,7 +23,6 @@ class openvpn::params {
       $group               = 'nobody'
       $link_openssl_cnf    = true
       $pam_module_path     = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
-      $easyrsa_source      = '/usr/share/easy-rsa/2.0'
       $namespecific_rclink = false
 
       # Redhat/Centos >= 7.0
@@ -31,16 +30,22 @@ class openvpn::params {
         $additional_packages = ['easy-rsa']
         $ldap_auth_plugin_location = undef
         $systemd = true
+        $easyrsa_source      = '/usr/share/easy-rsa/3.0'
+        $easyrsa_ver = '3.0'
       # Redhat/Centos == 6.0
       } elsif(versioncmp($::operatingsystemrelease, '6.0') >= 0) and $::operatingsystem != 'Amazon' {
         $additional_packages = ['easy-rsa','openvpn-auth-ldap']
         $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
         $systemd = false
+        $easyrsa_source      = '/usr/share/easy-rsa/2.0'
+        $easyrsa_ver = '2.0'
       # Redhat/Centos < 6.0
       } else {
         $additional_packages = ['easy-rsa']
         $ldap_auth_plugin_location = undef
         $systemd = false
+        $easyrsa_source      = '/usr/share/easy-rsa/2.0'
+        $easyrsa_ver = '2.0'
       }
     }
     'Debian': { # Debian/Ubuntu
@@ -53,6 +58,7 @@ class openvpn::params {
       case $::operatingsystem {
         'Debian': {
           # Version > 8.0, jessie, stretch
+          $easyrsa_ver = '2.0'
           if(versioncmp($::operatingsystemrelease, '8.0') >= 0) {
             $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
             $easyrsa_source            = '/usr/share/easy-rsa/'
@@ -76,6 +82,7 @@ class openvpn::params {
           }
         }
         'Ubuntu': {
+          $easyrsa_ver = '2.0'
           # Version > 15.04, vivid
           if(versioncmp($::operatingsystemrelease, '15.04') >= 0){
             $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
@@ -105,6 +112,7 @@ class openvpn::params {
       }
     }
     'Archlinux': {
+      $easyrsa_ver = '2.0'
       $etc_directory             = '/etc'
       $root_group                = 'root'
       $additional_packages       = ['easy-rsa']
@@ -116,6 +124,7 @@ class openvpn::params {
       $namespecific_rclink       = false
     }
     'Linux': {
+      $easyrsa_ver = '2.0'
       case $::operatingsystem {
         'Amazon': {
           $etc_directory             = '/etc'
@@ -142,6 +151,7 @@ class openvpn::params {
       $pam_module_path     = '/usr/local/lib/openvpn/openvpn-auth-pam.so'
       $additional_packages = ['easy-rsa']
       $easyrsa_source      = '/usr/local/share/easy-rsa'
+      $easyrsa_ver = '2.0'
       $namespecific_rclink = true
       $systemd             = false
     }

@@ -256,11 +256,21 @@ define openvpn::client (
     $env_expire = ''
   }
 
-  exec { "generate certificate for ${name} in context of ${ca_name}":
-    command  => ". ./vars && ${env_expire} ./pkitool ${name}",
-    cwd      => "${etc_directory}/openvpn/${ca_name}/easy-rsa",
-    creates  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
-    provider => 'shell';
+  if $openvpn::params::easyrsa_ver == '2.0' {
+    exec { "generate certificate for ${name} in context of ${ca_name}":
+      command  => ". ./vars && ${env_expire} ./pkitool ${name}",
+      cwd      => "${etc_directory}/openvpn/${ca_name}/easy-rsa",
+      creates  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
+      provider => 'shell';
+    }
+  }
+  else {
+    exec { "generate certificate for ${name} in context of ${ca_name}":
+      command  => ". ./vars && ${env_expire} ./easyrsa --batch build-client-full ${name} nopass",
+      cwd      => "${etc_directory}/openvpn/${ca_name}/easy-rsa",
+      creates  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/issued/${name}.crt",
+      provider => 'shell';
+    }
   }
 
   file { [ "${etc_directory}/openvpn/${server}/download-configs/${name}",
@@ -269,16 +279,31 @@ define openvpn::client (
     ensure => directory,
   }
 
-  file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
-    ensure  => link,
-    target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
-    require => Exec["generate certificate for ${name} in context of ${ca_name}"],
-  }
+  if $openvpn::params::easyrsa_ver == '2.0' {
+    file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
+      ensure  => link,
+      target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
+      require => Exec["generate certificate for ${name} in context of ${ca_name}"],
+    }
 
-  file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key":
-    ensure  => link,
-    target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.key",
-    require => Exec["generate certificate for ${name} in context of ${ca_name}"],
+    file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key":
+      ensure  => link,
+      target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.key",
+      require => Exec["generate certificate for ${name} in context of ${ca_name}"],
+    }
+  }
+  else {
+    file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.crt":
+      ensure  => link,
+      target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/issued/${name}.crt",
+      require => Exec["generate certificate for ${name} in context of ${ca_name}"],
+    }
+
+    file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/${name}.key":
+      ensure  => link,
+      target  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/private/${name}.key",
+      require => Exec["generate certificate for ${name} in context of ${ca_name}"],
+    }
   }
 
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ca.crt":
