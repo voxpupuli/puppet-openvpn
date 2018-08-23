@@ -13,30 +13,30 @@
 #   Default: true
 # [*client_defaults*]
 #   Hash of defaults for clients passed to openvpn::client defined type.
-#   Default: {} (hiera_hash)
+#   Default: {}
 # [*clients*]
 #   Hash of clients passed to openvpn::client defined type.
-#   Default: {} (hiera_hash)
+#   Default: {}
 # [*client_specific_config_defaults*]
 #   Hash of defaults for client specific configurations passed to
 #   openvpn::client_specific_config defined type.
-#   Default: {} (hiera_hash)
+#   Default: {}
 # [*client_specific_configs*]
 #   Hash of client specific configurations passed to
 #   openvpn::client_specific_config defined type.
-#   Default: {} (hiera_hash)
+#   Default: {}
 # [*revoke_defaults*]
 #   Hash of defaults for revokes passed to openvpn::revoke defined type.
-#   Default: {} (hiera_hash)
+#   Default: {}
 # [*revokes*]
 #   Hash of revokes passed to openvpn::revoke defined type.
-#   Default: {} (hiera_hash)
+#   Default: {}
 # [*server_defaults*]
 #   Hash of defaults for servers passed to openvpn::server defined type.
-#   Default: {} (hiera_hash)
+#   Default: {}
 # [*servers*]
 #   Hash of servers passed to openvpn::server defined type.
-#   Default: {} (hiera_hash)
+#   Default: {}
 #
 #
 # === Examples
@@ -71,14 +71,14 @@
 class openvpn (
   Boolean $autostart_all                = true,
   Boolean $manage_service               = true,
-  Hash $client_defaults                 = hiera_hash('openvpn::client_defaults', {}),
-  Hash $clients                         = hiera_hash('openvpn::clients', {}),
-  Hash $client_specific_config_defaults = hiera_hash('openvpn::client_specific_config_defaults', {}),
-  Hash $client_specific_configs         = hiera_hash('openvpn::client_specific_configs', {}),
-  Hash $revoke_defaults                 = hiera_hash('openvpn::revoke_defaults', {}),
-  Hash $revokes                         = hiera_hash('openvpn::revokes', {}),
-  Hash $server_defaults                 = hiera_hash('openvpn::server_defaults', {}),
-  Hash $servers                         = hiera_hash('openvpn::servers', {}),
+  Hash $client_defaults                 = {},
+  Hash $clients                         = {},
+  Hash $client_specific_config_defaults = {},
+  Hash $client_specific_configs         = {},
+  Hash $revoke_defaults                 = {},
+  Hash $revokes                         = {},
+  Hash $server_defaults                 = {},
+  Hash $servers                         = {},
 ) {
 
   class { 'openvpn::params': }
