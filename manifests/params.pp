@@ -159,10 +159,9 @@ class openvpn::params {
       fail("Not supported OS family ${::osfamily}")
     }
   }
-
-  case $facts['easyrsa'] {
-    /^version-\d$/: { $easyrsa_ver = $fact['easyrsa'] }
-    default: { $easyrsa_ver = $openvpn::params::default_easyrsa_ver }
+  $easyrsa_version = $facts['easyrsa'] ? {
+    undef   => $default_easyrsa_ver,
+    ''      => $default_easyrsa_ver,
+    default => $facts['easyrsa'],
   }
-
 }

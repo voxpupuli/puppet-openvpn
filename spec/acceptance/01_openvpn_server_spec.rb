@@ -26,35 +26,35 @@ describe 'server defined type' do
     end
 
     describe file('/etc/openvpn/test_openvpn_server/easy-rsa/keys') do
-      it { should be_directory }
+      it { is_expected.to be_directory }
     end
 
     describe file('/etc/openvpn/test_openvpn_server/easy-rsa/vars') do
-      it { should be_file }
-      it { should contain 'export EASY_RSA="/etc/openvpn/test_openvpn_server/easy-rsa"' }
-      it { should contain '_COUNTRY="CO"' }
-      it { should contain '_PROVINCE="ST"' }
-      it { should contain '_CITY="A city"' }
-      it { should contain '_ORG="FOO"' }
-      it { should contain '_EMAIL="bar@foo.org"' }
+      it { is_expected.to be_file }
+      it { is_expected.to contain 'export EASY_RSA="/etc/openvpn/test_openvpn_server/easy-rsa"' }
+      it { is_expected.to contain '_COUNTRY="CO"' }
+      it { is_expected.to contain '_PROVINCE="ST"' }
+      it { is_expected.to contain '_CITY="A city"' }
+      it { is_expected.to contain '_ORG="FOO"' }
+      it { is_expected.to contain '_EMAIL="bar@foo.org"' }
     end
 
-    describe file("#{server_crt}") do
-      it { should be_file }
-      it { should contain 'Issuer: C=CO, ST=ST, L=A city, O=FOO, ' }
+    describe file(server_crt.to_s) do
+      it { is_expected.to be_file }
+      it { is_expected.to contain 'Issuer: C=CO, ST=ST, L=A city, O=FOO, ' }
     end
 
     describe process('openvpn') do
-      it { should be_running }
+      it { is_expected.to be_running }
     end
 
     describe port(1194) do
-      it { should be_listening.with('tcp') }
+      it { is_expected.to be_listening.with('tcp') }
     end
 
     describe command('ip link show tun0') do
-      its(:stdout) { should match /.* tun0: .*/ }
-      its(:exit_status) { should eq 0 }
-    end 
+      its(:stdout) { is_expected.to match %r{.* tun0: .*} }
+      its(:exit_status) { is_expected.to eq 0 }
+    end
   end
 end

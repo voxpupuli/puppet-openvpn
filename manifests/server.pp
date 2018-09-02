@@ -696,6 +696,8 @@ define openvpn::server (
     }
   }
 
+  # template use $_easyrsa_version
+  $_easyrsa_version = $openvpn::params::easyrsa_version
   file { "${etc_directory}/openvpn/${name}.conf":
     owner   => root,
     group   => $root_group,

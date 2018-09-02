@@ -8,29 +8,13 @@ install_module
 install_module_dependencies
 
 RSpec.configure do |c|
-
   # Configure all nodes in nodeset
   c.before :suite do
     hosts.each do |host|
-      case host[:platform]
-      when /debian-7-amd64|debian-8-amd64|ubuntu-16.04-amd64/
-        on host, puppet('module', 'install', 'puppetlabs-apt')
-        pp = <<-EOS
-        package { 'netcat-openbsd' :
-          ensure => present,
-        }
-        EOS
-      when /el-6-x86_64|el-7-x86_64/
-        on host, puppet('module', 'install', 'stahnma-epel')
-        pp = <<-EOS
-        include ::epel
-        package { 'nc' :
-          ensure => present,
-        }
-        EOS
+      if fact('os.family') == 'RedHat'
+        install_module_from_forge('stahnma-epel', '>= 1.3.0 < 2.0.0')
+        apply_manifest_on(host, 'include ::epel', catch_failures: true)
       end
-
-      apply_manifest_on(host, pp, catch_failures: true)
     end
   end
 end
