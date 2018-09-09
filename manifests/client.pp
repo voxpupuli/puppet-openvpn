@@ -377,7 +377,6 @@ define openvpn::client (
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}.tar.gz":
     ensure  => present,
     replace => 'no',
-    content => "not yet created\n",
     require => Exec["tar the thing ${server} with ${name}"],
   }
 

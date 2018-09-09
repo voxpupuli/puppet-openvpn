@@ -161,7 +161,6 @@ class openvpn::params {
   }
   $easyrsa_version = $facts['easyrsa'] ? {
     undef   => $default_easyrsa_ver,
-    ''      => $default_easyrsa_ver,
     default => $facts['easyrsa'],
   }
 }

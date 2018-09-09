@@ -1,7 +1,6 @@
 Facter.add(:easyrsa) do
   confine kernel: 'Linux'
   setcode do
-    version = ''
     binaryv2 = ''
     binaryv3 = ''
     operatingsystem = Facter.value(:operatingsystem)
@@ -28,18 +27,22 @@ Facter.add(:easyrsa) do
       binaryv3 = '/usr/local/share/easy-rsa/easyrsa'
     end
 
-    if File.exist? binaryv2
-      data = Facter::Core::Execution.execute("#{binaryv2} --help")
-      version = '2.0' if data.gsub!(%r{pkitool 2.0}, '')
-    elsif File.exist? binaryv3
+    if File.exist? binaryv3
       data = Facter::Core::Execution.execute("#{binaryv3} --help")
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
+    elsif File.exist? binaryv2
+      data = Facter::Core::Execution.execute("#{binaryv2} --help")
+      version = '2.0' if data.gsub!(%r{pkitool 2.0}, '')
     elsif Facter::Util::Resolution.which('pkitool')
       data = Facter::Core::Execution.execute('pkitool --help')
       version = '2.0' if data.gsub!(%r{pkitool 2.0}, '')
     elsif Facter::Util::Resolution.which('easyrsa')
       data = Facter::Core::Execution.execute('easyrsa --help')
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
+    end
+    if !version.nil?
+    else
+      version = nil
     end
     version
   end
