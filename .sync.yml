@@ -1,5 +1,12 @@
 ---
 .travis.yml:
+  docker_sets:
+    - set: ubuntu1604-64
+    - set: ubuntu1404-64
+    - set: centos7-64
+    - set: centos6-64
+    - set: debian9-64
+    - set: debian8-64
   secure: "RbqNJ7PwiJ3oqmytAqMmpETDLD9zB0Dadx1485L69QnhHAFSAo9dcTeSFepbXYMYfAM1tlxpk9Rb3IvR0Ii+BiWRFxD6KxI1npwBaTPsO6P4rLF9OoEq1H1XecHi5m1n7McN4yO2QbeRLJ7DDL+dTV4MpG5FB+52YK53OjxjFtc="
 spec/spec_helper.rb:
   mock_with: ':rspec'
