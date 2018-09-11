@@ -28,14 +28,7 @@ describe 'openvpn::ca', type: :define do
 
     # Files associated with a server config
 
-    it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/clean-all').with(mode: '0550') }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/build-dh').with(mode: '0550') }
-    it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/pkitool').with(mode: '0550') }
     it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with(mode: '0550') }
-    it {
-      is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').
-        with(recurse: nil, group: 'nogroup')
-    }
     it {
       is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').
         with(ensure: 'link', target: '/etc/openvpn/test_server/crl.pem')
@@ -47,11 +40,6 @@ describe 'openvpn::ca', type: :define do
 
     # Execs to working with certificates
 
-    it {
-      is_expected.to contain_exec('copy easy-rsa to openvpn config folder test_server').with(
-        'command' => '/bin/cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
-      )
-    }
     it { is_expected.to contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh2048.pem') }
     it { is_expected.to contain_exec('initca test_server') }
     it { is_expected.to contain_exec('generate server cert test_server') }
@@ -126,20 +114,6 @@ describe 'openvpn::ca', type: :define do
     end
 
     it { is_expected.to contain_package('easy-rsa').with('ensure' => 'present') }
-    it {
-      is_expected.to contain_exec('copy easy-rsa to openvpn config folder test_server').with(
-        'command' => '/bin/cp -r /usr/share/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
-      )
-    }
-
-    it {
-      is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').with(
-        'ensure'  => 'link',
-        'target'  => '/etc/openvpn/test_server/easy-rsa/openssl-1.0.0.cnf',
-        'recurse' => nil,
-        'group'   => 'nobody'
-      )
-    }
 
     it {
       is_expected.to contain_file('/etc/openvpn/test_server/crl.pem').with(
@@ -171,11 +145,6 @@ describe 'openvpn::ca', type: :define do
 
     shared_examples_for 'a newer version than wheezy' do
       it { is_expected.to contain_package('easy-rsa').with('ensure' => 'present') }
-      it {
-        is_expected.to contain_exec('copy easy-rsa to openvpn config folder test_server').with(
-          'command' => '/bin/cp -r /usr/share/easy-rsa/ /etc/openvpn/test_server/easy-rsa'
-        )
-      }
     end
     context 'when jessie/stretch/sid' do
       before do
@@ -207,12 +176,6 @@ describe 'openvpn::ca', type: :define do
         'target'  => '/etc/openvpn/test_server/easy-rsa/openssl-1.0.0.cnf',
         'recurse' => nil,
         'group'   => 'nogroup'
-      )
-    }
-
-    it {
-      is_expected.to contain_exec('copy easy-rsa to openvpn config folder test_server').with(
-        'command' => '/bin/cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/test_server/easy-rsa'
       )
     }
 

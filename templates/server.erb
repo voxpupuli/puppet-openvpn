@@ -26,11 +26,21 @@ dh <%= @extca_dh_file %>
 crl-verify <%= @extca_ca_crl_file %>
 <%   end -%>
 <% else -%>
+<%- if @_easyrsa_version == '2.0' -%>
 ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
 cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
 key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
+<%- else -%>
+ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
+cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/issued/<%= @ca_common_name %>.crt
+key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/private/<%= @ca_common_name %>.key
+<%- end -%>
 <%   unless @remote -%>
+<%- if @_easyrsa_version == '2.0' -%>
 dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
+<%- else -%>
+dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh.pem
+<%- end -%>
 <%   end -%>
 <%   unless @remote or !@crl_verify -%>
 crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
