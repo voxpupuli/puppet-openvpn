@@ -9,9 +9,9 @@ describe 'openvpn::ca', type: :define do
       network_eth0: '1.2.3.0',
       netmask_eth0: '255.255.255.0',
       concat_basedir: '/var/lib/puppet/concat',
-      osfamily: 'Debian',
-      operatingsystem: 'Ubuntu',
-      operatingsystemrelease: '12.04'
+      os: { 'family' => 'Debian' },
+      os: { 'name' => 'Ubuntu' },
+      os: { 'release' => {'major' => '16.04' } },
     }
   end
 
@@ -78,9 +78,9 @@ describe 'openvpn::ca', type: :define do
         network_eth0: '1.2.3.0',
         netmask_eth0: '255.255.255.0',
         concat_basedir: '/var/lib/puppet/concat',
-        osfamily: 'Debian',
-        operatingsystem: 'Ubuntu',
-        operatingsystemrelease: '12.04'
+        os: { 'family' => 'Debian' },
+        os: { 'name' => 'Ubuntu' },
+        os: { 'release' => {'major' => '16.04' } },
       }
     end
 
@@ -106,10 +106,11 @@ describe 'openvpn::ca', type: :define do
 
     let(:facts) do
       {
-        osfamily: 'RedHat',
-        operatingsystem: 'CentOS',
         concat_basedir: '/var/lib/puppet/concat',
-        operatingsystemrelease: '7.0'
+        os: { 'family' => 'RedHat' },
+        os: { 'name' => 'CentOS' },
+        os: { 'release' => {'major' => '7' } },
+
       }
     end
 
@@ -136,38 +137,12 @@ describe 'openvpn::ca', type: :define do
 
     let(:facts) do
       {
-        osfamily: 'Debian',
-        operatingsystem: 'Debian',
         concat_basedir: '/var/lib/puppet/concat',
-        operatingsystemrelease: '7.0'
+        os: { 'family' => 'Debian' },
+        os: { 'name' => 'Debian' },
+        os: { 'release' => {'major' => '8' } },
+
       }
-    end
-
-    shared_examples_for 'a newer version than wheezy' do
-      it { is_expected.to contain_package('easy-rsa').with('ensure' => 'present') }
-    end
-    context 'when jessie/stretch/sid' do
-      before do
-        facts[:operatingsystem] = 'Debian'
-        facts[:operatingsystemrelease] = '8.0.1'
-      end
-      it_behaves_like 'a newer version than wheezy'
-    end
-
-    context 'when ubuntu 13.10' do
-      before do
-        facts[:operatingsystem] = 'Ubuntu'
-        facts[:operatingsystemrelease] = '13.10'
-      end
-      it_behaves_like 'a newer version than wheezy'
-    end
-
-    context 'when ubuntu 14.04' do
-      before do
-        facts[:operatingsystem] = 'Ubuntu'
-        facts[:operatingsystemrelease] = '14.04'
-      end
-      it_behaves_like 'a newer version than wheezy'
     end
 
     it {

@@ -4,10 +4,10 @@ describe 'openvpn::service', type: :class do
   let(:pre_condition) { 'class { "openvpn": manage_service => true }' }
   let(:facts) do
     {
-      osfamily: 'Debian',
-      operatingsystem: 'Debian',
+      os: { 'family' => 'Debian' },
+      os: { 'name' => 'Ubuntu' },
+      os: { 'release' => {'major' => '8' } },
       concat_basedir: '/var/lib/puppet/concat',
-      operatingsystemrelease: '7.0'
     }
   end
 

@@ -5,9 +5,9 @@ describe 'openvpn', type: :class do
     let(:facts) do
       {
         concat_basedir: '/var/lib/puppet/concat',
-        osfamily: 'Debian',
-        operatingsystem: 'Ubuntu',
-        operatingsystemrelease: '12.04'
+        os: { 'family' => 'Debian' },
+        os: { 'name' => 'Ubuntu' },
+        os: { 'release' => {'major' => '16.04' } },
       }
     end
 
@@ -19,9 +19,9 @@ describe 'openvpn', type: :class do
     let(:facts) do
       {
         concat_basedir: '/var/lib/puppet/concat',
-        osfamily: 'RedHat',
-        operatingsystem: 'CentOS',
-        operatingsystemrelease: '7.0'
+        os: { 'family' => 'RedHat' },
+        os: { 'name' => 'CentOS' },
+        os: { 'release' => {'major' => '7' } },
       }
     end
 

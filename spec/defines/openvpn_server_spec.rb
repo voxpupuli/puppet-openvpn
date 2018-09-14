@@ -9,9 +9,9 @@ describe 'openvpn::server', type: :define do
       network_eth0: '1.2.3.0',
       netmask_eth0: '255.255.255.0',
       concat_basedir: '/var/lib/puppet/concat',
-      osfamily: 'Debian',
-      operatingsystem: 'Ubuntu',
-      operatingsystemrelease: '12.04'
+      os: { 'family' => 'Debian' },
+      os: { 'name' => 'Ubuntu' },
+      os: { 'release' => {'major' => '16.04' } },
     }
   end
 

@@ -4,9 +4,9 @@ describe 'openvpn::config', type: :class do
   context 'on Debian based machines' do
     let(:facts) do
       {
-        osfamily: 'Debian',
-        operatingsystem: 'Debian',
-        operatingsystemrelease: '7',
+        os: { 'family' => 'Debian' },
+        os: { 'name' => 'Ubuntu' },
+        os: { 'release' => {'major' => '16.04' } },
         concat_basedir: '/var/lib/puppet/concat'
       }
     end
