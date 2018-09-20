@@ -92,6 +92,7 @@ class openvpn::params {
       $easyrsa_source            = '/usr/share/easy-rsa/'
       $group                     = 'nobody'
       $ldap_auth_plugin_location = undef # unsupported
+      $pam_module_path           = undef
       $link_openssl_cnf          = true
       $systemd                   = true
       $namespecific_rclink       = false
