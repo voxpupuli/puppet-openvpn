@@ -1,81 +1,47 @@
 require 'spec_helper'
 
 describe 'openvpn::install', type: :class do
-  let(:osfamily) { 'Debian' }
-  let(:operatingsystemmajrelease) { nil }
-  let(:operatingsystem) { 'Ubuntu' }
-  let(:operatingsystemrelease) { '13.10' }
-  let(:facts) do
-    {
-      osfamily: osfamily,
-      operatingsystemmajrelease: operatingsystemmajrelease,
-      operatingsystemrelease: operatingsystemrelease,
-      operatingsystem: operatingsystem
-    }
-  end
-
-  it { is_expected.to create_class('openvpn::install') }
-  it { is_expected.to contain_package('openvpn') }
-
-  it { is_expected.to contain_file('/etc/openvpn').with('ensure' => 'directory') }
-  it { is_expected.to contain_file('/etc/openvpn/keys').with('ensure' => 'directory') }
-  it { is_expected.to contain_file('/var/log/openvpn').with('ensure' => 'directory') }
-
-  describe 'installed packages' do
-    context 'debian' do
-      let(:osfamily) { 'Debian' }
-      let(:operatingsystem) { 'Debian' }
-
-      context 'squeeze' do
-        let(:operatingsystemrelease) { '6.5' }
-
-        it { is_expected.not_to contain_package('openvpn-auth-ldap') }
-        it { is_expected.not_to contain_package('easy-rsa') }
+  on_supported_os.each do |os, facts|
+    context "on #{os}" do
+      let(:pre_condition) do
+        'include openvpn::params'
+      end
+      let(:facts) do
+        facts
       end
 
-      context 'wheezy' do
-        let(:operatingsystemrelease) { '7.4' }
+      it { is_expected.to compile.with_all_deps }
 
-        it { is_expected.to contain_package('openvpn-auth-ldap') }
-        it { is_expected.not_to contain_package('easy-rsa') }
-      end
+      it { is_expected.to create_class('openvpn::install') }
+      it { is_expected.to contain_package('openvpn') }
 
-      context 'jessie' do
-        let(:operatingsystemrelease) { '8.0' }
+      it { is_expected.to contain_file('/etc/openvpn').with('ensure' => 'directory') }
+      it { is_expected.to contain_file('/etc/openvpn/keys').with('ensure' => 'directory') }
+      it { is_expected.to contain_file('/var/log/openvpn').with('ensure' => 'directory') }
 
-        it { is_expected.to contain_package('openvpn-auth-ldap') }
-        it { is_expected.to contain_package('easy-rsa') }
-      end
-
-      context 'stretch' do
-        let(:operatingsystemrelease) { '9.0' }
-
-        it { is_expected.to contain_package('openvpn-auth-ldap') }
-        it { is_expected.to contain_package('easy-rsa') }
-      end
-    end
-
-    context 'redhat/centos' do
-      let(:osfamily) { 'RedHat' }
-
-      it { is_expected.not_to contain_package('openvpn-auth-ldap') }
       it { is_expected.to contain_package('easy-rsa') }
-    end
 
-    context 'Amazon' do
-      let(:osfamily) { 'Linux' }
-      let(:operatingsystem) { 'Amazon' }
-      let(:operatingsystemrelease) { nil }
-
-      it { is_expected.not_to contain_package('openvpn-auth-ldap') }
-      it { is_expected.to contain_package('easy-rsa') }
-    end
-
-    context 'Archlinux' do
-      let(:osfamily) { 'Archlinux' }
-
-      it { is_expected.not_to contain_package('openvpn-auth-ldap') }
-      it { is_expected.to contain_package('easy-rsa') }
+      case facts[:os]['family']
+      when 'Debian'
+        context 'debian' do
+          it { is_expected.to contain_package('openvpn-auth-ldap') }
+        end
+      when 'RedHat'
+        case facts[:os]['release']['major']
+        when '6'
+          context 'redhat/centos 6' do
+            it { is_expected.to contain_package('openvpn-auth-ldap') }
+          end
+        when '7'
+          context 'redhat/centos 7' do
+            it { is_expected.not_to contain_package('openvpn-auth-ldap') }
+          end
+        end
+      when 'Archlinux'
+        context 'Archlinux' do
+          it { is_expected.not_to contain_package('openvpn-auth-ldap') }
+        end
+      end
     end
   end
 end

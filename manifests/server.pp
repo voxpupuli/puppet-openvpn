@@ -454,7 +454,7 @@ define openvpn::server (
   Optional[String] $group                                           = undef,
   Boolean $ipp                                                      = false,
   Boolean $duplicate_cn                                             = false,
-  String $local                                                     = $::ipaddress_eth0,
+  String $local                                                     = $facts['ipaddress_eth0'],
   Variant[Boolean, String] $logfile                                 = false,
   String $port                                                      = '1194',
   Optional[String] $portshare                                       = undef,
