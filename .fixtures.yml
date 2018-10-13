@@ -2,6 +2,3 @@ fixtures:
   repositories:
     stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
     concat: "git://github.com/puppetlabs/puppetlabs-concat"
-  symlinks:
-    openvpn: "#{source_dir}"
-
