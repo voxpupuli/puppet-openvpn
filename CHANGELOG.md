@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.4.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.4.0) (2018-10-16)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v7.3.0...v7.4.0)
+
+**Implemented enhancements:**
+
+- update supported OSes in params.pp [\#296](https://github.com/voxpupuli/puppet-openvpn/pull/296) ([Dan33l](https://github.com/Dan33l))
+- use new fact easyrsa to configure easyrsa 2 or 3 [\#292](https://github.com/voxpupuli/puppet-openvpn/pull/292) ([Dan33l](https://github.com/Dan33l))
+
+**Fixed bugs:**
+
+- Support for easy-rsa version 3 [\#216](https://github.com/voxpupuli/puppet-openvpn/issues/216)
+
+**Closed issues:**
+
+- debian 7 support broken [\#291](https://github.com/voxpupuli/puppet-openvpn/issues/291)
+- Epel has upgraded `easy-rsa` to version 3.x and removed 2.x, breaking the module [\#269](https://github.com/voxpupuli/puppet-openvpn/issues/269)
+
+**Merged pull requests:**
+
+- FreeBSD: change additional\_packages to easy-rsa2 [\#301](https://github.com/voxpupuli/puppet-openvpn/pull/301) ([olevole](https://github.com/olevole))
+- Update puppetlabs-stdlib dependency version in README [\#298](https://github.com/voxpupuli/puppet-openvpn/pull/298) ([simonrondelez](https://github.com/simonrondelez))
+- move concat version\_requirement to \>= 3.0.0 \< 6.0.0 [\#294](https://github.com/voxpupuli/puppet-openvpn/pull/294) ([Dan33l](https://github.com/Dan33l))
+- allow puppetlabs/stdlib 5.x [\#290](https://github.com/voxpupuli/puppet-openvpn/pull/290) ([bastelfreak](https://github.com/bastelfreak))
+- Remove deprecated hiera\_hash [\#289](https://github.com/voxpupuli/puppet-openvpn/pull/289) ([Dan33l](https://github.com/Dan33l))
+- Remove deprecated hiera\_hash [\#276](https://github.com/voxpupuli/puppet-openvpn/pull/276) ([jkroepke](https://github.com/jkroepke))
+
 ## [v7.3.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.3.0) (2018-08-18)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v7.2.0...v7.3.0)
