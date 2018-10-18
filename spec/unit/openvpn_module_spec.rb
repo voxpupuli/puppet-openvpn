@@ -6,7 +6,7 @@ describe Openvpn do
     subject(:path) { described_class.etc_path }
 
     before do
-      Facter.fact(:osfamily).stubs(:value).returns(osfamily)
+      allow(Facter.fact(:osfamily)).to receive(:value) { osfamily }
     end
 
     after { Facter.clear }
@@ -47,7 +47,7 @@ describe Openvpn do
     subject(:path) { described_class.client_certs }
 
     before do
-      Facter.fact(:osfamily).stubs(:value).returns(osfamily)
+      allow(Facter.fact(:osfamily)).to receive(:value) { osfamily }
     end
 
     after { Facter.clear }
