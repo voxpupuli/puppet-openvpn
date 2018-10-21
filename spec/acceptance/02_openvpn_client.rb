@@ -22,7 +22,7 @@ describe 'client defined type' do
           organization => 'FOO',
           email        => 'bar@foo.org',
           server       => '10.0.0.0 255.255.255.0',
-          local        => '',
+          local        => undef,
         }
 
 	openvpn::client { 'client1' :

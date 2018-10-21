@@ -290,7 +290,8 @@ describe 'openvpn::server' do
         let(:facts) do
           facts.merge(
             easyrsa: '2.0',
-            ipaddress_eth0: '1.2.3.4'
+            ipaddress_eth0: '1.2.3.4',
+            networking: { ip: '1.2.3.4' }
           )
         end
 

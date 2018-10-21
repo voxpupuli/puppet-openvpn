@@ -67,8 +67,8 @@
 #
 # [*local*]
 #   String.  Interface for openvpn to bind to.
-#   Default: $::ipaddress_eth0
-#   Options: An IP address or '' to bind to all ip addresses
+#   Default: $facts['networking']['ip']
+#   Options: An IP address or undef to bind to all ip addresses
 #
 # [*logfile*]
 #   String.  Logfile for this openvpn server
@@ -454,7 +454,7 @@ define openvpn::server (
   Optional[String] $group                                           = undef,
   Boolean $ipp                                                      = false,
   Boolean $duplicate_cn                                             = false,
-  String $local                                                     = $facts['ipaddress_eth0'],
+  Optional[Stdlib::IP::Address] $local                              = $facts['networking']['ip'],
   Variant[Boolean, String] $logfile                                 = false,
   String $port                                                      = '1194',
   Optional[String] $portshare                                       = undef,

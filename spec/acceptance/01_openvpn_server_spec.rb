@@ -18,7 +18,7 @@ describe 'server defined type' do
           organization => 'FOO',
           email        => 'bar@foo.org',
           server       => '10.0.0.0 255.255.255.0',
-          local        => '',
+          local        => undef,
         }
       )
       apply_manifest(pp, catch_failures: true)
