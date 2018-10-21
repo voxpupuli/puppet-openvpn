@@ -25,9 +25,8 @@ describe 'client defined type' do
           local        => undef,
         }
 
-	openvpn::client { 'client1' :
-	  server  => 'test_openvpn_server',
-	  require => Openvpn::Server['test_openvpn_server'],
+        -> openvpn::client { 'client1' :
+          server  => 'test_openvpn_server',
         }
       )
       apply_manifest(pp, catch_failures: true)
