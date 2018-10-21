@@ -150,7 +150,7 @@ define openvpn::ca (
         require => File["${etc_directory}/openvpn/${name}/easy-rsa"],
       }
 
-      if $openvpn::link_openssl_cnf == true {
+      if $openvpn::link_openssl_cnf {
         File["${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf"] {
           ensure => link,
           target => "${etc_directory}/openvpn/${name}/easy-rsa/openssl-1.0.0.cnf",
