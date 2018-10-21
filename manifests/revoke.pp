@@ -57,7 +57,7 @@ define openvpn::revoke (
   Openvpn::Client[$name]
   -> Openvpn::Revoke[$name]
 
-  $etc_directory = $::openvpn::params::etc_directory
+  $etc_directory = $openvpn::etc_directory
 
   exec { "revoke certificate for ${name} in context of ${server}":
     command  => ". ./vars && ./revoke-full ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/${name}",

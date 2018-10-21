@@ -54,7 +54,7 @@
 #
 # [*group*]
 #   String.  User to drop privileges to after startup
-#   Default: depends on your $::osfamily
+#   Default: depends on your $facts['os']['family']
 #
 # [*ipp*]
 #   Boolean.  Persist ifconfig information to a file to retain client IP
@@ -539,14 +539,14 @@ define openvpn::server (
   Class['openvpn::install']
   -> Openvpn::Server[$name]
 
-  if $::openvpn::params::systemd and $::openvpn::params::namespecific_rclink {
+  if $facts['service_provider'] == 'systemd' and $openvpn::namespecific_rclink {
     fail("Using systemd and namespecific rclink's (BSD-style) is not allowed")
   }
 
-  if $::openvpn::manage_service {
-    if $::openvpn::params::systemd {
+  if $openvpn::manage_service {
+    if $facts['service_provider'] == 'systemd' {
       $lnotify = Service["openvpn@${name}"]
-    } elsif $::openvpn::params::namespecific_rclink {
+    } elsif $openvpn::namespecific_rclink {
       $lnotify = Service["openvpn_${name}"]
     } else {
       $lnotify = Service['openvpn']
@@ -572,12 +572,11 @@ define openvpn::server (
     }
   }
 
-  $pam_module_path = $::openvpn::params::pam_module_path
-  $etc_directory = $::openvpn::params::etc_directory
-  $root_group = $::openvpn::params::root_group
+  $pam_module_path = $openvpn::pam_module_path
+  $etc_directory = $openvpn::etc_directory
 
   $group_to_set = $group ? {
-    undef   => $openvpn::params::group,
+    undef   => $openvpn::group,
     default => $group
   }
 
@@ -654,8 +653,8 @@ define openvpn::server (
           repeat => $crl_renew_schedule_repeat,
         }
         exec { "renew crl.pem on ${name}":
-          command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${::openvpn::params::etc_directory}/openvpn/${name}/crl.pem -config ${::openvpn::params::etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
-          cwd      => "${::openvpn::params::etc_directory}/openvpn/${name}/easy-rsa",
+          command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${openvpn::etc_directory}/openvpn/${name}/crl.pem -config ${openvpn::etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
+          cwd      => "${openvpn::etc_directory}/openvpn/${name}/easy-rsa",
           provider => 'shell',
           schedule => "renew crl.pem schedule on ${name}",
         }
@@ -688,7 +687,7 @@ define openvpn::server (
     }
   }
 
-  if $::osfamily == 'Debian' and !$::openvpn::autostart_all and $autostart {
+  if $facts['os']['family'] == 'Debian' and !$openvpn::autostart_all and $autostart {
     concat::fragment { "openvpn.default.autostart.${name}":
       content => "AUTOSTART=\"\$AUTOSTART ${name}\"\n",
       target  => '/etc/default/openvpn',
@@ -697,10 +696,10 @@ define openvpn::server (
   }
 
   # template use $_easyrsa_version
-  $_easyrsa_version = $openvpn::params::easyrsa_version
+  $_easyrsa_version = $openvpn::easyrsa_version
   file { "${etc_directory}/openvpn/${name}.conf":
     owner   => root,
-    group   => $root_group,
+    group   => 0,
     mode    => '0440',
     content => template('openvpn/server.erb'),
     notify  => $lnotify,
@@ -730,8 +729,8 @@ define openvpn::server (
     }
   }
 
-  if $::openvpn::params::systemd {
-    if $::openvpn::manage_service {
+  if $facts['service_provider'] == 'systemd' {
+    if $openvpn::manage_service {
       service { "openvpn@${name}":
         ensure   => running,
         enable   => true,
@@ -744,7 +743,7 @@ define openvpn::server (
     }
   }
 
-  if $::openvpn::params::namespecific_rclink {
+  if $openvpn::namespecific_rclink {
     file { "/usr/local/etc/rc.d/openvpn_${name}":
       ensure => link,
       target => "${etc_directory}/rc.d/openvpn",
@@ -752,12 +751,12 @@ define openvpn::server (
 
     file { "/etc/rc.conf.d/openvpn_${name}":
       owner   => root,
-      group   => $root_group,
+      group   => 0,
       mode    => '0644',
       content => template('openvpn/etc-rc.d-openvpn.erb'),
     }
 
-    if $::openvpn::manage_service {
+    if $openvpn::manage_service {
       service { "openvpn_${name}":
         ensure  => running,
         enable  => true,

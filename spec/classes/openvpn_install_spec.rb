@@ -4,7 +4,7 @@ describe 'openvpn::install', type: :class do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:pre_condition) do
-        'include openvpn::params'
+        'include openvpn'
       end
       let(:facts) do
         facts

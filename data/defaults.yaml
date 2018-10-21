@@ -1,0 +1,13 @@
+openvpn::autostart_all: true
+openvpn::manage_service: true
+openvpn::etc_directory: '/etc'
+openvpn::group: 'nobody'
+openvpn::link_openssl_cnf: true
+openvpn::pam_module_path: ~
+openvpn::namespecific_rclink: false
+openvpn::default_easyrsa_ver: '2.0'
+openvpn::easyrsa_source: '/usr/share/easy-rsa/'
+openvpn::additional_packages: ['easy-rsa']
+openvpn::ldap_auth_plugin_location: ~
+
+openvpn::deploy::prepare::etc_directory: "%{alias('openvpn::etc_directory')}"

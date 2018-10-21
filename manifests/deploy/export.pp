@@ -40,7 +40,7 @@ define openvpn::deploy::export (
 
       @@file { "exported-${server}-${name}-config":
         ensure  => file,
-        path    => "${::openvpn::params::etc_directory}/openvpn/${name}.conf",
+        path    => "${openvpn::etc_directory}/openvpn/${name}.conf",
         owner   => 'root',
         group   => 'root',
         mode    => '0600',
@@ -50,7 +50,7 @@ define openvpn::deploy::export (
 
       @@file { "exported-${server}-${name}-ca":
         ensure  => file,
-        path    => "${::openvpn::params::etc_directory}/openvpn/keys/${name}/ca.crt",
+        path    => "${openvpn::etc_directory}/openvpn/keys/${name}/ca.crt",
         owner   => 'root',
         group   => 'root',
         mode    => '0600',
@@ -60,7 +60,7 @@ define openvpn::deploy::export (
 
       @@file { "exported-${server}-${name}-crt":
         ensure  => file,
-        path    => "${::openvpn::params::etc_directory}/openvpn/keys/${name}/${name}.crt",
+        path    => "${openvpn::etc_directory}/openvpn/keys/${name}/${name}.crt",
         owner   => 'root',
         group   => 'root',
         mode    => '0600',
@@ -70,7 +70,7 @@ define openvpn::deploy::export (
 
       @@file { "exported-${server}-${name}-key":
         ensure  => file,
-        path    => "${::openvpn::params::etc_directory}/openvpn/keys/${name}/${name}.key",
+        path    => "${openvpn::etc_directory}/openvpn/keys/${name}/${name}.key",
         owner   => 'root',
         group   => 'root',
         mode    => '0600',
@@ -81,7 +81,7 @@ define openvpn::deploy::export (
       if $tls_auth {
         @@file { "exported-${server}-${name}-ta":
           ensure  => file,
-          path    => "${::openvpn::params::etc_directory}/openvpn/keys/${name}/ta.key",
+          path    => "${openvpn::etc_directory}/openvpn/keys/${name}/ta.key",
           owner   => 'root',
           group   => 'root',
           mode    => '0600',

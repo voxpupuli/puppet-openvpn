@@ -244,7 +244,7 @@ define openvpn::client (
   Openvpn::Ca[$ca_name]
   -> Openvpn::Client[$name]
 
-  $etc_directory = $::openvpn::params::etc_directory
+  $etc_directory = $openvpn::etc_directory
 
   if $expire {
     if is_integer($expire) {
@@ -256,7 +256,7 @@ define openvpn::client (
     $env_expire = ''
   }
 
-  case $openvpn::params::easyrsa_version {
+  case $openvpn::easyrsa_version {
     '2.0': {
       exec { "generate certificate for ${name} in context of ${ca_name}":
         command  => ". ./vars && ${env_expire} ./pkitool ${name}",
@@ -298,7 +298,7 @@ define openvpn::client (
       }
     }
     default: {
-      fail("unexepected value for EasyRSA version, got '${openvpn::params::easyrsa_version}', expect 2.0 or 3.0.")
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
     }
   }
 
@@ -354,7 +354,7 @@ define openvpn::client (
 
   file { "${etc_directory}/openvpn/${server}/download-configs/${name}/${name}.conf":
     owner   => root,
-    group   => $::openvpn::params::root_group,
+    group   => 0,
     mode    => '0444',
     content => template('openvpn/client.erb', 'openvpn/client_external_auth.erb'),
   }

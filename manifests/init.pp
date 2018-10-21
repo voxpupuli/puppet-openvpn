@@ -11,6 +11,33 @@
 # [*manage_service*]
 #   Boolean. Wether the openvpn service should be managed by puppet.
 #   Default: true
+# [*etc_directory*]
+#   String. Path of the configuration directory.
+#   Default: /etc
+# [*group*]
+#   String. File group of the generated config files.
+#   Default: nobody
+# [*link_openssl_cnf*]
+#   Boolean. Link easy-rsa/openssl.cnf to easy-rsa/openssl-1.0.0.cnf
+#   Default: true
+# [*pam_module_path*]
+#   String. Path to openvpn-auth-pam.so
+#   Default: undef
+# [*namespecific_rclink*]
+#   Boolean. Enable namespecific rclink's (BSD-style)
+#   Default: false
+# [*default_easyrsa_ver*]
+#   String. Expected version of easyrsa.
+#   Default: 2.0
+# [*easyrsa_source*]
+#   String. Location of easyrsa.
+#   Default: /usr/share/easy-rsa/
+# [*additional_packages*]
+#   Array. Additional packages
+#   Default: ['easy-rsa']
+# [*ldap_auth_plugin_location*]
+#   String. Path to the ldap auth pam module
+#   Default: undef
 # [*client_defaults*]
 #   Hash of defaults for clients passed to openvpn::client defined type.
 #   Default: {}
@@ -69,35 +96,82 @@
 # limitations under the License.
 #
 class openvpn (
-  Boolean $autostart_all                = true,
-  Boolean $manage_service               = true,
-  Hash $client_defaults                 = {},
-  Hash $clients                         = {},
-  Hash $client_specific_config_defaults = {},
-  Hash $client_specific_configs         = {},
-  Hash $revoke_defaults                 = {},
-  Hash $revokes                         = {},
-  Hash $server_defaults                 = {},
-  Hash $servers                         = {},
-) {
+  Boolean                              $autostart_all,
+  Boolean                              $manage_service,
+  Stdlib::Absolutepath                 $etc_directory,
+  String[1]                            $group,
+  Boolean                              $link_openssl_cnf,
+  Optional[Stdlib::Absolutepath]       $pam_module_path,
+  Boolean                              $namespecific_rclink,
+  Pattern[/^[23]\.0$/]                 $default_easyrsa_ver,
+  Stdlib::Unixpath                     $easyrsa_source,
+  Variant[String[1], Array[String[1]]] $additional_packages,
+  Optional[Stdlib::Absolutepath]       $ldap_auth_plugin_location,
 
-  class { 'openvpn::params': }
-  -> class { 'openvpn::install': }
-  -> class { 'openvpn::config': }
+  Hash                                 $client_defaults                 = {},
+  Hash                                 $clients                         = {},
+  Hash                                 $client_specific_config_defaults = {},
+  Hash                                 $client_specific_configs         = {},
+  Hash                                 $revoke_defaults                 = {},
+  Hash                                 $revokes                         = {},
+  Hash                                 $server_defaults                 = {},
+  Hash                                 $servers                         = {},
+) {
+  $easyrsa_version = $facts['easyrsa'] ? {
+    undef   => $default_easyrsa_ver,
+    default => $facts['easyrsa'],
+  }
+
+  include openvpn::install
+  include openvpn::config
+
+  Class['openvpn::install']
+  -> Class['openvpn::config']
   -> Class['openvpn']
 
-  if !$::openvpn::params::systemd {
+  if $facts['service_provider'] != 'systemd' {
     class { 'openvpn::service':
       subscribe => [Class['openvpn::config'], Class['openvpn::install'] ],
     }
+
     if empty($servers) {
       Class['openvpn::service'] -> Class['openvpn']
     }
   }
 
-  create_resources('openvpn::client', $clients, $client_defaults)
-  create_resources('openvpn::client_specific_config', $client_specific_configs, $client_specific_config_defaults)
-  create_resources('openvpn::revoke', $revokes, $revoke_defaults)
-  create_resources('openvpn::server', $servers, $server_defaults)
+  $clients.each |$name, $params| {
+    openvpn::client {
+      default:
+        * => $client_defaults;
+      $name:
+        * => $params;
+    }
+  }
 
+  $client_specific_configs.each |$name, $params| {
+    openvpn::client_specific_config {
+      default:
+        * => $client_specific_config_defaults;
+      $name:
+        * => $params;
+    }
+  }
+
+  $revokes.each |$name, $params| {
+    openvpn::revoke {
+      default:
+        * => $revoke_defaults;
+      $name:
+        * => $params;
+    }
+  }
+
+  $servers.each |$name, $params| {
+    openvpn::server {
+      default:
+        * => $server_defaults;
+      $name:
+        * => $params;
+    }
+  }
 }

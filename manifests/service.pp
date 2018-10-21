@@ -30,7 +30,7 @@
 # limitations under the License.
 #
 class openvpn::service {
-  if $::openvpn::manage_service and !$::openvpn::params::namespecific_rclink {
+  if $openvpn::manage_service and !$openvpn::namespecific_rclink {
     service { 'openvpn':
       ensure     => running,
       enable     => true,

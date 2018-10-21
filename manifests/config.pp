@@ -29,12 +29,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class openvpn::config inherits openvpn::params {
+class openvpn::config {
 
-  if $::osfamily == 'Debian' {
+  if $facts['osfamily'] == 'Debian' {
     concat { '/etc/default/openvpn':
       owner => root,
-      group => $openvpn::params::root_group,
+      group => 0,
       mode  => '0644',
       warn  => true,
     }
