@@ -40,7 +40,7 @@
 # [*compression*]
 #   String.  Which compression algorithim to use
 #   Default: comp-lzo
-#   Options: comp-lzo or '' (disable compression)
+#   Options: comp-lzo or undef (disable compression)
 #
 # [*dev*]
 #   String.  TUN/TAP virtual network device
@@ -448,7 +448,7 @@ define openvpn::server (
   Optional[String] $email                                           = undef,
   Optional[Array] $remote                                           = undef,
   String $common_name                                               = 'server',
-  String $compression                                               = 'comp-lzo',
+  Optional[String[1]] $compression                                  = 'comp-lzo',
   String $dev                                                       = 'tun0',
   String $user                                                      = 'nobody',
   Optional[String] $group                                           = undef,

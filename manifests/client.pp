@@ -13,7 +13,7 @@
 # [*compression*]
 #   String.  Which compression algorithim to use
 #   Default: comp-lzo
-#   Options: comp-lzo or '' (disable compression)
+#   Options: comp-lzo or undef (disable compression)
 #
 # [*dev*]
 #   String.  Device method
@@ -195,7 +195,7 @@
 #
 define openvpn::client (
   String $server,
-  String $compression                         = 'comp-lzo',
+  Optional[String[1]] $compression            = 'comp-lzo',
   String $dev                                 = 'tun',
   Integer $mute                               = 20,
   Boolean $mute_replay_warnings               = true,

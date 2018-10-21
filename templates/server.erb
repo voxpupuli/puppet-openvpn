@@ -65,7 +65,7 @@ tls-server
 <% if @tls_client -%>
 tls-client
 <% end -%>
-<% if @compression != '' -%>
+<% if @compression -%>
 <%= @compression %>
 <% end -%>
 group <%= @group_to_set %>
