@@ -18,24 +18,22 @@ class openvpn::params {
 
   case $facts['os']['family'] {
     'RedHat': { # RedHat/CentOS
-      $etc_directory       = '/etc'
-      $root_group          = 'root'
-      $group               = 'nobody'
-      $link_openssl_cnf    = true
-      $pam_module_path     = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
-      $namespecific_rclink = false
-      $default_easyrsa_ver = '3.0'
-      $easyrsa_source      = '/usr/share/easy-rsa/3'
+      $etc_directory             = '/etc'
+      $root_group                = 'root'
+      $group                     = 'nobody'
+      $link_openssl_cnf          = true
+      $pam_module_path           = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
+      $namespecific_rclink       = false
+      $default_easyrsa_ver       = '3.0'
+      $additional_packages       = ['easy-rsa','openvpn-auth-ldap']
+      $easyrsa_source            = '/usr/share/easy-rsa/3'
+      $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
 
       case $facts['os']['release']['major'] {
         '7': {
-          $additional_packages = ['easy-rsa']
-          $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
           $systemd = true
         }
         '6': {
-          $additional_packages = ['easy-rsa','openvpn-auth-ldap']
-          $ldap_auth_plugin_location = '/usr/lib64/openvpn/plugin/lib/openvpn-auth-ldap.so'
           $systemd = false
         }
         default: {
