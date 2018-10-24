@@ -38,15 +38,15 @@ define openvpn::deploy::client (
 
   if $manage_etc {
     file { [
-      "${::openvpn::params::etc_directory}/openvpn",
-      "${::openvpn::params::etc_directory}/openvpn/keys",
-      "${::openvpn::params::etc_directory}/openvpn/keys/${name}",
+      "${openvpn::deploy::prepare::etc_directory}/openvpn",
+      "${openvpn::deploy::prepare::etc_directory}/openvpn/keys",
+      "${openvpn::deploy::prepare::etc_directory}/openvpn/keys/${name}",
     ]:
       ensure  => directory,
       require => Package['openvpn'];
     }
   } else {
-    file { "${::openvpn::params::etc_directory}/openvpn/keys/${name}":
+    file { "${openvpn::deploy::prepare::etc_directory}/openvpn/keys/${name}":
       ensure  => directory,
       require => Package['openvpn'];
     }

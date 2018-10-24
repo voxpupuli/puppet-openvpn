@@ -59,10 +59,6 @@ describe 'openvpn::client', type: :define do
             )
           }
         end
-      else
-        context 'unsupported systems' do
-          it { is_expected.to raise_error(%r{unsupported OS}) }
-        end
       end
 
       it {
@@ -249,10 +245,6 @@ describe 'openvpn::client', type: :define do
                 'target'  => '/etc/openvpn/my_already_existing_ca/easy-rsa/keys/ca.crt'
               )
             }
-          end
-        else
-          context 'unsupported systems' do
-            it { is_expected.to raise_error(%r{unsupported OS}) }
           end
         end
       end

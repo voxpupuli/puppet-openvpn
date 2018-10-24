@@ -4,7 +4,9 @@
 #
 # === Parameters
 #
-# None
+# [*etc_directory*]
+#   String. Path of the configuration directory.
+#   Default: /etc
 #
 # === Variables
 #
@@ -19,9 +21,9 @@
 # Phil Bayfield https://bitbucket.org/Philio/
 #
 
-class openvpn::deploy::prepare {
-
-  class { 'openvpn::params': }
+class openvpn::deploy::prepare(
+  Stdlib::Absolutepath $etc_directory
+) {
 
   class { 'openvpn::deploy::install': }
   ~> class { 'openvpn::deploy::service': }
