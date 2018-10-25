@@ -186,7 +186,7 @@ The default tls_cipher option is now set to: `TLS-DHE-RSA-WITH-AES-256-GCM-SHA38
 Details of these ciphers and their uses can be found in the documentation links above.
 
 Note : TLS ciphers suites shipped with OSes ubuntu14.04 and debian8 are too old compared to our default values.
-If these OSes hosts the server with clients more moderns, you will probably have to use custom value for option `tls_cipher`.
+If the openvpn server is running on these OSes with clients on more modern OSes, you will probably have to use custom value for option `tls_cipher`.
 
 ## Contributions
 

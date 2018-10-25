@@ -13,8 +13,8 @@ when 'Debian'
   index_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
 end
 
-# All-terrain tls ciphers are used to be able to works with all supported OSes.
-# Default value is with ciphers too recents for old OSes like ubuntu 14.04.
+# All-terrain tls ciphers are used to be able to work with all supported OSes.
+# Default value is with ciphers too recent for old OSes like ubuntu 14.04.
 describe 'server defined type' do
   context 'with basics parameters' do
     it 'installs openvpn server idempotently' do
