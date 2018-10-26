@@ -1,233 +1,83 @@
-# == Define: openvpn::client
 #
-# This define creates the client certs for a specified openvpn server as well
-# as creating a tarball that can be directly imported into openvpn clients
+# @summary This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
 #
+# @param server Name of the corresponding openvpn endpoint
+# @param compression Which compression algorithim to use
+# @param dev Device method
+# @param mute Set log mute level
+# @param mute_replay_warnings Silence duplicate packet warnings (common on wireless networks)
+# @param nobind Whether or not to bind to a specific port number
+# @param persist_key Try to retain access to resources that may be unavailable because of privilege downgrades
+# @param persist_tun Try to retain access to resources that may be unavailable because of privilege downgrades
+# @param port The port the openvpn server service is running on
+# @param proto What IP protocol is being used.
+# @param remote_host  The IP or hostname of the openvpn server service.
+# @param cipher Cipher to use for packet encryption
+# @param tls_cipher TLS Ciphers to use
+# @param resolv_retry  How many seconds should the openvpn client try to resolve the server's hostname
+# @param auth_retry Controls how OpenVPN responds to username/password verification errors such as the client-side response to an AUTH_FAILED message from the server or verification failure of the private key password.
+# @param verb Level of logging verbosity
+# @param pam DEPRECATED: Boolean, Enable/Disable.
+# @param authuserpass Set if username and password required
+# @param tls_auth Activates tls-auth to Add an additional layer of HMAC authentication on top of the TLS control channel to protect against DoS attacks. This has to be set to the same value as on the Server
+# @param x509_name Common name of openvpn server to make an x509-name verification
+# @param setenv Set a custom environmental variable name=value to pass to script.
+# @param setenv_safe  Set a custom environmental variable OPENVPN_name=value to pass to script. This directive is designed to be pushed by the server to clients, and the prepending of "OPENVPN_" to the environmental variable is a safety precaution to prevent a LD_PRELOAD style attack from a malicious or compromised server.
+# @param up Script which we want to run when openvpn client is connecting
+# @param down Script which we want to run when openvpn client is disconneting
+# @param sndbuf  Set the TCP/UDP socket send buffer size.
+# @param rcvbuf  Set the TCP/UDP socket receive buffer size.
+# @param shared_ca The name of an openssl::ca resource to use.
+# @param custom_options Hash of additional options that you want to append to the configuration file.
+# @param expire Set a custom expiry time to pass to script. Value is the number of days the certificate is valid for.
+# @param readme Text to place in a README file which is included in download-configs archive.
+# @param pull Allow server to push options like dns or routes
+# @param server_extca_enabled Turn this on if you are using an external CA solution, like FreeIPA. Use this in Combination with exported_ressourced, since they don't have Access to the Serverconfig
+# @param ns_cert_type Enable or disable use of ns-cert-type. Deprecated in OpenVPN 2.4 and replaced with remote-cert-tls
+# @param remote_cert_tls Enable or disable use of remote-cert-tls used with client configuration
 #
-# === Parameters
-#
-# [*server*]
-#   String.  Name of the corresponding openvpn endpoint
-#   Required
-#
-# [*compression*]
-#   String.  Which compression algorithim to use
-#   Default: comp-lzo
-#   Options: comp-lzo or '' (disable compression)
-#
-# [*dev*]
-#   String.  Device method
-#   Default: tun
-#   Options: tun (routed connections), tap (bridged connections)
-#
-# [*mute*]
-#   Integer.  Set log mute level
-#   Default: 20
-#
-# [*mute_replay_warnings*]
-#   Boolean.  Silence duplicate packet warnings (common on wireless networks)
-#   Default: true
-#
-# [*nobind*]
-#   Boolean.  Whether or not to bind to a specific port number
-#   Default: true
-#
-# [*persist_key*]
-#   Boolean.  Try to retain access to resources that may be unavailable
-#     because of privilege downgrades
-#   Default: true
-#
-# [*persist_tun*]
-#   Boolean.  Try to retain access to resources that may be unavailable
-#     because of privilege downgrades
-#   Default: true
-#
-# [*port*]
-#   Integer.  The port the openvpn server service is running on
-#   Default: 1194
-#
-# [*proto*]
-#   String.  What IP protocol is being used.
-#   Default: tcp
-#   Options: tcp or udp
-#
-# [*remote_host*]
-#   String/Array.  The IP or hostname of the openvpn server service.
-#   Default: FQDN
-#
-# [*cipher*]
-#   String,  Cipher to use for packet encryption
-#   Default: AES-256-CBC
-#
-# [*tls_cipher*]
-#   String, TLS Ciphers to use
-#   Default: TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256
-#
-# [*resolv_retry*]
-#   Integer/String. How many seconds should the openvpn client try to resolve
-#     the server's hostname
-#   Default: infinite
-#   Options: Integer or infinite
-#
-# [*auth_retry*]
-#   String. Controls how OpenVPN responds to username/password verification
-#     errors such as the client-side response to an AUTH_FAILED message from
-#     the server or verification failure of the private key password.
-#   Default: none
-#   Options: 'none' or 'nointeract' or 'interact'
-#
-# [*verb*]
-#   Integer.  Level of logging verbosity
-#   Default: 3
-#
-# [*pam*]
-#   DEPRECATED: Boolean, Enable/Disable.
-#
-# [*authuserpass*]
-#   Boolean. Set if username and password required
-#   Default: false
-#
-# [*tls_auth*]
-#   Boolean. Activates tls-auth to Add an additional layer of HMAC
-#     authentication on top of the TLS control channel to protect
-#     against DoS attacks. This has to be set to the same value as on the
-#     Server
-#   Default: false
-#
-# [*x509_name*]
-#   Common name of openvpn server to make an x509-name verification
-#   Default: undef
-#
-# [*setenv*]
-#   Hash. Set a custom environmental variable name=value to pass to script.
-#   Default: {}
-#
-# [*setenv_safe*]
-#   Hash. Set a custom environmental variable OPENVPN_name=value to pass to
-#     script. This directive is designed to be pushed by the server to clients,
-#     and the prepending of "OPENVPN_" to the environmental variable is a
-#     safety precaution to prevent a LD_PRELOAD style attack from a malicious
-#     or compromised server.
-#   Default: {}
-#
-# [*up*]
-#   String,  Script which we want to run when openvpn client is connecting
-#
-# [*down*]
-#   String,  Script which we want to run when openvpn client is disconneting
-#
-# [*sndbuf*]
-#   Integer, Set the TCP/UDP socket send buffer size.
-#   Default: undef
-#
-# [*rcvbuf*]
-#   Integer, Set the TCP/UDP socket receive buffer size.
-#   Default: undef
-#
-# [*shared_ca*]
-#   String,  The name of an openssl::ca resource to use.
-#   Default: undef
-#
-# [*custom_options*]
-#   Hash of additional options that you want to append to the configuration file.
-#
-# [*expire*]
-#   Integer. Set a custom expiry time to pass to script. Value is the number of
-#   days the certificate is valid for.
-#   Default: undef
-#
-# [*readme*]
-#   String. Text to place in a README file which is included in download-configs
-#   archive.
-#   Default: undef
-#
-# [*pull*]
-#   Boolean. Allow server to push options like dns or routes
-#   Default: false
-#
-# [*server_extca_enabled*]
-#   Boolean. Turn this on if you are using an external CA solution, like FreeIPA.
-#            Use this in Combination with exported_ressourced, since they don't have Access to the Serverconfig
-#   Default: false
-#
-# [*ns_cert_type*]
-#   Boolean. Enable or disable use of ns-cert-type.
-#   Deprecated in OpenVPN 2.4 and replaced with remote-cert-tls
-#   Default: true
-#
-# [*remote_cert_tls*]
-#   Boolean. Enable or disable use of remote-cert-tls
-#   used with client configuration
-#   Default: false
-# === Examples
-#
+# @example
 #   openvpn::client {
 #     'my_user':
 #       server      => 'contractors',
 #       remote_host => 'vpn.mycompany.com'
 #    }
 #
-# * Removal:
-#     Manual process right now, todo for the future
-#
-#
-# === Authors
-#
-# * Raffael Schmid <mailto:raffael@yux.ch>
-# * John Kinsella <mailto:jlkinsel@gmail.com>
-# * Justin Lambert <mailto:jlambert@letsevenup.com>
-#
-# === License
-#
-# Copyright 2013 Raffael Schmid, <raffael@yux.ch>
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
 define openvpn::client (
   String $server,
-  String $compression                         = 'comp-lzo',
-  String $dev                                 = 'tun',
-  Integer $mute                               = 20,
-  Boolean $mute_replay_warnings               = true,
-  Boolean $nobind                             = true,
-  Boolean $persist_key                        = true,
-  Boolean $persist_tun                        = true,
-  String $port                                = '1194',
-  String $proto                               = 'tcp',
-  Variant[String, Array[String]] $remote_host = $::fqdn,
-  String $resolv_retry                        = 'infinite',
-  String $auth_retry                          = 'none',
-  String $verb                                = '3',
-  Boolean $pam                                = false,
-  String $cipher                              = 'AES-256-CBC',
-  String $tls_cipher                          = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
-  Boolean $authuserpass                       = false,
-  Hash $setenv                                = {},
-  Hash $setenv_safe                           = {},
-  String $up                                  = '',
-  String $down                                = '',
-  Boolean $tls_auth                           = false,
-  Optional[String] $x509_name                 = undef,
-  Optional[Integer] $sndbuf                   = undef,
-  Optional[Integer] $rcvbuf                   = undef,
-  Optional[String] $shared_ca                 = undef,
-  Hash $custom_options                        = {},
-  Optional[Integer] $expire                   = undef,
-  Optional[String] $readme                    = undef,
-  Boolean $pull                               = false,
-  Boolean $server_extca_enabled               = false,
-  Boolean $ns_cert_type                       = true,
-  Boolean $remote_cert_tls                    = false,
+  Enum['comp-lzo', ''] $compression                    = 'comp-lzo',
+  Enum['tap', 'tun'] $dev                              = 'tun',
+  Integer $mute                                        = 20,
+  Boolean $mute_replay_warnings                        = true,
+  Boolean $nobind                                      = true,
+  Boolean $persist_key                                 = true,
+  Boolean $persist_tun                                 = true,
+  String $port                                         = '1194',
+  Enum['tcp','udp'] $proto                             = 'tcp',
+  Variant[String, Array[String]] $remote_host          = $::fqdn,
+  String $resolv_retry                                 = 'infinite',
+  Enum['none', 'nointeract', 'interact'] $auth_retry   = 'none',
+  String $verb                                         = '3',
+  Boolean $pam                                         = false,
+  String $cipher                                       = 'AES-256-CBC',
+  String $tls_cipher                                   = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
+  Boolean $authuserpass                                = false,
+  Hash $setenv                                         = {},
+  Hash $setenv_safe                                    = {},
+  String $up                                           = '',
+  String $down                                         = '',
+  Boolean $tls_auth                                    = false,
+  Optional[String] $x509_name                          = undef,
+  Optional[Integer] $sndbuf                            = undef,
+  Optional[Integer] $rcvbuf                            = undef,
+  Optional[String] $shared_ca                          = undef,
+  Hash $custom_options                                 = {},
+  Optional[Integer] $expire                            = undef,
+  Optional[String] $readme                             = undef,
+  Boolean $pull                                        = false,
+  Boolean $server_extca_enabled                        = false,
+  Boolean $ns_cert_type                                = true,
+  Boolean $remote_cert_tls                             = false,
 ) {
 
   if $pam {
