@@ -26,7 +26,6 @@ Puppet module to manage OpenVPN servers and clients.
 * Debian
 * CentOS
 * RedHat
-* Amazon
 
 ## Dependencies
   - [puppetlabs-concat 3.0.0+](https://github.com/puppetlabs/puppetlabs-concat)
@@ -34,7 +33,7 @@ Puppet module to manage OpenVPN servers and clients.
 
 ## Puppet
 
-* Version >= 4.7.1
+* Version >= 4.10.0
 
 ## Example
 
@@ -126,8 +125,7 @@ Don't forget the sysctl directive ```net.ipv4.ip_forward```!
 
 ## Encryption Choices
 
-This module provides certain default parameters for the openvpn encryption
-settings.
+This module provides certain default parameters for the openvpn encryption settings.
 
 These settings have been applied in line with current "best practices" but no
 guarantee is given for their saftey and they could change in future.
@@ -169,7 +167,6 @@ This setting also affects the size of the dhparam file.
 > 2048 bits is OK, but both [NSA](https://cryptome.org/2016/01/CNSA-Suite-and-Quantum-Computing-FAQ.pdf) and [ANSSI](https://www.ssi.gouv.fr/uploads/2015/01/RGS_v-2-0_B1.pdf) recommend at least a 3072 bits for a future-proof key. As the size of the key will have an impact on speed, I leave the choice to use 2048, 3072 or 4096 bits RSA key. 4096 bits is what's most used and recommened today, but 3072 bits is still good.
 
 
-
 ### Cipher
 
 The default data channel cipher is now set to `AES-256-CBC`
@@ -180,18 +177,16 @@ OpenVPN was setting its default value to `BF-CBC`. In newer versions of OpenVPN
 it warns that this is no longer a secure cipher.
 The OpenVPN documentation recommends using this setting.
 
-
-
 ### tls_cipher
 
 The default tls_cipher option is now set to: `TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256`
 
 ##### Why
 
-Details of these ciphers and their uses can be found in the documentation links
-above.
+Details of these ciphers and their uses can be found in the documentation links above.
 
-
+Note : TLS ciphers suites shipped with OSes ubuntu14.04 and debian8 are too old compared to our default values.
+If the openvpn server is running on these OSes with clients on more modern OSes, you will probably have to use custom value for option `tls_cipher`.
 
 ## Contributions
 
