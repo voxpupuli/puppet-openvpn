@@ -1,99 +1,30 @@
-# == Class: openvpn
 #
-# This module installs the openvpn service, configures vpn endpoints, generates
-# client certificates, and generates client config files
+# @summary This module installs the openvpn service, configures vpn endpoints, generates client certificates, and generates client config files
 #
-# === Parameters
+# @param autostart_all Whether openvpn instances should be started automatically on boot.
+# @param manage_service Whether the openvpn service should be managed by puppet.
+# @param etc_directory  Path of the configuration directory.
+# @param group  File group of the generated config files.
+# @param link_openssl_cnf Link easy-rsa/openssl.cnf to easy-rsa/openssl-1.0.0.cnf
+# @param pam_module_path  Path to openvpn-auth-pam.so
+# @param namespecific_rclink Enable namespecific rclink's (BSD-style)
+# @param default_easyrsa_ver Expected version of easyrsa.
+# @param easyrsa_source  Location of easyrsa.
+# @param additional_packages Additional packages
+# @param ldap_auth_plugin_location  Path to the ldap auth pam module
+# @param client_defaults Hash of defaults for clients passed to openvpn::client defined type.
+# @param clients Hash of clients passed to openvpn::client defined type.
+# @param client_specific_config_defaults Hash of defaults for client specific configurations passed to openvpn::client_specific_config defined type.
+# @param client_specific_configs Hash of client specific configurations passed to openvpn::client_specific_config defined type.
+# @param revoke_defaults Hash of defaults for revokes passed to openvpn::revoke defined type.
+# @param revokes Hash of revokes passed to openvpn::revoke defined type.
+# @param server_defaults Hash of defaults for servers passed to openvpn::server defined type.
+# @param servers Hash of servers passed to openvpn::server defined type.
 #
-# [*autostart_all*]
-#   Boolean. Whether openvpn instances should be started automatically on boot.
-#   Default: true
-# [*manage_service*]
-#   Boolean. Wether the openvpn service should be managed by puppet.
-#   Default: true
-# [*etc_directory*]
-#   String. Path of the configuration directory.
-#   Default: /etc
-# [*group*]
-#   String. File group of the generated config files.
-#   Default: nobody
-# [*link_openssl_cnf*]
-#   Boolean. Link easy-rsa/openssl.cnf to easy-rsa/openssl-1.0.0.cnf
-#   Default: true
-# [*pam_module_path*]
-#   String. Path to openvpn-auth-pam.so
-#   Default: undef
-# [*namespecific_rclink*]
-#   Boolean. Enable namespecific rclink's (BSD-style)
-#   Default: false
-# [*default_easyrsa_ver*]
-#   String. Expected version of easyrsa.
-#   Default: 2.0
-# [*easyrsa_source*]
-#   String. Location of easyrsa.
-#   Default: /usr/share/easy-rsa/
-# [*additional_packages*]
-#   Array. Additional packages
-#   Default: ['easy-rsa']
-# [*ldap_auth_plugin_location*]
-#   String. Path to the ldap auth pam module
-#   Default: undef
-# [*client_defaults*]
-#   Hash of defaults for clients passed to openvpn::client defined type.
-#   Default: {}
-# [*clients*]
-#   Hash of clients passed to openvpn::client defined type.
-#   Default: {}
-# [*client_specific_config_defaults*]
-#   Hash of defaults for client specific configurations passed to
-#   openvpn::client_specific_config defined type.
-#   Default: {}
-# [*client_specific_configs*]
-#   Hash of client specific configurations passed to
-#   openvpn::client_specific_config defined type.
-#   Default: {}
-# [*revoke_defaults*]
-#   Hash of defaults for revokes passed to openvpn::revoke defined type.
-#   Default: {}
-# [*revokes*]
-#   Hash of revokes passed to openvpn::revoke defined type.
-#   Default: {}
-# [*server_defaults*]
-#   Hash of defaults for servers passed to openvpn::server defined type.
-#   Default: {}
-# [*servers*]
-#   Hash of servers passed to openvpn::server defined type.
-#   Default: {}
-#
-#
-# === Examples
-#
+# @example
 #   class { 'openvpn':
 #     autostart_all => true,
 #   }
-#
-#
-# === Authors
-#
-# * Raffael Schmid <mailto:raffael@yux.ch>
-# * John Kinsella <mailto:jlkinsel@gmail.com>
-# * Justin Lambert <mailto:jlambert@letsevenup.com>
-#
-# === License
-#
-# Copyright 2013 Raffael Schmid, <raffael@yux.ch>
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 #
 class openvpn (
   Boolean                              $autostart_all,

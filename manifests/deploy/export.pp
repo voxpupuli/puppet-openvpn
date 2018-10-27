@@ -1,30 +1,14 @@
-# == Define: openvpn::deploy::export
 #
-# Prepare all Openvpn-Client-Configs to be exported
+# @summary Prepare all Openvpn-Client-Configs to be exported
 #
-# === Parameters
+# @param server which Openvpn::Server[$server] does the config belong to?
+# @param tls_auth should the ta* files be exported too?
 #
-# $server   which Openvpn::Server[$server] does the config belong to?
-# String
-#
-# $tls_auth should the ta* files be exported too?
-#
-# === Variables
-#
-# None
-#
-# === Examples
-#
+# @example
 #  openvpn::deploy::export { 'test-client':
 #    server => 'test_server',
 #  }
 #
-# === Authors
-#
-# Tobias Knipping https://github.com/to-kn
-# Phil Bayfield https://bitbucket.org/Philio/
-#
-
 define openvpn::deploy::export (
   String $server,
   Boolean $tls_auth = false,
