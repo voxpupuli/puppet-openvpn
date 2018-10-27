@@ -35,7 +35,8 @@ Puppet module to manage OpenVPN servers and clients.
 
 * Version >= 4.10.0
 
-## Example
+## REFERENCES
+
 Please see [REFERENCE](REFERENCE.md) for more details.
 
 ## Example with hiera
@@ -152,3 +153,4 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for more details.
 
 * Raffael Schmid <raffael@yux.ch>
 * Vox Pupuli Team
+* List of contributors https://github.com/danquack/puppet-openvpn/graphs/contributors
