@@ -1,0 +1,9 @@
+openvpn::etc_directory: '/etc'
+openvpn::group: 'nogroup'
+openvpn::link_openssl_cnf: true
+openvpn::namespecific_rclink: false
+openvpn::default_easyrsa_ver: '2.0'
+openvpn::additional_packages: ['easy-rsa','openvpn-auth-ldap']
+openvpn::easyrsa_source: '/usr/share/easy-rsa/'
+openvpn::ldap_auth_plugin_location: '/usr/lib/openvpn/openvpn-auth-ldap.so'
+openvpn::pam_module_path: '/usr/lib/openvpn/openvpn-plugin-auth-pam.so'

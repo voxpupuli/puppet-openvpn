@@ -1,27 +1,13 @@
-# == Class: openvpn::deploy::prepare
 #
-# Base profile
+# @summary Base profile
 #
-# === Parameters
+# @param etc_directory Path of the configuration directory.
+# @example
+#   include openvpn::deploy::prepare
 #
-# None
-#
-# === Variables
-#
-# None
-#
-# === Examples
-#
-#  include openvpn::deploy::prepare
-#
-# === Authors
-#
-# Phil Bayfield https://bitbucket.org/Philio/
-#
-
-class openvpn::deploy::prepare {
-
-  class { 'openvpn::params': }
+class openvpn::deploy::prepare(
+  Stdlib::Absolutepath $etc_directory
+) {
 
   class { 'openvpn::deploy::install': }
   ~> class { 'openvpn::deploy::service': }

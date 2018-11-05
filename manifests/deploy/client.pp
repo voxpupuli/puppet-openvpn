@@ -1,29 +1,13 @@
-# == Define: openvpn::deploy::client
 #
-# Collect the exported configs for an Host and ensure a running Openvpn Service
+# @summary Collect the exported configs for an Host and ensure a running Openvpn Service
+# @param server which Openvpn::Server[$server] does the config belong to?
+# @param manage_etc should the /etc/openvpn directory be managed? (warning, all unmanaged files will be purged!)
 #
-# === Parameters
-#
-# $server   which Openvpn::Server[$server] does the config belong to?
-# String
-#
-# $manage_etc should the /etc/openvpn directory be managed? (warning, all unmanaged files will be purged!)
-#
-# === Variables
-#
-# None
-#
-# === Examples
-#
+# @example
 #  openvpn::deploy::client { 'test-client':
 #    server => 'test_server',
 #  }
 #
-# === Authors
-#
-# Phil Bayfield https://bitbucket.org/Philio/
-#
-
 define openvpn::deploy::client (
   String $server,
   Boolean $manage_etc = true,
@@ -38,15 +22,15 @@ define openvpn::deploy::client (
 
   if $manage_etc {
     file { [
-      "${::openvpn::params::etc_directory}/openvpn",
-      "${::openvpn::params::etc_directory}/openvpn/keys",
-      "${::openvpn::params::etc_directory}/openvpn/keys/${name}",
+      "${openvpn::deploy::prepare::etc_directory}/openvpn",
+      "${openvpn::deploy::prepare::etc_directory}/openvpn/keys",
+      "${openvpn::deploy::prepare::etc_directory}/openvpn/keys/${name}",
     ]:
       ensure  => directory,
       require => Package['openvpn'];
     }
   } else {
-    file { "${::openvpn::params::etc_directory}/openvpn/keys/${name}":
+    file { "${openvpn::deploy::prepare::etc_directory}/openvpn/keys/${name}":
       ensure  => directory,
       require => Package['openvpn'];
     }
