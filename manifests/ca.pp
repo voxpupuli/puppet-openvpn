@@ -91,7 +91,7 @@ define openvpn::ca (
       }
 
       exec { "generate dh param ${name}":
-        command  => '. ./vars && ./clean-all && ./build-dh',
+        command  => '. ./vars && /bin/sh clean-all && /bin/sh build-dh',
         timeout  => 1800,
         cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/dh${ssl_key_size}.pem",
@@ -100,7 +100,7 @@ define openvpn::ca (
       }
 
       exec { "initca ${name}":
-        command  => '. ./vars && ./pkitool --initca',
+        command  => '. ./vars && /bin/sh pkitool --initca',
         cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/ca.key",
         provider => 'shell',
@@ -108,7 +108,7 @@ define openvpn::ca (
       }
 
       exec { "generate server cert ${name}":
-        command  => ". ./vars && ./pkitool --server ${common_name}",
+        command  => ". ./vars && /bin/sh pkitool --server ${common_name}",
         cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/${common_name}.key",
         provider => 'shell',
@@ -157,7 +157,7 @@ define openvpn::ca (
       }
 
       exec { "initca ${name}":
-        command  => './easyrsa --batch init-pki && ./easyrsa --batch build-ca nopass',
+        command  => '/bin/sh easyrsa --batch init-pki && /bin/sh easyrsa --batch build-ca nopass',
         cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/ca.crt",
         provider => 'shell',
@@ -165,7 +165,7 @@ define openvpn::ca (
       }
 
       exec { "generate dh param ${name}":
-        command  => './easyrsa --batch gen-dh',
+        command  => '/bin/sh easyrsa --batch gen-dh',
         cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/dh.pem",
         provider => 'shell',
@@ -173,7 +173,7 @@ define openvpn::ca (
       }
 
       exec { "generate server cert ${name}":
-        command  => "./easyrsa build-server-full ${common_name} nopass",
+        command  => "/bin/sh easyrsa build-server-full ${common_name} nopass",
         cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/private/${common_name}.key",
         provider => 'shell',

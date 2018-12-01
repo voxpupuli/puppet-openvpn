@@ -109,7 +109,7 @@ define openvpn::client (
   case $openvpn::easyrsa_version {
     '2.0': {
       exec { "generate certificate for ${name} in context of ${ca_name}":
-        command  => ". ./vars && ${env_expire} ./pkitool ${name}",
+        command  => ". ./vars && ${env_expire} /bin/sh pkitool ${name}",
         cwd      => "${etc_directory}/openvpn/${ca_name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/${name}.crt",
         provider => 'shell';
@@ -129,7 +129,7 @@ define openvpn::client (
     }
     '3.0': {
       exec { "generate certificate for ${name} in context of ${ca_name}":
-        command  => ". ./vars && ${env_expire} ./easyrsa --batch build-client-full ${name} nopass",
+        command  => ". ./vars && ${env_expire} /bin/sh easyrsa --batch build-client-full ${name} nopass",
         cwd      => "${etc_directory}/openvpn/${ca_name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${ca_name}/easy-rsa/keys/issued/${name}.crt",
         provider => 'shell';
