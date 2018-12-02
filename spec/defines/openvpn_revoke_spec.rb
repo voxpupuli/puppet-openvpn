@@ -27,7 +27,7 @@ describe 'openvpn::revoke', type: :define do
 
       it {
         is_expected.to contain_exec('revoke certificate for test_client in context of test_server').with(
-          'command' => ". ./vars && ./revoke-full test_client; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/test_client"
+          'command' => ". ./vars && /bin/sh revoke-full test_client; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/test_client"
         )
       }
     end
