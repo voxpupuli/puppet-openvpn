@@ -92,7 +92,7 @@ define openvpn::ca (
 
       exec { "generate dh param ${name}":
         command  => '. ./vars && ./clean-all && ./build-dh',
-        timeout  => 1800,
+        timeout  => 20000,
         cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/dh${ssl_key_size}.pem",
         provider => 'shell',
@@ -166,6 +166,7 @@ define openvpn::ca (
 
       exec { "generate dh param ${name}":
         command  => './easyrsa --batch gen-dh',
+        timeout  => 20000,
         cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${name}/easy-rsa/keys/dh.pem",
         provider => 'shell',
