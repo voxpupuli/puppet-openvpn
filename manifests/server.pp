@@ -330,11 +330,26 @@ define openvpn::server (
           period => $crl_renew_schedule_period,
           repeat => $crl_renew_schedule_repeat,
         }
-        exec { "renew crl.pem on ${name}":
-          command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${openvpn::etc_directory}/openvpn/${name}/crl.pem -config ${openvpn::etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
-          cwd      => "${openvpn::etc_directory}/openvpn/${name}/easy-rsa",
-          provider => 'shell',
-          schedule => "renew crl.pem schedule on ${name}",
+        case $openvpn::easyrsa_version {
+          '2.0': {
+            exec { "renew crl.pem on ${name}":
+              command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${openvpn::etc_directory}/openvpn/${name}/crl.pem -config ${openvpn::etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
+              cwd      => "${openvpn::etc_directory}/openvpn/${name}/easy-rsa",
+              provider => 'shell',
+              schedule => "renew crl.pem schedule on ${name}",
+            }
+          }
+          '3.0': {
+            exec { "renew crl.pem on ${name}":
+              command  => ". ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out ${etc_directory}/openvpn/${name}/crl.pem -config ${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
+              cwd      => "${openvpn::etc_directory}/openvpn/${name}/easy-rsa",
+              provider => 'shell',
+              schedule => "renew crl.pem schedule on ${name}",
+            }
+          }
+          default: {
+            fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
+          }
         }
       }
     } elsif !$extca_enabled {
