@@ -6,11 +6,13 @@ when 'RedHat'
   key_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys/private'
   crt_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys/issued'
   index_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
+  renew_crl_cmd = "cd /etc/openvpn/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out /etc/openvpn/test_openvpn_server/crl.pem -config /etc/openvpn/test_openvpn_server/easy-rsa/openssl.cnf"
 when 'Debian'
   server_crt = '/etc/openvpn/test_openvpn_server/easy-rsa/keys/server.crt'
   key_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
   crt_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
   index_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
+  renew_crl_cmd = "cd /etc/openvpn/test_openvpn_server/easy-rsa && . ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out /etc/openvpn/test_openvpn_server/crl.pem -config /etc/openvpn/test_openvpn_server/easy-rsa/openssl.cnf"
 end
 
 # All-terrain tls ciphers are used to be able to work with all supported OSes.
@@ -121,6 +123,10 @@ describe 'server defined type' do
 
     describe command('echo status |nc -w 1 localhost 7505') do
       its(:stdout) { is_expected.to match %r{.*vpnclienta.*} }
+      its(:exit_status) { is_expected.to eq 0 }
+    end
+
+    describe command(renew_crl_cmd.to_s) do
       its(:exit_status) { is_expected.to eq 0 }
     end
   end
