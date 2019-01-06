@@ -8,6 +8,7 @@
 # @param iroute_ipv6 Array of IPv6 iroute combinations.
 # @param route  Array of route combinations pushed to client.
 # @param ifconfig IP configuration to push to the client.
+# @param ifconfig_ipv6 IPv6 configuration to push to the client.
 # @param dhcp_options DHCP options to push to the client.
 # @param redirect_gateway Redirect all traffic to gateway
 # @param ensure Sets the client specific configuration file status (present or absent)
@@ -27,6 +28,7 @@ define openvpn::client_specific_config (
   Array[String] $iroute_ipv6         = [],
   Array[String] $route               = [],
   Variant[Boolean, String] $ifconfig = false,
+  Optional[String[1]] $ifconfig_ipv6 = undef,
   Array[String]  $dhcp_options       = [],
   Boolean $redirect_gateway          = false,
 ) {

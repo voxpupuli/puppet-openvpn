@@ -42,6 +42,7 @@ describe 'openvpn::client_specific_config', type: :define do
             iroute: ['10.0.1.0 255.255.255.0'],
             iroute_ipv6: ['2001:db8:1234::/64'],
             ifconfig: '10.10.10.2 255.255.255.0',
+            ifconfig_ipv6: '2001:db8:0:123::2/64 2001:db8:0:123::1',
             route: ['10.200.100.0 255.255.255.0 10.10.10.1'],
             dhcp_options: ['DNS 8.8.8.8'],
             redirect_gateway: true
@@ -51,6 +52,7 @@ describe 'openvpn::client_specific_config', type: :define do
         it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^iroute 10.0.1.0 255.255.255.0$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^iroute-ipv6 2001:db8:1234::/64$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^ifconfig-push 10.10.10.2 255.255.255.0$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^ifconfig-ipv6-push 2001:db8:0:123::2/64 2001:db8:0:123::1$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^push "dhcp-option DNS 8.8.8.8"$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^push "redirect-gateway def1"$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^push "route 10.200.100.0 255.255.255.0 10.10.10.1"$}) }
