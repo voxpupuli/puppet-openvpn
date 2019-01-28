@@ -31,7 +31,7 @@ describe 'server defined type' do
           local        => '',
           management   => true,
           tls_cipher   => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
-	}
+  }
       )
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_failures: true)
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: true)
@@ -50,7 +50,7 @@ describe 'server defined type' do
           tls_cipher   => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
         }
 
-	openvpn::client { 'vpnclienta' :
+  openvpn::client { 'vpnclienta' :
           server      => 'test_openvpn_server',
           require     => Openvpn::Server['test_openvpn_server'],
           remote_host => $facts['networking']['ip'],
