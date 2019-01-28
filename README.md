@@ -33,7 +33,7 @@ Puppet module to manage OpenVPN servers and clients.
 
 ## Puppet
 
-* Version >= 4.10.0
+The supported Puppet versions are listed in the [metadata.json](metadata.json)
 
 ## REFERENCES
 
