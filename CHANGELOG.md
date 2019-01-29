@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v8.0.0) (2019-01-29)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v7.4.0...v8.0.0)
+
+**Breaking changes:**
+
+- modulesync 2.5.1 and drop Puppet 4 support [\#325](https://github.com/voxpupuli/puppet-openvpn/pull/325) ([bastelfreak](https://github.com/bastelfreak))
+- Data in Modules, Modern facts & Cleanup [\#305](https://github.com/voxpupuli/puppet-openvpn/pull/305) ([jkroepke](https://github.com/jkroepke))
+
+**Implemented enhancements:**
+
+- Timeout when generating Diffie-Hellman  parameters on a low-performance CPU [\#316](https://github.com/voxpupuli/puppet-openvpn/issues/316)
+- Implement Ubuntu 18.04 support [\#306](https://github.com/voxpupuli/puppet-openvpn/issues/306)
+- Should be an option to install openvpn from http://swupdate.openvpn.net/ repo [\#218](https://github.com/voxpupuli/puppet-openvpn/issues/218)
+- Set DH timeout to accommodate low performance CPU [\#317](https://github.com/voxpupuli/puppet-openvpn/pull/317) ([dspinellis](https://github.com/dspinellis))
+
+**Fixed bugs:**
+
+- crl auto renewal broken with easyrsa 3.0 [\#318](https://github.com/voxpupuli/puppet-openvpn/issues/318)
+- consider the easyrsa version to trigger the renew crl command [\#321](https://github.com/voxpupuli/puppet-openvpn/pull/321) ([Dan33l](https://github.com/Dan33l))
+
+**Closed issues:**
+
+- New release ? [\#323](https://github.com/voxpupuli/puppet-openvpn/issues/323)
+- Non-executable easy-rsa files cause module to fail [\#313](https://github.com/voxpupuli/puppet-openvpn/issues/313)
+- Do not fail fatal if OS is unsupported. [\#304](https://github.com/voxpupuli/puppet-openvpn/issues/304)
+- Failures after upgrade [\#303](https://github.com/voxpupuli/puppet-openvpn/issues/303)
+- OpenVPN is now generating blank/empty user certificates [\#225](https://github.com/voxpupuli/puppet-openvpn/issues/225)
+
+**Merged pull requests:**
+
+- updated documentation to conform with REFERENCE.md standard for forge [\#311](https://github.com/voxpupuli/puppet-openvpn/pull/311) ([danquack](https://github.com/danquack))
+- add acceptance tests with real vpn client/server setup [\#310](https://github.com/voxpupuli/puppet-openvpn/pull/310) ([Dan33l](https://github.com/Dan33l))
+- modulesync 2.2.0 and allow puppet 6.x [\#299](https://github.com/voxpupuli/puppet-openvpn/pull/299) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v7.4.0](https://github.com/voxpupuli/puppet-openvpn/tree/v7.4.0) (2018-10-16)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v7.3.0...v7.4.0)
