@@ -46,7 +46,7 @@ dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh.pem
 crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
 <%   end -%>
 <% end -%>
-<% if @proto == 'tcp' -%>
+<% if @proto.include?('tcp') -%>
 proto <%= @proto %>-server
 <% else -%>
 proto <%= @proto %>

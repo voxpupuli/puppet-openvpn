@@ -136,7 +136,7 @@ define openvpn::server (
   Variant[Boolean, String] $logfile                                 = false,
   String $port                                                      = '1194',
   Optional[String] $portshare                                       = undef,
-  Enum['tcp', 'udp'] $proto                                         = 'tcp',
+  Enum['tcp', 'tcp4', 'tcp6', 'udp', 'udp4', 'udp6'] $proto         = 'tcp',
   Enum['1', '2', '3', ''] $status_version                           = '',
   String $status_log                                                = "/var/log/openvpn/${name}-status.log",
   String $server                                                    = '',
