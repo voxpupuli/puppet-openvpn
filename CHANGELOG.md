@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v8.1.0) (2019-02-03)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v8.0.0...v8.1.0)
+
+**Fixed bugs:**
+
+- Allow 4 and 6 suffix inside proto to limit ip4 or ip6 connection only. [\#327](https://github.com/voxpupuli/puppet-openvpn/pull/327) ([jkroepke](https://github.com/jkroepke))
+
 ## [v8.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v8.0.0) (2019-01-29)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v7.4.0...v8.0.0)
