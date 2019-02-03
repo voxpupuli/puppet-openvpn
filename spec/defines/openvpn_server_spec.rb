@@ -110,6 +110,81 @@ describe 'openvpn::server' do
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^rcvbuf\s+393215$}) }
       end
 
+      context 'when using udp4' do
+        let(:params) do
+          {
+            'country'       => 'CO',
+            'province'      => 'ST',
+            'city'          => 'Some City',
+            'organization'  => 'example.org',
+            'email'         => 'testemail@example.org',
+            'proto'         => 'udp4'
+          }
+        end
+
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^proto\s+udp4$}) }
+      end
+
+      context 'when using udp6' do
+        let(:params) do
+          {
+            'country'       => 'CO',
+            'province'      => 'ST',
+            'city'          => 'Some City',
+            'organization'  => 'example.org',
+            'email'         => 'testemail@example.org',
+            'proto'         => 'udp6'
+          }
+        end
+
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^proto\s+udp6$}) }
+      end
+
+      context 'when using tcp4' do
+        let(:params) do
+          {
+            'country'       => 'CO',
+            'province'      => 'ST',
+            'city'          => 'Some City',
+            'organization'  => 'example.org',
+            'email'         => 'testemail@example.org',
+            'proto'         => 'tcp4'
+          }
+        end
+
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^proto\s+tcp4-server$}) }
+      end
+
+      context 'when using tcp6' do
+        let(:params) do
+          {
+            'country'       => 'CO',
+            'province'      => 'ST',
+            'city'          => 'Some City',
+            'organization'  => 'example.org',
+            'email'         => 'testemail@example.org',
+            'proto'         => 'tcp6'
+          }
+        end
+
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^proto\s+tcp6-server$}) }
+      end
+
+      context 'when using invalid value for proto' do
+        let(:params) do
+          {
+            'country'       => 'CO',
+            'province'      => 'ST',
+            'city'          => 'Some City',
+            'organization'  => 'example.org',
+            'email'         => 'testemail@example.org',
+            'proto'         => 'tcp5'
+          }
+        end
+
+        it { expect { is_expected.to contain_file('/etc/openvpn/test_server') }.to raise_error(Puppet::PreformattedError) }
+      end
+
       context 'creating a server in client mode' do
         let(:title) { 'test_client' }
         let(:nobind) { false }
