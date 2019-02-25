@@ -8,10 +8,10 @@ iroute-ipv6 <%= iroute_ipv6 %>
 ifconfig-push <%= ifconfig %>
 <% end -%>
 <% @dhcp_options.each do |option| -%>
-push dhcp-option <%= option %>
+push "dhcp-option <%= option %>"
 <% end -%>
 <% if @redirect_gateway -%>
-push redirect-gateway def1
+push "redirect-gateway def1"
 <% end -%>
 <% @route.each do |route| -%>
 push "route <%= route %>"
