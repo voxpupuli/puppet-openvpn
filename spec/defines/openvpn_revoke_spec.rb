@@ -25,11 +25,24 @@ describe 'openvpn::revoke', type: :define do
 
       it { is_expected.to compile.with_all_deps }
 
-      it {
-        is_expected.to contain_exec('revoke certificate for test_client in context of test_server').with(
-          'command' => ". ./vars && ./revoke-full test_client; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/test_client"
-        )
-      }
+      case facts[:os]['family']
+      when 'Ubuntu', 'Debian'
+        context 'system with easyrsa2' do
+          it {
+            is_expected.to contain_exec('revoke certificate for test_client in context of test_server').with(
+              'command' => ". ./vars && ./revoke-full test_client; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/test_client"
+            )
+          }
+        end
+      when 'CentOS', 'RedHat', %r{Archlinux}, %r{FreeBSD}
+        context 'system with easyrsa3' do
+          it {
+            is_expected.to contain_exec('revoke certificate for test_client in context of test_server').with(
+              'command' => ". ./vars && echo yes | ./easyrsa revoke test_client 2>&1 | grep -E 'Already revoked|was successful|not a valid certificate' && ./easyrsa gen-crl && /bin/cp -f keys/crl.pem ../crl.pem && touch revoked/test_client"
+            )
+          }
+        end
+      end
     end
   end
 end
