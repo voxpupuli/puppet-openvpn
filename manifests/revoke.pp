@@ -35,26 +35,26 @@ define openvpn::revoke (
       }
     }
     '3.0': {
-      # if $openvpn::manage_service {
-      #   if $facts['service_provider'] == 'systemd' {
-      #     $lnotify = Service["openvpn@${name}"]
-      #   } elsif $openvpn::namespecific_rclink {
-      #     $lnotify = Service["openvpn_${name}"]
-      #   } else {
-      #     $lnotify = Service['openvpn']
-      #     Openvpn::Server[$name] -> Service['openvpn']
-      #   }
-      # }
-      # else {
-      #   $lnotify = undef
-      # }
+      if $openvpn::manage_service {
+        if $facts['service_provider'] == 'systemd' {
+          $lnotify = Service["openvpn@${server}"]
+        } elsif $openvpn::namespecific_rclink {
+          $lnotify = Service["openvpn_${server}"]
+        } else {
+          $lnotify = Service['openvpn']
+          Openvpn::Server[$server] -> Service['openvpn']
+        }
+      }
+      else {
+        $lnotify = undef
+      }
 
       exec { "revoke certificate for ${name} in context of ${server}":
         command  => ". ./vars && echo yes | ./easyrsa revoke ${name} 2>&1 | grep -E 'Already revoked|was successful|not a valid certificate' && ./easyrsa gen-crl && /bin/cp -f keys/crl.pem ../crl.pem && touch revoked/${name}",
         cwd      => "/etc/openvpn/${server}/easy-rsa",
         creates  => "/etc/openvpn/${server}/easy-rsa/revoked/${name}",
         provider => 'shell',
-        # notify   => $lnotify,
+        notify   => $lnotify,
       }
     }
     default: {
