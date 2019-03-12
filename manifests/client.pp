@@ -45,7 +45,7 @@
 #
 define openvpn::client (
   String $server,
-  Enum['comp-lzo', ''] $compression                    = 'comp-lzo',
+  String $compression                                  = 'comp-lzo',
   Enum['tap', 'tun'] $dev                              = 'tun',
   Integer $mute                                        = 20,
   Boolean $mute_replay_warnings                        = true,
