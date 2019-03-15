@@ -14,6 +14,7 @@
 # @param key_ou Value for organizationalUnitName_default variable in openssl.cnf and KEY_OU in vars
 # @param key_cn Value for commonName_default variable in openssl.cnf and KEY_CN in vars
 # @param tls_auth Determins if a tls key is generated
+# @param tls_static_key Determins if a tls key is generated
 # @example
 #   openvpn::ca {
 #     'my_user':
@@ -37,7 +38,12 @@ define openvpn::ca (
   String $key_name        = '',
   String $key_ou          = '',
   Boolean $tls_auth       = false,
+  Boolean $tls_static_key = false,
 ) {
+
+  if $tls_auth {
+    warning('Parameter $tls_auth is deprecated. Use $tls_static_key instead.')
+  }
 
   include openvpn
   $group_to_set = $group ? {
@@ -217,7 +223,7 @@ define openvpn::ca (
     require => Exec["create crl.pem on ${name}"],
   }
 
-  if $tls_auth {
+  if $tls_static_key {
     exec { "generate tls key for ${name}":
       command  => 'openvpn --genkey --secret keys/ta.key',
       cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",

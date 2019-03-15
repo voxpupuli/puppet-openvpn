@@ -153,6 +153,12 @@ describe 'openvpn::client', type: :define do
         it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^remote-cert-tls\s+server$}) }
       end
 
+      context 'test tls_crypt' do
+        let(:params) { { 'server' => 'test_server', 'tls_crypt' => true } }
+
+        it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^tls-crypt keys/test_client/ta\.key$}) }
+      end
+
       context 'omitting the cipher key' do
         let(:params) { { 'server' => 'test_server' } }
 
