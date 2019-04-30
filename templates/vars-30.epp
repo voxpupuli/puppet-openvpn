@@ -39,7 +39,7 @@ export EASYRSA_SSL_CONF="$EASY_RSA/openssl-1.0.cnf"
 export EASYRSA_PKI="$EASY_RSA/keys"
 
 # Issue rm -rf warning
-echo NOTE: If you run ./clean-all, I will be doing a rm -rf on $KEY_DIR
+echo NOTE: If you run ./clean-all, I will be doing a rm -rf on $EASYRSA_PKI
 
 # PKCS11 fixes
 export PKCS11_MODULE_PATH="dummy"
