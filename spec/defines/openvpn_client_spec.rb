@@ -99,7 +99,7 @@ describe 'openvpn::client', type: :define do
         let(:params) do
           {
             'server'                => 'test_server',
-            'compression'           => 'comp-lzo',
+            'compression'           => 'compress lz4',
             'dev'                   => 'tap',
             'mute'                  => 10,
             'mute_replay_warnings'  => false,
@@ -135,7 +135,7 @@ describe 'openvpn::client', type: :define do
         it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^proto\s+udp$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^remote\s+somewhere\s+123$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^remote\s+galaxy\s+123$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^comp-lzo$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^compress lz4$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^resolv-retry\s+2m$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^verb\s+1$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server/download-configs/test_client/test_client.conf').with_content(%r{^mute\s+10$}) }

@@ -241,7 +241,7 @@ describe 'openvpn::server' do
             'city'            => 'Some City',
             'organization'    => 'example.org',
             'email'           => 'testemail@example.org',
-            'compression'     => 'fake_compression',
+            'compression'     => 'compress lz4',
             'port'            => '123',
             'proto'           => 'udp',
             'group'           => 'someone',
@@ -293,7 +293,7 @@ describe 'openvpn::server' do
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^proto\s+udp$}) }
         it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^proto\s+tls-server$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^port\s+123$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^fake_compression$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^compress lz4$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^group\s+someone$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^user\s+someone$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^log\-append\s+/var/log/openvpn/test_server\.log$}) }
@@ -396,7 +396,7 @@ describe 'openvpn::server' do
               'city'            => 'Some City',
               'organization'    => 'example.org',
               'email'           => 'testemail@example.org',
-              'compression'     => 'fake_compression',
+              'compression'     => 'compress lz4',
               'port'            => '123',
               'proto'           => 'udp',
               'group'           => 'someone',
@@ -702,7 +702,7 @@ describe 'openvpn::server' do
               'city'            => 'Some City',
               'organization'    => 'example.org',
               'email'           => 'testemail@example.org',
-              'compression'     => 'fake_compression',
+              'compression'     => 'compress lz4',
               'port'            => '123',
               'proto'           => 'udp',
               'group'           => 'someone',
