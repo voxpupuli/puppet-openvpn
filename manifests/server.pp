@@ -68,6 +68,7 @@
 # @param key_ou Value for organizationalUnitName_default variable in openssl.cnf and KEY_OU in vars
 # @param key_cn Value for commonName_default variable in openssl.cnf and KEY_CN in vars
 # @param tls_auth  Activates tls-auth to Add an additional layer of HMAC authentication on top of the TLS control channel to protect against DoS attacks.
+# @param tls_crypt Encrypt and authenticate all control channel packets with the key from keyfile. (See --tls-auth for more background.)
 # @param tls_server If proto not tcp it lets you choose if the parameter tls-server is set or not.
 # @param tls_client Allows you to set this server up as a tls-client connection.
 # @param server_poll_timeout Value for timeout before trying the next server.
@@ -187,6 +188,7 @@ define openvpn::server (
   Boolean $persist_key                                              = false,
   Boolean $persist_tun                                              = false,
   Boolean $tls_auth                                                 = false,
+  Boolean $tls_crypt                                                = false,
   Boolean $tls_server                                               = false,
   Boolean $tls_client                                               = false,
   Optional[Integer] $server_poll_timeout                            = undef,
@@ -219,6 +221,10 @@ define openvpn::server (
 
   if $facts['service_provider'] == 'systemd' and $openvpn::namespecific_rclink {
     fail("Using systemd and namespecific rclink's (BSD-style) is not allowed")
+  }
+
+  if $tls_auth and $tls_crypt {
+    fail('tls_auth and tls_crypt are mutually exclusive')
   }
 
   if $openvpn::manage_service {
@@ -307,20 +313,20 @@ define openvpn::server (
 
       $ca_common_name = $common_name
       ::openvpn::ca { $name:
-        country      => $country,
-        province     => $province,
-        city         => $city,
-        organization => $organization,
-        email        => $email,
-        common_name  => $common_name,
-        group        => $group,
-        ssl_key_size => $ssl_key_size,
-        ca_expire    => $ca_expire,
-        key_expire   => $key_expire,
-        key_cn       => $key_cn,
-        key_name     => $key_name,
-        key_ou       => $key_ou,
-        tls_auth     => $tls_auth,
+        country        => $country,
+        province       => $province,
+        city           => $city,
+        organization   => $organization,
+        email          => $email,
+        common_name    => $common_name,
+        group          => $group,
+        ssl_key_size   => $ssl_key_size,
+        ca_expire      => $ca_expire,
+        key_expire     => $key_expire,
+        key_cn         => $key_cn,
+        key_name       => $key_name,
+        key_ou         => $key_ou,
+        tls_static_key => $tls_auth or $tls_crypt,
       }
 
       ## Renewal of crl.pem

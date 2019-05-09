@@ -182,6 +182,9 @@ key-direction 0
 key-direction 1
 <%   end -%>
 <% end -%>
+<% if @tls_crypt -%>
+tls-crypt <%= @etc_directory -%>/openvpn/<%= @name %>/keys/ta.key
+<% end -%>
 <% if @fragment != false -%>
 fragment <%= @fragment %>
 <% end -%>

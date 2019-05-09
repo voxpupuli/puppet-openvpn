@@ -7,3 +7,6 @@ key keys/<%= @name %>/<%= @name %>.key
 tls-client
 tls-auth keys/<%= @name %>/ta.key 1
 <% end -%>
+<% if @tls_crypt -%>
+tls-crypt keys/<%= @name %>/ta.key
+<% end -%>

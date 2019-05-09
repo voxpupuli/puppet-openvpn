@@ -20,6 +20,7 @@
 # @param pam DEPRECATED: Boolean, Enable/Disable.
 # @param authuserpass Set if username and password required
 # @param tls_auth Activates tls-auth to Add an additional layer of HMAC authentication on top of the TLS control channel to protect against DoS attacks. This has to be set to the same value as on the Server
+# @param tls_crypt Encrypt and authenticate all control channel packets with the key from keyfile. (See --tls-auth for more background.)
 # @param x509_name Common name of openvpn server to make an x509-name verification
 # @param setenv Set a custom environmental variable name=value to pass to script.
 # @param setenv_safe  Set a custom environmental variable OPENVPN_name=value to pass to script. This directive is designed to be pushed by the server to clients, and the prepending of "OPENVPN_" to the environmental variable is a safety precaution to prevent a LD_PRELOAD style attack from a malicious or compromised server.
@@ -67,6 +68,7 @@ define openvpn::client (
   String $up                                           = '',
   String $down                                         = '',
   Boolean $tls_auth                                    = false,
+  Boolean $tls_crypt                                   = false,
   Optional[String] $x509_name                          = undef,
   Optional[Integer] $sndbuf                            = undef,
   Optional[Integer] $rcvbuf                            = undef,
@@ -89,6 +91,7 @@ define openvpn::client (
 
   $extca_enabled = pick(getparam(Openvpn::Server[$server], 'extca_enabled'), $server_extca_enabled)
   if $extca_enabled { fail('cannot currently create client configs when corresponding openvpn::server is extca_enabled') }
+  if $tls_auth and $tls_crypt { fail('tls_auth and tls_crypt are mutually exclusive') }
 
   $ca_name = pick($shared_ca, $server)
   Openvpn::Ca[$ca_name]
@@ -164,7 +167,7 @@ define openvpn::client (
     require => Exec["generate certificate for ${name} in context of ${ca_name}"],
   }
 
-  if $tls_auth {
+  if $tls_auth or $tls_crypt {
     file { "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key":
       ensure  => link,
       target  => "${etc_directory}/openvpn/${server}/easy-rsa/keys/ta.key",
@@ -316,6 +319,25 @@ define openvpn::client (
     concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_auth_close_tag":
       target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
       content => "</tls-auth>\nkey-direction 1\n",
+      order   => '13',
+    }
+  }
+  elsif $tls_crypt {
+    concat::fragment { "/etc/openvpn/${server}/download-configs/${name}.ovpn/tls_crypt_open_tag":
+      target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+      content => "<tls-crypt>\n",
+      order   => '11',
+    }
+
+    concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_crypt":
+      target => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+      source => "${etc_directory}/openvpn/${server}/download-configs/${name}/keys/${name}/ta.key",
+      order  => '12',
+    }
+
+    concat::fragment { "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn/tls_crypt_close_tag":
+      target  => "${etc_directory}/openvpn/${server}/download-configs/${name}.ovpn",
+      content => "</tls-crypt>\n",
       order   => '13',
     }
   }

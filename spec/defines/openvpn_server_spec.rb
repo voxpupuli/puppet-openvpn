@@ -356,8 +356,27 @@ describe 'openvpn::server' do
                  key_cn: 'yolo',
                  key_name: 'burp',
                  key_ou: 'NSA',
-                 tls_auth: true)
+                 tls_static_key: true)
         }
+      end
+
+      context 'creating a server setting all parameters including tls_crypt' do
+        let(:params) do
+          {
+            'country'       => 'CO',
+            'province'      => 'ST',
+            'city'          => 'Some City',
+            'organization'  => 'example.org',
+            'email'         => 'testemail@example.org',
+            'proto'         => 'tcp6',
+            'tls_crypt'     => true
+          }
+        end
+
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-crypt\s+/etc/openvpn/test_server/keys/ta.key$}) }
+
+        # OpenVPN easy-rsa CA
+        it { is_expected.to contain_openvpn__ca('test_server').with(tls_static_key: true) }
       end
 
       # tests dedicated to easyrsa version 2
