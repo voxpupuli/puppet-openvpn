@@ -42,13 +42,16 @@ define openvpn::revoke (
         provider => 'shell',
       }
     }
-    default: {
+    '2.0': {
       exec { "revoke certificate for ${name} in context of ${server}":
         command  => ". ./vars && ./revoke-full ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/${name}",
         cwd      => "${etc_directory}/openvpn/${server}/easy-rsa",
         creates  => "${etc_directory}/openvpn/${server}/easy-rsa/revoked/${name}",
         provider => 'shell',
       }
+    }
+    default: {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
     }
   }
 }
