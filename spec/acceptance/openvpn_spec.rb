@@ -36,6 +36,7 @@ describe 'server defined type' do
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_failures: true)
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: true)
     end
+
     it 'creates openvpn client certificate idempotently' do
       pp = %(
         openvpn::server { 'test_openvpn_server':
@@ -56,7 +57,18 @@ describe 'server defined type' do
           remote_host => $facts['networking']['ip'],
           tls_cipher  => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
         }
-      )
+
+  openvpn::client { 'vpnclientb' :
+          server      => 'test_openvpn_server',
+          require     => Openvpn::Server['test_openvpn_server'],
+          remote_host => $facts['networking']['ip'],
+          tls_cipher  => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
+        }
+
+  openvpn::revoke { 'vpnclientb' :
+          server      => 'test_openvpn_server',
+        }
+       )
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_failures: true)
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: true)
     end
