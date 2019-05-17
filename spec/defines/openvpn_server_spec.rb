@@ -614,6 +614,25 @@ describe 'openvpn::server' do
           it { is_expected.to contain_file('/etc/openvpn/test_server/keys/pre-shared.secret').with(ensure: 'absent') }
         end
 
+        context 'when pushing scripts' do
+          let(:params) do
+            {
+              'country'       => 'CO',
+              'province'      => 'ST',
+              'city'          => 'Some City',
+              'organization'  => 'example.org',
+              'email'         => 'testemail@example.org',
+              'scripts'       => {
+                'add-tap-to-bridge.sh' => {
+                  'ensure' => 'present'
+                }
+              }
+            }
+          end
+
+          it { is_expected.to contain_file('/etc/openvpn/test_server/scripts/add-tap-to-bridge.sh').with(ensure: 'present') }
+        end
+
         case facts[:os]['family']
         when %r{FreeBSD}
           context 'when FreeBSD based machine' do
@@ -662,6 +681,10 @@ describe 'openvpn::server' do
               is_expected.to contain_file('/etc/openvpn/test_server/auth').
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
             }
+            it {
+              is_expected.to contain_file('/etc/openvpn/test_server/scripts').
+                with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
+            }
 
             # VPN server config file itself
 
@@ -696,6 +719,10 @@ describe 'openvpn::server' do
             }
             it {
               is_expected.to contain_file('/etc/openvpn/test_server/auth').
+                with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
+            }
+            it {
+              is_expected.to contain_file('/etc/openvpn/test_server/scripts').
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
             }
 
@@ -900,6 +927,10 @@ describe 'openvpn::server' do
             }
             it {
               is_expected.to contain_file('/etc/openvpn/test_server/auth').
+                with(ensure: 'directory', mode: '0750', recurse: true, group: 'nobody')
+            }
+            it {
+              is_expected.to contain_file('/etc/openvpn/test_server/scripts').
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nobody')
             }
 

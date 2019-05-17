@@ -95,6 +95,7 @@
 # @param remote_cert_tls Enable or disable use of remote-cert-tls for the session. Generally used with client configuration
 # @param nobind Whether or not to bind to a specific port number.#
 # @param secret A pre-shared static key.
+# @param scripts Hash of scripts to copy with this instance.
 # @param custom_options Hash of additional options to append to the configuration file.
 #
 # @example install
@@ -218,6 +219,7 @@ define openvpn::server (
   Boolean $remote_cert_tls                                          = false,
   Boolean $nobind                                                   = false,
   Optional[String] $secret                                          = undef,
+  Hash[String, Hash] $scripts                                       = {},
   Hash $custom_options                                              = {},
 ) {
 
@@ -293,6 +295,12 @@ define openvpn::server (
     ensure => directory,
     mode   => '0750',
     notify => $lnotify,
+  }
+  file {
+    [ "${etc_directory}/openvpn/${name}/scripts", ]:
+      ensure  => directory,
+      mode    => '0750',
+      recurse => true,
   }
   if $shared_ca {
     ensure_resource(file, "${etc_directory}/openvpn/${ca_name}", {
@@ -430,6 +438,12 @@ define openvpn::server (
     mode    => '0440',
     content => $secret,
     notify  => $lnotify,
+  }
+
+  $scripts.each |String $scriptname, Hash $properties| {
+    file { "${etc_directory}/openvpn/${name}/scripts/${scriptname}":
+      * => $properties,
+    }
   }
 
   if $ldap_enabled == true {
