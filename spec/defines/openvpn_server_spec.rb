@@ -233,6 +233,62 @@ describe 'openvpn::server' do
         end
       end
 
+      case facts[:os]['family']
+      when 'Debian'
+        # ldap auth needs the ldap package and that is only defined for a few OSes (including debian)
+        context 'debian' do
+          context 'creating a server with ldap authentication enabled' do
+            let(:params) do
+              {
+                'country'               => 'CO',
+                'province'              => 'ST',
+                'city'                  => 'Some City',
+                'organization'          => 'example.org',
+                'email'                 => 'testemail@example.org',
+                'ldap_enabled'          => true,
+                'ldap_binddn'           => 'dn=foo,ou=foo,ou=com',
+                'ldap_bindpass'         => 'ldappass123',
+                'ldap_tls_enable'       => true,
+                'ldap_tls_ca_cert_file' => '/etc/ldap/ca.pem',
+                'ldap_tls_ca_cert_dir'  => '/etc/ldap/certs'
+              }
+            end
+
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSEnable\s+yes$}) }
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSCACertFile\s+/etc/ldap/ca.pem$}) }
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSCACertDir\s+/etc/ldap/certs$}) }
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').without_content(%r{^\s+TLSCertFile.*$}) }
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').without_content(%r{^\s+TLSKeyFile.*$}) }
+          end
+
+          context 'creating a server with ldap authentication enabled and using ldap client certificates' do
+            let(:params) do
+              {
+                'country'                   => 'CO',
+                'province'                  => 'ST',
+                'city'                      => 'Some City',
+                'organization'              => 'example.org',
+                'email'                     => 'testemail@example.org',
+                'ldap_enabled'              => true,
+                'ldap_binddn'               => 'dn=foo,ou=foo,ou=com',
+                'ldap_bindpass'             => 'ldappass123',
+                'ldap_tls_enable'           => true,
+                'ldap_tls_ca_cert_file'     => '/etc/ldap/ca.pem',
+                'ldap_tls_ca_cert_dir'      => '/etc/ldap/certs',
+                'ldap_tls_client_cert_file' => '/etc/ldap/client-cert.pem',
+                'ldap_tls_client_key_file'  => '/etc/ldap/client-key.pem'
+              }
+            end
+
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSEnable\s+yes$}) }
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSCACertFile\s+/etc/ldap/ca.pem$}) }
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSCACertDir\s+/etc/ldap/certs$}) }
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSCertFile\s+/etc/ldap/client-cert.pem$}) }
+            it { is_expected.to contain_file('/etc/openvpn/test_server/auth/ldap.conf').with_content(%r{^\s+TLSKeyFile\s+/etc/ldap/client-key.pem$}) }
+          end
+        end
+      end
+
       context 'creating a server setting all parameters' do
         let(:params) do
           {
