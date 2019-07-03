@@ -7,6 +7,9 @@ iroute-ipv6 <%= iroute_ipv6 %>
 <% if ifconfig = @ifconfig -%>
 ifconfig-push <%= ifconfig %>
 <% end -%>
+<% if @ifconfig_ipv6 -%>
+ifconfig-ipv6-push <%= @ifconfig_ipv6 %>
+<% end -%>
 <% @dhcp_options.each do |option| -%>
 push "dhcp-option <%= option %>"
 <% end -%>
