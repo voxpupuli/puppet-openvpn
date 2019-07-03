@@ -22,14 +22,14 @@
 #       dhcp_options => ['DNS 8.8.8.8']
 #    }
 define openvpn::client_specific_config (
-  String $server,
-  Enum[present, absent] $ensure      = present,
-  Array[String] $iroute              = [],
-  Array[String] $iroute_ipv6         = [],
-  Array[String] $route               = [],
-  Variant[Boolean, String] $ifconfig = false,
+  String[1] $server,
+  Enum['present', 'absent'] $ensure  = present,
+  Array[String[1]] $iroute           = [],
+  Array[String[1]] $iroute_ipv6      = [],
+  Array[String[1]] $route            = [],
+  Optional[String[1]] $ifconfig      = undef,
   Optional[String[1]] $ifconfig_ipv6 = undef,
-  Array[String]  $dhcp_options       = [],
+  Array[String[1]]  $dhcp_options    = [],
   Boolean $redirect_gateway          = false,
 ) {
 
