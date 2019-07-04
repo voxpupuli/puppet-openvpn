@@ -302,7 +302,10 @@ describe 'openvpn::server' do
             'proto'           => 'udp',
             'group'           => 'someone',
             'user'            => 'someone',
-            'logfile'         => '/var/log/openvpn/test_server.log',
+            'logfile'         => '/var/log/openvpn/server1/test_server.log',
+            'manage_logfile_directory' => true,
+            'logdirectory_user' => 'someone',
+            'logdirectory_group' => 'someone',
             'status_log'      => '/tmp/test_server_status.log',
             'dev'             => 'tun1',
             'up'              => '/tmp/up',
@@ -352,7 +355,8 @@ describe 'openvpn::server' do
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^compress lz4$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^group\s+someone$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^user\s+someone$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^log\-append\s+/var/log/openvpn/test_server\.log$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^log\-append\s+/var/log/openvpn/server1/test_server\.log$}) }
+        it { is_expected.to contain_file('/var/log/openvpn/server1').with('ensure' => 'directory', 'owner' => 'someone', 'group' => 'someone') }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^status\s+/tmp/test_server_status\.log$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dev\s+tun1$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^local\s+2\.3\.4\.5$}) }
