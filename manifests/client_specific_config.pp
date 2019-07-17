@@ -12,6 +12,7 @@
 # @param dhcp_options DHCP options to push to the client.
 # @param redirect_gateway Redirect all traffic to gateway
 # @param ensure Sets the client specific configuration file status (present or absent)
+# @param manage_client_configs Manage dependencies on Openvpn::Client ressources
 #
 # @example
 #   openvpn::client_specific_config {
@@ -31,11 +32,17 @@ define openvpn::client_specific_config (
   Optional[String[1]] $ifconfig_ipv6 = undef,
   Array[String]  $dhcp_options       = [],
   Boolean $redirect_gateway          = false,
+  Boolean $manage_client_configs     = true,
 ) {
 
-  Openvpn::Server[$server]
-  -> Openvpn::Client[$name]
-  -> Openvpn::Client_specific_config[$name]
+  if $manage_client_configs {
+    Openvpn::Server[$server]
+    -> Openvpn::Client[$name]
+    -> Openvpn::Client_specific_config[$name]
+  } else {
+    Openvpn::Server[$server]
+    -> Openvpn::Client_specific_config[$name]
+  }
 
   file { "${openvpn::etc_directory}/openvpn/${server}/client-configs/${name}":
     ensure  => $ensure,
