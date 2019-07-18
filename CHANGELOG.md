@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.2.0](https://github.com/voxpupuli/puppet-openvpn/tree/v8.2.0) (2019-07-19)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v8.1.0...v8.2.0)
+
+**Implemented enhancements:**
+
+- Add tls\_crypt [\#334](https://github.com/voxpupuli/puppet-openvpn/pull/334) ([jkroepke](https://github.com/jkroepke))
+- Adjust clients $compression type to match servers [\#333](https://github.com/voxpupuli/puppet-openvpn/pull/333) ([jkroepke](https://github.com/jkroepke))
+- client\_specific\_config: add support for ifconfig-ipv6-push [\#235](https://github.com/voxpupuli/puppet-openvpn/pull/235) ([invidian](https://github.com/invidian))
+
+**Fixed bugs:**
+
+- Apparently openvpn 2.4 needs double quotes around client specific push options [\#329](https://github.com/voxpupuli/puppet-openvpn/issues/329)
+- Only output ldap\_tls\_client\_cert\_file and ldap\_tls\_client\_key\_file when set [\#341](https://github.com/voxpupuli/puppet-openvpn/pull/341) ([Bluewind](https://github.com/Bluewind))
+- Allow puppetlabs/concat 6.x, puppetlabs/stdlib 6.x [\#340](https://github.com/voxpupuli/puppet-openvpn/pull/340) ([dhoppe](https://github.com/dhoppe))
+- use double quotes on all push options [\#330](https://github.com/voxpupuli/puppet-openvpn/pull/330) ([qs5779](https://github.com/qs5779))
+
+**Closed issues:**
+
+- var renaming overlooked KEY\_DIR =\> EASYRSA\_PKI [\#336](https://github.com/voxpupuli/puppet-openvpn/issues/336)
+
+**Merged pull requests:**
+
+- Add option to disable ordering dependencies on Openvpn::Client [\#344](https://github.com/voxpupuli/puppet-openvpn/pull/344) ([Bluewind](https://github.com/Bluewind))
+- Updated KEY\_DIR to match new variable [\#337](https://github.com/voxpupuli/puppet-openvpn/pull/337) ([xepa](https://github.com/xepa))
+- Use stdlib functions for hash key discovery [\#324](https://github.com/voxpupuli/puppet-openvpn/pull/324) ([towo](https://github.com/towo))
+
 ## [v8.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v8.1.0) (2019-02-03)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v8.0.0...v8.1.0)
