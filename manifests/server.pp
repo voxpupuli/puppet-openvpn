@@ -497,6 +497,9 @@ define openvpn::server(
   $rcvbuf                    = undef,
   $shared_ca                 = undef,
   $crl_verify                = true,
+  $crl_auto_renew            = true,
+  $crl_renew_schedule_period = 'monthly',
+  $crl_renew_schedule_repeat = 2,
   $extca_enabled             = false,
   $extca_ca_cert_file        = undef,
   $extca_ca_crl_file         = undef,
@@ -620,6 +623,44 @@ define openvpn::server(
         key_name     => $key_name,
         key_ou       => $key_ou,
         tls_auth     => $tls_auth,
+      }
+    } elsif !$extca_enabled {
+      if !defined(Openvpn::Ca[$shared_ca]) {
+        fail("Openvpn::ca[${name}] is not defined for shared_ca")
+      }
+      $ca_common_name = getparam(Openvpn::Ca[$shared_ca], 'common_name')
+    } else {
+      $ca_common_name = undef
+    }
+
+      ## Renewal of crl.pem
+      if ($crl_auto_renew) {
+        schedule { "renew crl.pem schedule on ${name}":
+          range  => '1 - 4',
+          period => $crl_renew_schedule_period,
+          repeat => $crl_renew_schedule_repeat,
+        }
+        case $openvpn::easyrsa_version {
+          '2.0': {
+            exec { "renew crl.pem on ${name}":
+              command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${etc_directory}/openvpn/${name}/crl.pem -config ${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
+              cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
+              provider => 'shell',
+              schedule => "renew crl.pem schedule on ${name}",
+            }
+          }
+          '3.0': {
+            exec { "renew crl.pem on ${name}":
+              command  => ". ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out ${etc_directory}/openvpn/${name}/crl.pem -config ${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
+              cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
+              provider => 'shell',
+              schedule => "renew crl.pem schedule on ${name}",
+            }
+          }
+          default: {
+            fail("unexepected value for EasyRSA version, got '${easyrsa_version}', expect 2.0 or 3.0.")
+          }
+        }
       }
     } elsif !$extca_enabled {
       if !defined(Openvpn::Ca[$shared_ca]) {
