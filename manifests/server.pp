@@ -16,6 +16,9 @@
 # @param duplicate_cn Allow multiple connections on one cn
 # @param local Interface for openvpn to bind to.
 # @param logfile Logfile for this openvpn server
+# @param manage_logfile_directory Manage the directory that the logfile is located in
+# @param logdirectory_user The owner user of the logfile directory
+# @param logdirectory_group The owner group of the logfile directory
 # @param port The port the openvpn server service is running on#
 # @param portshare The address and port to which non openvpn request shall be forwared, e.g. 127.0.0.1 8443
 # @param proto What IP protocol is being used.
@@ -135,6 +138,9 @@ define openvpn::server (
   Boolean $duplicate_cn                                             = false,
   String $local                                                     = $facts['ipaddress_eth0'],
   Variant[Boolean, String] $logfile                                 = false,
+  Boolean $manage_logfile_directory                                 = false,
+  String[1] $logdirectory_user                                      = 'nobody',
+  String[1] $logdirectory_group                                     = 'nobody',
   String $port                                                      = '1194',
   Optional[String] $portshare                                       = undef,
   Enum['tcp', 'tcp4', 'tcp6', 'udp', 'udp4', 'udp6'] $proto         = 'tcp',
@@ -239,6 +245,15 @@ define openvpn::server (
   }
   else {
     $lnotify = undef
+  }
+
+  if $manage_logfile_directory {
+    $logdir = dirname($logfile)
+    file { $logdir:
+      ensure => 'directory',
+      owner  => $logdirectory_user,
+      group  => $logdirectory_group,
+    }
   }
 
   # Selection block to enable or disable tls-server flag
