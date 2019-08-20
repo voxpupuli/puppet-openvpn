@@ -70,7 +70,7 @@ define openvpn::deploy::client (
       }
     }
     else {
-      $service = "openvpn"
+      $service = 'openvpn'
       service { "$service":
         ensure     => running,
         enable     => true,
