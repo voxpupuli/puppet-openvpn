@@ -41,7 +41,7 @@ define openvpn::deploy::client (
 
     if $facts['service_provider'] == 'systemd' {
       $service = "openvpn@${name}"
-      service { "$service":
+      service { ${service}:
         ensure   => running,
         enable   => true,
         provider => 'systemd',
@@ -60,7 +60,7 @@ define openvpn::deploy::client (
         mode    => '0644',
         content => template('openvpn/etc-rc.d-openvpn.erb'),
       }
-      service { "$service":
+      service { ${service}:
         ensure  => running,
         enable  => true,
         require => [
@@ -71,7 +71,7 @@ define openvpn::deploy::client (
     }
     else {
       $service = 'openvpn'
-      service { "$service":
+      service { ${service}:
         ensure     => running,
         enable     => true,
         hasrestart => true,
