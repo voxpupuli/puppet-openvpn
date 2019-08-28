@@ -12,6 +12,7 @@ define openvpn::deploy::client (
   String $server,
   Boolean $manage_etc = true,
   Boolean $manage_service = true,
+  Boolean $namespecific_rclink = lookup('openvpn::namespecific_rclink', Boolean, 'first', false),
 ) {
 
   include openvpn::deploy::prepare
@@ -48,7 +49,7 @@ define openvpn::deploy::client (
         require  => File["${openvpn::deploy::prepare::etc_directory}/openvpn/${name}.conf"],
       }
     }
-    elsif $openvpn::namespecific_rclink {
+    elsif $namespecific_rclink {
       $service = "openvpn_${name}"
       file { "/usr/local/etc/rc.d/openvpn_${name}":
         ensure => link,
