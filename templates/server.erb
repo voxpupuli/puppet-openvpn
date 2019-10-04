@@ -47,7 +47,11 @@ crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
 <%   end -%>
 <% end -%>
 <% if @proto.include?('tcp') -%>
+<% unless @remote -%>
 proto <%= @proto %>-server
+<% else -%>
+proto <%= @proto %>
+<% end -%>
 <% else -%>
 proto <%= @proto %>
 <% end -%>
