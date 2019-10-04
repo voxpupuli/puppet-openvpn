@@ -42,7 +42,12 @@
       "operatingsystem": "Archlinux"
     },
     {
-      "operatingsystem": "FreeBSD"
+      "operatingsystem": "FreeBSD",
+      "operatingsystemrelease": [
+        "12",
+        "13"
+      ]
+
     }
   ],
   "requirements": [
