@@ -64,6 +64,7 @@ define openvpn::ca (
 
   file { "${etc_directory}/openvpn/${name}/easy-rsa" :
     ensure             => directory,
+    mode               => '0755',
     recurse            => true,
     links              => 'follow',
     source_permissions => 'use',
