@@ -148,14 +148,20 @@ plugin <%= @pam_module_path %> "<%= @pam_module_arguments %>"
 <% if @management -%>
 management <%= @management_ip %> <%= @management_port %>
 <% end -%>
-<% if @up != '' or @down != ''-%>
+<% if @up or @down or @client_connect or @client_disconnect -%>
 script-security 2
 <% end -%>
-<% if @up != '' -%>
-up "<%= @up %>"
+<% if @up -%>
+up "<% unless @up =~ /^\// %><%= @_script_dir %>/<% end %><%= @up %>"
 <% end -%>
-<% if @down != '' -%>
-down "<%= @down %>"
+<% if @down -%>
+down "<% unless @down =~ /^\// %><%= @_script_dir %>/<% end %><%= @down %>"
+<% end -%>
+<% if @client_connect -%>
+client-connect "<% unless @client_connect =~ /^\// %><%= @_script_dir %>/<% end %><%= @client_connect %>"
+<% end -%>
+<% if @client_disconnect -%>
+client-disconnect "<% unless @client_disconnect =~ /^\// %><%= @_script_dir %>/<% end %><%= @client_disconnect %>"
 <% end -%>
 <% if @username_as_common_name -%>
 username-as-common-name

@@ -41,8 +41,10 @@
 # @param management Enable management interface
 # @param management_ip  IP address where the management interface will listen
 # @param management_port Port where the management interface will listen
-# @param up Script which we want to run when openvpn server starts
-# @param down  Script which we want to run when openvpn server stops
+# @param up Script which we want to run when openvpn server starts. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
+# @param down  Script which we want to run when openvpn server stops. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
+# @param client_connect  Script which we want to run when a client connects. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
+# @param client_disconnect  Script which we want to run when a client disconnects. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
 # @param username_as_common_name If true then set username-as-common-name
 # @param client_cert_not_required If true then set client-cert-not-required
 # @param ldap_enabled If ldap is enabled, do stuff
@@ -96,6 +98,19 @@
 # @param nobind Whether or not to bind to a specific port number.#
 # @param secret A pre-shared static key.
 # @param scripts Hash of scripts to copy with this instance.
+#  For example, to put a script in `/etc/openvpn/test-site/scripts/add-tap-to-bridge.sh` and use it as an `up` script
+#  ``` puppet
+#  openvpn::server { 'test-site':
+#    ....
+#    up => 'add-tap-to-bridge.sh',
+#    scripts => {
+#      "add-tap-to-bridge.sh" => {
+#        source => 'puppet:///path/to/add-tap-to-bridge.sh',
+#      },
+#    },
+#  }
+#  ```
+#
 # @param custom_options Hash of additional options to append to the configuration file.
 #
 # @example install
@@ -107,6 +122,7 @@
 #       email        => 'root@example.org',
 #       server       => '10.200.200.0 255.255.255.0',
 #   }
+#
 # @example a server in client mode
 #   file {
 #     '/etc/openvpn/zurich/keys/ca.crt':
@@ -165,8 +181,10 @@ define openvpn::server (
   Boolean $management                                               = false,
   String $management_ip                                             = 'localhost',
   Variant[Stdlib::Port::Unprivileged,Enum['unix']] $management_port = 7505,
-  String $up                                                        = '',
-  String $down                                                      = '',
+  Optional[String[1]] $up                                           = undef,
+  Optional[String[1]] $down                                         = undef,
+  Optional[String[1]] $client_connect                               = undef,
+  Optional[String[1]] $client_disconnect                            = undef,
   Boolean $username_as_common_name                                  = false,
   Boolean $client_cert_not_required                                 = false,
   Boolean $ldap_enabled                                             = false,
@@ -419,6 +437,10 @@ define openvpn::server (
 
   # template use $_easyrsa_version
   $_easyrsa_version = $openvpn::easyrsa_version
+
+  # Template might need script directory
+  $_script_dir = "${etc_directory}/openvpn/${name}/scripts"
+
   file { "${etc_directory}/openvpn/${name}.conf":
     owner   => root,
     group   => 0,
@@ -441,7 +463,7 @@ define openvpn::server (
   }
 
   $scripts.each |String $scriptname, Hash $properties| {
-    file { "${etc_directory}/openvpn/${name}/scripts/${scriptname}":
+    file { "${_script_dir}/${scriptname}":
       * => $properties,
     }
   }

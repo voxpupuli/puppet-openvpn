@@ -292,57 +292,59 @@ describe 'openvpn::server' do
       context 'creating a server setting all parameters' do
         let(:params) do
           {
-            'country' => 'CO',
-            'province'        => 'ST',
-            'city'            => 'Some City',
-            'organization'    => 'example.org',
-            'email'           => 'testemail@example.org',
-            'compression'     => 'compress lz4',
-            'port'            => '123',
-            'proto'           => 'udp',
-            'group'           => 'someone',
-            'user'            => 'someone',
-            'logfile'         => '/var/log/openvpn/server1/test_server.log',
+            'country'           => 'CO',
+            'province'          => 'ST',
+            'city'              => 'Some City',
+            'organization'      => 'example.org',
+            'email'             => 'testemail@example.org',
+            'compression'       => 'compress lz4',
+            'port'              => '123',
+            'proto'             => 'udp',
+            'group'             => 'someone',
+            'user'              => 'someone',
+            'logfile'           => '/var/log/openvpn/server1/test_server.log',
             'manage_logfile_directory' => true,
-            'logdirectory_user' => 'someone',
-            'logdirectory_group' => 'someone',
-            'status_log'      => '/tmp/test_server_status.log',
-            'dev'             => 'tun1',
-            'up'              => '/tmp/up',
-            'down'            => '/tmp/down',
-            'local'           => '2.3.4.5',
-            'ipp'             => true,
-            'server'          => '2.3.4.0 255.255.0.0',
+            'logdirectory_user'        => 'someone',
+            'logdirectory_group'       => 'someone',
+            'status_log'        => '/tmp/test_server_status.log',
+            'dev'               => 'tun1',
+            'up'                => '/tmp/up',
+            'down'              => '/tmp/down',
+            'client_connect'    => '/tmp/connect',
+            'client_disconnect' => '/tmp/disconnect',
+            'local'             => '2.3.4.5',
+            'ipp'               => true,
+            'server'            => '2.3.4.0 255.255.0.0',
             'server_ipv6'	=> 'fe80:1337:1337:1337::/64',
-            'push'            => ['dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0'],
-            'route'           => ['192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0'],
-            'route_ipv6'      => ['2001:db8:1234::/64', '2001:db8:abcd::/64'],
-            'keepalive'       => '10 120',
-            'topology'        => 'subnet',
-            'ssl_key_size'    => 2048,
-            'management'      => true,
-            'management_ip'   => '1.3.3.7',
-            'management_port' => 1337,
-            'common_name'     => 'mylittlepony',
-            'ca_expire'       => 365,
-            'crl_auto_renew'  => true,
-            'key_expire'      => 365,
-            'key_cn'          => 'yolo',
-            'key_name'        => 'burp',
-            'key_ou'          => 'NSA',
-            'verb'            => 'mute',
-            'cipher'          => 'DES-CBC',
-            'tls_cipher'      => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
-            'persist_key'     => true,
-            'persist_tun'     => true,
-            'duplicate_cn'    => true,
-            'tls_auth'        => true,
-            'tls_server'      => true,
-            'fragment'        => 1412,
-            'custom_options'  => { 'this' => 'that' },
-            'portshare'       => '127.0.0.1 8443',
-            'secret'          => 'secretsecret1234',
-            'remote_cert_tls' => true
+            'push'              => ['dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0'],
+            'route'             => ['192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0'],
+            'route_ipv6'        => ['2001:db8:1234::/64', '2001:db8:abcd::/64'],
+            'keepalive'         => '10 120',
+            'topology'          => 'subnet',
+            'ssl_key_size'      => 2048,
+            'management'        => true,
+            'management_ip'     => '1.3.3.7',
+            'management_port'   => 1337,
+            'common_name'       => 'mylittlepony',
+            'ca_expire'         => 365,
+            'crl_auto_renew'    => true,
+            'key_expire'        => 365,
+            'key_cn'            => 'yolo',
+            'key_name'          => 'burp',
+            'key_ou'            => 'NSA',
+            'verb'              => 'mute',
+            'cipher'            => 'DES-CBC',
+            'tls_cipher'        => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+            'persist_key'       => true,
+            'persist_tun'       => true,
+            'duplicate_cn'      => true,
+            'tls_auth'          => true,
+            'tls_server'        => true,
+            'fragment'          => 1412,
+            'custom_options'    => { 'this' => 'that' },
+            'portshare'         => '127.0.0.1 8443',
+            'secret'            => 'secretsecret1234',
+            'remote_cert_tls'   => true
           }
         end
 
@@ -379,6 +381,8 @@ describe 'openvpn::server' do
 
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^up "/tmp/up"$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^down "/tmp/down"$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client-connect "/tmp/connect"$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client-disconnect "/tmp/disconnect"$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^script-security 2$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^duplicate-cn$}) }
         it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^tls-server$}) }
@@ -617,12 +621,16 @@ describe 'openvpn::server' do
         context 'when pushing scripts' do
           let(:params) do
             {
-              'country'       => 'CO',
-              'province'      => 'ST',
-              'city'          => 'Some City',
-              'organization'  => 'example.org',
-              'email'         => 'testemail@example.org',
-              'scripts'       => {
+              'country'           => 'CO',
+              'province'          => 'ST',
+              'city'              => 'Some City',
+              'organization'      => 'example.org',
+              'email'             => 'testemail@example.org',
+              'up'                => 'up.sh',
+              'down'              => 'down.sh',
+              'client_connect'    => 'connect.sh',
+              'client_disconnect' => 'disconnect.sh',
+              'scripts'           => {
                 'add-tap-to-bridge.sh' => {
                   'ensure' => 'present'
                 }
@@ -631,6 +639,28 @@ describe 'openvpn::server' do
           end
 
           it { is_expected.to contain_file('/etc/openvpn/test_server/scripts/add-tap-to-bridge.sh').with(ensure: 'present') }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^up\s+"/etc/openvpn/test_server/scripts/up\.sh"$}) }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^down\s+"/etc/openvpn/test_server/scripts/down\.sh"$}) }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client\-connect\s+"/etc/openvpn/test_server/scripts/connect\.sh"$}) }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^client\-disconnect\s+"/etc/openvpn/test_server/scripts/disconnect\.sh"$}) }
+        end
+
+        context 'when not using scripts' do
+          let(:params) do
+            {
+              'country'           => 'CO',
+              'province'          => 'ST',
+              'city'              => 'Some City',
+              'organization'      => 'example.org',
+              'email'             => 'testemail@example.org'
+            }
+          end
+
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').without_content(%r{^script-security\s+}) }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').without_content(%r{^up\s+}) }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').without_content(%r{^down\s+}) }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').without_content(%r{^client\-connect\s+}) }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').without_content(%r{^client\-disconnect\s+}) }
         end
 
         case facts[:os]['family']

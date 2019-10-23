@@ -339,6 +339,14 @@ Determins if a tls key is generated
 
 Default value: `false`
 
+##### `tls_static_key`
+
+Data type: `Boolean`
+
+Determins if a tls key is generated
+
+Default value: `false`
+
 ##### `crl_days`
 
 Data type: `Integer`
@@ -375,7 +383,7 @@ Name of the corresponding openvpn endpoint
 
 ##### `compression`
 
-Data type: `Enum['comp-lzo', '']`
+Data type: `String`
 
 Which compression algorithim to use
 
@@ -514,6 +522,14 @@ Default value: `false`
 Data type: `Boolean`
 
 Activates tls-auth to Add an additional layer of HMAC authentication on top of the TLS control channel to protect against DoS attacks. This has to be set to the same value as on the Server
+
+Default value: `false`
+
+##### `tls_crypt`
+
+Data type: `Boolean`
+
+Encrypt and authenticate all control channel packets with the key from keyfile. (See --tls-auth for more background.)
 
 Default value: `false`
 
@@ -662,13 +678,13 @@ The following parameters are available in the `openvpn::client_specific_config` 
 
 ##### `server`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the corresponding openvpn endpoint
 
 ##### `iroute`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 Array of iroute combinations.
 
@@ -676,7 +692,7 @@ Default value: []
 
 ##### `iroute_ipv6`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 Array of IPv6 iroute combinations.
 
@@ -684,7 +700,7 @@ Default value: []
 
 ##### `route`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 Array of route combinations pushed to client.
 
@@ -692,15 +708,23 @@ Default value: []
 
 ##### `ifconfig`
 
-Data type: `Variant[Boolean, String]`
+Data type: `Optional[String[1]]`
 
 IP configuration to push to the client.
 
-Default value: `false`
+Default value: `undef`
+
+##### `ifconfig_ipv6`
+
+Data type: `Optional[String[1]]`
+
+IPv6 configuration to push to the client.
+
+Default value: `undef`
 
 ##### `dhcp_options`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 DHCP options to push to the client.
 
@@ -716,11 +740,19 @@ Default value: `false`
 
 ##### `ensure`
 
-Data type: `Enum[present, absent]`
+Data type: `Enum['present', 'absent']`
 
 Sets the client specific configuration file status (present or absent)
 
 Default value: present
+
+##### `manage_client_configs`
+
+Data type: `Boolean`
+
+Manage dependencies on Openvpn::Client ressources
+
+Default value: `true`
 
 ### openvpn::deploy::client
 
@@ -982,6 +1014,30 @@ Logfile for this openvpn server
 
 Default value: `false`
 
+##### `manage_logfile_directory`
+
+Data type: `Boolean`
+
+Manage the directory that the logfile is located in
+
+Default value: `false`
+
+##### `logdirectory_user`
+
+Data type: `String[1]`
+
+The owner user of the logfile directory
+
+Default value: 'nobody'
+
+##### `logdirectory_group`
+
+Data type: `String[1]`
+
+The owner group of the logfile directory
+
+Default value: 'nobody'
+
 ##### `port`
 
 Data type: `String`
@@ -1000,7 +1056,7 @@ Default value: `undef`
 
 ##### `proto`
 
-Data type: `Enum['tcp', 'udp']`
+Data type: `Enum['tcp', 'tcp4', 'tcp6', 'udp', 'udp4', 'udp6']`
 
 What IP protocol is being used.
 
@@ -1160,19 +1216,35 @@ Default value: 7505
 
 ##### `up`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
-Script which we want to run when openvpn server starts
+Script which we want to run when openvpn server starts. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
 
-Default value: ''
+Default value: `undef`
 
 ##### `down`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
-Script which we want to run when openvpn server stops
+Script which we want to run when openvpn server stops. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
 
-Default value: ''
+Default value: `undef`
+
+##### `client_connect`
+
+Data type: `Optional[String[1]]`
+
+Script which we want to run when a client connects. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
+
+Default value: `undef`
+
+##### `client_disconnect`
+
+Data type: `Optional[String[1]]`
+
+Script which we want to run when a client disconnects. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
+
+Default value: `undef`
 
 ##### `username_as_common_name`
 
@@ -1296,19 +1368,19 @@ Default value: ''
 
 ##### `ldap_tls_client_cert_file`
 
-Data type: `String`
+Data type: `Optional[Stdlib::Absolutepath]`
 
 LDAP TLS authentication: path to the tls client certificate
 
-Default value: ''
+Default value: `undef`
 
 ##### `ldap_tls_client_key_file`
 
-Data type: `String`
+Data type: `Optional[Stdlib::Absolutepath]`
 
 LDAP TLS authentication: path to the tls client key
 
-Default value: ''
+Default value: `undef`
 
 ##### `verb`
 
@@ -1395,6 +1467,14 @@ Default value: ''
 Data type: `Boolean`
 
 Activates tls-auth to Add an additional layer of HMAC authentication on top of the TLS control channel to protect against DoS attacks.
+
+Default value: `false`
+
+##### `tls_crypt`
+
+Data type: `Boolean`
+
+Encrypt and authenticate all control channel packets with the key from keyfile. (See --tls-auth for more background.)
 
 Default value: `false`
 
@@ -1581,6 +1661,26 @@ Data type: `Optional[String]`
 A pre-shared static key.
 
 Default value: `undef`
+
+##### `scripts`
+
+Data type: `Hash[String, Hash]`
+
+Hash of scripts to copy with this instance.
+For example, to put a script in `/etc/openvpn/test-site/scripts/add-tap-to-bridge.sh` and use it as an `up` script
+``` puppet
+openvpn::server { 'test-site':
+  ....
+  up => 'add-tap-to-bridge.sh',
+  scripts => {
+    "add-tap-to-bridge.sh" => {
+      source => 'puppet:///path/to/add-tap-to-bridge.sh',
+    },
+  },
+}
+```
+
+Default value: {}
 
 ##### `custom_options`
 
