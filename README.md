@@ -153,4 +153,4 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for more details.
 
 * Raffael Schmid <raffael@yux.ch>
 * Vox Pupuli Team
-* List of contributors https://github.com/danquack/puppet-openvpn/graphs/contributors
+* List of contributors https://github.com/voxpupuli/puppet-openvpn/graphs/contributors
