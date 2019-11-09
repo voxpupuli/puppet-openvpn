@@ -62,21 +62,45 @@ define openvpn::ca (
     mode   => '0750'
   })
 
-  file { "${etc_directory}/openvpn/${name}/easy-rsa" :
-    ensure             => directory,
-    recurse            => true,
-    links              => 'follow',
-    source_permissions => 'use',
-    group              => 0,
-    source             => "file:${openvpn::easyrsa_source}",
-    require            => File["${etc_directory}/openvpn/${name}"],
+  file { "${etc_directory}/openvpn/${name}/easy-rsa":
+    ensure  => directory,
+    recurse => true,
+    links   => 'follow',
+    ignore  => '*.cnf',
+    owner   => 0,
+    group   => 0,
+    mode    => '0755',
+    source  => "file:${openvpn::easyrsa_source}",
+    require => File["${etc_directory}/openvpn/${name}"],
   }
 
-  file { "${etc_directory}/openvpn/${name}/easy-rsa/revoked":
-    ensure  => directory,
-    mode    => '0750',
-    recurse => true,
-    require => File["${etc_directory}/openvpn/${name}/easy-rsa"],
+  exec { "copy *.cnf files from easyrsa source to ${name}":
+    command  => "cp '${openvpn::easyrsa_source}/'*.cnf .",
+    cwd      => "${etc_directory}/openvpn/${name}/easy-rsa",
+    unless   => 'ls *.cnf',
+    provider => 'shell',
+    require  => File["${etc_directory}/openvpn/${name}/easy-rsa"],
+    before   => Exec["initca ${name}"];
+  }
+
+  file {
+    "${etc_directory}/openvpn/${name}/easy-rsa/.rnd":
+      ensure  => present,
+      owner   => 0,
+      group   => 0,
+      mode    => '0600',
+      require => File["${etc_directory}/openvpn/${name}/easy-rsa"];
+    "${etc_directory}/openvpn/${name}/easy-rsa/keys":
+      ensure  => directory,
+      owner   => 0,
+      group   => 0,
+      mode    => '0700',
+      require => File["${etc_directory}/openvpn/${name}/easy-rsa"];
+    "${etc_directory}/openvpn/${name}/easy-rsa/revoked":
+      ensure  => directory,
+      mode    => '0750',
+      recurse => true,
+      require => File["${etc_directory}/openvpn/${name}/easy-rsa"];
   }
 
   case $openvpn::easyrsa_version {
