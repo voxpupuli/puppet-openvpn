@@ -12,7 +12,7 @@ Facter.add(:easyrsa) do
       binaryv3 = '/usr/share/easy-rsa/3/easyrsa'
     when %r{Ubuntu|Debian}
       case operatingsystemrelease
-      when %r{8|9|16.04|18.04}
+      when %r{8|9|10|16.04|18.04}
         binaryv2 = '/usr/share/easy-rsa/pkitool'
         binaryv3 = '/usr/share/easy-rsa/easyrsa'
       else
