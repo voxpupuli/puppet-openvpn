@@ -11,6 +11,12 @@ remote-cert-tls server
 <% @remote.to_a.each do |rem| -%>
 remote <%= rem %>
 <% end -%>
+<% if @remote_random_hostname %>
+remote-random-hostname
+<% end -%>
+<% if @remote_random %>
+remote-random
+<% end -%>
 <% if @server_poll_timeout -%>
 server-poll-timeout <%= @server_poll_timeout %>
 <% end -%>

@@ -461,6 +461,22 @@ The IP or hostname of the openvpn server service.
 
 Default value: $::fqdn
 
+##### `remote_random_hostname`
+
+Data type: `Boolean`
+
+OpenVPN will prepend a random string (6 bytes, 12 hex characters) to hostname to prevent DNS caching. For example, "foo.example.com" would be modified to "<random-chars>.foo.example.com".
+
+Default value: `false`
+
+##### `remote_random`
+
+Data type: `Boolean`
+
+When multiple ${remote} address/ports are specified, initially randomize the order of the list as a kind of basic load-balancing measure.
+
+Default value: `false`
+
 ##### `cipher`
 
 Data type: `String`
@@ -941,6 +957,22 @@ Data type: `Optional[Array]`
 List of OpenVPN endpoints to connect to.
 
 Default value: `undef`
+
+##### `remote_random_hostname`
+
+Data type: `Boolean`
+
+OpenVPN will prepend a random string (6 bytes, 12 hex characters) to hostname to prevent DNS caching. For example, "foo.example.com" would be modified to "<random-chars>.foo.example.com".
+
+Default value: `false`
+
+##### `remote_random`
+
+Data type: `Boolean`
+
+When multiple ${remote} address/ports are specified, initially randomize the order of the list as a kind of basic load-balancing measure.
+
+Default value: `false`
 
 ##### `common_name`
 

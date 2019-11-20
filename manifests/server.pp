@@ -7,6 +7,8 @@
 # @param organization Organization to be used for the SSL certificate, mandatory for server mode.
 # @param email Email address to be used for the SSL certificate, mandatory for server mode.
 # @param remote List of OpenVPN endpoints to connect to.
+# @param remote_random_hostname OpenVPN will prepend a random string (6 bytes, 12 hex characters) to hostname to prevent DNS caching. For example, "foo.example.com" would be modified to "<random-chars>.foo.example.com". 
+# @param remote_random When multiple ${remote} address/ports are specified, initially randomize the order of the list as a kind of basic load-balancing measure.
 # @param common_name Common name to be used for the SSL certificate
 # @param compression Which compression algorithim to use
 # @param dev TUN/TAP virtual network device
@@ -146,6 +148,8 @@ define openvpn::server (
   Optional[String] $organization                                    = undef,
   Optional[String] $email                                           = undef,
   Optional[Array] $remote                                           = undef,
+  Boolean $remote_random_hostname                                   = false,
+  Boolean $remote_random                                            = false,
   String $common_name                                               = 'server',
   String $compression                                               = 'comp-lzo',
   String $dev                                                       = 'tun0',
