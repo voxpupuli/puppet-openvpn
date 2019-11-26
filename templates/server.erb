@@ -1,6 +1,6 @@
 <% unless @remote -%>
 mode server
-client-config-dir <%= @etc_directory -%>/openvpn/<%= @name %>/client-configs
+client-config-dir <%= @server_directory %>/<%= @name %>/client-configs
 <% else -%>
 client
 <% if @ns_cert_type -%>
@@ -33,23 +33,23 @@ crl-verify <%= @extca_ca_crl_file %>
 <%   end -%>
 <% else -%>
 <%- if @_easyrsa_version == '2.0' -%>
-ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
-cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
-key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
+ca <%= @server_directory %>/<%= @ca_name %>/keys/ca.crt
+cert <%= @server_directory %>/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
+key <%= @server_directory %>/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
 <%- else -%>
-ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
-cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/issued/<%= @ca_common_name %>.crt
-key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/private/<%= @ca_common_name %>.key
+ca <%= @server_directory %>/<%= @ca_name %>/keys/ca.crt
+cert <%= @server_directory %>/<%= @ca_name %>/keys/issued/<%= @ca_common_name %>.crt
+key <%= @server_directory %>/<%= @ca_name %>/keys/private/<%= @ca_common_name %>.key
 <%- end -%>
 <%   unless @remote -%>
 <%- if @_easyrsa_version == '2.0' -%>
-dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
+dh <%= @server_directory %>/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
 <%- else -%>
-dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh.pem
+dh <%= @server_directory %>/<%= @ca_name %>/keys/dh.pem
 <%- end -%>
 <%   end -%>
 <%   unless @remote or !@crl_verify -%>
-crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
+crl-verify <%= @server_directory %>/<%= @ca_name %>/crl.pem
 <%   end -%>
 <% end -%>
 <% if @proto.include?('tcp') -%>
@@ -173,7 +173,7 @@ client-disconnect "<% unless @client_disconnect =~ /^\// %><%= @_script_dir %>/<
 username-as-common-name
 <% end -%>
 <% if @ldap_enabled == true -%>
-plugin <%= scope.lookupvar('::openvpn::ldap_auth_plugin_location') %> "<%= @etc_directory -%>/openvpn/<%= @name %>/auth/ldap.conf"
+plugin <%= scope.lookupvar('::openvpn::ldap_auth_plugin_location') %> "<%= @server_directory %>/<%= @name %>/auth/ldap.conf"
 <% end -%>
 <% if @client_cert_not_required -%>
 client-cert-not-required
@@ -190,7 +190,7 @@ ping-timer-rem
 tls-auth <%= @extca_tls_auth_key_file %>
 <%   elsif !@extca_enabled -%>
 # tls authentification
-tls-auth <%= @etc_directory -%>/openvpn/<%= @name %>/keys/ta.key
+tls-auth <%= @server_directory %>/<%= @name %>/keys/ta.key
 <%   end -%>
 <%   unless @remote -%>
 key-direction 0
@@ -199,13 +199,13 @@ key-direction 1
 <%   end -%>
 <% end -%>
 <% if @tls_crypt -%>
-tls-crypt <%= @etc_directory -%>/openvpn/<%= @name %>/keys/ta.key
+tls-crypt <%= @server_directory %>/<%= @name %>/keys/ta.key
 <% end -%>
 <% if @fragment != false -%>
 fragment <%= @fragment %>
 <% end -%>
 <% if @secret -%>
-secret <%= @etc_directory -%>/openvpn/<%= @name %>/keys/pre-shared.secret
+secret <%= @server_directory %>/<%= @name %>/keys/pre-shared.secret
 <% end -%>
 
 # Additional custom options

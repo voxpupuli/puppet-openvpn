@@ -10,6 +10,12 @@ describe 'openvpn::ca', type: :define do
 
       case facts[:os]['family']
       when 'RedHat'
+        server_directory = if facts[:os]['release']['major'] == '8'
+                             '/etc/openvpn/server'
+                           else
+                             '/etc/openvpn'
+                           end
+
         context 'creating a server with the minimum parameters' do
           let(:params) do
             {
@@ -23,7 +29,7 @@ describe 'openvpn::ca', type: :define do
 
           it { is_expected.to contain_package('easy-rsa').with('ensure' => 'present') }
           it {
-            is_expected.to contain_file('/etc/openvpn/test_server/crl.pem').with(
+            is_expected.to contain_file("#{server_directory}/test_server/crl.pem").with(
               'mode'    => '0640',
               'group'   => 'nobody'
             )
@@ -31,28 +37,28 @@ describe 'openvpn::ca', type: :define do
 
           # Files associated with a server config
 
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with(mode: '0550') }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with(mode: '0550') }
           it {
-            is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').
-              with(ensure: 'link', target: '/etc/openvpn/test_server/crl.pem')
+            is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/keys/crl.pem").
+              with(ensure: 'link', target: "#{server_directory}/test_server/crl.pem")
           }
           it {
-            is_expected.to contain_file('/etc/openvpn/test_server/keys').
-              with(ensure: 'link', target: '/etc/openvpn/test_server/easy-rsa/keys')
+            is_expected.to contain_file("#{server_directory}/test_server/keys").
+              with(ensure: 'link', target: "#{server_directory}/test_server/easy-rsa/keys")
           }
 
           # Execs to working with certificates
 
-          it { is_expected.to contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh.pem') }
+          it { is_expected.to contain_exec('generate dh param test_server').with_creates("#{server_directory}/test_server/easy-rsa/keys/dh.pem") }
           it { is_expected.to contain_exec('initca test_server') }
           it { is_expected.to contain_exec('generate server cert test_server') }
           it { is_expected.to contain_exec('create crl.pem on test_server') }
           it { is_expected.not_to contain_exec('update crl.pem on test_server') }
 
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export EASYRSA_CA_EXPIRE=3650$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export EASYRSA_CERT_EXPIRE=3650$}) }
-          it { is_expected.not_to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{EASYRSA_REQ_CN}) }
-          it { is_expected.not_to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{EASYRSA_REQ_OU}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CA_EXPIRE=3650$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CERT_EXPIRE=3650$}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{EASYRSA_REQ_CN}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{EASYRSA_REQ_OU}) }
         end
 
         context 'creating a ca setting all parameters' do
@@ -74,14 +80,16 @@ describe 'openvpn::ca', type: :define do
             }
           end
 
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export EASYRSA_CA_EXPIRE=365$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export EASYRSA_CERT_EXPIRE=365$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export EASYRSA_REQ_CN="yolo"$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export EASYRSA_REQ_OU="NSA"$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CA_EXPIRE=365$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CERT_EXPIRE=365$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_REQ_CN="yolo"$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_REQ_OU="NSA"$}) }
 
-          it { is_expected.to contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh.pem') }
+          it { is_expected.to contain_exec('generate dh param test_server').with_creates("#{server_directory}/test_server/easy-rsa/keys/dh.pem") }
         end
       when 'Debian'
+        server_directory = '/etc/openvpn'
+
         context 'creating a server with the minimum parameters' do
           let(:params) do
             {
@@ -95,29 +103,29 @@ describe 'openvpn::ca', type: :define do
 
           # Files associated with a server config
 
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with(mode: '0550') }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with(mode: '0550') }
           it {
-            is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/keys/crl.pem').
-              with(ensure: 'link', target: '/etc/openvpn/test_server/crl.pem')
+            is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/keys/crl.pem").
+              with(ensure: 'link', target: "#{server_directory}/test_server/crl.pem")
           }
           it {
-            is_expected.to contain_file('/etc/openvpn/test_server/keys').
-              with(ensure: 'link', target: '/etc/openvpn/test_server/easy-rsa/keys')
+            is_expected.to contain_file("#{server_directory}/test_server/keys").
+              with(ensure: 'link', target: "#{server_directory}/test_server/easy-rsa/keys")
           }
 
           # Execs to working with certificates
 
-          it { is_expected.to contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh2048.pem') }
+          it { is_expected.to contain_exec('generate dh param test_server').with_creates("#{server_directory}/test_server/easy-rsa/keys/dh2048.pem") }
           it { is_expected.to contain_exec('initca test_server') }
           it { is_expected.to contain_exec('generate server cert test_server') }
           it { is_expected.to contain_exec('create crl.pem on test_server') }
           it { is_expected.not_to contain_exec('update crl.pem on test_server') }
 
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export CA_EXPIRE=3650$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export KEY_EXPIRE=3650$}) }
-          it { is_expected.not_to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{KEY_CN}) }
-          it { is_expected.not_to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{KEY_NAME}) }
-          it { is_expected.not_to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{KEY_OU}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export CA_EXPIRE=3650$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export KEY_EXPIRE=3650$}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{KEY_CN}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{KEY_NAME}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{KEY_OU}) }
         end
 
         context 'creating a ca setting all parameters' do
@@ -139,13 +147,13 @@ describe 'openvpn::ca', type: :define do
             }
           end
 
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export CA_EXPIRE=365$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export KEY_EXPIRE=365$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export KEY_CN="yolo"$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export KEY_NAME="burp"$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/vars').with_content(%r{^export KEY_OU="NSA"$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export CA_EXPIRE=365$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export KEY_EXPIRE=365$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export KEY_CN="yolo"$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export KEY_NAME="burp"$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export KEY_OU="NSA"$}) }
 
-          it { is_expected.to contain_exec('generate dh param test_server').with_creates('/etc/openvpn/test_server/easy-rsa/keys/dh2048.pem') }
+          it { is_expected.to contain_exec('generate dh param test_server').with_creates("#{server_directory}/test_server/easy-rsa/keys/dh2048.pem") }
         end
 
         context 'when Debian based machine' do
@@ -160,16 +168,16 @@ describe 'openvpn::ca', type: :define do
           end
 
           it {
-            is_expected.to contain_file('/etc/openvpn/test_server/easy-rsa/openssl.cnf').with(
+            is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/openssl.cnf").with(
               'ensure'  => 'link',
-              'target'  => '/etc/openvpn/test_server/easy-rsa/openssl-1.0.0.cnf',
+              'target'  => "#{server_directory}/test_server/easy-rsa/openssl-1.0.0.cnf",
               'recurse' => nil,
               'group'   => 'nogroup'
             )
           }
 
           it {
-            is_expected.to contain_file('/etc/openvpn/test_server/crl.pem').with(
+            is_expected.to contain_file("#{server_directory}/test_server/crl.pem").with(
               'mode'    => '0640',
               'group'   => 'nogroup'
             )

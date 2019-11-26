@@ -259,7 +259,7 @@ define openvpn::server (
 
   if $openvpn::manage_service {
     if $facts['service_provider'] == 'systemd' {
-      $lnotify = Service["openvpn@${name}"]
+      $lnotify = Service["${openvpn::server_service_name}@${name}"]
     } elsif $openvpn::namespecific_rclink {
       $lnotify = Service["openvpn_${name}"]
     } else {
@@ -297,6 +297,7 @@ define openvpn::server (
 
   $pam_module_path = $openvpn::pam_module_path
   $etc_directory = $openvpn::etc_directory
+  $server_directory = $openvpn::server_directory
 
   $group_to_set = $group ? {
     undef   => $openvpn::group,
@@ -313,19 +314,19 @@ define openvpn::server (
     group => $group_to_set,
   }
 
-  file { "${etc_directory}/openvpn/${name}":
+  file { "${server_directory}/${name}":
     ensure => directory,
     mode   => '0750',
     notify => $lnotify,
   }
   file {
-    [ "${etc_directory}/openvpn/${name}/scripts", ]:
+    [ "${server_directory}/${name}/scripts", ]:
       ensure  => directory,
       mode    => '0750',
       recurse => true,
   }
   if $shared_ca {
-    ensure_resource(file, "${etc_directory}/openvpn/${ca_name}", {
+    ensure_resource(file, "${server_directory}/${ca_name}", {
       ensure => directory,
       mode   => '0750',
     })
@@ -384,16 +385,16 @@ define openvpn::server (
         case $openvpn::easyrsa_version {
           '2.0': {
             exec { "renew crl.pem on ${name}":
-              command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${openvpn::etc_directory}/openvpn/${name}/crl.pem -config ${openvpn::etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
-              cwd      => "${openvpn::etc_directory}/openvpn/${name}/easy-rsa",
+              command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${server_directory}/${name}/crl.pem -config ${server_directory}/${name}/easy-rsa/openssl.cnf",
+              cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
             }
           }
           '3.0': {
             exec { "renew crl.pem on ${name}":
-              command  => ". ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out ${etc_directory}/openvpn/${name}/crl.pem -config ${etc_directory}/openvpn/${name}/easy-rsa/openssl.cnf",
-              cwd      => "${openvpn::etc_directory}/openvpn/${name}/easy-rsa",
+              command  => ". ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out ${server_directory}/${name}/crl.pem -config ${server_directory}/${name}/easy-rsa/openssl.cnf",
+              cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
             }
@@ -413,9 +414,9 @@ define openvpn::server (
     }
 
     file {
-      [ "${etc_directory}/openvpn/${name}/auth",
-        "${etc_directory}/openvpn/${name}/client-configs",
-        "${etc_directory}/openvpn/${name}/download-configs" ]:
+      [ "${server_directory}/${name}/auth",
+        "${server_directory}/${name}/client-configs",
+        "${server_directory}/${name}/download-configs" ]:
         ensure  => directory,
         mode    => '0750',
         recurse => true,
@@ -424,7 +425,7 @@ define openvpn::server (
     # VPN Client Mode
     $ca_common_name = $name
 
-    file { "${etc_directory}/openvpn/${name}/keys":
+    file { "${server_directory}/${name}/keys":
       ensure  => directory,
       mode    => '0750',
       recurse => true,
@@ -443,9 +444,9 @@ define openvpn::server (
   $_easyrsa_version = $openvpn::easyrsa_version
 
   # Template might need script directory
-  $_script_dir = "${etc_directory}/openvpn/${name}/scripts"
+  $_script_dir = "${server_directory}/${name}/scripts"
 
-  file { "${etc_directory}/openvpn/${name}.conf":
+  file { "${server_directory}/${name}.conf":
     owner   => root,
     group   => 0,
     mode    => '0440',
@@ -457,7 +458,7 @@ define openvpn::server (
     undef   => absent,
     default => present,
   }
-  file { "/etc/openvpn/${name}/keys/pre-shared.secret":
+  file { "${server_directory}/${name}/keys/pre-shared.secret":
     ensure  => $ensure,
     owner   => root,
     group   => root,
@@ -474,7 +475,7 @@ define openvpn::server (
 
   if $ldap_enabled == true {
     file {
-      "${etc_directory}/openvpn/${name}/auth/ldap.conf":
+      "${server_directory}/${name}/auth/ldap.conf":
         ensure  => present,
         owner   => root,
         mode    => '0400',
@@ -485,14 +486,14 @@ define openvpn::server (
 
   if $facts['service_provider'] == 'systemd' {
     if $openvpn::manage_service {
-      service { "openvpn@${name}":
+      service { "${openvpn::server_service_name}@${name}":
         ensure   => running,
         enable   => true,
         provider => 'systemd',
-        require  => File["${etc_directory}/openvpn/${name}.conf"],
+        require  => File["${server_directory}/${name}.conf"],
       }
       if !$extca_enabled and !$remote {
-        Openvpn::Ca[$ca_name] -> Service["openvpn@${name}"]
+        Openvpn::Ca[$ca_name] -> Service["${openvpn::server_service_name}@${name}"]
       }
     }
   }
@@ -515,7 +516,7 @@ define openvpn::server (
         ensure  => running,
         enable  => true,
         require => [
-          File["${etc_directory}/openvpn/${name}.conf"],
+          File["${server_directory}/${name}.conf"],
           File["/usr/local/etc/rc.d/openvpn_${name}"],
         ],
       }

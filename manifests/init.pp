@@ -38,6 +38,8 @@ class openvpn (
   Stdlib::Unixpath                     $easyrsa_source,
   Variant[String[1], Array[String[1]]] $additional_packages,
   Optional[Stdlib::Absolutepath]       $ldap_auth_plugin_location,
+  String[1]                            $server_service_name,
+  Optional[Stdlib::Absolutepath]       $server_directory,
 
   Hash                                 $client_defaults                 = {},
   Hash                                 $clients                         = {},

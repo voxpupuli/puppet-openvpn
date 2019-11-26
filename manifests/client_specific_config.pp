@@ -44,7 +44,7 @@ define openvpn::client_specific_config (
     -> Openvpn::Client_specific_config[$name]
   }
 
-  file { "${openvpn::etc_directory}/openvpn/${server}/client-configs/${name}":
+  file { "${openvpn::server_directory}/${server}/client-configs/${name}":
     ensure  => $ensure,
     content => template('openvpn/client_specific_config.erb'),
   }

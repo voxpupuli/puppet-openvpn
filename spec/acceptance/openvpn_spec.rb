@@ -2,17 +2,29 @@ require 'spec_helper_acceptance'
 
 case fact('osfamily')
 when 'RedHat'
-  server_crt = '/etc/openvpn/test_openvpn_server/easy-rsa/keys/issued/server.crt'
-  key_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys/private'
-  crt_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys/issued'
-  index_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
-  renew_crl_cmd = "cd /etc/openvpn/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out /etc/openvpn/test_openvpn_server/crl.pem -config /etc/openvpn/test_openvpn_server/easy-rsa/openssl.cnf"
+  if fact('os.release.major') == '8'
+    server_directory = '/etc/openvpn/server'
+    client_directory = '/etc/openvpn/client'
+    client_service = 'openvpn-client'
+  else
+    server_directory = '/etc/openvpn'
+    client_directory = '/etc/openvpn'
+    client_service = 'openvpn'
+  end
+  server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
+  key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
+  crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"
+  index_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+  renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
 when 'Debian'
-  server_crt = '/etc/openvpn/test_openvpn_server/easy-rsa/keys/server.crt'
-  key_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
-  crt_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
-  index_path = '/etc/openvpn/test_openvpn_server/easy-rsa/keys'
-  renew_crl_cmd = "cd /etc/openvpn/test_openvpn_server/easy-rsa && . ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out /etc/openvpn/test_openvpn_server/crl.pem -config /etc/openvpn/test_openvpn_server/easy-rsa/openssl.cnf"
+  server_directory = '/etc/openvpn'
+  client_directory = '/etc/openvpn'
+  client_service = 'openvpn'
+  server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/server.crt"
+  key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+  crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+  index_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+  renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
 end
 
 # All-terrain tls ciphers are used to be able to work with all supported OSes.
@@ -61,13 +73,13 @@ describe 'server defined type' do
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: true)
     end
 
-    describe file('/etc/openvpn/test_openvpn_server/easy-rsa/keys') do
+    describe file("#{server_directory}/test_openvpn_server/easy-rsa/keys") do
       it { is_expected.to be_directory }
     end
 
-    describe file('/etc/openvpn/test_openvpn_server/easy-rsa/vars') do
+    describe file("#{server_directory}/test_openvpn_server/easy-rsa/vars") do
       it { is_expected.to be_file }
-      it { is_expected.to contain 'export EASY_RSA="/etc/openvpn/test_openvpn_server/easy-rsa"' }
+      it { is_expected.to contain "export EASY_RSA=\"#{server_directory}/test_openvpn_server/easy-rsa\"" }
       it { is_expected.to contain '_COUNTRY="CO"' }
       it { is_expected.to contain '_PROVINCE="ST"' }
       it { is_expected.to contain '_CITY="A city"' }
@@ -107,18 +119,18 @@ describe 'server defined type' do
       it { is_expected.to contain 'CN=vpnclienta' }
     end
 
-    describe file('/etc/openvpn/test_openvpn_server/download-configs/vpnclienta.tar.gz') do
+    describe file("#{server_directory}/test_openvpn_server/download-configs/vpnclienta.tar.gz") do
       it { is_expected.to be_file }
       its(:size) { is_expected.to be > 500 }
     end
 
     it 'permits to setup a vpn client' do
-      scp_from(hosts_as('vpnserver'), '/etc/openvpn/test_openvpn_server/download-configs/vpnclienta.tar.gz', '.')
+      scp_from(hosts_as('vpnserver'), "#{server_directory}/test_openvpn_server/download-configs/vpnclienta.tar.gz", '.')
       scp_to(hosts_as('vpnclienta'), 'vpnclienta.tar.gz', '/tmp')
-      on(hosts_as('vpnclienta'), 'tar xvfz /tmp/vpnclienta.tar.gz -C /etc/openvpn')
-      on(hosts_as('vpnclienta'), 'mv /etc/openvpn/vpnclienta/* /etc/openvpn/')
-      on(hosts_as('vpnclienta'), 'systemctl enable openvpn@vpnclienta')
-      on(hosts_as('vpnclienta'), 'systemctl restart openvpn@vpnclienta')
+      on(hosts_as('vpnclienta'), "tar xvfz /tmp/vpnclienta.tar.gz -C #{client_directory}")
+      on(hosts_as('vpnclienta'), "mv #{client_directory}/vpnclienta/* #{client_directory}/")
+      on(hosts_as('vpnclienta'), "systemctl enable #{client_service}@vpnclienta")
+      on(hosts_as('vpnclienta'), "systemctl restart #{client_service}@vpnclienta")
     end
 
     describe command('echo status |nc -w 1 localhost 7505') do
