@@ -33,7 +33,9 @@
   <Group>
     BaseDN <%= @ldap_g_basedn %>
     SearchFilter "<%= @ldap_g_filter %>"
+<% if @ldap_memberatr -%>
     MemberAttribute <%= @ldap_memberatr %>
+<% end -%>
   </Group>
 <% end -%>
 </Authorization>
