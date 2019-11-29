@@ -9,10 +9,10 @@
 
 <% if @ldap_tls_enable -%>
   TLSEnable yes
-<% if @ldap_tls_ca_cert_file -%>
+<% if @ldap_tls_ca_cert_file != '' -%>
   TLSCACertFile <%= @ldap_tls_ca_cert_file %>
 <% end -%>
-<% if @ldap_tls_ca_cert_dir -%>
+<% if @ldap_tls_ca_cert_dir != '' -%>
   TLSCACertDir <%= @ldap_tls_ca_cert_dir %>
 <% end -%>
 <% if @ldap_tls_client_cert_file or @ldap_tls_client_key_file -%>
@@ -33,7 +33,7 @@
   <Group>
     BaseDN <%= @ldap_g_basedn %>
     SearchFilter "<%= @ldap_g_filter %>"
-<% if @ldap_memberatr -%>
+<% if @ldap_memberatr != '' -%>
     MemberAttribute <%= @ldap_memberatr %>
 <% end -%>
   </Group>
