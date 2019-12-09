@@ -37,7 +37,7 @@ The supported Puppet versions are listed in the [metadata.json](metadata.json)
 
 ## REFERENCES
 
-Please see [REFERENCE](REFERENCE.md) for more details.
+Please see [REFERENCE.md](https://github.com/voxpupuli/puppet-openvpn/blob/master/REFERENCE.md) for more details.
 
 ## Example with hiera
 
