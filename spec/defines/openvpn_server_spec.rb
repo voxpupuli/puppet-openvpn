@@ -221,6 +221,57 @@ describe 'openvpn::server' do
         it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^key-direction 1$}) }
         it { is_expected.not_to contain_file('/etc/openvpn/test_client.conf').with_content(%r{nobind}) }
         it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^port\s+\d+$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').without_content(%r{^remote-random-hostname$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').without_content(%r{^remote-random$}) }
+
+        it { is_expected.not_to contain_openvpn__ca('test_client') }
+
+        case facts[:os]['family']
+        when 'RedHat'
+          it {
+            is_expected.to contain_file('/etc/openvpn/test_client/keys').
+              with(ensure: 'directory', mode: '0750', group: 'nobody')
+          }
+        end
+      end
+
+      context 'creating a server in client mode with multiple remotes and random' do
+        let(:title) { 'test_client' }
+        let(:nobind) { false }
+        let(:params) do
+          {
+            'remote' => ['vpn1.example.com 12345', 'vpn2.example.com 23456'],
+            'remote_random_hostname' => true,
+            'remote_random'          => true,
+            'server_poll_timeout'    => 1,
+            'ping_timer_rem'         => true,
+            'tls_auth'               => true,
+            'tls_client'             => true,
+            'nobind'                 => nobind
+          }
+        end
+
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^client$}) }
+        it {
+          is_expected.to contain_file('/etc/openvpn/test_client.conf').
+            with_content(%r{^remote\s+vpn1.example.com\s+12345$})
+        }
+        it {
+          is_expected.to contain_file('/etc/openvpn/test_client.conf').
+            with_content(%r{^remote\s+vpn2.example.com\s+23456$})
+        }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^remote-random-hostname$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^remote-random$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^server-poll-timeout\s+1$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^ping-timer-rem$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^ns-cert-type server}) }
+        it { is_expected.not_to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^mode\s+server$}) }
+        it { is_expected.not_to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^client-config-dir}) }
+        it { is_expected.not_to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^dh}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^tls-client$}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^key-direction 1$}) }
+        it { is_expected.not_to contain_file('/etc/openvpn/test_client.conf').with_content(%r{nobind}) }
+        it { is_expected.to contain_file('/etc/openvpn/test_client.conf').with_content(%r{^port\s+\d+$}) }
 
         it { is_expected.not_to contain_openvpn__ca('test_client') }
 
