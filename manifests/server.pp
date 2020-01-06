@@ -153,7 +153,7 @@ define openvpn::server (
   Optional[String] $group                                           = undef,
   Boolean $ipp                                                      = false,
   Boolean $duplicate_cn                                             = false,
-  String $local                                                     = $facts['ipaddress_eth0'],
+  String $local                                                     = $facts['networking']['ip'],
   Variant[Boolean, String] $logfile                                 = false,
   Boolean $manage_logfile_directory                                 = false,
   String[1] $logdirectory_user                                      = 'nobody',

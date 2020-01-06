@@ -3,7 +3,7 @@
 #
 class openvpn::config {
 
-  if $facts['osfamily'] == 'Debian' {
+  if $facts['os']['family'] == 'Debian' {
     concat { '/etc/default/openvpn':
       owner => root,
       group => 0,

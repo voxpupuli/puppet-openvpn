@@ -447,8 +447,7 @@ describe 'openvpn::server' do
       context 'with easyrsa 2.0' do
         let(:facts) do
           facts.merge(
-            easyrsa: '2.0',
-            ipaddress_eth0: '1.2.3.4'
+            easyrsa: '2.0'
           )
         end
 
@@ -598,7 +597,7 @@ describe 'openvpn::server' do
           it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^log\-append\s+test_server\/openvpn\.log$}) }
           it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^status\s+/var/log/openvpn/test_server-status\.log$}) }
           it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^dev\s+tun0$}) }
-          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^local\s+1\.2\.3\.4$}) }
+          it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^local\s+10\.0\.2\.15$}) }
           it { is_expected.not_to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^ifconfig-pool-persist}) }
           it { is_expected.to contain_file('/etc/openvpn/test_server.conf').with_content(%r{^crl-verify\s+\/etc\/openvpn\/test_server\/crl.pem$}) }
           it { is_expected.not_to contain_schedule('renew crl.pem schedule on test_server') }
@@ -806,8 +805,7 @@ describe 'openvpn::server' do
       context 'with easyrsa 3.0' do
         let(:facts) do
           facts.merge(
-            easyrsa: '3.0',
-            ipaddress_eth0: '1.2.3.4'
+            easyrsa: '3.0'
           )
         end
 

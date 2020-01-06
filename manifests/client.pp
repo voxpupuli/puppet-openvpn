@@ -55,7 +55,7 @@ define openvpn::client (
   Boolean $persist_tun                                 = true,
   String $port                                         = '1194',
   Enum['tcp','udp'] $proto                             = 'tcp',
-  Variant[String, Array[String]] $remote_host          = $::fqdn,
+  Variant[String, Array[String]] $remote_host          = $facts['networking']['fqdn'],
   String $resolv_retry                                 = 'infinite',
   Enum['none', 'nointeract', 'interact'] $auth_retry   = 'none',
   String $verb                                         = '3',
