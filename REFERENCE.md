@@ -459,7 +459,7 @@ Data type: `Variant[String, Array[String]]`
 
 The IP or hostname of the openvpn server service.
 
-Default value: $::fqdn
+Default value: $facts['networking']['fqdn']
 
 ##### `remote_random_hostname`
 
@@ -1036,7 +1036,7 @@ Data type: `String`
 
 Interface for openvpn to bind to.
 
-Default value: $facts['ipaddress_eth0']
+Default value: $facts['networking']['ip']
 
 ##### `logfile`
 

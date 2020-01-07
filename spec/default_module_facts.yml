@@ -1,4 +1,0 @@
----
-ipaddress_eth0: '1.2.3.4'
-network_eth0: '1.2.3.0'
-netmask_eth0: '255.255.255.0'
