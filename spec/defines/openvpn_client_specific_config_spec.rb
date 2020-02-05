@@ -27,12 +27,23 @@ describe 'openvpn::client_specific_config', type: :define do
         }
       end
 
+      server_directory = case facts[:os]['family']
+                         when 'CentOS', 'RedHat'
+                           if facts[:os]['release']['major'] == '8'
+                             '/etc/openvpn/server'
+                           else
+                             '/etc/openvpn'
+                           end
+                         else
+                           '/etc/openvpn'
+                         end
+
       it { is_expected.to compile.with_all_deps }
 
-      it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client') }
+      it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client") }
 
       describe 'setting no paramter at all' do
-        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{\A\n\z}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{\A\n\z}) }
       end
 
       describe 'setting all parameters' do
@@ -49,13 +60,13 @@ describe 'openvpn::client_specific_config', type: :define do
           }
         end
 
-        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^iroute 10.0.1.0 255.255.255.0$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^iroute-ipv6 2001:db8:1234::/64$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^ifconfig-push 10.10.10.2 255.255.255.0$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^ifconfig-ipv6-push 2001:db8:0:123::2/64 2001:db8:0:123::1$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^push "dhcp-option DNS 8.8.8.8"$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^push "redirect-gateway def1"$}) }
-        it { is_expected.to contain_file('/etc/openvpn/test_server/client-configs/test_client').with_content(%r{^push "route 10.200.100.0 255.255.255.0 10.10.10.1"$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^iroute 10.0.1.0 255.255.255.0$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^iroute-ipv6 2001:db8:1234::/64$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^ifconfig-push 10.10.10.2 255.255.255.0$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^ifconfig-ipv6-push 2001:db8:0:123::2/64 2001:db8:0:123::1$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^push "dhcp-option DNS 8.8.8.8"$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^push "redirect-gateway def1"$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^push "route 10.200.100.0 255.255.255.0 10.10.10.1"$}) }
       end
     end
   end

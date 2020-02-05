@@ -6,3 +6,4 @@ openvpn::additional_packages: ['easy-rsa2']
 openvpn::easyrsa_source: '/usr/local/share/easy-rsa'
 openvpn::default_easyrsa_ver: '2.0'
 openvpn::namespecific_rclink: true
+openvpn::server_directory: '/usr/local/etc/openvpn'

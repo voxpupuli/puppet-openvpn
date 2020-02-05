@@ -20,6 +20,8 @@
 # @param revokes Hash of revokes passed to openvpn::revoke defined type.
 # @param server_defaults Hash of defaults for servers passed to openvpn::server defined type.
 # @param servers Hash of servers passed to openvpn::server defined type.
+# @param server_directory  Path of the server configuration. This is usually `/etc_directory/openvpn`, but RHEL/CentOS 8 uses `/etc_directory/openvpn/server`
+# @param server_service_name  Name of the openvpn server service. This is usually `openvpn`, but RHEL/CentOS 8 uses `openvpn-server`.
 #
 # @example
 #   class { 'openvpn':
@@ -38,6 +40,8 @@ class openvpn (
   Stdlib::Unixpath                     $easyrsa_source,
   Variant[String[1], Array[String[1]]] $additional_packages,
   Optional[Stdlib::Absolutepath]       $ldap_auth_plugin_location,
+  String[1]                            $server_service_name,
+  Optional[Stdlib::Absolutepath]       $server_directory,
 
   Hash                                 $client_defaults                 = {},
   Hash                                 $clients                         = {},

@@ -173,6 +173,18 @@ Hash of servers passed to openvpn::server defined type.
 
 Default value: {}
 
+##### `server_directory`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Path of the server configuration. This is usually `/etc_directory/openvpn`, but RHEL/CentOS 8 uses `/etc_directory/openvpn/server`
+
+##### `server_service_name`
+
+Data type: `String[1]`
+
+Name of the openvpn server service. This is usually `openvpn`, but RHEL/CentOS 8 uses `openvpn-server`.
+
 ### openvpn::config
 
 This class sets up the openvpn enviornment as well as the default config file

@@ -13,7 +13,7 @@ RSpec.configure do |c|
     hosts.each do |_host|
       case fact('os.family')
       when 'RedHat'
-        install_module_from_forge_on(hosts_as('agent'), 'stahnma-epel', '>= 1.3.0 < 2.0.0')
+        install_module_from_forge_on(hosts_as('agent'), 'yakatz-epel', '>= 2.0.0 < 3.0.0')
         apply_manifest_on(hosts_as('agent'), 'include ::epel', catch_failures: true)
 
         install_server_packages = %(
