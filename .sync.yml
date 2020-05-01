@@ -1,6 +1,7 @@
 ---
 .travis.yml:
   docker_sets:
+    - set: ubuntu2004-64vpnserver.ma{hostname=vpnserver}-ubuntu2004-64vpnclienta.a{hostname=vpnclienta}
     - set: ubuntu1804-64vpnserver.ma{hostname=vpnserver}-ubuntu1804-64vpnclienta.a{hostname=vpnclienta}
     - set: ubuntu1604-64vpnserver.ma{hostname=vpnserver}-ubuntu1604-64vpnclienta.a{hostname=vpnclienta}
     - set: centos8-64vpnserver.ma{hostname=vpnserver}-centos8-64vpnclienta.a{hostname=vpnclienta}
