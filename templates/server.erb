@@ -56,7 +56,7 @@ crl-verify <%= @server_directory %>/<%= @ca_name %>/crl.pem
 <% unless @remote -%>
 proto <%= @proto %>-server
 <% else -%>
-proto <%= @proto %>
+proto <%= @proto %>-client
 <% end -%>
 <% else -%>
 proto <%= @proto %>
