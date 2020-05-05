@@ -1,4 +1,4 @@
-require 'voxpupuli/acceptance/spec_helper'
+require 'voxpupuli/acceptance/spec_helper_acceptance'
 
 configure_beaker do |host|
   # Configure all nodes in nodeset
