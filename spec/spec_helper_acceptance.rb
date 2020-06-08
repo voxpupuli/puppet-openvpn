@@ -15,7 +15,7 @@ configure_beaker do |host|
     }
 
     node /^vpnserver\./ {
-      package { $package_name:
+      package { $netcat_package_name:
         ensure => present,
       }
     }

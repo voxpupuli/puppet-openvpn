@@ -20,11 +20,18 @@ when 'Debian'
   server_directory = '/etc/openvpn'
   client_directory = '/etc/openvpn'
   client_service = 'openvpn'
-  server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/server.crt"
-  key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
-  crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+  if fact('os.release.major') == '10'
+    server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
+    key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
+    crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"
+    renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
+  else
+    server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/server.crt"
+    key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+    crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+    renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
+  end
   index_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
-  renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
 end
 
 # All-terrain tls ciphers are used to be able to work with all supported OSes.
