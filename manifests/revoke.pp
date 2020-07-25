@@ -16,7 +16,6 @@
 define openvpn::revoke (
   String $server,
 ) {
-
   Openvpn::Server[$server]
   -> Openvpn::Revoke[$name]
 
