@@ -12,22 +12,20 @@ define openvpn::deploy::client (
   String $server,
   Boolean $manage_etc = true,
 ) {
-
   include openvpn::deploy::prepare
 
   Class['openvpn::deploy::install']
   -> Openvpn::Deploy::Client[$name]
   ~> Class['openvpn::deploy::service']
 
-
   if $manage_etc {
     file { [
-      "${openvpn::deploy::prepare::etc_directory}/openvpn",
-      "${openvpn::deploy::prepare::etc_directory}/openvpn/keys",
-      "${openvpn::deploy::prepare::etc_directory}/openvpn/keys/${name}",
-    ]:
-      ensure  => directory,
-      require => Package['openvpn'];
+        "${openvpn::deploy::prepare::etc_directory}/openvpn",
+        "${openvpn::deploy::prepare::etc_directory}/openvpn/keys",
+        "${openvpn::deploy::prepare::etc_directory}/openvpn/keys/${name}",
+      ]:
+        ensure  => directory,
+        require => Package['openvpn'];
     }
   } else {
     file { "${openvpn::deploy::prepare::etc_directory}/openvpn/keys/${name}":
@@ -38,5 +36,4 @@ define openvpn::deploy::client (
 
   File <<| tag == "${server}-${name}" |>>
   ~> Class['openvpn::deploy::service']
-
 }

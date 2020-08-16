@@ -81,7 +81,6 @@ define openvpn::client (
   Boolean $ns_cert_type                                = true,
   Boolean $remote_cert_tls                             = false,
 ) {
-
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')
   }
@@ -155,10 +154,13 @@ define openvpn::client (
     }
   }
 
-  file { [ "${server_directory}/${server}/download-configs/${name}",
-    "${server_directory}/${server}/download-configs/${name}/keys",
-    "${server_directory}/${server}/download-configs/${name}/keys/${name}" ]:
-    ensure => directory,
+  file {
+    [
+      "${server_directory}/${server}/download-configs/${name}",
+      "${server_directory}/${server}/download-configs/${name}/keys",
+      "${server_directory}/${server}/download-configs/${name}/keys/${name}",
+    ]:
+      ensure => directory,
   }
 
   file { "${server_directory}/${server}/download-configs/${name}/keys/${name}/ca.crt":
@@ -228,7 +230,7 @@ define openvpn::client (
   }
 
   file { "${server_directory}/${server}/download-configs/${name}.tar.gz":
-    ensure  => present,
+    ensure  => file,
     replace => 'no',
     require => Exec["tar the thing ${server} with ${name}"],
   }

@@ -34,7 +34,6 @@ define openvpn::client_specific_config (
   Boolean $redirect_gateway          = false,
   Boolean $manage_client_configs     = true,
 ) {
-
   if $manage_client_configs {
     Openvpn::Server[$server]
     -> Openvpn::Client[$name]
@@ -48,5 +47,4 @@ define openvpn::client_specific_config (
     ensure  => $ensure,
     content => template('openvpn/client_specific_config.erb'),
   }
-
 }

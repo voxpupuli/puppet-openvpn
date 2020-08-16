@@ -66,7 +66,7 @@ class openvpn (
 
   if $facts['service_provider'] != 'systemd' {
     class { 'openvpn::service':
-      subscribe => [Class['openvpn::config'], Class['openvpn::install'] ],
+      subscribe => [Class['openvpn::config'], Class['openvpn::install']],
     }
 
     if empty($servers) {
