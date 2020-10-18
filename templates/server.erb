@@ -83,7 +83,9 @@ user <%= @user %>
 <% if @logfile -%>
 log-append <%= @logfile %>
 <% end -%>
+<% if @status_log != '' -%>
 status <%= @status_log %>
+<% end -%>
 <% if @status_version != '' -%>
 status-version <%= @status_version %>
 <% end -%>

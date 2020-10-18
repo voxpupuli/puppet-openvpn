@@ -709,6 +709,21 @@ describe 'openvpn::server' do
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client\-disconnect\s+"#{server_directory}/test_server/scripts/disconnect\.sh"$}) }
         end
 
+        context 'when not using status log' do
+          let(:params) do
+            {
+              'country'       => 'CO',
+              'province'      => 'ST',
+              'city'          => 'Some City',
+              'organization'  => 'example.org',
+              'email'         => 'testemail@example.org',
+              'status_log'    => ''
+            }
+          end
+
+          it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^status}) }
+        end
+
         context 'when not using scripts' do
           let(:params) do
             {
