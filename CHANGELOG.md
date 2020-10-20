@@ -4,6 +4,40 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.3.0](https://github.com/voxpupuli/puppet-openvpn/tree/v8.3.0) (2020-10-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v8.2.0...v8.3.0)
+
+Debian 8 is end of life since a few months. We do not support EOL operating systems. This is the last puppet-openvpn release with Debian 8 support. Afterwards we will do a 9.0.0 release which only supports Debian 9 and 10.
+
+**Implemented enhancements:**
+
+- Update code to set status parameter optional [\#385](https://github.com/voxpupuli/puppet-openvpn/pull/385) ([smutel](https://github.com/smutel))
+- Add Debian Buster support [\#379](https://github.com/voxpupuli/puppet-openvpn/pull/379) ([NITEMAN](https://github.com/NITEMAN))
+- Enable revocation when easyrsa version 3.0 is used [\#369](https://github.com/voxpupuli/puppet-openvpn/pull/369) ([Rubueno](https://github.com/Rubueno))
+- Add RHEL 8 support [\#364](https://github.com/voxpupuli/puppet-openvpn/pull/364) ([yakatz](https://github.com/yakatz))
+- Add remote-random and remote-random-hostname to managed server parameters [\#363](https://github.com/voxpupuli/puppet-openvpn/pull/363) ([yakatz](https://github.com/yakatz))
+- Add debian buster to collect easyrsa fact [\#362](https://github.com/voxpupuli/puppet-openvpn/pull/362) ([smutel](https://github.com/smutel))
+- Optionally manage logfile parent directory [\#343](https://github.com/voxpupuli/puppet-openvpn/pull/343) ([Bluewind](https://github.com/Bluewind))
+- Add scripts with server [\#339](https://github.com/voxpupuli/puppet-openvpn/pull/339) ([yakatz](https://github.com/yakatz))
+
+**Fixed bugs:**
+
+- Fixes \#374 - Revocation command update and crl renew [\#375](https://github.com/voxpupuli/puppet-openvpn/pull/375) ([Rubueno](https://github.com/Rubueno))
+- Update server.erb - fix proto for tcp client mode [\#349](https://github.com/voxpupuli/puppet-openvpn/pull/349) ([jimirocks](https://github.com/jimirocks))
+
+**Closed issues:**
+
+- Problem while revoking certificate [\#374](https://github.com/voxpupuli/puppet-openvpn/issues/374)
+- Revoke command missing on easy-rsa 3.0 [\#331](https://github.com/voxpupuli/puppet-openvpn/issues/331)
+
+**Merged pull requests:**
+
+- Repair link to REFERENCE.md in README.md [\#366](https://github.com/voxpupuli/puppet-openvpn/pull/366) ([gabe-sky](https://github.com/gabe-sky))
+- drop Ubuntu 14.04 support [\#361](https://github.com/voxpupuli/puppet-openvpn/pull/361) ([bastelfreak](https://github.com/bastelfreak))
+- Clean up acceptance spec helper [\#356](https://github.com/voxpupuli/puppet-openvpn/pull/356) ([ekohl](https://github.com/ekohl))
+- cleanup types in openvpn::client\_specific\_config [\#342](https://github.com/voxpupuli/puppet-openvpn/pull/342) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v8.2.0](https://github.com/voxpupuli/puppet-openvpn/tree/v8.2.0) (2019-07-19)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v8.1.0...v8.2.0)
