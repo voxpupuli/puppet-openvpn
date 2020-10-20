@@ -10,7 +10,7 @@ describe 'openvpn', type: :class do
       os_name = facts[:os]['name']
       os_release = facts[:os]['release']['major']
       case "#{os_name}-#{os_release}"
-      when 'Ubuntu-14.04', 'CentOS-6', 'RedHat-6', %r{FreeBSD}
+      when 'CentOS-6', 'RedHat-6', %r{FreeBSD}
         let(:facts) do
           facts
         end
@@ -19,7 +19,7 @@ describe 'openvpn', type: :class do
           it { is_expected.to create_class('openvpn') }
           it { is_expected.to contain_class('openvpn::service') }
         end
-      when 'Ubuntu-18.04', 'Ubuntu-16.04', 'CentOS-7', 'RedHat-7', 'CentOS-8', 'RedHat-8', 'Debian-8', 'Debian-9', 'Debian-10', %r{Archlinux}
+      when 'Ubuntu-18.04', 'Ubuntu-16.04', 'CentOS-7', 'RedHat-7', 'CentOS-8', 'RedHat-8', 'Debian-9', 'Debian-10', %r{Archlinux}
         let(:facts) do
           facts.merge(
             service_provider: 'systemd'
