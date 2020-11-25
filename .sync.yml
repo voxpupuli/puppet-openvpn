@@ -1,13 +1,3 @@
 ---
-.travis.yml:
-  docker_sets:
-    - set: ubuntu1804-64vpnserver.ma{hostname=vpnserver}-ubuntu1804-64vpnclienta.a{hostname=vpnclienta}
-    - set: ubuntu1604-64vpnserver.ma{hostname=vpnserver}-ubuntu1604-64vpnclienta.a{hostname=vpnclienta}
-    - set: centos8-64vpnserver.ma{hostname=vpnserver}-centos8-64vpnclienta.a{hostname=vpnclienta}
-    - set: centos7-64vpnserver.ma{hostname=vpnserver}-centos7-64vpnclienta.a{hostname=vpnclienta}
-    - set: centos6-64vpnserver.ma{hostname=vpnserver}-centos7-64vpnclienta.a{hostname=vpnclienta}
-    - set: debian10-64vpnserver.ma{hostname=vpnserver}-debian10-64vpnclienta.a{hostname=vpnclienta}
-    - set: debian9-64vpnserver.ma{hostname=vpnserver}-debian9-64vpnclienta.a{hostname=vpnclienta}
-  secure: "RbqNJ7PwiJ3oqmytAqMmpETDLD9zB0Dadx1485L69QnhHAFSAo9dcTeSFepbXYMYfAM1tlxpk9Rb3IvR0Ii+BiWRFxD6KxI1npwBaTPsO6P4rLF9OoEq1H1XecHi5m1n7McN4yO2QbeRLJ7DDL+dTV4MpG5FB+52YK53OjxjFtc="
 spec/spec_helper.rb:
   hiera_config: "'spec/fixtures/hiera/hiera.yaml'"
