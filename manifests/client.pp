@@ -107,6 +107,9 @@ define openvpn::client (
         '3.0': {
           $env_expire = "EASYRSA_CERT_EXPIRE=${expire} EASYRSA_NO_VARS=1"
         }
+        default: {
+          fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
+        }
       }
     } else {
       warning("Custom expiry time ignored: only integer is accepted but ${expire} is given.")
