@@ -100,7 +100,14 @@ define openvpn::client (
 
   if $expire {
     if is_integer($expire) {
-      $env_expire = "KEY_EXPIRE=${expire}"
+      case $openvpn::easyrsa_version {
+        '2.0': {
+          $env_expire = "KEY_EXPIRE=${expire}"
+        }
+        '3.0': {
+          $env_expire = "EASYRSA_CERT_EXPIRE=${expire} EASYRSA_NO_VARS=1"
+        }
+      }
     } else {
       warning("Custom expiry time ignored: only integer is accepted but ${expire} is given.")
     }
