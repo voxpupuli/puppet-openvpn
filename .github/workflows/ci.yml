@@ -55,8 +55,6 @@ jobs:
       fail-fast: false
       matrix:
         setfile:
-          - name: CentOS 6
-            value: centos6-64vpnserver.ma{hostname=vpnserver}-centos7-64vpnclienta.a{hostname=vpnclienta}
           - name: CentOS 7
             value: centos7-64vpnserver.ma{hostname=vpnserver}-centos7-64vpnclienta.a{hostname=vpnclienta}
           - name: CentOS 8
