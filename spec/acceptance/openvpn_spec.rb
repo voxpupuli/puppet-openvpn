@@ -20,11 +20,18 @@ when 'Debian'
   server_directory = '/etc/openvpn'
   client_directory = '/etc/openvpn'
   client_service = 'openvpn'
-  server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/server.crt"
-  key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
-  crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+  if fact('os.release.major') == '10'
+    server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
+    key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
+    crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"
+    renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
+  else
+    server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/server.crt"
+    key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+    crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
+    renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
+  end
   index_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
-  renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
 end
 
 # All-terrain tls ciphers are used to be able to work with all supported OSes.
@@ -43,11 +50,12 @@ describe 'server defined type' do
           local        => '',
           management   => true,
           tls_cipher   => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
-  }
+        }
       )
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_failures: true)
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: true)
     end
+
     it 'creates openvpn client certificate idempotently' do
       pp = %(
         openvpn::server { 'test_openvpn_server':
@@ -62,7 +70,7 @@ describe 'server defined type' do
           tls_cipher   => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
         }
 
-  openvpn::client { 'vpnclienta' :
+        openvpn::client { 'vpnclienta' :
           server      => 'test_openvpn_server',
           require     => Openvpn::Server['test_openvpn_server'],
           remote_host => $facts['networking']['ip'],
@@ -71,6 +79,39 @@ describe 'server defined type' do
       )
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_failures: true)
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: true)
+    end
+
+    it 'revokes openvpn client certificate' do
+      pp = %(
+        openvpn::server { 'test_openvpn_server':
+          country      => 'CO',
+          province     => 'ST',
+          city         => 'A city',
+          organization => 'FOO',
+          email        => 'bar@foo.org',
+          server       => '10.0.0.0 255.255.255.0',
+          local        => '',
+          management   => true,
+          tls_cipher   => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
+        }
+
+        openvpn::client { 'vpnclientb' :
+          server      => 'test_openvpn_server',
+          require     => Openvpn::Server['test_openvpn_server'],
+          remote_host => $facts['networking']['ip'],
+          tls_cipher  => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
+        }
+
+        openvpn::revoke { 'vpnclientb':
+          server => 'test_openvpn_server',
+        }
+      )
+      apply_manifest_on(hosts_as('vpnserver'), pp, catch_failures: true)
+      apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: false)
+    end
+
+    describe file("#{server_directory}/test_openvpn_server/easy-rsa/revoked/vpnclientb") do
+      it { is_expected.to be_file }
     end
 
     describe file("#{server_directory}/test_openvpn_server/easy-rsa/keys") do

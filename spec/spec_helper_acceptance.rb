@@ -1,45 +1,38 @@
-require 'beaker-rspec'
-require 'beaker-puppet'
-require 'beaker/puppet_install_helper'
-require 'beaker/module_install_helper'
+require 'voxpupuli/acceptance/spec_helper_acceptance'
 
-run_puppet_install_helper unless ENV['BEAKER_provision'] == 'no'
-
-RSpec.configure do |c|
-  # Configure all nodes in nodeset
-  c.before :suite do
-    install_module
-    install_module_dependencies
-
-    install_server_packages = %(
-      if $facts['os']['name'] == 'CentOS' {
-        package { 'epel-release':
-          ensure => present,
-        }
-      }
-
-      $package_name = $facts['os']['family'] ? {
-        'Debian' => 'netcat-openbsd',
-        'RedHat' => 'nc',
-        default  => 'netcat',
-      }
-      package { $package_name:
+configure_beaker do |host|
+  manifest = <<-PUPPET
+    if $facts['os']['name'] == 'CentOS' {
+      package { 'epel-release':
         ensure => present,
       }
-    )
-    apply_manifest_on(hosts_as('vpnserver'), install_server_packages, catch_failures: true)
+    }
 
-    install_client_packages = %(
-      if $facts['os']['name'] == 'CentOS' {
-        package { 'epel-release':
-          ensure => present,
-        }
+    $netcat_package_name = $facts['os']['family'] ? {
+      'Debian' => 'netcat-openbsd',
+      'RedHat' => 'nc',
+      default  => 'netcat',
+    }
+
+    node /^vpnserver\./ {
+      package { $netcat_package_name:
+        ensure => present,
       }
+    }
 
+    node /^vpnclienta\./ {
       package { ['tar','openvpn'] :
         ensure => present,
       }
-    )
-    apply_manifest_on(hosts_as('vpnclienta'), install_client_packages, catch_failures: true)
-  end
+    }
+
+    # CentOS 6 in docker doesn't get a hostname - install all packages
+    node /^localhost\./ {
+      package { ['tar', 'openvpn', $netcat_package_name]:
+        ensure => present,
+      }
+    }
+
+  PUPPET
+  apply_manifest_on(host, manifest, catch_failures: true)
 end

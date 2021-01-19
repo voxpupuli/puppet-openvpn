@@ -40,7 +40,6 @@ define openvpn::ca (
   Boolean $tls_auth       = false,
   Boolean $tls_static_key = false,
 ) {
-
   if $tls_auth {
     warning('Parameter $tls_auth is deprecated. Use $tls_static_key instead.')
   }
@@ -58,8 +57,8 @@ define openvpn::ca (
   $server_directory = $openvpn::server_directory
 
   ensure_resource('file', "${server_directory}/${name}", {
-    ensure => directory,
-    mode   => '0750'
+      ensure => directory,
+      mode   => '0750'
   })
 
   file { "${server_directory}/${name}/easy-rsa" :
@@ -128,7 +127,6 @@ define openvpn::ca (
         provider => 'shell',
         require  => Exec["generate server cert ${name}"],
       }
-
     }
     '3.0': {
       file { "${server_directory}/${name}/easy-rsa/vars":
@@ -196,11 +194,10 @@ define openvpn::ca (
         command  => ". ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out ${server_directory}/${name}/crl.pem -config ${server_directory}/${name}/easy-rsa/openssl.cnf",
         cwd      => "${server_directory}/${name}/easy-rsa",
         creates  => "${server_directory}/${name}/crl.pem",
-        group    =>  $group_to_set,
+        group    => $group_to_set,
         provider => 'shell',
         require  => Exec["generate server cert ${name}"],
       }
-
     }
     default: {
       fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")

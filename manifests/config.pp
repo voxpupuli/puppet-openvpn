@@ -2,7 +2,6 @@
 # @summary This class sets up the openvpn enviornment as well as the default config file
 #
 class openvpn::config {
-
   if $facts['os']['family'] == 'Debian' {
     concat { '/etc/default/openvpn':
       owner => root,

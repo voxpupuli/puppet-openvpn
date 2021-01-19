@@ -13,7 +13,6 @@ define openvpn::deploy::export (
   String $server,
   Boolean $tls_auth = false,
 ) {
-
   Openvpn::Server[$server]
   -> Openvpn::Client[$name]
   -> Openvpn::Deploy::Export[$name]

@@ -81,7 +81,6 @@ define openvpn::client (
   Boolean $ns_cert_type                                = true,
   Boolean $remote_cert_tls                             = false,
 ) {
-
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')
   }
@@ -101,7 +100,17 @@ define openvpn::client (
 
   if $expire {
     if is_integer($expire) {
-      $env_expire = "KEY_EXPIRE=${expire}"
+      case $openvpn::easyrsa_version {
+        '2.0': {
+          $env_expire = "KEY_EXPIRE=${expire}"
+        }
+        '3.0': {
+          $env_expire = "EASYRSA_CERT_EXPIRE=${expire} EASYRSA_NO_VARS=1"
+        }
+        default: {
+          fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
+        }
+      }
     } else {
       warning("Custom expiry time ignored: only integer is accepted but ${expire} is given.")
     }
@@ -155,10 +164,13 @@ define openvpn::client (
     }
   }
 
-  file { [ "${server_directory}/${server}/download-configs/${name}",
-    "${server_directory}/${server}/download-configs/${name}/keys",
-    "${server_directory}/${server}/download-configs/${name}/keys/${name}" ]:
-    ensure => directory,
+  file {
+    [
+      "${server_directory}/${server}/download-configs/${name}",
+      "${server_directory}/${server}/download-configs/${name}/keys",
+      "${server_directory}/${server}/download-configs/${name}/keys/${name}",
+    ]:
+      ensure => directory,
   }
 
   file { "${server_directory}/${server}/download-configs/${name}/keys/${name}/ca.crt":
@@ -228,7 +240,7 @@ define openvpn::client (
   }
 
   file { "${server_directory}/${server}/download-configs/${name}.tar.gz":
-    ensure  => present,
+    ensure  => file,
     replace => 'no',
     require => Exec["tar the thing ${server} with ${name}"],
   }

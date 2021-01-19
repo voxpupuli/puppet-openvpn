@@ -29,7 +29,7 @@ describe 'openvpn::revoke', type: :define do
 
       it {
         is_expected.to contain_exec('revoke certificate for test_client in context of test_server').with(
-          'command' => ". ./vars && ./revoke-full test_client; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/test_client"
+          'command' => ". ./vars && ./revoke-full test_client; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))'"
         )
       }
     end
@@ -60,7 +60,7 @@ describe 'openvpn::revoke', type: :define do
 
       it {
         is_expected.to contain_exec('revoke certificate for test_client3 in context of test_server').with(
-          'command' => ". ./vars && ./easyrsa revoke --batch test_client3; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))' && touch revoked/test_client3"
+          'command' => ". ./vars && ./easyrsa --batch revoke test_client3; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))'"
         )
       }
     end
