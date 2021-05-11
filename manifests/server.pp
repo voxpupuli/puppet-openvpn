@@ -388,6 +388,7 @@ define openvpn::server (
               cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
+              notify   => $lnotify,
             }
           }
           '3.0': {
@@ -396,6 +397,7 @@ define openvpn::server (
               cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
+              notify   => $lnotify,
             }
           }
           default: {
