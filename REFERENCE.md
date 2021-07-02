@@ -6,7 +6,7 @@
 **Classes**
 
 * [`openvpn`](#openvpn): This module installs the openvpn service, configures vpn endpoints, generates client certificates, and generates client config files
-* [`openvpn::config`](#openvpnconfig): This class sets up the openvpn enviornment as well as the default config file
+* [`openvpn::config`](#openvpnconfig): This class sets up the openvpn environment as well as the default config file
 * [`openvpn::deploy::install`](#openvpndeployinstall): Installs the Openvpn profile
 * [`openvpn::deploy::prepare`](#openvpndeployprepare): Base profile
 * [`openvpn::deploy::service`](#openvpndeployservice): Base profile
