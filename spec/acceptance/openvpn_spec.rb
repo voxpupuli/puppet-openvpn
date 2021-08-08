@@ -20,7 +20,7 @@ when 'Debian'
   server_directory = '/etc/openvpn'
   client_directory = '/etc/openvpn'
   client_service = 'openvpn'
-  if fact('os.release.major') == '10'
+  if fact('os.release.major') == '10' || fact('os.release.major') == '20.04'
     server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
     key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
     crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"
