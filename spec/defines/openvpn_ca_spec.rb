@@ -27,7 +27,7 @@ describe 'openvpn::ca', type: :define do
             }
           end
 
-          it { is_expected.to contain_package('easy-rsa').with('ensure' => 'present') }
+          it { is_expected.to contain_package('easy-rsa').with('ensure' => 'installed') }
           it {
             is_expected.to contain_file("#{server_directory}/test_server/crl.pem").with(
               'mode'    => '0640',
