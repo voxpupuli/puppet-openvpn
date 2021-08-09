@@ -1,8 +1,8 @@
 # OpenVPN Puppet module
 
+[![Build Status](https://github.com/voxpupuli/puppet-openvpn/workflows/CI/badge.svg)](https://github.com/voxpupuli/puppet-openvpn/actions?query=workflow%3ACI)
+[![Release](https://github.com/voxpupuli/puppet-openvpn/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-openvpn/actions/workflows/release.yml)
 [![License](https://img.shields.io/github/license/voxpupuli/puppet-openvpn.svg)](https://github.com/voxpupuli/puppet-openvpn/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-openvpn.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-openvpn)
-[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-openvpn/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-openvpn)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/openvpn.svg)](https://forge.puppetlabs.com/puppet/openvpn)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/openvpn.svg)](https://forge.puppetlabs.com/puppet/openvpn)
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/openvpn.svg)](https://forge.puppetlabs.com/puppet/openvpn)
