@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v9.0.0) (2021-08-09)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v8.3.0...v9.0.0)
+
+**Breaking changes:**
+
+- Drop Puppet 5 support [\#399](https://github.com/voxpupuli/puppet-openvpn/pull/399) ([root-expert](https://github.com/root-expert))
+- Drop CentOS 6 support [\#393](https://github.com/voxpupuli/puppet-openvpn/pull/393) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EOL Debian 8 support [\#388](https://github.com/voxpupuli/puppet-openvpn/pull/388) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add Ubuntu 20.04 support [\#401](https://github.com/voxpupuli/puppet-openvpn/pull/401) ([root-expert](https://github.com/root-expert))
+- Add Puppet 7 support [\#400](https://github.com/voxpupuli/puppet-openvpn/pull/400) ([root-expert](https://github.com/root-expert))
+
+**Closed issues:**
+
+- FREQ: Please update/certify for Ubuntu 20.04 LTS support please   [\#395](https://github.com/voxpupuli/puppet-openvpn/issues/395)
+
+**Merged pull requests:**
+
+- Update badges in README and regenerate REFERENCE [\#406](https://github.com/voxpupuli/puppet-openvpn/pull/406) ([root-expert](https://github.com/root-expert))
+- Change ensure to "installed" instead of "present" in specs [\#405](https://github.com/voxpupuli/puppet-openvpn/pull/405) ([root-expert](https://github.com/root-expert))
+- Allow puppetlabs/concat and puppetlabs/stdlib 7.x [\#404](https://github.com/voxpupuli/puppet-openvpn/pull/404) ([root-expert](https://github.com/root-expert))
+- Fix typo [\#397](https://github.com/voxpupuli/puppet-openvpn/pull/397) ([itzwam](https://github.com/itzwam))
+- fix\(client\): Handle expire value for easyrsa version 3 [\#392](https://github.com/voxpupuli/puppet-openvpn/pull/392) ([Turgon37](https://github.com/Turgon37))
+
 ## [v8.3.0](https://github.com/voxpupuli/puppet-openvpn/tree/v8.3.0) (2020-10-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v8.2.0...v8.3.0)
