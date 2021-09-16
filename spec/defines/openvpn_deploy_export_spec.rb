@@ -3,6 +3,33 @@ require 'spec_helper'
 describe 'openvpn::deploy::export', type: :define do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
+      server_directory = case facts[:os]['family']
+                         when 'CentOS', 'RedHat'
+                           if facts[:os]['release']['major'] == '8'
+                             '/etc/openvpn/server'
+                           else
+                             '/etc/openvpn'
+                           end
+                         else
+                           '/etc/openvpn'
+                         end
+
+      before do
+        allow(File).to receive(:exist?).and_call_original
+        allow(File).to receive(:exist?).with("#{server_directory}/test_server/download-configs/test_client/test_client.conf").and_return(true)
+        allow(File).to receive(:exist?).with("#{server_directory}/test_server/download-configs/test_client/keys/test_client/ca.crt").and_return(true)
+        allow(File).to receive(:exist?).with("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.crt").and_return(true)
+        allow(File).to receive(:exist?).with("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.key").and_return(true)
+        allow(File).to receive(:exist?).with("#{server_directory}/test_server/download-configs/test_client/keys/test_client/ta.key").and_return(true)
+
+        allow(File).to receive(:read).and_call_original
+        allow(File).to receive(:read).with("#{server_directory}/test_server/download-configs/test_client/test_client.conf").and_return('config')
+        allow(File).to receive(:read).with("#{server_directory}/test_server/download-configs/test_client/keys/test_client/ca.crt").and_return('ca')
+        allow(File).to receive(:read).with("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.crt").and_return('crt')
+        allow(File).to receive(:read).with("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.key").and_return('key')
+        allow(File).to receive(:read).with("#{server_directory}/test_server/download-configs/test_client/keys/test_client/ta.key").and_return('ta')
+      end
+
       let(:pre_condition) do
         [
           'openvpn::server { "test_server":
@@ -18,9 +45,7 @@ describe 'openvpn::deploy::export', type: :define do
         ].join
       end
       let(:facts) do
-        facts.merge(
-          openvpn: { 'test_server' => { 'test_client' => { 'conf' => 'config', 'crt' => 'crt', 'ca' => 'ca', 'key' => 'key', 'ta' => 'ta' } } }
-        )
+        facts
       end
       let(:title) { 'test_client' }
       let(:params) { { 'server' => 'test_server' } }
