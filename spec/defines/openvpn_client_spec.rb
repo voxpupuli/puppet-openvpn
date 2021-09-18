@@ -117,7 +117,6 @@ describe 'openvpn::client', type: :define do
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^dev\s+tun$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^proto\s+tcp$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^remote\s+foo.example.com\s+1194$}) }
-        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^comp-lzo$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^resolv-retry\s+infinite$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^nobind$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^persist-key$}) }
