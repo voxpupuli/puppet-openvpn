@@ -212,7 +212,7 @@ define openvpn::server (
   String $key_name                                                  = '',
   String $key_ou                                                    = '',
   String $verb                                                      = '',
-  String $cipher                                                    = 'AES-256-CBC',
+  String $cipher                                                    = 'AES-256-GCM',
   String $tls_cipher                                                = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
   Boolean $persist_key                                              = false,
   Boolean $persist_tun                                              = false,

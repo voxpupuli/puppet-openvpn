@@ -60,7 +60,7 @@ define openvpn::client (
   Enum['none', 'nointeract', 'interact'] $auth_retry   = 'none',
   String $verb                                         = '3',
   Boolean $pam                                         = false,
-  String $cipher                                       = 'AES-256-CBC',
+  String $cipher                                       = 'AES-256-GCM',
   String $tls_cipher                                   = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
   Boolean $authuserpass                                = false,
   Hash $setenv                                         = {},

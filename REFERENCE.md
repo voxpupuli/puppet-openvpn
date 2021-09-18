@@ -557,7 +557,7 @@ Data type: `String`
 
 Cipher to use for packet encryption
 
-Default value: `'AES-256-CBC'`
+Default value: `'AES-256-GCM'`
 
 ##### <a name="tls_cipher"></a>`tls_cipher`
 
@@ -1623,7 +1623,7 @@ Data type: `String`
 
 Cipher to use for packet encryption
 
-Default value: `'AES-256-CBC'`
+Default value: `'AES-256-GCM'`
 
 ##### <a name="tls_cipher"></a>`tls_cipher`
 

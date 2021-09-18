@@ -144,7 +144,7 @@ describe 'openvpn::client', type: :define do
             'nobind'                => false,
             'persist_key'           => false,
             'persist_tun'           => false,
-            'cipher'                => 'AES-256-CBC',
+            'cipher'                => 'AES-256-GCM',
             'tls_cipher'            => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
             'port'                  => '123',
             'proto'                 => 'udp',
@@ -180,7 +180,7 @@ describe 'openvpn::client', type: :define do
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^auth-retry\s+interact$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^setenv\s+CLIENT_CERT\s+0$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^setenv_safe\s+FORWARD_COMPATIBLE\s+1$}) }
-        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^cipher\s+AES-256-CBC$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^cipher\s+AES-256-GCM$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^tls-client$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^verify-x509-name\s+"test_server"\s+name$}) }
@@ -200,7 +200,7 @@ describe 'openvpn::client', type: :define do
       context 'omitting the cipher key' do
         let(:params) { { 'server' => 'test_server' } }
 
-        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^cipher AES-256-CBC$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^cipher AES-256-GCM$}) }
       end
 
       context 'should fail if specifying an openvpn::server with extca_enabled=true' do

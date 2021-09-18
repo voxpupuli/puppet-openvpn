@@ -670,7 +670,7 @@ describe 'openvpn::server' do
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^secret}) }
 
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{verb}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{cipher AES-256-CBC}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{cipher AES-256-GCM}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{persist-key}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{persist-tun}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^duplicate-cn$}) }
