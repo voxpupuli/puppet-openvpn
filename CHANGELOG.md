@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v9.1.0) (2021-09-18)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v9.0.0...v9.1.0)
+
+**Implemented enhancements:**
+
+- Add Debian 11 support [\#414](https://github.com/voxpupuli/puppet-openvpn/pull/414) ([root-expert](https://github.com/root-expert))
+
+**Closed issues:**
+
+- Latest tags are not really up to date [\#398](https://github.com/voxpupuli/puppet-openvpn/issues/398)
+- New release with script-pushing [\#359](https://github.com/voxpupuli/puppet-openvpn/issues/359)
+
+**Merged pull requests:**
+
+- Allow stdlib 8.0.0 [\#408](https://github.com/voxpupuli/puppet-openvpn/pull/408) ([smortex](https://github.com/smortex))
+
 ## [v9.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v9.0.0) (2021-08-09)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v8.3.0...v9.0.0)
