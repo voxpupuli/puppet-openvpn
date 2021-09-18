@@ -227,7 +227,7 @@ describe 'openvpn::server' do
         }
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^server-poll-timeout\s+1$}) }
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^ping-timer-rem$}) }
-        it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^ns-cert-type server}) }
+        it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^remote-cert-tls server}) }
         it { is_expected.not_to contain_file("#{server_directory}/test_client.conf").with_content(%r{^mode\s+server$}) }
         it { is_expected.not_to contain_file("#{server_directory}/test_client.conf").with_content(%r{^client-config-dir}) }
         it { is_expected.not_to contain_file("#{server_directory}/test_client.conf").with_content(%r{^dh}) }
@@ -278,7 +278,7 @@ describe 'openvpn::server' do
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^remote-random$}) }
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^server-poll-timeout\s+1$}) }
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^ping-timer-rem$}) }
-        it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^ns-cert-type server}) }
+        it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^remote-cert-tls server}) }
         it { is_expected.not_to contain_file("#{server_directory}/test_client.conf").with_content(%r{^mode\s+server$}) }
         it { is_expected.not_to contain_file("#{server_directory}/test_client.conf").with_content(%r{^client-config-dir}) }
         it { is_expected.not_to contain_file("#{server_directory}/test_client.conf").with_content(%r{^dh}) }
@@ -674,7 +674,7 @@ describe 'openvpn::server' do
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{persist-key}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{persist-tun}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^duplicate-cn$}) }
-          it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ns-cert-type server}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^remote-cert-tls server}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^tls-auth}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^fragment}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^port-share}) }

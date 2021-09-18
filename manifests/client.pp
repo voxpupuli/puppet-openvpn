@@ -34,7 +34,6 @@
 # @param readme Text to place in a README file which is included in download-configs archive.
 # @param pull Allow server to push options like dns or routes
 # @param server_extca_enabled Turn this on if you are using an external CA solution, like FreeIPA. Use this in Combination with exported_ressourced, since they don't have Access to the Serverconfig
-# @param ns_cert_type Enable or disable use of ns-cert-type. Deprecated in OpenVPN 2.4 and replaced with remote-cert-tls
 # @param remote_cert_tls Enable or disable use of remote-cert-tls used with client configuration
 #
 # @example
@@ -78,8 +77,7 @@ define openvpn::client (
   Optional[String] $readme                             = undef,
   Boolean $pull                                        = false,
   Boolean $server_extca_enabled                        = false,
-  Boolean $ns_cert_type                                = true,
-  Boolean $remote_cert_tls                             = false,
+  Boolean $remote_cert_tls                             = true,
 ) {
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')

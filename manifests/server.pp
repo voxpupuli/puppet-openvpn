@@ -95,7 +95,6 @@
 # @param extca_dh_file External CA: Path to your Dillie-Hellman parameter file. You will need to create one yourself. Make sure key-size matches the public key size of your CA-issued server certificate. Like this: openssl dhparam -out /path/to/dh.pem 2048 Note: This is only required if you are enabling $tls_server.
 # @param extca_tls_auth_key_file External CA: If you are enabling $extca_enabled and $tls_auth, you will also need to create  the tls-auth key file and specify its location here. The file can be created like this: openvpn --genkey --secret /path/to/ta.key. Note: you will need to distribute this file to your clients as well.
 # @param autostart  Enable autostart for server if openvpn::autostart_all is false.
-# @param ns_cert_type Enable or disable use of ns-cert-type for the session. Generally used with client configuration Deprecated in OpenVPN 2.4 and replaced with remote-cert-tls
 # @param remote_cert_tls Enable or disable use of remote-cert-tls for the session. Generally used with client configuration
 # @param nobind Whether or not to bind to a specific port number.#
 # @param secret A pre-shared static key.
@@ -237,8 +236,7 @@ define openvpn::server (
   Optional[String] $extca_dh_file                                   = undef,
   Optional[String] $extca_tls_auth_key_file                         = undef,
   Optional[Boolean] $autostart                                      = undef,
-  Boolean $ns_cert_type                                             = true,
-  Boolean $remote_cert_tls                                          = false,
+  Boolean $remote_cert_tls                                          = true,
   Boolean $nobind                                                   = false,
   Optional[String] $secret                                          = undef,
   Hash[String, Hash] $scripts                                       = {},
