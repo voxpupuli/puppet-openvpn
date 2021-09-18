@@ -3,9 +3,7 @@ mode server
 client-config-dir <%= @server_directory %>/<%= @name %>/client-configs
 <% else -%>
 client
-<% if @ns_cert_type -%>
-ns-cert-type server
-<% elsif @remote_cert_tls -%>
+<% if @remote_cert_tls -%>
 remote-cert-tls server
 <% end -%>
 <% @remote.to_a.each do |rem| -%>

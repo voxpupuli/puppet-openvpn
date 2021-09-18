@@ -123,7 +123,7 @@ describe 'openvpn::client', type: :define do
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^persist-key$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^persist-tun$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^mute-replay-warnings$}) }
-        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^ns\-cert\-type\s+server$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^remote-cert-tls\s+server$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^verb\s+3$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^mute\s+20$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^auth-retry\s+none$}) }
@@ -161,8 +161,7 @@ describe 'openvpn::client', type: :define do
             'rcvbuf'                => 393_215,
             'readme'                => 'readme text',
             'pull'                  => true,
-            'ns_cert_type'          => false,
-            'remote_cert_tls'       => true
+            'remote_cert_tls'       => false
           }
         end
 
@@ -189,7 +188,7 @@ describe 'openvpn::client', type: :define do
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^rcvbuf\s+393215$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/README").with_content(%r{^readme text$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^pull$}) }
-        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^remote-cert-tls\s+server$}) }
+        it { is_expected.not_to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^remote-cert-tls\s+server$}) }
       end
 
       context 'test tls_crypt' do

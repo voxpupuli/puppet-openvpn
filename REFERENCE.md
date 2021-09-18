@@ -18,7 +18,7 @@
 
 * [`openvpn::ca`](#openvpnca): This define creates the openvpn ca and ssl certificates
 * [`openvpn::client`](#openvpnclient): This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
-* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in 
+* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in
 * [`openvpn::deploy::client`](#openvpndeployclient): Collect the exported configs for an Host and ensure a running Openvpn Service
 * [`openvpn::deploy::export`](#openvpndeployexport): Prepare all Openvpn-Client-Configs to be exported
 * [`openvpn::revoke`](#openvpnrevoke): This define creates a revocation on a certificate for a specified server.
@@ -32,7 +32,7 @@ This module installs the openvpn service, configures vpn endpoints, generates cl
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 class { 'openvpn':
@@ -222,7 +222,7 @@ Base profile
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 include openvpn::deploy::prepare
@@ -260,7 +260,7 @@ This define creates the openvpn ca and ssl certificates
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::ca {
@@ -415,7 +415,7 @@ This define creates client certs for a specified server as well as a tarball tha
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client {
@@ -462,7 +462,6 @@ The following parameters are available in the `openvpn::client` defined type:
 * [`readme`](#readme)
 * [`pull`](#pull)
 * [`server_extca_enabled`](#server_extca_enabled)
-* [`ns_cert_type`](#ns_cert_type)
 * [`remote_cert_tls`](#remote_cert_tls)
 
 ##### <a name="server"></a>`server`
@@ -727,21 +726,13 @@ Turn this on if you are using an external CA solution, like FreeIPA. Use this in
 
 Default value: ``false``
 
-##### <a name="ns_cert_type"></a>`ns_cert_type`
-
-Data type: `Boolean`
-
-Enable or disable use of ns-cert-type. Deprecated in OpenVPN 2.4 and replaced with remote-cert-tls
-
-Default value: ``true``
-
 ##### <a name="remote_cert_tls"></a>`remote_cert_tls`
 
 Data type: `Boolean`
 
 Enable or disable use of remote-cert-tls used with client configuration
 
-Default value: ``false``
+Default value: ``true``
 
 ### <a name="openvpnclient_specific_config"></a>`openvpn::client_specific_config`
 
@@ -750,7 +741,7 @@ All the parameters are explained in the openvpn documentation http://openvpn.net
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client_specific_config {
@@ -861,7 +852,7 @@ Collect the exported configs for an Host and ensure a running Openvpn Service
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::deploy::client { 'test-client':
@@ -896,7 +887,7 @@ Prepare all Openvpn-Client-Configs to be exported
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::deploy::export { 'test-client':
@@ -931,7 +922,7 @@ This define creates a revocation on a certificate for a specified server.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client {
@@ -940,7 +931,7 @@ openvpn::client {
 }
 ```
 
-##### 
+#####
 
 ```puppet
 openvpn::revoke {
@@ -1097,7 +1088,6 @@ The following parameters are available in the `openvpn::server` defined type:
 * [`extca_dh_file`](#extca_dh_file)
 * [`extca_tls_auth_key_file`](#extca_tls_auth_key_file)
 * [`autostart`](#autostart)
-* [`ns_cert_type`](#ns_cert_type)
 * [`remote_cert_tls`](#remote_cert_tls)
 * [`nobind`](#nobind)
 * [`secret`](#secret)
@@ -1857,21 +1847,13 @@ Enable autostart for server if openvpn::autostart_all is false.
 
 Default value: ``undef``
 
-##### <a name="ns_cert_type"></a>`ns_cert_type`
-
-Data type: `Boolean`
-
-Enable or disable use of ns-cert-type for the session. Generally used with client configuration Deprecated in OpenVPN 2.4 and replaced with remote-cert-tls
-
-Default value: ``true``
-
 ##### <a name="remote_cert_tls"></a>`remote_cert_tls`
 
 Data type: `Boolean`
 
 Enable or disable use of remote-cert-tls for the session. Generally used with client configuration
 
-Default value: ``false``
+Default value: ``true``
 
 ##### <a name="nobind"></a>`nobind`
 
