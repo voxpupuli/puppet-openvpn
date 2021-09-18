@@ -6,6 +6,10 @@ name: CI
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   setup_matrix:
     name: 'Setup Test Matrix'
@@ -93,3 +97,12 @@ jobs:
         env:
           BEAKER_PUPPET_COLLECTION: ${{ matrix.puppet.collection }}
           BEAKER_setfile: ${{ matrix.setfile.value }}
+
+  tests:
+    needs:
+      - unit
+      - acceptance
+    runs-on: ubuntu-latest
+    name: Test suite
+    steps:
+      - run: echo Test suite completed
