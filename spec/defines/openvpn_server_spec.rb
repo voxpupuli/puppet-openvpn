@@ -658,7 +658,7 @@ describe 'openvpn::server' do
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^proto\s+tcp-server$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^tls-server$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^port\s+1194$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^comp-lzo$}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^comp-lzo$}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^log\-append\s+test_server\/openvpn\.log$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^status\s+/var/log/openvpn/test_server-status\.log$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dev\s+tun0$}) }
@@ -670,7 +670,7 @@ describe 'openvpn::server' do
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^secret}) }
 
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{verb}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{cipher AES-256-CBC}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{cipher AES-256-GCM}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{persist-key}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{persist-tun}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^duplicate-cn$}) }

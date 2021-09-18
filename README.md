@@ -121,7 +121,7 @@ This setting also affects the size of the dhparam file.
 
 ### Cipher
 
-The default data channel cipher is now set to `AES-256-CBC`
+The default data channel cipher is now set to `AES-256-GCM`
 
 ##### Why
 

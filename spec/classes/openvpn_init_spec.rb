@@ -10,7 +10,7 @@ describe 'openvpn', type: :class do
       os_name = facts[:os]['name']
       os_release = facts[:os]['release']['major']
       case "#{os_name}-#{os_release}"
-      when 'CentOS-6', 'RedHat-6', %r{FreeBSD}
+      when %r{FreeBSD}
         let(:facts) do
           facts
         end

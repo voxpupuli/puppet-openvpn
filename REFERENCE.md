@@ -18,7 +18,7 @@
 
 * [`openvpn::ca`](#openvpnca): This define creates the openvpn ca and ssl certificates
 * [`openvpn::client`](#openvpnclient): This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
-* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in 
+* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in
 * [`openvpn::deploy::client`](#openvpndeployclient): Collect the exported configs for an Host and ensure a running Openvpn Service
 * [`openvpn::deploy::export`](#openvpndeployexport): Prepare all Openvpn-Client-Configs to be exported
 * [`openvpn::revoke`](#openvpnrevoke): This define creates a revocation on a certificate for a specified server.
@@ -32,7 +32,7 @@ This module installs the openvpn service, configures vpn endpoints, generates cl
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 class { 'openvpn':
@@ -222,7 +222,7 @@ Base profile
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 include openvpn::deploy::prepare
@@ -260,7 +260,7 @@ This define creates the openvpn ca and ssl certificates
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::ca {
@@ -415,7 +415,7 @@ This define creates client certs for a specified server as well as a tarball tha
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client {
@@ -473,11 +473,11 @@ Name of the corresponding openvpn endpoint
 
 ##### <a name="compression"></a>`compression`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
-Which compression algorithim to use
+Which compression algorithm to use. This parameter is deprecated in OpenVPN 2.5.
 
-Default value: `'comp-lzo'`
+Default value: ``undef``
 
 ##### <a name="dev"></a>`dev`
 
@@ -557,7 +557,7 @@ Data type: `String`
 
 Cipher to use for packet encryption
 
-Default value: `'AES-256-CBC'`
+Default value: `'AES-256-GCM'`
 
 ##### <a name="tls_cipher"></a>`tls_cipher`
 
@@ -750,7 +750,7 @@ All the parameters are explained in the openvpn documentation http://openvpn.net
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client_specific_config {
@@ -861,7 +861,7 @@ Collect the exported configs for an Host and ensure a running Openvpn Service
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::deploy::client { 'test-client':
@@ -896,7 +896,7 @@ Prepare all Openvpn-Client-Configs to be exported
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::deploy::export { 'test-client':
@@ -931,7 +931,7 @@ This define creates a revocation on a certificate for a specified server.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client {
@@ -940,7 +940,7 @@ openvpn::client {
 }
 ```
 
-##### 
+#####
 
 ```puppet
 openvpn::revoke {
@@ -1179,11 +1179,11 @@ Default value: `'server'`
 
 ##### <a name="compression"></a>`compression`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
-Which compression algorithim to use
+Which compression algorithm to use. This parameter is deprecated in OpenVPN 2.5.
 
-Default value: `'comp-lzo'`
+Default value: ``undef``
 
 ##### <a name="dev"></a>`dev`
 
@@ -1623,7 +1623,7 @@ Data type: `String`
 
 Cipher to use for packet encryption
 
-Default value: `'AES-256-CBC'`
+Default value: `'AES-256-GCM'`
 
 ##### <a name="tls_cipher"></a>`tls_cipher`
 

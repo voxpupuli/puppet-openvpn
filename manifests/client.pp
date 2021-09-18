@@ -2,7 +2,7 @@
 # @summary This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
 #
 # @param server Name of the corresponding openvpn endpoint
-# @param compression Which compression algorithim to use
+# @param compression Which compression algorithm to use. This parameter is deprecated in OpenVPN 2.5.
 # @param dev Device method
 # @param mute Set log mute level
 # @param mute_replay_warnings Silence duplicate packet warnings (common on wireless networks)
@@ -46,7 +46,7 @@
 #
 define openvpn::client (
   String $server,
-  String $compression                                  = 'comp-lzo',
+  Optional[String[1]] $compression                     = undef,
   Enum['tap', 'tun'] $dev                              = 'tun',
   Integer $mute                                        = 20,
   Boolean $mute_replay_warnings                        = true,
@@ -60,7 +60,7 @@ define openvpn::client (
   Enum['none', 'nointeract', 'interact'] $auth_retry   = 'none',
   String $verb                                         = '3',
   Boolean $pam                                         = false,
-  String $cipher                                       = 'AES-256-CBC',
+  String $cipher                                       = 'AES-256-GCM',
   String $tls_cipher                                   = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
   Boolean $authuserpass                                = false,
   Hash $setenv                                         = {},

@@ -5,7 +5,7 @@ proto <%= @proto %>
 <% @remote_host.each do |item| -%>
 remote <%= item %> <%= @port %>
 <% end -%>
-<% if @compression != '' -%>
+<% if @compression -%>
 <%= @compression %>
 <% end -%>
 resolv-retry <%= @resolv_retry %>
