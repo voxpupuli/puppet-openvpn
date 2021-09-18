@@ -151,7 +151,7 @@ define openvpn::server (
   Boolean $remote_random_hostname                                   = false,
   Boolean $remote_random                                            = false,
   String $common_name                                               = 'server',
-  String $compression                                               = '',
+  Optional[String[1]] $compression                                  = undef,
   String $dev                                                       = 'tun0',
   String $user                                                      = 'nobody',
   Optional[String] $group                                           = undef,

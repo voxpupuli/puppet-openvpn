@@ -46,7 +46,7 @@
 #
 define openvpn::client (
   String $server,
-  String $compression                                  = '',
+  Optional[String[1]] $compression                     = undef,
   Enum['tap', 'tun'] $dev                              = 'tun',
   Integer $mute                                        = 20,
   Boolean $mute_replay_warnings                        = true,

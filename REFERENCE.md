@@ -473,11 +473,11 @@ Name of the corresponding openvpn endpoint
 
 ##### <a name="compression"></a>`compression`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Which compression algorithm to use. This parameter is deprecated in OpenVPN 2.5.
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="dev"></a>`dev`
 
@@ -1179,11 +1179,11 @@ Default value: `'server'`
 
 ##### <a name="compression"></a>`compression`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Which compression algorithm to use. This parameter is deprecated in OpenVPN 2.5.
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="dev"></a>`dev`
 
