@@ -71,6 +71,8 @@ jobs:
             value: debian9-64vpnserver.ma{hostname=vpnserver}-debian9-64vpnclienta.a{hostname=vpnclienta}
           - name: Debian 10
             value: debian10-64vpnserver.ma{hostname=vpnserver}-debian10-64vpnclienta.a{hostname=vpnclienta}
+          - name: Debian 11
+            value: debian11-64vpnserver.ma{hostname=vpnserver}-debian11-64vpnclienta.a{hostname=vpnclienta}
           - name: Ubuntu 16.04
             value: ubuntu1604-64vpnserver.ma{hostname=vpnserver}-ubuntu1604-64vpnclienta.a{hostname=vpnclienta}
           - name: Ubuntu 18.04
