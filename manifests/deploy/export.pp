@@ -17,59 +17,57 @@ define openvpn::deploy::export (
   -> Openvpn::Client[$name]
   -> Openvpn::Deploy::Export[$name]
 
-  if fact("openvpn.${server}.${name}") {
-    $data = $facts['openvpn'][$server][$name]
+  $server_directory = $openvpn::server_directory
 
-    @@file { "exported-${server}-${name}-config":
+  @@file { "exported-${server}-${name}-config":
+    ensure  => file,
+    path    => "${openvpn::etc_directory}/openvpn/${name}.conf",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => Deferred('openvpn::file_content', ["${server_directory}/${server}/download-configs/${name}/${name}.conf"]),
+    tag     => "${server}-${name}",
+  }
+
+  @@file { "exported-${server}-${name}-ca":
+    ensure  => file,
+    path    => "${openvpn::etc_directory}/openvpn/keys/${name}/ca.crt",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => Deferred('openvpn::file_content', ["${server_directory}/${server}/download-configs/${name}/keys/${name}/ca.crt"]),
+    tag     => "${server}-${name}",
+  }
+
+  @@file { "exported-${server}-${name}-crt":
+    ensure  => file,
+    path    => "${openvpn::etc_directory}/openvpn/keys/${name}/${name}.crt",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => Deferred('openvpn::file_content', ["${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.crt"]),
+    tag     => "${server}-${name}",
+  }
+
+  @@file { "exported-${server}-${name}-key":
+    ensure  => file,
+    path    => "${openvpn::etc_directory}/openvpn/keys/${name}/${name}.key",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => Deferred('openvpn::file_content', ["${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.key"]),
+    tag     => "${server}-${name}",
+  }
+
+  if $tls_auth {
+    @@file { "exported-${server}-${name}-ta":
       ensure  => file,
-      path    => "${openvpn::etc_directory}/openvpn/${name}.conf",
+      path    => "${openvpn::etc_directory}/openvpn/keys/${name}/ta.key",
       owner   => 'root',
       group   => 'root',
       mode    => '0600',
-      content => $data['conf'],
+      content => Deferred('openvpn::file_content', ["${server_directory}/${server}/download-configs/${name}/keys/${name}/ta.key"]),
       tag     => "${server}-${name}",
-    }
-
-    @@file { "exported-${server}-${name}-ca":
-      ensure  => file,
-      path    => "${openvpn::etc_directory}/openvpn/keys/${name}/ca.crt",
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0600',
-      content => $data['ca'],
-      tag     => "${server}-${name}",
-    }
-
-    @@file { "exported-${server}-${name}-crt":
-      ensure  => file,
-      path    => "${openvpn::etc_directory}/openvpn/keys/${name}/${name}.crt",
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0600',
-      content => $data['crt'],
-      tag     => "${server}-${name}",
-    }
-
-    @@file { "exported-${server}-${name}-key":
-      ensure  => file,
-      path    => "${openvpn::etc_directory}/openvpn/keys/${name}/${name}.key",
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0600',
-      content => $data['key'],
-      tag     => "${server}-${name}",
-    }
-
-    if $tls_auth {
-      @@file { "exported-${server}-${name}-ta":
-        ensure  => file,
-        path    => "${openvpn::etc_directory}/openvpn/keys/${name}/ta.key",
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0600',
-        content => $data['ta'],
-        tag     => "${server}-${name}",
-      }
     }
   }
 }
