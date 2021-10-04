@@ -70,6 +70,7 @@
 # @param persist_key Try to retain access to resources that may be unavailable because of privilege downgrades
 # @param persist_tun  Try to retain access to resources that may be unavailable because of privilege downgrades
 # @param key_expire The number of days to certify the server certificate for
+# @param crl_days The number of days the client revocation list will be valid for after generating
 # @param ca_expire The number of days to certify the CA certificate for
 # @param key_name Value for name_default variable in openssl.cnf and  KEY_NAME in vars
 # @param key_ou Value for organizationalUnitName_default variable in openssl.cnf and KEY_OU in vars
@@ -207,6 +208,7 @@ define openvpn::server (
   Optional[Stdlib::Absolutepath] $ldap_tls_client_key_file          = undef,
   Integer $ca_expire                                                = 3650,
   Integer $key_expire                                               = 3650,
+  Integer $crl_days                                                 = 30,
   String $key_cn                                                    = '',
   String $key_name                                                  = '',
   String $key_ou                                                    = '',
@@ -366,6 +368,7 @@ define openvpn::server (
         ssl_key_size   => $ssl_key_size,
         ca_expire      => $ca_expire,
         key_expire     => $key_expire,
+        crl_days       => $crl_days,
         key_cn         => $key_cn,
         key_name       => $key_name,
         key_ou         => $key_ou,
