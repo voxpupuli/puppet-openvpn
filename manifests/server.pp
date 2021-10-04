@@ -208,7 +208,7 @@ define openvpn::server (
   Optional[Stdlib::Absolutepath] $ldap_tls_client_key_file          = undef,
   Integer $ca_expire                                                = 3650,
   Integer $key_expire                                               = 3650,
-  Integer $crl_days                                                 = 30,
+  Integer[1] $crl_days                                              = 30,
   String $key_cn                                                    = '',
   String $key_name                                                  = '',
   String $key_ou                                                    = '',
