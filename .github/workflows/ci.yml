@@ -16,9 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     outputs:
-      beaker_setfiles: ${{ steps.get-outputs.outputs.beaker_setfiles }}
-      puppet_major_versions: ${{ steps.get-outputs.outputs.puppet_major_versions }}
       puppet_unit_test_matrix: ${{ steps.get-outputs.outputs.puppet_unit_test_matrix }}
+      github_action_test_matrix: ${{ steps.get-outputs.outputs.github_action_test_matrix }}
     env:
       BUNDLE_WITHOUT: development:system_tests:release
     steps:
@@ -66,22 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        setfile:
-          - name: CentOS 7
-            value: centos7-64vpnserver.ma{hostname=vpnserver}-centos7-64vpnclienta.a{hostname=vpnclienta}
-          - name: CentOS 8
-            value: centos8-64vpnserver.ma{hostname=vpnserver}-centos8-64vpnclienta.a{hostname=vpnclienta}
-          - name: Debian 9
-            value: debian9-64vpnserver.ma{hostname=vpnserver}-debian9-64vpnclienta.a{hostname=vpnclienta}
-          - name: Debian 10
-            value: debian10-64vpnserver.ma{hostname=vpnserver}-debian10-64vpnclienta.a{hostname=vpnclienta}
-          - name: Debian 11
-            value: debian11-64vpnserver.ma{hostname=vpnserver}-debian11-64vpnclienta.a{hostname=vpnclienta}
-          - name: Ubuntu 18.04
-            value: ubuntu1804-64vpnserver.ma{hostname=vpnserver}-ubuntu1804-64vpnclienta.a{hostname=vpnclienta}
-          - name: Ubuntu 20.04
-            value: ubuntu2004-64vpnserver.ma{hostname=vpnserver}-ubuntu2004-64vpnclienta.a{hostname=vpnclienta}
-        puppet: ${{fromJson(needs.setup_matrix.outputs.puppet_major_versions)}}
+        include: ${{fromJson(needs.setup_matrix.outputs.github_action_test_matrix)}}
     name: ${{ matrix.puppet.name }} - ${{ matrix.setfile.name }}
     steps:
       - uses: actions/checkout@v2
