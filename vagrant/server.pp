@@ -9,7 +9,8 @@ node default {
   }
 
   openvpn::client { 'client1':
-    server => 'winterthur';
+    server      => 'winterthur',
+    remote_host => '192.168.61.10',
   }
 
   openvpn::client_specific_config { 'client1':
@@ -18,14 +19,16 @@ node default {
   }
 
   openvpn::client { 'client2':
-    server => 'winterthur';
+    server      => 'winterthur',
+    remote_host => '192.168.61.10',
   }
 
   openvpn::client { 'client3':
-    server => 'winterthur';
+    server      => 'winterthur',
+    remote_host => '192.168.61.10',
   }
 
   openvpn::revoke { 'client3':
-    server => 'winterthur';
+    server => 'winterthur',
   }
 }
