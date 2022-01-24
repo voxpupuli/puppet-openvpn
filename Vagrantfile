@@ -27,13 +27,13 @@ Vagrant::Config.run(2) do |config|
     c.vm.hostname = 'server'
     c.vm.box = 'ubuntu/trusty64'
     server_config c
-    c.vm.network :private_network, ip: '10.255.255.10'
+    c.vm.network :private_network, ip: '192.168.61.10'
   end
 
   config.vm.define :client_ubuntu do |c|
     c.vm.hostname = 'client'
     c.vm.box = 'ubuntu/trusty64'
     client_config c
-    c.vm.network :private_network, ip: '10.255.255.20'
+    c.vm.network :private_network, ip: '192.168.61.20'
   end
 end
