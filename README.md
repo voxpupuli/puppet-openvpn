@@ -99,6 +99,47 @@ Installation, configuration and starting the OpenVPN client in a configured node
   }
 ```
 
+## Experimenting and developing in Vagrant
+
+This project includes a Vagrantfile which allows you to easily develop this
+module or try it out. The prerequisites are [Vagrant](https://www.vagrantup.com/)
+and [VirtualBox](https://www.virtualbox.org/).
+
+To bring up the OpenVPN server VM:
+
+    vagrant up server_ubuntu
+
+To bring up the OpenVPN client VM:
+
+    vagrant up client_ubuntu
+
+Client's OpenVPN configuration is generated on the server, but it needs to be
+deployed to the client manually as exported resources are not available in
+Vagrant. To get the client config from server:
+
+    vagrant ssh server_ubuntu
+    sudo -i
+    cp /etc/openvpn/winterthur/download-configs/client1.ovpn /vagrant/
+    exit
+
+To copy it to the client:
+
+    vagrant ssh client_ubuntu
+    sudo -i
+    mv /vagrant/client1.ovpn /etc/openvpn/client/client1.conf
+
+To connect directly with OpenVPN:
+
+    openvpn --config /etc/openvpn/client/client1.conf
+
+To connect with systemd:
+
+    systemctl start openvpn-client@client1
+
+To test connectivity between client and server:
+
+    ping 10.200.200.1
+
 ##### References
 
 * The readme file of [github.com/Angristan/OpenVPN-install](https://github.com/Angristan/OpenVPN-install/tree/f47fc795d5e2d53f74431aadc58ef9de5784103a) outlines some of reasoning behind
