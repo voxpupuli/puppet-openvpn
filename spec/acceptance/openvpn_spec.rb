@@ -110,35 +110,6 @@ describe 'server defined type' do
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: false)
     end
 
-    it 'exports openvpn client certificate' do
-      pp = %(
-        openvpn::server { 'test_openvpn_server':
-          country      => 'CO',
-          province     => 'ST',
-          city         => 'A city',
-          organization => 'FOO',
-          email        => 'bar@foo.org',
-          server       => '10.0.0.0 255.255.255.0',
-          local        => '',
-          management   => true,
-          tls_cipher   => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
-        }
-
-        openvpn::client { 'vpnclientb' :
-          server      => 'test_openvpn_server',
-          require     => Openvpn::Server['test_openvpn_server'],
-          remote_host => $facts['networking']['ip'],
-          tls_cipher  => 'TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA',
-        }
-
-        openvpn::deploy::export { 'vpnclientb':
-          server => 'test_openvpn_server',
-        }
-      )
-      apply_manifest_on(hosts_as('vpnserver'), pp, catch_failures: true)
-      apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: false)
-    end
-
     describe file("#{server_directory}/test_openvpn_server/easy-rsa/revoked/vpnclientb") do
       it { is_expected.to be_file }
     end

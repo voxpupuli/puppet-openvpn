@@ -11,5 +11,3 @@ openvpn::additional_packages: ['easy-rsa']
 openvpn::ldap_auth_plugin_location: ~
 openvpn::server_service_name: 'openvpn'
 openvpn::server_directory: '/etc/openvpn'
-
-openvpn::deploy::prepare::etc_directory: "%{alias('openvpn::etc_directory')}"

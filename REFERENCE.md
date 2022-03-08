@@ -8,9 +8,6 @@
 
 * [`openvpn`](#openvpn): This module installs the openvpn service, configures vpn endpoints, generates client certificates, and generates client config files
 * [`openvpn::config`](#openvpnconfig): This class sets up the openvpn enviornment as well as the default config file
-* [`openvpn::deploy::install`](#openvpndeployinstall): Installs the Openvpn profile
-* [`openvpn::deploy::prepare`](#openvpndeployprepare): Base profile
-* [`openvpn::deploy::service`](#openvpndeployservice): Base profile
 * [`openvpn::install`](#openvpninstall): This module installs the openvpn service, configures vpn endpoints, generates client certificates, and generates client config files
 * [`openvpn::service`](#openvpnservice): This class maintains the openvpn service.
 
@@ -19,8 +16,6 @@
 * [`openvpn::ca`](#openvpnca): This define creates the openvpn ca and ssl certificates
 * [`openvpn::client`](#openvpnclient): This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
 * [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in
-* [`openvpn::deploy::client`](#openvpndeployclient): Collect the exported configs for an Host and ensure a running Openvpn Service
-* [`openvpn::deploy::export`](#openvpndeployexport): Prepare all Openvpn-Client-Configs to be exported
 * [`openvpn::revoke`](#openvpnrevoke): This define creates a revocation on a certificate for a specified server.
 * [`openvpn::server`](#openvpnserver): This define creates the openvpn server instance which can run in server or client mode.
 
@@ -211,38 +206,6 @@ Name of the openvpn server service. This is usually `openvpn`, but RHEL/CentOS 8
 ### <a name="openvpnconfig"></a>`openvpn::config`
 
 This class sets up the openvpn enviornment as well as the default config file
-
-### <a name="openvpndeployinstall"></a>`openvpn::deploy::install`
-
-Installs the Openvpn profile
-
-### <a name="openvpndeployprepare"></a>`openvpn::deploy::prepare`
-
-Base profile
-
-#### Examples
-
-#####
-
-```puppet
-include openvpn::deploy::prepare
-```
-
-#### Parameters
-
-The following parameters are available in the `openvpn::deploy::prepare` class:
-
-* [`etc_directory`](#etc_directory)
-
-##### <a name="etc_directory"></a>`etc_directory`
-
-Data type: `Stdlib::Absolutepath`
-
-Path of the configuration directory.
-
-### <a name="openvpndeployservice"></a>`openvpn::deploy::service`
-
-Base profile
 
 ### <a name="openvpninstall"></a>`openvpn::install`
 
@@ -845,76 +808,6 @@ Data type: `Boolean`
 Manage dependencies on Openvpn::Client ressources
 
 Default value: ``true``
-
-### <a name="openvpndeployclient"></a>`openvpn::deploy::client`
-
-Collect the exported configs for an Host and ensure a running Openvpn Service
-
-#### Examples
-
-#####
-
-```puppet
-openvpn::deploy::client { 'test-client':
-  server => 'test_server',
-}
-```
-
-#### Parameters
-
-The following parameters are available in the `openvpn::deploy::client` defined type:
-
-* [`server`](#server)
-* [`manage_etc`](#manage_etc)
-
-##### <a name="server"></a>`server`
-
-Data type: `String`
-
-which Openvpn::Server[$server] does the config belong to?
-
-##### <a name="manage_etc"></a>`manage_etc`
-
-Data type: `Boolean`
-
-should the /etc/openvpn directory be managed? (warning, all unmanaged files will be purged!)
-
-Default value: ``true``
-
-### <a name="openvpndeployexport"></a>`openvpn::deploy::export`
-
-Prepare all Openvpn-Client-Configs to be exported
-
-#### Examples
-
-#####
-
-```puppet
-openvpn::deploy::export { 'test-client':
-  server => 'test_server',
-}
-```
-
-#### Parameters
-
-The following parameters are available in the `openvpn::deploy::export` defined type:
-
-* [`server`](#server)
-* [`tls_auth`](#tls_auth)
-
-##### <a name="server"></a>`server`
-
-Data type: `String`
-
-which Openvpn::Server[$server] does the config belong to?
-
-##### <a name="tls_auth"></a>`tls_auth`
-
-Data type: `Boolean`
-
-should the ta* files be exported too?
-
-Default value: ``false``
 
 ### <a name="openvpnrevoke"></a>`openvpn::revoke`
 
