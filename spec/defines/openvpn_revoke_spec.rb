@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'openvpn::revoke', type: :define do
@@ -33,6 +35,7 @@ describe 'openvpn::revoke', type: :define do
         )
       }
     end
+
     context "on #{os} with easyrsa version 3.0" do
       let(:pre_condition) do
         [

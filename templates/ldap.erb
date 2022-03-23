@@ -1,6 +1,6 @@
 <LDAP>
   URL <%= @ldap_server %>
-<% if @ldap_binddn != '' and @ldap_bindpass != '' -%>
+<% if @ldap_binddn and @ldap_bindpass -%>
   BindDN <%= @ldap_binddn %>
   Password <%= @ldap_bindpass %>
 <% end -%>

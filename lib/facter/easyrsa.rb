@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Facter.add(:easyrsa) do
   confine kernel: 'Linux'
   setcode do
@@ -7,7 +9,7 @@ Facter.add(:easyrsa) do
     operatingsystemrelease = Facter.value(:operatingsystemrelease)
 
     case operatingsystem
-    when %r{RedHat|CentOS}
+    when %r{RedHat|CentOS|Amazon}
       binaryv2 = '/usr/share/easy-rsa/2.0/pkitool'
       binaryv3 = '/usr/share/easy-rsa/3/easyrsa'
     when %r{Ubuntu|Debian}
@@ -19,9 +21,6 @@ Facter.add(:easyrsa) do
         binaryv2 = '/usr/share/doc/openvpn/examples/easy-rsa/2.0/pkitool'
         binaryv3 = '/usr/share/doc/openvpn/examples/easy-rsa/3.0/easyrsa'
       end
-    when %r{Amazon}
-      binaryv2 = '/usr/share/easy-rsa/2.0/pkitool'
-      binaryv3 = '/usr/share/easy-rsa/3/easyrsa'
     when %r{FreeBSD}
       binaryv2 = '/usr/local/share/easy-rsa/pkitool'
       binaryv3 = '/usr/local/share/easy-rsa/easyrsa'
@@ -40,10 +39,7 @@ Facter.add(:easyrsa) do
       data = Facter::Core::Execution.execute('easyrsa --help')
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
     end
-    if !version.nil?
-    else
-      version = nil
-    end
+    version = nil if version.nil?
     version
   end
 end

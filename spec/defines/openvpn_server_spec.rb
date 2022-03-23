@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'openvpn::server' do
@@ -49,9 +51,9 @@ describe 'openvpn::server' do
       context 'creating a server partial parameters: country, province, city' do
         let(:params) do
           {
-            'country'       => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City'
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City'
           }
         end
 
@@ -61,10 +63,10 @@ describe 'openvpn::server' do
       context 'creating a server partial parameters: country, province, city, organization' do
         let(:params) do
           {
-            'country'       => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City',
-            'organization'  => 'example.org'
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org'
           }
         end
 
@@ -95,12 +97,12 @@ describe 'openvpn::server' do
         let(:params) do
           {
             'tls_auth' => true,
-            'extca_enabled'           => true,
-            'extca_ca_cert_file'      => '/etc/ipa/ca.crt',
-            'extca_ca_crl_file'       => '/etc/ipa/ca_crl.pem',
-            'extca_server_cert_file'  => '/etc/pki/tls/certs/localhost.crt',
-            'extca_server_key_file'   => '/etc/pki/tls/private/localhost.key',
-            'extca_dh_file'           => '/etc/ipa/dh.pem'
+            'extca_enabled' => true,
+            'extca_ca_cert_file' => '/etc/ipa/ca.crt',
+            'extca_ca_crl_file' => '/etc/ipa/ca_crl.pem',
+            'extca_server_cert_file' => '/etc/pki/tls/certs/localhost.crt',
+            'extca_server_key_file' => '/etc/pki/tls/private/localhost.key',
+            'extca_dh_file' => '/etc/ipa/dh.pem'
           }
         end
 
@@ -111,12 +113,12 @@ describe 'openvpn::server' do
         let(:params) do
           {
             'country' => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City',
-            'organization'  => 'example.org',
-            'email'         => 'testemail@example.org',
-            'sndbuf'        => 393_216,
-            'rcvbuf'        => 393_215
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org',
+            'email' => 'testemail@example.org',
+            'sndbuf' => 393_216,
+            'rcvbuf' => 393_215
           }
         end
 
@@ -127,12 +129,12 @@ describe 'openvpn::server' do
       context 'when using udp4' do
         let(:params) do
           {
-            'country'       => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City',
-            'organization'  => 'example.org',
-            'email'         => 'testemail@example.org',
-            'proto'         => 'udp4'
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org',
+            'email' => 'testemail@example.org',
+            'proto' => 'udp4'
           }
         end
 
@@ -142,12 +144,12 @@ describe 'openvpn::server' do
       context 'when using udp6' do
         let(:params) do
           {
-            'country'       => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City',
-            'organization'  => 'example.org',
-            'email'         => 'testemail@example.org',
-            'proto'         => 'udp6'
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org',
+            'email' => 'testemail@example.org',
+            'proto' => 'udp6'
           }
         end
 
@@ -157,12 +159,12 @@ describe 'openvpn::server' do
       context 'when using tcp4' do
         let(:params) do
           {
-            'country'       => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City',
-            'organization'  => 'example.org',
-            'email'         => 'testemail@example.org',
-            'proto'         => 'tcp4'
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org',
+            'email' => 'testemail@example.org',
+            'proto' => 'tcp4'
           }
         end
 
@@ -172,12 +174,12 @@ describe 'openvpn::server' do
       context 'when using tcp6' do
         let(:params) do
           {
-            'country'       => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City',
-            'organization'  => 'example.org',
-            'email'         => 'testemail@example.org',
-            'proto'         => 'tcp6'
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org',
+            'email' => 'testemail@example.org',
+            'proto' => 'tcp6'
           }
         end
 
@@ -187,12 +189,12 @@ describe 'openvpn::server' do
       context 'when using invalid value for proto' do
         let(:params) do
           {
-            'country'       => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City',
-            'organization'  => 'example.org',
-            'email'         => 'testemail@example.org',
-            'proto'         => 'tcp5'
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org',
+            'email' => 'testemail@example.org',
+            'proto' => 'tcp5'
           }
         end
 
@@ -206,10 +208,10 @@ describe 'openvpn::server' do
           {
             'remote' => ['vpn.example.com 12345'],
             'server_poll_timeout' => 1,
-            'ping_timer_rem'      => true,
-            'tls_auth'            => true,
-            'tls_client'          => true,
-            'nobind'              => nobind
+            'ping_timer_rem' => true,
+            'tls_auth' => true,
+            'tls_client' => true,
+            'nobind' => nobind
           }
         end
 
@@ -221,10 +223,12 @@ describe 'openvpn::server' do
         end
 
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^client$}) }
+
         it {
           is_expected.to contain_file("#{server_directory}/test_client.conf").
             with_content(%r{^remote\s+vpn.example.com\s+12345$})
         }
+
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^server-poll-timeout\s+1$}) }
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^ping-timer-rem$}) }
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^remote-cert-tls server}) }
@@ -256,24 +260,27 @@ describe 'openvpn::server' do
           {
             'remote' => ['vpn1.example.com 12345', 'vpn2.example.com 23456'],
             'remote_random_hostname' => true,
-            'remote_random'          => true,
-            'server_poll_timeout'    => 1,
-            'ping_timer_rem'         => true,
-            'tls_auth'               => true,
-            'tls_client'             => true,
-            'nobind'                 => nobind
+            'remote_random' => true,
+            'server_poll_timeout' => 1,
+            'ping_timer_rem' => true,
+            'tls_auth' => true,
+            'tls_client' => true,
+            'nobind' => nobind
           }
         end
 
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^client$}) }
+
         it {
           is_expected.to contain_file("#{server_directory}/test_client.conf").
             with_content(%r{^remote\s+vpn1.example.com\s+12345$})
         }
+
         it {
           is_expected.to contain_file("#{server_directory}/test_client.conf").
             with_content(%r{^remote\s+vpn2.example.com\s+23456$})
         }
+
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^remote-random-hostname$}) }
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^remote-random$}) }
         it { is_expected.to contain_file("#{server_directory}/test_client.conf").with_content(%r{^server-poll-timeout\s+1$}) }
@@ -305,17 +312,17 @@ describe 'openvpn::server' do
           context 'creating a server with ldap authentication enabled' do
             let(:params) do
               {
-                'country'               => 'CO',
-                'province'              => 'ST',
-                'city'                  => 'Some City',
-                'organization'          => 'example.org',
-                'email'                 => 'testemail@example.org',
-                'ldap_enabled'          => true,
-                'ldap_binddn'           => 'dn=foo,ou=foo,ou=com',
-                'ldap_bindpass'         => 'ldappass123',
-                'ldap_tls_enable'       => true,
+                'country' => 'CO',
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org',
+                'ldap_enabled' => true,
+                'ldap_binddn' => 'dn=foo,ou=foo,ou=com',
+                'ldap_bindpass' => 'ldappass123',
+                'ldap_tls_enable' => true,
                 'ldap_tls_ca_cert_file' => '/etc/ldap/ca.pem',
-                'ldap_tls_ca_cert_dir'  => '/etc/ldap/certs'
+                'ldap_tls_ca_cert_dir' => '/etc/ldap/certs'
               }
             end
 
@@ -329,19 +336,19 @@ describe 'openvpn::server' do
           context 'creating a server with ldap authentication enabled and using ldap client certificates' do
             let(:params) do
               {
-                'country'                   => 'CO',
-                'province'                  => 'ST',
-                'city'                      => 'Some City',
-                'organization'              => 'example.org',
-                'email'                     => 'testemail@example.org',
-                'ldap_enabled'              => true,
-                'ldap_binddn'               => 'dn=foo,ou=foo,ou=com',
-                'ldap_bindpass'             => 'ldappass123',
-                'ldap_tls_enable'           => true,
-                'ldap_tls_ca_cert_file'     => '/etc/ldap/ca.pem',
-                'ldap_tls_ca_cert_dir'      => '/etc/ldap/certs',
+                'country' => 'CO',
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org',
+                'ldap_enabled' => true,
+                'ldap_binddn' => 'dn=foo,ou=foo,ou=com',
+                'ldap_bindpass' => 'ldappass123',
+                'ldap_tls_enable' => true,
+                'ldap_tls_ca_cert_file' => '/etc/ldap/ca.pem',
+                'ldap_tls_ca_cert_dir' => '/etc/ldap/certs',
                 'ldap_tls_client_cert_file' => '/etc/ldap/client-cert.pem',
-                'ldap_tls_client_key_file'  => '/etc/ldap/client-key.pem'
+                'ldap_tls_client_key_file' => '/etc/ldap/client-key.pem'
               }
             end
 
@@ -357,60 +364,60 @@ describe 'openvpn::server' do
       context 'creating a server setting all parameters' do
         let(:params) do
           {
-            'country'           => 'CO',
-            'province'          => 'ST',
-            'city'              => 'Some City',
-            'organization'      => 'example.org',
-            'email'             => 'testemail@example.org',
-            'compression'       => 'compress lz4',
-            'port'              => '123',
-            'proto'             => 'udp',
-            'group'             => 'someone',
-            'user'              => 'someone',
-            'logfile'           => '/var/log/openvpn/server1/test_server.log',
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org',
+            'email' => 'testemail@example.org',
+            'compression' => 'compress lz4',
+            'port' => '123',
+            'proto' => 'udp',
+            'group' => 'someone',
+            'user' => 'someone',
+            'logfile' => '/var/log/openvpn/server1/test_server.log',
             'manage_logfile_directory' => true,
-            'logdirectory_user'        => 'someone',
-            'logdirectory_group'       => 'someone',
-            'status_log'        => '/tmp/test_server_status.log',
-            'dev'               => 'tun1',
-            'up'                => '/tmp/up',
-            'down'              => '/tmp/down',
-            'client_connect'    => '/tmp/connect',
+            'logdirectory_user' => 'someone',
+            'logdirectory_group' => 'someone',
+            'status_log' => '/tmp/test_server_status.log',
+            'dev' => 'tun1',
+            'up' => '/tmp/up',
+            'down' => '/tmp/down',
+            'client_connect' => '/tmp/connect',
             'client_disconnect' => '/tmp/disconnect',
-            'local'             => '2.3.4.5',
-            'ipp'               => true,
-            'server'            => '2.3.4.0 255.255.0.0',
+            'local' => '2.3.4.5',
+            'ipp' => true,
+            'server' => '2.3.4.0 255.255.0.0',
             'server_ipv6'	=> 'fe80:1337:1337:1337::/64',
-            'push'              => ['dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0'],
-            'route'             => ['192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0'],
-            'route_ipv6'        => ['2001:db8:1234::/64', '2001:db8:abcd::/64'],
-            'keepalive'         => '10 120',
-            'topology'          => 'subnet',
-            'ssl_key_size'      => 2048,
-            'management'        => true,
-            'management_ip'     => '1.3.3.7',
-            'management_port'   => 1337,
-            'common_name'       => 'mylittlepony',
-            'ca_expire'         => 365,
-            'crl_auto_renew'    => true,
-            'key_expire'        => 365,
-            'crl_days'          => 20,
-            'key_cn'            => 'yolo',
-            'key_name'          => 'burp',
-            'key_ou'            => 'NSA',
-            'verb'              => 'mute',
-            'cipher'            => 'DES-CBC',
-            'tls_cipher'        => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
-            'persist_key'       => true,
-            'persist_tun'       => true,
-            'duplicate_cn'      => true,
-            'tls_auth'          => true,
-            'tls_server'        => true,
-            'fragment'          => 1412,
-            'custom_options'    => { 'this' => 'that' },
-            'portshare'         => '127.0.0.1 8443',
-            'secret'            => 'secretsecret1234',
-            'remote_cert_tls'   => true
+            'push' => ['dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0'],
+            'route' => ['192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0'],
+            'route_ipv6' => ['2001:db8:1234::/64', '2001:db8:abcd::/64'],
+            'keepalive' => '10 120',
+            'topology' => 'subnet',
+            'ssl_key_size' => 2048,
+            'management' => true,
+            'management_ip' => '1.3.3.7',
+            'management_port' => 1337,
+            'common_name' => 'mylittlepony',
+            'ca_expire' => 365,
+            'crl_auto_renew' => true,
+            'key_expire' => 365,
+            'crl_days' => 20,
+            'key_cn' => 'yolo',
+            'key_name' => 'burp',
+            'key_ou' => 'NSA',
+            'verb' => 'mute',
+            'cipher' => 'DES-CBC',
+            'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+            'persist_key' => true,
+            'persist_tun' => true,
+            'duplicate_cn' => true,
+            'tls_auth' => true,
+            'tls_server' => true,
+            'fragment' => 1412,
+            'custom_options' => { 'this' => 'that' },
+            'portshare' => '127.0.0.1 8443',
+            'secret' => 'secretsecret1234',
+            'remote_cert_tls' => true
           }
         end
 
@@ -423,7 +430,7 @@ describe 'openvpn::server' do
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^compress lz4$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^group\s+someone$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^user\s+someone$}) }
-        it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^log\-append\s+/var/log/openvpn/server1/test_server\.log$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^log-append\s+/var/log/openvpn/server1/test_server\.log$}) }
         it { is_expected.to contain_file('/var/log/openvpn/server1').with('ensure' => 'directory', 'owner' => 'someone', 'group' => 'someone') }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^status\s+/tmp/test_server_status\.log$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dev\s+tun1$}) }
@@ -494,13 +501,13 @@ describe 'openvpn::server' do
       context 'creating a server setting all parameters including tls_crypt' do
         let(:params) do
           {
-            'country'       => 'CO',
-            'province'      => 'ST',
-            'city'          => 'Some City',
-            'organization'  => 'example.org',
-            'email'         => 'testemail@example.org',
-            'proto'         => 'tcp6',
-            'tls_crypt'     => true
+            'country' => 'CO',
+            'province' => 'ST',
+            'city' => 'Some City',
+            'organization' => 'example.org',
+            'email' => 'testemail@example.org',
+            'proto' => 'tcp6',
+            'tls_crypt' => true
           }
         end
 
@@ -522,53 +529,53 @@ describe 'openvpn::server' do
           let(:params) do
             {
               'country' => 'CO',
-              'province'        => 'ST',
-              'city'            => 'Some City',
-              'organization'    => 'example.org',
-              'email'           => 'testemail@example.org',
-              'compression'     => 'compress lz4',
-              'port'            => '123',
-              'proto'           => 'udp',
-              'group'           => 'someone',
-              'user'            => 'someone',
-              'logfile'         => '/var/log/openvpn/test_server.log',
-              'status_log'      => '/tmp/test_server_status.log',
-              'dev'             => 'tun1',
-              'up'              => '/tmp/up',
-              'down'            => '/tmp/down',
-              'local'           => '2.3.4.5',
-              'ipp'             => true,
-              'server'          => '2.3.4.0 255.255.0.0',
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org',
+              'compression' => 'compress lz4',
+              'port' => '123',
+              'proto' => 'udp',
+              'group' => 'someone',
+              'user' => 'someone',
+              'logfile' => '/var/log/openvpn/test_server.log',
+              'status_log' => '/tmp/test_server_status.log',
+              'dev' => 'tun1',
+              'up' => '/tmp/up',
+              'down' => '/tmp/down',
+              'local' => '2.3.4.5',
+              'ipp' => true,
+              'server' => '2.3.4.0 255.255.0.0',
               'server_ipv6'	=> 'fe80:1337:1337:1337::/64',
-              'push'            => ['dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0'],
-              'route'           => ['192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0'],
-              'route_ipv6'      => ['2001:db8:1234::/64', '2001:db8:abcd::/64'],
-              'keepalive'       => '10 120',
-              'topology'        => 'subnet',
-              'ssl_key_size'    => 2048,
-              'management'      => true,
-              'management_ip'   => '1.3.3.7',
+              'push' => ['dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0'],
+              'route' => ['192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0'],
+              'route_ipv6' => ['2001:db8:1234::/64', '2001:db8:abcd::/64'],
+              'keepalive' => '10 120',
+              'topology' => 'subnet',
+              'ssl_key_size' => 2048,
+              'management' => true,
+              'management_ip' => '1.3.3.7',
               'management_port' => 1337,
-              'common_name'     => 'mylittlepony',
-              'ca_expire'       => 365,
-              'crl_auto_renew'  => true,
-              'key_expire'      => 365,
-              'crl_days'        => 20,
-              'key_cn'          => 'yolo',
-              'key_name'        => 'burp',
-              'key_ou'          => 'NSA',
-              'verb'            => 'mute',
-              'cipher'          => 'DES-CBC',
-              'tls_cipher'      => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
-              'persist_key'     => true,
-              'persist_tun'     => true,
-              'duplicate_cn'    => true,
-              'tls_auth'        => true,
-              'tls_server'      => true,
-              'fragment'        => 1412,
-              'custom_options'  => { 'this' => 'that' },
-              'portshare'       => '127.0.0.1 8443',
-              'secret'          => 'secretsecret1234',
+              'common_name' => 'mylittlepony',
+              'ca_expire' => 365,
+              'crl_auto_renew' => true,
+              'key_expire' => 365,
+              'crl_days' => 20,
+              'key_cn' => 'yolo',
+              'key_name' => 'burp',
+              'key_ou' => 'NSA',
+              'verb' => 'mute',
+              'cipher' => 'DES-CBC',
+              'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+              'persist_key' => true,
+              'persist_tun' => true,
+              'duplicate_cn' => true,
+              'tls_auth' => true,
+              'tls_server' => true,
+              'fragment' => 1412,
+              'custom_options' => { 'this' => 'that' },
+              'portshare' => '127.0.0.1 8443',
+              'secret' => 'secretsecret1234',
               'remote_cert_tls' => true
             }
           end
@@ -585,10 +592,10 @@ describe 'openvpn::server' do
             {
               'remote' => ['vpn.example.com 12345'],
               'server_poll_timeout' => 1,
-              'ping_timer_rem'      => true,
-              'tls_auth'            => true,
-              'tls_client'          => true,
-              'nobind'              => nobind
+              'ping_timer_rem' => true,
+              'tls_auth' => true,
+              'tls_client' => true,
+              'nobind' => nobind
             }
           end
 
@@ -596,10 +603,12 @@ describe 'openvpn::server' do
             is_expected.to contain_file("#{server_directory}/test_client.conf").
               with_content(%r{^ca #{server_directory}/test_client/keys/ca.crt$})
           }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_client.conf").
               with_content(%r{^cert #{server_directory}/test_client/keys/test_client.crt$})
           }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_client.conf").
               with_content(%r{^key #{server_directory}/test_client/keys/test_client.key$})
@@ -629,21 +638,22 @@ describe 'openvpn::server' do
           # Check that certificate files point to the provide CA
 
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^mode\s+server$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client\-config\-dir\s+#{server_directory_regex}\/test_server\/client\-configs$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client-config-dir\s+#{server_directory_regex}/test_server/client-configs$}) }
 
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+#{server_directory_regex}\/my_already_existing_ca\/keys\/ca.crt$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}\/my_already_existing_ca\/keys\/custom_common_name.crt$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}\/my_already_existing_ca\/keys\/custom_common_name.key$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}\/my_already_existing_ca\/keys\/dh2048.pem$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+#{server_directory_regex}/my_already_existing_ca/keys/ca.crt$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}/my_already_existing_ca/keys/custom_common_name.crt$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}/my_already_existing_ca/keys/custom_common_name.key$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}/my_already_existing_ca/keys/dh2048.pem$}) }
         end
+
         context 'creating a server with the minimum parameters' do
           let(:params) do
             {
-              'country'       => 'CO',
-              'province'      => 'ST',
-              'city'          => 'Some City',
-              'organization'  => 'example.org',
-              'email'         => 'testemail@example.org'
+              'country' => 'CO',
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org'
             }
           end
 
@@ -653,21 +663,21 @@ describe 'openvpn::server' do
           # VPN server config file itself
 
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^mode\s+server$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client\-config\-dir\s+#{server_directory_regex}\/test_server\/client\-configs$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+#{server_directory_regex}\/test_server\/keys\/ca.crt$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}\/test_server\/keys\/server.crt$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}\/test_server\/keys\/server.key$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}\/test_server\/keys\/dh2048.pem$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client-config-dir\s+#{server_directory_regex}/test_server/client-configs$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+#{server_directory_regex}/test_server/keys/ca.crt$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}/test_server/keys/server.crt$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}/test_server/keys/server.key$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}/test_server/keys/dh2048.pem$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^proto\s+tcp-server$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^tls-server$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^port\s+1194$}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^comp-lzo$}) }
-          it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^log\-append\s+test_server\/openvpn\.log$}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^log-append\s+test_server/openvpn\.log$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^status\s+/var/log/openvpn/test_server-status\.log$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dev\s+tun0$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^local\s+10\.0\.2\.15$}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ifconfig-pool-persist}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^crl-verify\s+#{server_directory_regex}\/test_server\/crl.pem$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^crl-verify\s+#{server_directory_regex}/test_server/crl.pem$}) }
           it { is_expected.not_to contain_schedule('renew crl.pem schedule on test_server') }
           it { is_expected.not_to contain_exec('renew crl.pem on test_server') }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^secret}) }
@@ -688,16 +698,16 @@ describe 'openvpn::server' do
         context 'when pushing scripts' do
           let(:params) do
             {
-              'country'           => 'CO',
-              'province'          => 'ST',
-              'city'              => 'Some City',
-              'organization'      => 'example.org',
-              'email'             => 'testemail@example.org',
-              'up'                => 'up.sh',
-              'down'              => 'down.sh',
-              'client_connect'    => 'connect.sh',
+              'country' => 'CO',
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org',
+              'up' => 'up.sh',
+              'down' => 'down.sh',
+              'client_connect' => 'connect.sh',
               'client_disconnect' => 'disconnect.sh',
-              'scripts'           => {
+              'scripts' => {
                 'add-tap-to-bridge.sh' => {
                   'ensure' => 'present'
                 }
@@ -708,19 +718,19 @@ describe 'openvpn::server' do
           it { is_expected.to contain_file("#{server_directory}/test_server/scripts/add-tap-to-bridge.sh").with(ensure: 'present') }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^up\s+"#{server_directory}/test_server/scripts/up\.sh"$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^down\s+"#{server_directory}/test_server/scripts/down\.sh"$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client\-connect\s+"#{server_directory}/test_server/scripts/connect\.sh"$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client\-disconnect\s+"#{server_directory}/test_server/scripts/disconnect\.sh"$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client-connect\s+"#{server_directory}/test_server/scripts/connect\.sh"$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client-disconnect\s+"#{server_directory}/test_server/scripts/disconnect\.sh"$}) }
         end
 
         context 'when not using status log' do
           let(:params) do
             {
-              'country'       => 'CO',
-              'province'      => 'ST',
-              'city'          => 'Some City',
-              'organization'  => 'example.org',
-              'email'         => 'testemail@example.org',
-              'status_log'    => ''
+              'country' => 'CO',
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org',
+              'status_log' => ''
             }
           end
 
@@ -730,19 +740,19 @@ describe 'openvpn::server' do
         context 'when not using scripts' do
           let(:params) do
             {
-              'country'           => 'CO',
-              'province'          => 'ST',
-              'city'              => 'Some City',
-              'organization'      => 'example.org',
-              'email'             => 'testemail@example.org'
+              'country' => 'CO',
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org'
             }
           end
 
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").without_content(%r{^script-security\s+}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").without_content(%r{^up\s+}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").without_content(%r{^down\s+}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").without_content(%r{^client\-connect\s+}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").without_content(%r{^client\-disconnect\s+}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").without_content(%r{^client-connect\s+}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").without_content(%r{^client-disconnect\s+}) }
         end
 
         case facts[:os]['family']
@@ -751,11 +761,11 @@ describe 'openvpn::server' do
             let(:params) do
               {
                 'country' => 'CO',
-                'province'      => 'ST',
-                'city'          => 'Some City',
-                'organization'  => 'example.org',
-                'email'         => 'testemail@example.org',
-                'pam'           => true
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org',
+                'pam' => true
               }
             end
 
@@ -765,14 +775,15 @@ describe 'openvpn::server' do
             it { is_expected.to contain_file('/usr/local/etc/rc.d/openvpn_test_server') }
             it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{/usr/local/etc}) }
           end
+
           context 'creating a server with the minimum parameters' do
             let(:params) do
               {
-                'country'       => 'CO',
-                'province'      => 'ST',
-                'city'          => 'Some City',
-                'organization'  => 'example.org',
-                'email'         => 'testemail@example.org'
+                'country' => 'CO',
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org'
               }
             end
 
@@ -781,18 +792,22 @@ describe 'openvpn::server' do
               is_expected.to contain_file("#{server_directory}/test_server").
                 with(ensure: 'directory', mode: '0750', group: 'nogroup')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/client-configs").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/download-configs").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/auth").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/scripts").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
@@ -808,11 +823,11 @@ describe 'openvpn::server' do
           context 'creating a server with the minimum parameters' do
             let(:params) do
               {
-                'country'       => 'CO',
-                'province'      => 'ST',
-                'city'          => 'Some City',
-                'organization'  => 'example.org',
-                'email'         => 'testemail@example.org'
+                'country' => 'CO',
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org'
               }
             end
 
@@ -821,18 +836,22 @@ describe 'openvpn::server' do
               is_expected.to contain_file("#{server_directory}/test_server").
                 with(ensure: 'directory', mode: '0750', group: 'nogroup')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/client-configs").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/download-configs").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/auth").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/scripts").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nogroup')
@@ -848,11 +867,11 @@ describe 'openvpn::server' do
             let(:params) do
               {
                 'country' => 'CO',
-                'province'      => 'ST',
-                'city'          => 'Some City',
-                'organization'  => 'example.org',
-                'email'         => 'testemail@example.org',
-                'pam'           => true
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org',
+                'pam' => true
               }
             end
 
@@ -872,10 +891,11 @@ describe 'openvpn::server' do
 
               context 'but machine has autostart' do
                 before { params['autostart'] = true }
+
                 it {
                   is_expected.to contain_concat__fragment('openvpn.default.autostart.test_server').with(
                     'content' => "AUTOSTART=\"$AUTOSTART test_server\"\n",
-                    'target'  => '/etc/default/openvpn'
+                    'target' => '/etc/default/openvpn'
                   )
                 }
               end
@@ -896,53 +916,53 @@ describe 'openvpn::server' do
           let(:params) do
             {
               'country' => 'CO',
-              'province'        => 'ST',
-              'city'            => 'Some City',
-              'organization'    => 'example.org',
-              'email'           => 'testemail@example.org',
-              'compression'     => 'compress lz4',
-              'port'            => '123',
-              'proto'           => 'udp',
-              'group'           => 'someone',
-              'user'            => 'someone',
-              'logfile'         => '/var/log/openvpn/test_server.log',
-              'status_log'      => '/tmp/test_server_status.log',
-              'dev'             => 'tun1',
-              'up'              => '/tmp/up',
-              'down'            => '/tmp/down',
-              'local'           => '2.3.4.5',
-              'ipp'             => true,
-              'server'          => '2.3.4.0 255.255.0.0',
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org',
+              'compression' => 'compress lz4',
+              'port' => '123',
+              'proto' => 'udp',
+              'group' => 'someone',
+              'user' => 'someone',
+              'logfile' => '/var/log/openvpn/test_server.log',
+              'status_log' => '/tmp/test_server_status.log',
+              'dev' => 'tun1',
+              'up' => '/tmp/up',
+              'down' => '/tmp/down',
+              'local' => '2.3.4.5',
+              'ipp' => true,
+              'server' => '2.3.4.0 255.255.0.0',
               'server_ipv6'	=> 'fe80:1337:1337:1337::/64',
-              'push'            => ['dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0'],
-              'route'           => ['192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0'],
-              'route_ipv6'      => ['2001:db8:1234::/64', '2001:db8:abcd::/64'],
-              'keepalive'       => '10 120',
-              'topology'        => 'subnet',
-              'ssl_key_size'    => 2048,
-              'management'      => true,
-              'management_ip'   => '1.3.3.7',
+              'push' => ['dhcp-option DNS 172.31.0.30', 'route 172.31.0.0 255.255.0.0'],
+              'route' => ['192.168.30.0 255.255.255.0', '192.168.35.0 255.255.0.0'],
+              'route_ipv6' => ['2001:db8:1234::/64', '2001:db8:abcd::/64'],
+              'keepalive' => '10 120',
+              'topology' => 'subnet',
+              'ssl_key_size' => 2048,
+              'management' => true,
+              'management_ip' => '1.3.3.7',
               'management_port' => 1337,
-              'common_name'     => 'mylittlepony',
-              'ca_expire'       => 365,
-              'crl_auto_renew'  => true,
-              'key_expire'      => 365,
-              'crl_days'        => 20,
-              'key_cn'          => 'yolo',
-              'key_name'        => 'burp',
-              'key_ou'          => 'NSA',
-              'verb'            => 'mute',
-              'cipher'          => 'DES-CBC',
-              'tls_cipher'      => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
-              'persist_key'     => true,
-              'persist_tun'     => true,
-              'duplicate_cn'    => true,
-              'tls_auth'        => true,
-              'tls_server'      => true,
-              'fragment'        => 1412,
-              'custom_options'  => { 'this' => 'that' },
-              'portshare'       => '127.0.0.1 8443',
-              'secret'          => 'secretsecret1234',
+              'common_name' => 'mylittlepony',
+              'ca_expire' => 365,
+              'crl_auto_renew' => true,
+              'key_expire' => 365,
+              'crl_days' => 20,
+              'key_cn' => 'yolo',
+              'key_name' => 'burp',
+              'key_ou' => 'NSA',
+              'verb' => 'mute',
+              'cipher' => 'DES-CBC',
+              'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+              'persist_key' => true,
+              'persist_tun' => true,
+              'duplicate_cn' => true,
+              'tls_auth' => true,
+              'tls_server' => true,
+              'fragment' => 1412,
+              'custom_options' => { 'this' => 'that' },
+              'portshare' => '127.0.0.1 8443',
+              'secret' => 'secretsecret1234',
               'remote_cert_tls' => true
             }
           end
@@ -959,10 +979,10 @@ describe 'openvpn::server' do
             {
               'remote' => ['vpn.example.com 12345'],
               'server_poll_timeout' => 1,
-              'ping_timer_rem'      => true,
-              'tls_auth'            => true,
-              'tls_client'          => true,
-              'nobind'              => nobind
+              'ping_timer_rem' => true,
+              'tls_auth' => true,
+              'tls_client' => true,
+              'nobind' => nobind
             }
           end
 
@@ -970,10 +990,12 @@ describe 'openvpn::server' do
             is_expected.to contain_file("#{server_directory}/test_client.conf").
               with_content(%r{^ca #{server_directory}/test_client/keys/ca.crt$})
           }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_client.conf").
               with_content(%r{^cert #{server_directory}/test_client/keys/issued/test_client.crt$})
           }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_client.conf").
               with_content(%r{^key #{server_directory}/test_client/keys/private/test_client.key$})
@@ -1003,12 +1025,12 @@ describe 'openvpn::server' do
           # Check that certificate files point to the provide CA
 
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^mode\s+server$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client\-config\-dir\s+#{server_directory_regex}\/test_server\/client\-configs$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^client-config-dir\s+#{server_directory_regex}/test_server/client-configs$}) }
 
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+#{server_directory_regex}\/my_already_existing_ca\/keys\/ca.crt$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}\/my_already_existing_ca\/keys\/issued/custom_common_name.crt$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}\/my_already_existing_ca\/keys\/private\/custom_common_name.key$}) }
-          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}\/my_already_existing_ca\/keys\/dh.pem$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+#{server_directory_regex}/my_already_existing_ca/keys/ca.crt$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}/my_already_existing_ca/keys/issued/custom_common_name.crt$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}/my_already_existing_ca/keys/private/custom_common_name.key$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}/my_already_existing_ca/keys/dh.pem$}) }
         end
 
         case facts[:os]['family']
@@ -1016,11 +1038,11 @@ describe 'openvpn::server' do
           context 'creating a server with the minimum parameters' do
             let(:params) do
               {
-                'country'       => 'CO',
-                'province'      => 'ST',
-                'city'          => 'Some City',
-                'organization'  => 'example.org',
-                'email'         => 'testemail@example.org'
+                'country' => 'CO',
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org'
               }
             end
 
@@ -1029,18 +1051,22 @@ describe 'openvpn::server' do
               is_expected.to contain_file("#{server_directory}/test_server").
                 with(ensure: 'directory', mode: '0750', group: 'nobody')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/client-configs").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nobody')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/download-configs").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nobody')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/auth").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nobody')
             }
+
             it {
               is_expected.to contain_file("#{server_directory}/test_server/scripts").
                 with(ensure: 'directory', mode: '0750', recurse: true, group: 'nobody')
@@ -1056,22 +1082,22 @@ describe 'openvpn::server' do
             let(:params) do
               {
                 'tls_auth' => true,
-                'extca_enabled'           => true,
-                'extca_ca_cert_file'      => '/etc/ipa/ca.crt',
-                'extca_ca_crl_file'       => '/etc/ipa/ca_crl.pem',
-                'extca_server_cert_file'  => '/etc/pki/tls/certs/localhost.crt',
-                'extca_server_key_file'   => '/etc/pki/tls/private/localhost.key',
-                'extca_dh_file'           => '/etc/ipa/dh.pem',
+                'extca_enabled' => true,
+                'extca_ca_cert_file' => '/etc/ipa/ca.crt',
+                'extca_ca_crl_file' => '/etc/ipa/ca_crl.pem',
+                'extca_server_cert_file' => '/etc/pki/tls/certs/localhost.crt',
+                'extca_server_key_file' => '/etc/pki/tls/private/localhost.key',
+                'extca_dh_file' => '/etc/ipa/dh.pem',
                 'extca_tls_auth_key_file' => '/etc/openvpn/keys/ta.key'
               }
             end
 
-            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+#{server_directory_regex}\/test_server\/keys\/ca.crt$}) }
-            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^crl-verify\s+#{server_directory_regex}\/test_server\/crl.pem$}) }
-            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}\/test_server\/keys\/server.crt$}) }
-            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}\/test_server\/keys\/server.key$}) }
-            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}\/test_server\/keys\/dh2048.pem$}) }
-            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^tls-auth\s+#{server_directory_regex}\/test_server\/keys\/ta.key$}) }
+            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+#{server_directory_regex}/test_server/keys/ca.crt$}) }
+            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^crl-verify\s+#{server_directory_regex}/test_server/crl.pem$}) }
+            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}/test_server/keys/server.crt$}) }
+            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}/test_server/keys/server.key$}) }
+            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}/test_server/keys/dh2048.pem$}) }
+            it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^tls-auth\s+#{server_directory_regex}/test_server/keys/ta.key$}) }
 
             it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^ca\s+/etc/ipa/ca.crt$}) }
             it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^crl-verify\s+/etc/ipa/ca_crl.pem$}) }
@@ -1085,11 +1111,11 @@ describe 'openvpn::server' do
             let(:params) do
               {
                 'extca_enabled' => true,
-                'extca_ca_cert_file'      => '/etc/ipa/ca.crt',
-                'extca_ca_crl_file'       => '/etc/ipa/ca_crl.pem',
-                'extca_server_cert_file'  => '/etc/pki/tls/certs/localhost.crt',
-                'extca_server_key_file'   => '/etc/pki/tls/private/localhost.key',
-                'extca_dh_file'           => '/etc/ipa/dh.pem',
+                'extca_ca_cert_file' => '/etc/ipa/ca.crt',
+                'extca_ca_crl_file' => '/etc/ipa/ca_crl.pem',
+                'extca_server_cert_file' => '/etc/pki/tls/certs/localhost.crt',
+                'extca_server_key_file' => '/etc/pki/tls/private/localhost.key',
+                'extca_dh_file' => '/etc/ipa/dh.pem',
                 'extca_tls_auth_key_file' => '/etc/openvpn/keys/ta.key'
               }
             end
@@ -1112,13 +1138,13 @@ describe 'openvpn::server' do
             let(:params) do
               {
                 'country' => 'CO',
-                'province'             => 'ST',
-                'city'                 => 'Some City',
-                'organization'         => 'example.org',
-                'email'                => 'testemail@example.org',
-                'pam'                  => true,
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org',
+                'pam' => true,
                 'pam_module_arguments' => 'openvpn login USERNAME password PASSWORD',
-                'crl_verify'           => false
+                'crl_verify' => false
               }
             end
 
@@ -1130,11 +1156,11 @@ describe 'openvpn::server' do
             let(:params) do
               {
                 'country' => 'CO',
-                'province'      => 'ST',
-                'city'          => 'Some City',
-                'organization'  => 'example.org',
-                'email'         => 'testemail@example.org',
-                'pam'           => true
+                'province' => 'ST',
+                'city' => 'Some City',
+                'organization' => 'example.org',
+                'email' => 'testemail@example.org',
+                'pam' => true
               }
             end
 

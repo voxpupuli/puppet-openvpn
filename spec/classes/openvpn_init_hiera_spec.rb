@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'openvpn', type: :class do
@@ -13,23 +15,23 @@ describe 'openvpn', type: :class do
 
       it do
         is_expected.to contain_openvpn__server('winterthur').with(
-          'country'      => 'CH',
-          'province'     => 'ZH',
-          'city'         => 'Winterthur',
+          'country' => 'CH',
+          'province' => 'ZH',
+          'city' => 'Winterthur',
           'organization' => 'example.org',
-          'email'        => 'root@example.org',
-          'server'       => '10.200.200.0 255.255.255.0'
+          'email' => 'root@example.org',
+          'server' => '10.200.200.0 255.255.255.0'
         )
       end
 
       it do
         is_expected.to contain_openvpn__server('uster').with(
-          'country'      => 'CH',
-          'province'     => 'ZH',
-          'city'         => 'Uster',
+          'country' => 'CH',
+          'province' => 'ZH',
+          'city' => 'Uster',
           'organization' => 'example.com',
-          'email'        => 'root@example.com',
-          'server'       => '10.100.100.0 255.255.255.0'
+          'email' => 'root@example.com',
+          'server' => '10.100.100.0 255.255.255.0'
         )
       end
 
@@ -59,14 +61,14 @@ describe 'openvpn', type: :class do
 
       it do
         is_expected.to contain_openvpn__client_specific_config('winti-client1').with(
-          'server'   => 'winterthur',
+          'server' => 'winterthur',
           'ifconfig' => '10.200.200.50 10.200.200.51'
         )
       end
 
       it do
         is_expected.to contain_openvpn__client_specific_config('uster-client1').with(
-          'server'   => 'uster',
+          'server' => 'uster',
           'ifconfig' => '10.100.100.50 10.100.100.51'
         )
       end

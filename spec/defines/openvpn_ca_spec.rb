@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'openvpn::ca', type: :define do
@@ -19,29 +21,32 @@ describe 'openvpn::ca', type: :define do
         context 'creating a server with the minimum parameters' do
           let(:params) do
             {
-              'country'      => 'CO',
-              'province'     => 'ST',
-              'city'         => 'Some City',
+              'country' => 'CO',
+              'province' => 'ST',
+              'city' => 'Some City',
               'organization' => 'example.org',
-              'email'        => 'testemail@example.org'
+              'email' => 'testemail@example.org'
             }
           end
 
           it { is_expected.to contain_package('easy-rsa').with('ensure' => 'installed') }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_server/crl.pem").with(
-              'mode'    => '0640',
-              'group'   => 'nobody'
+              'mode' => '0640',
+              'group' => 'nobody'
             )
           }
 
           # Files associated with a server config
 
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with(mode: '0550') }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/keys/crl.pem").
               with(ensure: 'link', target: "#{server_directory}/test_server/crl.pem")
           }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_server/keys").
               with(ensure: 'link', target: "#{server_directory}/test_server/easy-rsa/keys")
@@ -65,18 +70,18 @@ describe 'openvpn::ca', type: :define do
           let(:params) do
             {
               'country' => 'CO',
-              'province'        => 'ST',
-              'city'            => 'Some City',
-              'organization'    => 'example.org',
-              'email'           => 'testemail@example.org',
-              'group'           => 'someone',
-              'ssl_key_size'    => 2048,
-              'common_name'     => 'mylittlepony',
-              'ca_expire'       => 365,
-              'key_expire'      => 365,
-              'key_cn'          => 'yolo',
-              'key_name'        => 'burp',
-              'key_ou'          => 'NSA'
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org',
+              'group' => 'someone',
+              'ssl_key_size' => 2048,
+              'common_name' => 'mylittlepony',
+              'ca_expire' => 365,
+              'key_expire' => 365,
+              'key_cn' => 'yolo',
+              'key_name' => 'burp',
+              'key_ou' => 'NSA'
             }
           end
 
@@ -93,21 +98,23 @@ describe 'openvpn::ca', type: :define do
         context 'creating a server with the minimum parameters' do
           let(:params) do
             {
-              'country'      => 'CO',
-              'province'     => 'ST',
-              'city'         => 'Some City',
+              'country' => 'CO',
+              'province' => 'ST',
+              'city' => 'Some City',
               'organization' => 'example.org',
-              'email'        => 'testemail@example.org'
+              'email' => 'testemail@example.org'
             }
           end
 
           # Files associated with a server config
 
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with(mode: '0550') }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/keys/crl.pem").
               with(ensure: 'link', target: "#{server_directory}/test_server/crl.pem")
           }
+
           it {
             is_expected.to contain_file("#{server_directory}/test_server/keys").
               with(ensure: 'link', target: "#{server_directory}/test_server/easy-rsa/keys")
@@ -144,18 +151,18 @@ describe 'openvpn::ca', type: :define do
           let(:params) do
             {
               'country' => 'CO',
-              'province'        => 'ST',
-              'city'            => 'Some City',
-              'organization'    => 'example.org',
-              'email'           => 'testemail@example.org',
-              'group'           => 'someone',
-              'ssl_key_size'    => 2048,
-              'common_name'     => 'mylittlepony',
-              'ca_expire'       => 365,
-              'key_expire'      => 365,
-              'key_cn'          => 'yolo',
-              'key_name'        => 'burp',
-              'key_ou'          => 'NSA'
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org',
+              'group' => 'someone',
+              'ssl_key_size' => 2048,
+              'common_name' => 'mylittlepony',
+              'ca_expire' => 365,
+              'key_expire' => 365,
+              'key_cn' => 'yolo',
+              'key_name' => 'burp',
+              'key_ou' => 'NSA'
             }
           end
 
@@ -184,28 +191,28 @@ describe 'openvpn::ca', type: :define do
           let(:params) do
             {
               'country' => 'CO',
-              'province'      => 'ST',
-              'city'          => 'Some City',
-              'organization'  => 'example.org',
-              'email'         => 'testemail@example.org'
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org'
             }
           end
 
           if facts[:os]['release']['major'] =~ %r{10|11|20.04}
             it {
               is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/openssl.cnf").with(
-                'ensure'  => 'link',
-                'target'  => "#{server_directory}/test_server/easy-rsa/openssl-1.0.cnf",
+                'ensure' => 'link',
+                'target' => "#{server_directory}/test_server/easy-rsa/openssl-1.0.cnf",
                 'recurse' => nil,
-                'group'   => 'nogroup'
+                'group' => 'nogroup'
               )
             }
           end
 
           it {
             is_expected.to contain_file("#{server_directory}/test_server/crl.pem").with(
-              'mode'    => '0640',
-              'group'   => 'nogroup'
+              'mode' => '0640',
+              'group' => 'nogroup'
             )
           }
         end
