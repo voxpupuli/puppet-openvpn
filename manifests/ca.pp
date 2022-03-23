@@ -23,22 +23,22 @@
 #    }
 #
 define openvpn::ca (
-  String $country,
-  String $province,
-  String $city,
-  String $organization,
-  String $email,
-  String $common_name     = 'server',
-  Optional[String] $group = undef,
-  Integer $ssl_key_size   = 2048,
-  Integer $ca_expire      = 3650,
-  Integer $key_expire     = 3650,
-  Integer $crl_days       = 30,
-  String $key_cn          = '',
-  String $key_name        = '',
-  String $key_ou          = '',
-  Boolean $tls_auth       = false,
-  Boolean $tls_static_key = false,
+  Optional[String] $country      = undef,
+  Optional[String] $province     = undef,
+  Optional[String] $city         = undef,
+  Optional[String] $organization = undef,
+  Optional[String] $email        = undef,
+  String $common_name            = 'server',
+  Optional[String] $group        = undef,
+  Integer $ssl_key_size          = 2048,
+  Integer $ca_expire             = 3650,
+  Integer $key_expire            = 3650,
+  Integer $crl_days              = 30,
+  Optional[String] $key_cn       = undef,
+  Optional[String] $key_name     = undef,
+  Optional[String] $key_ou       = undef,
+  Boolean $tls_auth              = false,
+  Boolean $tls_static_key        = false,
 ) {
   if $tls_auth {
     warning('Parameter $tls_auth is deprecated. Use $tls_static_key instead.')

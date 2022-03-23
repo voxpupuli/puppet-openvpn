@@ -51,13 +51,13 @@ setenv <%= key %> <%= value %>
 <% @setenv_safe.each do |key, value| -%>
 setenv_safe <%= key %> <%= value %>
 <% end -%>
-<% if @up != '' or @down != ''-%>
+<% if @up or @down -%>
 script-security 2
 <% end -%>
-<% if @up != '' -%>
+<% if @up -%>
 up "<%= @up %>"
 <% end -%>
-<% if @down != '' -%>
+<% if @down -%>
 down "<%= @down %>"
 <% end -%>
 <% if @x509_name -%>

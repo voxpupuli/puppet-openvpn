@@ -94,13 +94,13 @@ local <%= @local %>
 <% if @ipp -%>
 ifconfig-pool-persist <%= @name %>/vpn-ipp.txt
 <% end -%>
-<% if @server != '' -%>
+<% if @server -%>
 server <%= @server %>
 <% end -%>
-<% if @server_ipv6 != '' -%>
+<% if @server_ipv6 -%>
 server-ipv6 <%= @server_ipv6 %>
 <% end -%>
-<% if @server_bridge != '' -%>
+<% if @server_bridge -%>
 server-bridge <%= @server_bridge %>
 <% end -%>
 <% @push.each do |item| -%>
@@ -118,13 +118,13 @@ sndbuf <%= @sndbuf %>
 <% if @rcvbuf -%>
 rcvbuf <%= @rcvbuf %>
 <% end -%>
-<% if @keepalive != '' -%>
+<% if @keepalive -%>
 keepalive <%= @keepalive %>
 <% end -%>
 <% if @topology != '' -%>
 topology <%= @topology %>
 <% end -%>
-<% if @verb != '' -%>
+<% if @verb -%>
 verb <%= @verb %>
 <% end -%>
 <% if @cipher != '' -%>

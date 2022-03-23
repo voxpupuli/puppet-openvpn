@@ -72,9 +72,9 @@ export EASYRSA_REQ_PROVINCE="<%= $province %>"
 export EASYRSA_REQ_CITY="<%= $city %>"
 export EASYRSA_REQ_ORG="<%= $organization %>"
 export EASYRSA_REQ_EMAIL="<%= $email %>"
-<% if $key_cn != '' { -%>
+<% if $key_cn { -%>
 export EASYRSA_REQ_CN="<%= $key_cn %>"
 <% } -%>
-<% if $key_ou != '' { -%>
+<% if $key_ou { -%>
 export EASYRSA_REQ_OU="<%= $key_ou %>"
 <% } -%>
