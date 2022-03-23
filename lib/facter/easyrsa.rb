@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Facter.add(:easyrsa) do
   confine kernel: 'Linux'
   setcode do
@@ -40,10 +42,7 @@ Facter.add(:easyrsa) do
       data = Facter::Core::Execution.execute('easyrsa --help')
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
     end
-    if !version.nil?
-    else
-      version = nil
-    end
+    version = nil if version.nil?
     version
   end
 end

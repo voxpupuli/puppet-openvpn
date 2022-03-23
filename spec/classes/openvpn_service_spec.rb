@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'openvpn::service', type: :class do
@@ -11,6 +13,7 @@ describe 'openvpn::service', type: :class do
       it { is_expected.to compile.with_all_deps }
 
       it { is_expected.to create_class('openvpn::service') }
+
       it {
         is_expected.to contain_service('openvpn').with(
           'ensure' => 'running',
