@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# rubocop:disable Style/FrozenStringLiteralComment
 
 require 'spec_helper'
 
@@ -350,3 +350,4 @@ describe 'openvpn::client', type: :define do
     end
   end
 end
+# rubocop:enable Style/FrozenStringLiteralComment

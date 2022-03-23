@@ -112,7 +112,7 @@ describe 'server defined type' do
       apply_manifest_on(hosts_as('vpnserver'), pp, catch_changes: false)
     end
 
-    describe file("#{server_directory}/test_openvpn_server/easy-rsa/revoked/vpnclientb") do
+    describe file("#{server_directory}/test_openvpn_server/easy-rsa/revoked/vpnclientb"), :revokedFile do
       it { is_expected.to be_file }
     end
 
@@ -130,7 +130,7 @@ describe 'server defined type' do
       it { is_expected.to contain '_EMAIL="bar@foo.org"' }
     end
 
-    describe file(server_crt.to_s) do
+    describe file(server_crt.to_s), :crtFile do
       it { is_expected.to be_file }
       it { is_expected.to contain 'Issuer: C=CO, ST=ST, L=A city, O=FOO, ' }
     end

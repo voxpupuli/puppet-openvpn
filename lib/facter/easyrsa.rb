@@ -9,7 +9,7 @@ Facter.add(:easyrsa) do
     operatingsystemrelease = Facter.value(:operatingsystemrelease)
 
     case operatingsystem
-    when %r{RedHat|CentOS}
+    when %r{RedHat|CentOS|Amazon}
       binaryv2 = '/usr/share/easy-rsa/2.0/pkitool'
       binaryv3 = '/usr/share/easy-rsa/3/easyrsa'
     when %r{Ubuntu|Debian}
@@ -21,9 +21,6 @@ Facter.add(:easyrsa) do
         binaryv2 = '/usr/share/doc/openvpn/examples/easy-rsa/2.0/pkitool'
         binaryv3 = '/usr/share/doc/openvpn/examples/easy-rsa/3.0/easyrsa'
       end
-    when %r{Amazon}
-      binaryv2 = '/usr/share/easy-rsa/2.0/pkitool'
-      binaryv3 = '/usr/share/easy-rsa/3/easyrsa'
     when %r{FreeBSD}
       binaryv2 = '/usr/local/share/easy-rsa/pkitool'
       binaryv3 = '/usr/local/share/easy-rsa/easyrsa'
