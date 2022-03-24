@@ -71,8 +71,6 @@ jobs:
             value: centos7-64vpnserver.ma{hostname=vpnserver}-centos7-64vpnclienta.a{hostname=vpnclienta}
           - name: CentOS 8
             value: centos8-64vpnserver.ma{hostname=vpnserver}-centos8-64vpnclienta.a{hostname=vpnclienta}
-          - name: Debian 9
-            value: debian9-64vpnserver.ma{hostname=vpnserver}-debian9-64vpnclienta.a{hostname=vpnclienta}
           - name: Debian 10
             value: debian10-64vpnserver.ma{hostname=vpnserver}-debian10-64vpnclienta.a{hostname=vpnclienta}
           - name: Debian 11
