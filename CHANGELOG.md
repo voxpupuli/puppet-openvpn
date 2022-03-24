@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.0.0) (2022-03-24)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v9.1.0...v10.0.0)
+
+**Breaking changes:**
+
+- Remove openvpn::deploy [\#424](https://github.com/voxpupuli/puppet-openvpn/pull/424) ([jkroepke](https://github.com/jkroepke))
+- Replace ns\_cert\_type with remote\_cert\_tls \(\*\*client config regeneration needed\*\*\) [\#415](https://github.com/voxpupuli/puppet-openvpn/pull/415) ([jkroepke](https://github.com/jkroepke))
+- Drop Ubuntu 16.04 [\#413](https://github.com/voxpupuli/puppet-openvpn/pull/413) ([jkroepke](https://github.com/jkroepke))
+- Disable compression and set cipher to AES-256-GCM by default [\#412](https://github.com/voxpupuli/puppet-openvpn/pull/412) ([jkroepke](https://github.com/jkroepke))
+- Use Deferred functions instead facts [\#410](https://github.com/voxpupuli/puppet-openvpn/pull/410) ([jkroepke](https://github.com/jkroepke))
+
+**Implemented enhancements:**
+
+- Allowed openvpn::ca declared in openvpn::server to set crl\_days parameter [\#419](https://github.com/voxpupuli/puppet-openvpn/pull/419) ([Deroin](https://github.com/Deroin))
+
+**Closed issues:**
+
+- Client configurations with the new Deferred function aren't working [\#421](https://github.com/voxpupuli/puppet-openvpn/issues/421)
+- Warning: Fact value '...' with the value length: '5274' exceeds the value length limit: 4096 [\#409](https://github.com/voxpupuli/puppet-openvpn/issues/409)
+- openvpn facts not generated on server [\#352](https://github.com/voxpupuli/puppet-openvpn/issues/352)
+- Fact openvpn exposes private keys [\#322](https://github.com/voxpupuli/puppet-openvpn/issues/322)
+
+**Merged pull requests:**
+
+- Unbreak vagrant [\#422](https://github.com/voxpupuli/puppet-openvpn/pull/422) ([mattock](https://github.com/mattock))
+
 ## [v9.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v9.1.0) (2021-09-18)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v9.0.0...v9.1.0)

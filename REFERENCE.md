@@ -15,7 +15,7 @@
 
 * [`openvpn::ca`](#openvpnca): This define creates the openvpn ca and ssl certificates
 * [`openvpn::client`](#openvpnclient): This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
-* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in
+* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in 
 * [`openvpn::revoke`](#openvpnrevoke): This define creates a revocation on a certificate for a specified server.
 * [`openvpn::server`](#openvpnserver): This define creates the openvpn server instance which can run in server or client mode.
 
@@ -27,7 +27,7 @@ This module installs the openvpn service, configures vpn endpoints, generates cl
 
 #### Examples
 
-#####
+##### 
 
 ```puppet
 class { 'openvpn':
@@ -223,7 +223,7 @@ This define creates the openvpn ca and ssl certificates
 
 #### Examples
 
-#####
+##### 
 
 ```puppet
 openvpn::ca {
@@ -256,33 +256,43 @@ The following parameters are available in the `openvpn::ca` defined type:
 
 ##### <a name="country"></a>`country`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Country to be used for the SSL certificate
 
+Default value: ``undef``
+
 ##### <a name="province"></a>`province`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Province to be used for the SSL certificate
 
+Default value: ``undef``
+
 ##### <a name="city"></a>`city`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 City to be used for the SSL certificate
 
+Default value: ``undef``
+
 ##### <a name="organization"></a>`organization`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Organization to be used for the SSL certificate
 
+Default value: ``undef``
+
 ##### <a name="email"></a>`email`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Email address to be used for the SSL certificate
+
+Default value: ``undef``
 
 ##### <a name="common_name"></a>`common_name`
 
@@ -326,27 +336,27 @@ Default value: `3650`
 
 ##### <a name="key_name"></a>`key_name`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Value for name_default variable in openssl.cnf and KEY_NAME in vars
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="key_ou"></a>`key_ou`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Value for organizationalUnitName_default variable in openssl.cnf and KEY_OU in vars
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="key_cn"></a>`key_cn`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Value for commonName_default variable in openssl.cnf and KEY_CN in vars
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="tls_auth"></a>`tls_auth`
 
@@ -378,7 +388,7 @@ This define creates client certs for a specified server as well as a tarball tha
 
 #### Examples
 
-#####
+##### 
 
 ```puppet
 openvpn::client {
@@ -611,19 +621,19 @@ Default value: `{}`
 
 ##### <a name="up"></a>`up`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Script which we want to run when openvpn client is connecting
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="down"></a>`down`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Script which we want to run when openvpn client is disconneting
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="sndbuf"></a>`sndbuf`
 
@@ -704,7 +714,7 @@ All the parameters are explained in the openvpn documentation http://openvpn.net
 
 #### Examples
 
-#####
+##### 
 
 ```puppet
 openvpn::client_specific_config {
@@ -815,7 +825,7 @@ This define creates a revocation on a certificate for a specified server.
 
 #### Examples
 
-#####
+##### 
 
 ```puppet
 openvpn::client {
@@ -824,7 +834,7 @@ openvpn::client {
 }
 ```
 
-#####
+##### 
 
 ```puppet
 openvpn::revoke {
@@ -956,6 +966,7 @@ The following parameters are available in the `openvpn::server` defined type:
 * [`persist_key`](#persist_key)
 * [`persist_tun`](#persist_tun)
 * [`key_expire`](#key_expire)
+* [`crl_days`](#crl_days)
 * [`ca_expire`](#ca_expire)
 * [`key_name`](#key_name)
 * [`key_ou`](#key_ou)
@@ -990,7 +1001,7 @@ The following parameters are available in the `openvpn::server` defined type:
 
 ##### <a name="country"></a>`country`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 Country to be used for the SSL certificate, mandatory for server mode.
 
@@ -998,7 +1009,7 @@ Default value: ``undef``
 
 ##### <a name="province"></a>`province`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 Province to be used for the SSL certificate, mandatory for server mode.
 
@@ -1006,7 +1017,7 @@ Default value: ``undef``
 
 ##### <a name="city"></a>`city`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 City to be used for the SSL certificate, mandatory for server mode.
 
@@ -1014,7 +1025,7 @@ Default value: ``undef``
 
 ##### <a name="organization"></a>`organization`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 Organization to be used for the SSL certificate, mandatory for server mode.
 
@@ -1022,7 +1033,7 @@ Default value: ``undef``
 
 ##### <a name="email"></a>`email`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 Email address to be used for the SSL certificate, mandatory for server mode.
 
@@ -1190,27 +1201,27 @@ Default value: `''`
 
 ##### <a name="server"></a>`server`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Network to assign client addresses out of. Required in tun mode, not in tap mode
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="server_ipv6"></a>`server_ipv6`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 IPv6 network to assign client addresses out of
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="server_bridge"></a>`server_bridge`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Server configuration to comply with existing DHCP server
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="push"></a>`push`
 
@@ -1238,11 +1249,11 @@ Default value: `[]`
 
 ##### <a name="keepalive"></a>`keepalive`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Add keepalive directive (ping and ping-restart) to server. Should match the form "n m".
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ssl_key_size"></a>`ssl_key_size`
 
@@ -1382,51 +1393,51 @@ Default value: ``false``
 
 ##### <a name="ldap_server"></a>`ldap_server`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 URL of LDAP server. ie. ldap://URL:PORT
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_binddn"></a>`ldap_binddn`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 LDAP DN to bind as#
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_bindpass"></a>`ldap_bindpass`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 LDAP password for ldapbinddn
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_u_basedn"></a>`ldap_u_basedn`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Place in the LDAP tree to look for users
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_u_filter"></a>`ldap_u_filter`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 User SearchFilter for LDAP accounts
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_g_basedn"></a>`ldap_g_basedn`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Place in the LDAP tree to look for groups
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_gmember"></a>`ldap_gmember`
 
@@ -1438,19 +1449,19 @@ Default value: ``false``
 
 ##### <a name="ldap_g_filter"></a>`ldap_g_filter`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Group SearchFilter for LDAP accounts
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_memberatr"></a>`ldap_memberatr`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Attribute for MemberAttribute. Used with ldapfilter
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_tls_enable"></a>`ldap_tls_enable`
 
@@ -1462,19 +1473,19 @@ Default value: ``false``
 
 ##### <a name="ldap_tls_ca_cert_file"></a>`ldap_tls_ca_cert_file`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 LDAP TLS authentication: path to the CA certificate.
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_tls_ca_cert_dir"></a>`ldap_tls_ca_cert_dir`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 LDAP TLS authentication: path to the CA certificates.
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="ldap_tls_client_cert_file"></a>`ldap_tls_client_cert_file`
 
@@ -1494,11 +1505,11 @@ Default value: ``undef``
 
 ##### <a name="verb"></a>`verb`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Level of logging verbosity
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="cipher"></a>`cipher`
 
@@ -1540,6 +1551,14 @@ The number of days to certify the server certificate for
 
 Default value: `3650`
 
+##### <a name="crl_days"></a>`crl_days`
+
+Data type: `Integer[1]`
+
+The number of days the client revocation list will be valid for after generating
+
+Default value: `30`
+
 ##### <a name="ca_expire"></a>`ca_expire`
 
 Data type: `Integer`
@@ -1550,27 +1569,27 @@ Default value: `3650`
 
 ##### <a name="key_name"></a>`key_name`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Value for name_default variable in openssl.cnf and  KEY_NAME in vars
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="key_ou"></a>`key_ou`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Value for organizationalUnitName_default variable in openssl.cnf and KEY_OU in vars
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="key_cn"></a>`key_cn`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Value for commonName_default variable in openssl.cnf and KEY_CN in vars
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="tls_auth"></a>`tls_auth`
 
