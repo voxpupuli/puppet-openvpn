@@ -738,6 +738,7 @@ The following parameters are available in the `openvpn::client_specific_config` 
 * [`ifconfig_ipv6`](#ifconfig_ipv6)
 * [`dhcp_options`](#dhcp_options)
 * [`redirect_gateway`](#redirect_gateway)
+* [`custom_options`](#custom_options)
 * [`ensure`](#ensure)
 * [`manage_client_configs`](#manage_client_configs)
 
@@ -802,6 +803,14 @@ Data type: `Boolean`
 Redirect all traffic to gateway
 
 Default value: ``false``
+
+##### <a name="custom_options"></a>`custom_options`
+
+Data type: `Hash`
+
+Hash of additional options to append to the configuration file.
+
+Default value: `{}`
 
 ##### <a name="ensure"></a>`ensure`
 

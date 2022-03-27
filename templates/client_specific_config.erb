@@ -19,4 +19,7 @@ push "redirect-gateway def1"
 <% @route.each do |route| -%>
 push "route <%= route %>"
 <% end -%>
+<% @custom_options.each_pair do |key, value| -%>
+<%= key %> <%= value %>
+<% end -%>
 
