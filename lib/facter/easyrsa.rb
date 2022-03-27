@@ -24,6 +24,8 @@ Facter.add(:easyrsa) do
     when %r{FreeBSD}
       binaryv2 = '/usr/local/share/easy-rsa/pkitool'
       binaryv3 = '/usr/local/share/easy-rsa/easyrsa'
+    when %r{Solaris}
+      binaryv3 = '/opt/local/bin/easyrsa'
     end
 
     if File.exist? binaryv3

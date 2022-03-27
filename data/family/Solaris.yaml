@@ -1,0 +1,5 @@
+openvpn::etc_directory: '/opt/local/etc'
+openvpn::server_directory: '/opt/local/etc/openvpn'
+openvpn::group: 'nogroup'
+openvpn::default_easyrsa_ver: '3.0'
+openvpn::easyrsa_source: '/opt/local/share/examples/easyrsa'
