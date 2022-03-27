@@ -26,6 +26,7 @@ Puppet module to manage OpenVPN servers and clients.
 * Debian
 * CentOS
 * RedHat
+* Solaris
 
 ## Dependencies
   - [puppetlabs-concat 3.0.0+](https://github.com/puppetlabs/puppetlabs-concat)
