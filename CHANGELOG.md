@@ -4,7 +4,16 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v10.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.0.0) (2022-03-24)
+## [v10.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.1.0) (2022-03-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.0.0...v10.1.0)
+
+**Implemented enhancements:**
+
+- Add basic support for Solaris/Illumos/SmartOS [\#429](https://github.com/voxpupuli/puppet-openvpn/pull/429) ([smokris](https://github.com/smokris))
+- Support custom\_options in client\_specific\_config [\#428](https://github.com/voxpupuli/puppet-openvpn/pull/428) ([smokris](https://github.com/smokris))
+
+## [v10.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.0.0) (2022-03-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v9.1.0...v10.0.0)
 
