@@ -42,8 +42,11 @@ key <%= @server_directory %>/<%= @ca_name %>/keys/private/<%= @ca_common_name %>
 <%   unless @remote -%>
 <%- if @_easyrsa_version == '2.0' -%>
 dh <%= @server_directory %>/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
-<%- else -%>
+<%- elsif @ssl_key_algo == 'rsa' -%>
 dh <%= @server_directory %>/<%= @ca_name %>/keys/dh.pem
+<%- else -%>
+dh none
+ecdh-curve <%= @ecdh_curve %>
 <%- end -%>
 <%   end -%>
 <%   unless @remote or !@crl_verify -%>

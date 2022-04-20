@@ -52,6 +52,21 @@ export PKCS11_PIN="dummy"
 # generation process.
 export EASYRSA_KEY_SIZE=<%= $ssl_key_size %>
 
+# The default crypto mode is rsa; ec can enable elliptic curve support.
+# Note that not all software supports ECC, so use care when enabling it.
+# Choices for crypto alg are: (each in lower-case)
+#  * rsa
+#  * ec
+
+<% if $ssl_key_algo { -%>
+export EASYRSA_ALGO=<%= $ssl_key_algo %>
+<% } -%>
+# Define the named curve, used in ec mode only:
+
+<% if $ssl_key_curve { -%>
+export EASYRSA_CURVE=<%= $ssl_key_curve %>
+<% } -%>
+
 # In how many days should the root CA key expire?
 export EASYRSA_CA_EXPIRE=<%= $ca_expire %>
 
@@ -60,7 +75,11 @@ export EASYRSA_CERT_EXPIRE=<%= $key_expire %>
 
 export EASYRSA_CRL_DAYS=<%= $crl_days %>
 
-export EASYRSA_DIGEST="sha512"
+# Cryptographic digest to use.
+# Do not change this default unless you understand the security implications.
+# Valid choices include: md5, sha1, sha256, sha224, sha384, sha512
+
+export EASYRSA_DIGEST=<%= $digest %>
 
 export EASYRSA_DN="org"
 

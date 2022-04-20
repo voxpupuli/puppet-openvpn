@@ -78,6 +78,7 @@ describe 'openvpn::ca', type: :define do
               'ssl_key_size' => 2048,
               'common_name' => 'mylittlepony',
               'ca_expire' => 365,
+              'digest' => 'sha256',
               'key_expire' => 365,
               'key_cn' => 'yolo',
               'key_name' => 'burp',
@@ -89,6 +90,7 @@ describe 'openvpn::ca', type: :define do
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CERT_EXPIRE=365$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_REQ_CN="yolo"$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_REQ_OU="NSA"$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_DIGEST=sha256$}) }
 
           it { is_expected.to contain_exec('generate dh param test_server').with_creates("#{server_directory}/test_server/easy-rsa/keys/dh.pem") }
         end
