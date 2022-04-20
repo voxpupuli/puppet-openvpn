@@ -237,6 +237,7 @@ openvpn::ca {
 
 The following parameters are available in the `openvpn::ca` defined type:
 
+* [`dn_mode`](#dn_mode)
 * [`country`](#country)
 * [`province`](#province)
 * [`city`](#city)
@@ -256,6 +257,14 @@ The following parameters are available in the `openvpn::ca` defined type:
 * [`tls_auth`](#tls_auth)
 * [`tls_static_key`](#tls_static_key)
 * [`crl_days`](#crl_days)
+
+##### <a name="dn_mode"></a>`dn_mode`
+
+Data type: `Enum['org','cn_only']`
+
+EasyRSA X509 DN mode.
+
+Default value: `'org'`
 
 ##### <a name="country"></a>`country`
 
@@ -933,6 +942,7 @@ openvpn::server { 'zurich':
 
 The following parameters are available in the `openvpn::server` defined type:
 
+* [`dn_mode`](#dn_mode)
 * [`country`](#country)
 * [`province`](#province)
 * [`city`](#city)
@@ -1038,6 +1048,14 @@ The following parameters are available in the `openvpn::server` defined type:
 * [`scripts`](#scripts)
 * [`custom_options`](#custom_options)
 * [`fragment`](#fragment)
+
+##### <a name="dn_mode"></a>`dn_mode`
+
+Data type: `Enum['org','cn_only']`
+
+EasyRSA X509 DN mode.
+
+Default value: `'org'`
 
 ##### <a name="country"></a>`country`
 
