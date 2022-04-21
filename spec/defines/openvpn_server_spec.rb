@@ -402,6 +402,7 @@ describe 'openvpn::server' do
             'crl_auto_renew' => true,
             'key_expire' => 365,
             'crl_days' => 20,
+            'digest' => 'sha256',
             'key_cn' => 'yolo',
             'key_name' => 'burp',
             'key_ou' => 'NSA',
@@ -491,6 +492,7 @@ describe 'openvpn::server' do
                  ca_expire: 365,
                  key_expire: 365,
                  crl_days: 20,
+                 digest: 'sha256',
                  key_cn: 'yolo',
                  key_name: 'burp',
                  key_ou: 'NSA',
@@ -1031,6 +1033,23 @@ describe 'openvpn::server' do
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory_regex}/my_already_existing_ca/keys/issued/custom_common_name.crt$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory_regex}/my_already_existing_ca/keys/private/custom_common_name.key$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory_regex}/my_already_existing_ca/keys/dh.pem$}) }
+        end
+
+        context 'creating a server with ec keys' do
+          let(:params) do
+            {
+              'country' => 'CO',
+              'province' => 'ST',
+              'city' => 'Some City',
+              'organization' => 'example.org',
+              'email' => 'testemail@example.org',
+              'ssl_key_algo' => 'ec',
+            }
+          end
+
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory}/test_server/keys/issued/server.crt$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory}/test_server/keys/private/server.key$}) }
+          it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory}/test_server/keys/dh.pem$}) }
         end
 
         case facts[:os]['family']
