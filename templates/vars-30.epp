@@ -81,16 +81,26 @@ export EASYRSA_CRL_DAYS=<%= $crl_days %>
 
 export EASYRSA_DIGEST=<%= $digest %>
 
-export EASYRSA_DN="org"
+export EASYRSA_DN="<%= $dn_mode %>"
 
 # These are the default values for fields
 # which will be placed in the certificate.
 # Don't leave any of these fields blank.
+<% if $country { -%>
 export EASYRSA_REQ_COUNTRY="<%= $country %>"
+<% } -%>
+<% if $province { -%>
 export EASYRSA_REQ_PROVINCE="<%= $province %>"
+<% } -%>
+<% if $city { -%>
 export EASYRSA_REQ_CITY="<%= $city %>"
+<% } -%>
+<% if $organization { -%>
 export EASYRSA_REQ_ORG="<%= $organization %>"
+<% } -%>
+<% if $email { -%>
 export EASYRSA_REQ_EMAIL="<%= $email %>"
+<% } -%>
 <% if $key_cn { -%>
 export EASYRSA_REQ_CN="<%= $key_cn %>"
 <% } -%>

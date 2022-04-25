@@ -974,6 +974,18 @@ describe 'openvpn::server' do
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory}/test_server/keys/dh.pem$}) }
         end
 
+        context 'creating a server in dn_mode cn_only' do
+          let(:params) do
+            {
+              'dn_mode' => 'cn_only',
+            }
+          end
+
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory}/test_server/keys/issued/server.crt$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory}/test_server/keys/private/server.key$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory}/test_server/keys/dh.pem$}) }
+        end
+
         context 'creating a server in client mode' do
           let(:title) { 'test_client' }
           let(:nobind) { false }

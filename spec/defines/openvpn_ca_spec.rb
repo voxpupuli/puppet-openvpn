@@ -43,11 +43,6 @@ describe 'openvpn::ca', type: :define do
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with(mode: '0550') }
 
           it {
-            is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/keys/crl.pem").
-              with(ensure: 'link', target: "#{server_directory}/test_server/crl.pem")
-          }
-
-          it {
             is_expected.to contain_file("#{server_directory}/test_server/keys").
               with(ensure: 'link', target: "#{server_directory}/test_server/easy-rsa/keys")
           }
@@ -69,6 +64,7 @@ describe 'openvpn::ca', type: :define do
         context 'creating a ca setting all parameters' do
           let(:params) do
             {
+              'dn_mode' => 'cn_only',
               'country' => 'CO',
               'province' => 'ST',
               'city' => 'Some City',
@@ -86,6 +82,7 @@ describe 'openvpn::ca', type: :define do
             }
           end
 
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_DN="cn_only"$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CA_EXPIRE=365$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CERT_EXPIRE=365$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_REQ_CN="yolo"$}) }
@@ -111,11 +108,6 @@ describe 'openvpn::ca', type: :define do
           # Files associated with a server config
 
           it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with(mode: '0550') }
-
-          it {
-            is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/keys/crl.pem").
-              with(ensure: 'link', target: "#{server_directory}/test_server/crl.pem")
-          }
 
           it {
             is_expected.to contain_file("#{server_directory}/test_server/keys").
@@ -152,6 +144,7 @@ describe 'openvpn::ca', type: :define do
         context 'creating a ca setting all parameters' do
           let(:params) do
             {
+              'dn_mode' => 'cn_only',
               'country' => 'CO',
               'province' => 'ST',
               'city' => 'Some City',
@@ -169,6 +162,7 @@ describe 'openvpn::ca', type: :define do
           end
 
           if facts[:os]['release']['major'] =~ %r{10|11|20.04}
+            it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_DN="cn_only"$}) }
             it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CA_EXPIRE=365$}) }
             it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_CERT_EXPIRE=365$}) }
             it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_content(%r{^export EASYRSA_REQ_CN="yolo"$}) }

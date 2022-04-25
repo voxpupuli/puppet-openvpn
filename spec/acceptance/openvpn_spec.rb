@@ -195,7 +195,7 @@ end
 if easy_rsa_version == '3.0'
   describe 'server defined type w/ easy-rsa 3.0' do
     dev = 'tun1'
-    server_name = 'test_openvpn_server_ec'
+    server_name = 'test_openvpn_server_ec_dn_mode'
     port = 1195
     management_port = 7506
 
@@ -204,11 +204,7 @@ if easy_rsa_version == '3.0'
         pp = %(
         openvpn::server { '#{server_name}':
           dev             => '#{dev}',
-          country         => 'CO',
-          province        => 'ST',
-          city            => 'A city',
-          organization    => 'FOO',
-          email           => 'bar@foo.org',
+          dn_mode         => 'cn_only',
           ssl_key_algo    => 'ec',
           ssl_key_curve   => 'secp521r1',
           ecdh_curve      => 'secp521r1',
@@ -229,11 +225,7 @@ if easy_rsa_version == '3.0'
         pp = %(
         openvpn::server { '#{server_name}':
           dev             => '#{dev}',
-          country         => 'CO',
-          province        => 'ST',
-          city            => 'A city',
-          organization    => 'FOO',
-          email           => 'bar@foo.org',
+          dn_mode         => 'cn_only',
           ssl_key_algo    => 'ec',
           ssl_key_curve   => 'secp521r1',
           ecdh_curve      => 'secp521r1',
@@ -262,11 +254,7 @@ if easy_rsa_version == '3.0'
         pp = %(
         openvpn::server { '#{server_name}':
           dev             => '#{dev}',
-          country         => 'CO',
-          province        => 'ST',
-          city            => 'A city',
-          organization    => 'FOO',
-          email           => 'bar@foo.org',
+          dn_mode         => 'cn_only',
           ssl_key_algo    => 'ec',
           ssl_key_curve   => 'secp521r1',
           ecdh_curve      => 'secp521r1',
@@ -308,6 +296,7 @@ if easy_rsa_version == '3.0'
         it { is_expected.to contain 'export EASYRSA_ALGO=ec' }
         it { is_expected.to contain 'export EASYRSA_CURVE=secp521r1' }
         it { is_expected.to contain 'export EASYRSA_DIGEST=sha256' }
+        it { is_expected.to contain 'export EASYRSA_DN="cn_only"' }
       end
 
       describe file(server_crt.to_s), :crtFile do
@@ -334,7 +323,7 @@ if easy_rsa_version == '3.0'
 
       describe file("#{server_directory}/#{server_name}/easy-rsa/keys/issued/#{server_name}-vpnclienta.crt") do
         it { is_expected.to be_file }
-        it { is_expected.to contain 'Issuer: C=CO, ST=ST, L=A city, O=FOO, ' }
+        it { is_expected.to contain 'Issuer: CN=openvpn-server CA' }
       end
 
       describe file("#{server_directory}/#{server_name}/easy-rsa/keys/index.txt") do

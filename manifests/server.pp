@@ -1,6 +1,7 @@
 #
 # @summary This define creates the openvpn server instance which can run in server or client mode.
 #
+# @param dn_mode EasyRSA X509 DN mode.
 # @param country Country to be used for the SSL certificate, mandatory for server mode.
 # @param province Province to be used for the SSL certificate, mandatory for server mode.
 # @param city City to be used for the SSL certificate, mandatory for server mode.
@@ -146,6 +147,7 @@
 #   }
 #
 define openvpn::server (
+  Enum['org','cn_only'] $dn_mode                                    = 'org',
   Optional[String[1]] $country                                      = undef,
   Optional[String[1]] $province                                     = undef,
   Optional[String[1]] $city                                         = undef,
@@ -351,21 +353,24 @@ define openvpn::server (
 
   if !$remote {
     if !$shared_ca and !$extca_enabled {
-      # VPN Server Mode
-      if $country == undef {
-        fail('country has to be specified in server mode')
+      if $dn_mode == 'org' or $openvpn::easyrsa_version == '2.0' {
+        # VPN Server Mode
+        if $country == undef {
+          fail('country has to be specified in server mode')
+        }
+        if $province == undef {
+          fail('province has to be specified in server mode')
+        }
+        if $city == undef { fail('city has to be specified in server mode') }
+        if $organization == undef {
+          fail('organization has to be specified in server mode')
+        }
+        if $email == undef { fail('email has to be specified in server mode') }
       }
-      if $province == undef {
-        fail('province has to be specified in server mode')
-      }
-      if $city == undef { fail('city has to be specified in server mode') }
-      if $organization == undef {
-        fail('organization has to be specified in server mode')
-      }
-      if $email == undef { fail('email has to be specified in server mode') }
 
       $ca_common_name = $common_name
       ::openvpn::ca { $name:
+        dn_mode        => $dn_mode,
         country        => $country,
         province       => $province,
         city           => $city,
@@ -404,10 +409,15 @@ define openvpn::server (
           }
           '3.0': {
             exec { "renew crl.pem on ${name}":
-              command  => ". ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out ${server_directory}/${name}/crl.pem -config ${server_directory}/${name}/easy-rsa/openssl.cnf",
+              command  => "./easyrsa gen-crl && cp ./keys/crl.pem ${server_directory}/${server}/crl.pem",
               cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
+            }
+            ~> exec { "copy renewed crl.pem to ${name} keys directory":
+              command     => "cp ${server_directory}/${name}/easy-rsa/keys/crl.pem ${server_directory}/${name}/crl.pem",
+              refreshonly => true,
+              provider    => 'shell',
             }
           }
           default: {
