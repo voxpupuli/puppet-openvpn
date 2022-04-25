@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.2.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.2.0) (2022-04-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.1.0...v10.2.0)
+
+**Implemented enhancements:**
+
+- Add support for easyrsa X509 DN mode 'cn\_only' [\#432](https://github.com/voxpupuli/puppet-openvpn/pull/432) ([jkroepke](https://github.com/jkroepke))
+- Add support for elliptic curve keys [\#431](https://github.com/voxpupuli/puppet-openvpn/pull/431) ([jkroepke](https://github.com/jkroepke))
+
 ## [v10.1.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.1.0) (2022-03-28)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.0.0...v10.1.0)
