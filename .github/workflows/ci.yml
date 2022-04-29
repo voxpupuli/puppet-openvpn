@@ -81,6 +81,8 @@ jobs:
             value: ubuntu1804-64vpnserver.ma{hostname=vpnserver}-ubuntu1804-64vpnclienta.a{hostname=vpnclienta}
           - name: Ubuntu 20.04
             value: ubuntu2004-64vpnserver.ma{hostname=vpnserver}-ubuntu2004-64vpnclienta.a{hostname=vpnclienta}
+          - name: Ubuntu 22.04
+            value: ubuntu2204-64vpnserver.ma{hostname=vpnserver}-ubuntu2204-64vpnclienta.a{hostname=vpnclienta}
         puppet: ${{fromJson(needs.setup_matrix.outputs.puppet_major_versions)}}
     name: ${{ matrix.puppet.name }} - ${{ matrix.setfile.name }}
     steps:
