@@ -585,6 +585,7 @@ describe 'openvpn::server' do
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory}/test_server/keys/mylittlepony.crt$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory}/test_server/keys/mylittlepony.key$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory}/test_server/keys/dh2048.pem$}) }
+          it { is_expected.to contain_exec('renew crl.pem on test_server').with('command' => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out #{server_directory}/test_server/crl.pem -config #{server_directory}/test_server/easy-rsa/openssl.cnf") }
         end
 
         context 'creating a server in client mode' do
@@ -972,6 +973,7 @@ describe 'openvpn::server' do
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cert\s+#{server_directory}/test_server/keys/issued/mylittlepony.crt$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^key\s+#{server_directory}/test_server/keys/private/mylittlepony.key$}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^dh\s+#{server_directory}/test_server/keys/dh.pem$}) }
+          it { is_expected.to contain_exec('renew crl.pem on test_server').with('command' => "./easyrsa gen-crl && cp ./keys/crl.pem #{server_directory}/test_server/crl.pem") }
         end
 
         context 'creating a server in dn_mode cn_only' do

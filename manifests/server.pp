@@ -409,7 +409,7 @@ define openvpn::server (
           }
           '3.0': {
             exec { "renew crl.pem on ${name}":
-              command  => "./easyrsa gen-crl && cp ./keys/crl.pem ${server_directory}/${server}/crl.pem",
+              command  => "./easyrsa gen-crl && cp ./keys/crl.pem ${server_directory}/${name}/crl.pem",
               cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
