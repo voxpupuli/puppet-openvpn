@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.2.1](https://github.com/voxpupuli/puppet-openvpn/tree/v10.2.1) (2022-06-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.2.0...v10.2.1)
+
+**Fixed bugs:**
+
+- Fix path for crl\_auto\_renew with easy\_rsa 3.0 [\#437](https://github.com/voxpupuli/puppet-openvpn/pull/437) ([cible](https://github.com/cible))
+
 ## [v10.2.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.2.0) (2022-04-26)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.1.0...v10.2.0)
