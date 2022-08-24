@@ -184,7 +184,7 @@ define openvpn::server (
   Enum['rsa', 'ec', 'ed'] $ssl_key_algo                             = 'rsa',
   Integer $ssl_key_size                                             = 2048,
   String $ssl_key_curve                                             = 'secp384r1',
-  String $ecdh_curve                                                = 'secp384r1',
+  Optional[String[1]] $ecdh_curve                                   = undef,
   String $topology                                                  = 'net30',
   Boolean $c2c                                                      = false,
   Boolean $tcp_nodelay                                              = false,

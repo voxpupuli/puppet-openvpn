@@ -46,6 +46,8 @@ dh <%= @server_directory %>/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
 dh <%= @server_directory %>/<%= @ca_name %>/keys/dh.pem
 <%- else -%>
 dh none
+<%- end -%>
+<%- if @ecdh_curve -%>
 ecdh-curve <%= @ecdh_curve %>
 <%- end -%>
 <%   end -%>

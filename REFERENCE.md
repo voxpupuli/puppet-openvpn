@@ -1339,11 +1339,11 @@ Default value: `'secp384r1'`
 
 ##### <a name="ecdh_curve"></a>`ecdh_curve`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Define the named curve for ECDH key exchange, used if ssl_key_algo is ec, ed
 
-Default value: `'secp384r1'`
+Default value: ``undef``
 
 ##### <a name="topology"></a>`topology`
 
