@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.3.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.3.0) (2022-08-24)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.2.1...v10.3.0)
+
+**Implemented enhancements:**
+
+- Make ecdh-curve optional [\#436](https://github.com/voxpupuli/puppet-openvpn/pull/436) ([jkroepke](https://github.com/jkroepke))
+- Add Ubuntu 22.04 [\#435](https://github.com/voxpupuli/puppet-openvpn/pull/435) ([jkroepke](https://github.com/jkroepke))
+
 ## [v10.2.1](https://github.com/voxpupuli/puppet-openvpn/tree/v10.2.1) (2022-06-28)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.2.0...v10.2.1)
