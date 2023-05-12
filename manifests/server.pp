@@ -405,6 +405,7 @@ define openvpn::server (
               cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
+              notify   => $lnotify,
             }
           }
           '3.0': {
@@ -413,6 +414,7 @@ define openvpn::server (
               cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
+              notify   => $lnotify,
             }
             ~> exec { "copy renewed crl.pem to ${name} keys directory":
               command     => "cp ${server_directory}/${name}/easy-rsa/keys/crl.pem ${server_directory}/${name}/crl.pem",
