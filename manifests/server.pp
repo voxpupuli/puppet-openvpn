@@ -71,6 +71,8 @@
 # @param verb Level of logging verbosity
 # @param cipher Cipher to use for packet encryption
 # @param tls_cipher TLS Ciphers to use
+# @param data_ciphers Ciphers to allow for packet encryption
+# @param data_ciphers_fallback Cipher to use if peer cipher config cannot be determined
 # @param persist_key Try to retain access to resources that may be unavailable because of privilege downgrades
 # @param persist_tun  Try to retain access to resources that may be unavailable because of privilege downgrades
 # @param key_expire The number of days to certify the server certificate for
@@ -225,6 +227,8 @@ define openvpn::server (
   Optional[String] $verb                                            = undef,
   String $cipher                                                    = 'AES-256-GCM',
   String $tls_cipher                                                = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
+  String $data_ciphers                                              = 'AES-256-GCM:AES-128-GCM',
+  String $data_ciphers_fallback                                     = undef,
   Boolean $persist_key                                              = false,
   Boolean $persist_tun                                              = false,
   Boolean $tls_auth                                                 = false,
