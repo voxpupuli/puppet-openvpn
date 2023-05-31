@@ -409,6 +409,8 @@ describe 'openvpn::server' do
             'verb' => 'mute',
             'cipher' => 'DES-CBC',
             'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+            'data_ciphers' => 'AES-256-GCM',
+            'data_ciphers_fallback' => 'AES-128-GCM',
             'persist_key' => true,
             'persist_tun' => true,
             'duplicate_cn' => true,
@@ -449,6 +451,8 @@ describe 'openvpn::server' do
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^management\s+1.3.3.7 1337$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^verb mute$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^cipher DES-CBC$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^data-ciphers\s+AES-256-GCM$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^data-ciphers-fallback\s+AES-128-GCM$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^persist-key$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^persist-tun$}) }
@@ -569,6 +573,8 @@ describe 'openvpn::server' do
               'verb' => 'mute',
               'cipher' => 'DES-CBC',
               'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+              'data_ciphers' => 'AES-256-GCM',
+              'data_ciphers_fallback' => 'AES-128-GCM',
               'persist_key' => true,
               'persist_tun' => true,
               'duplicate_cn' => true,
@@ -687,6 +693,8 @@ describe 'openvpn::server' do
 
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{verb}) }
           it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{cipher AES-256-GCM}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^data-ciphers\s+AES-256-GCM$}) }
+          it { is_expected.to contain_file("#{server_directory}/test_server.conf").with_content(%r{^data-ciphers-fallback\s+AES-128-GCM$}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{persist-key}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{persist-tun}) }
           it { is_expected.not_to contain_file("#{server_directory}/test_server.conf").with_content(%r{^duplicate-cn$}) }
@@ -957,6 +965,8 @@ describe 'openvpn::server' do
               'verb' => 'mute',
               'cipher' => 'DES-CBC',
               'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+              'data_ciphers' => 'AES-256-GCM',
+              'data_ciphers_fallback' => 'AES-128-GCM',
               'persist_key' => true,
               'persist_tun' => true,
               'duplicate_cn' => true,

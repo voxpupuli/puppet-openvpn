@@ -14,6 +14,8 @@
 # @param remote_host  The IP or hostname of the openvpn server service.
 # @param cipher Cipher to use for packet encryption
 # @param tls_cipher TLS Ciphers to use
+# @param data_ciphers Ciphers to allow for packet encryption
+# @param data_ciphers_fallback Cipher to use if peer cipher config cannot be determined
 # @param resolv_retry  How many seconds should the openvpn client try to resolve the server's hostname
 # @param auth_retry Controls how OpenVPN responds to username/password verification errors such as the client-side response to an AUTH_FAILED message from the server or verification failure of the private key password.
 # @param verb Level of logging verbosity
@@ -61,6 +63,8 @@ define openvpn::client (
   Boolean $pam                                         = false,
   String $cipher                                       = 'AES-256-GCM',
   String $tls_cipher                                   = 'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256',
+  String $data_ciphers                                 = 'AES-256-GCM:AES-128-GCM',
+  String $data_ciphers_fallback                        = undef,
   Boolean $authuserpass                                = false,
   Hash $setenv                                         = {},
   Hash $setenv_safe                                    = {},

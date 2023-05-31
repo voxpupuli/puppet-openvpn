@@ -152,6 +152,8 @@ describe 'openvpn::client', type: :define do
             'persist_tun' => false,
             'cipher' => 'AES-256-GCM',
             'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+            'data_ciphers' => 'AES-256-GCM',
+            'data_ciphers_fallback' => 'AES-128-GCM',
             'port' => '123',
             'proto' => 'udp',
             'remote_host' => %w[somewhere galaxy],
@@ -187,6 +189,8 @@ describe 'openvpn::client', type: :define do
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^setenv_safe\s+FORWARD_COMPATIBLE\s+1$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^cipher\s+AES-256-GCM$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^data-ciphers\s+AES-256-GCM$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^data-ciphers-fallback\s+AES-128-GCM$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^tls-client$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^verify-x509-name\s+"test_server"\s+name$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/test_client.conf").with_content(%r{^sndbuf\s+393216$}) }
