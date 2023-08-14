@@ -24,15 +24,32 @@ define openvpn::revoke (
 
   $server_directory = $openvpn::server_directory
 
-  $revocation_command = $openvpn::easyrsa_version ? {
-    '2.0' => ". ./vars && ./revoke-full ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))'",
-    '3.0' => ". ./vars && ./easyrsa --batch revoke ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))'",
+  if versioncmp($openvpn::easyrsa_version, '3') == -1 {
+    if versioncmp($openvpn::easyrsa_version, '2') == 1 or versioncmp($openvpn::easyrsa_version, '2') == 0 {
+      $revocation_command = ". ./vars && ./revoke-full ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))'"
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x")
+    }
+  } else {
+    if versioncmp($openvpn::easyrsa_version, '4') == -1 {
+      $revocation_command = ". ./vars && ./easyrsa --batch revoke ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))'"
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x")
+    }
   }
 
-  $renew_command = $openvpn::easyrsa_version ? {
-    '2.0'   => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${server_directory}/${server}/crl.pem -config ${server_directory}/${server}/easy-rsa/openssl.cnf",
-    '3.0'   => './easyrsa gen-crl',
-    default => fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0."),
+  if versioncmp($openvpn::easyrsa_version, '3') == -1 {
+    if versioncmp($openvpn::easyrsa_version, '2') == 1 or versioncmp($openvpn::easyrsa_version, '2') == 0 {
+      $renew_command = ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${server_directory}/${server}/crl.pem -config ${server_directory}/${server}/easy-rsa/openssl.cnf"
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x")
+    }
+  } else {
+    if versioncmp($openvpn::easyrsa_version, '4') == -1 {
+      $renew_command = './easyrsa gen-crl'
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x")
+    }
   }
 
   file { "${server_directory}/${server}/easy-rsa/revoked/${name}":
@@ -55,7 +72,9 @@ define openvpn::revoke (
     refreshonly => true,
   }
 
-  if ($openvpn::easyrsa_version == '3.0') {
+  if versioncmp($openvpn::easyrsa_version, '4') == -1 and
+  (versioncmp($openvpn::easyrsa_version, '3') == 1 or
+  versioncmp($openvpn::easyrsa_version, '3') == 0) {
     exec { "copy renewed crl.pem to ${name} keys directory because of revocation of ${name}":
       command     => "cp ${server_directory}/${server}/easy-rsa/keys/crl.pem ${server_directory}/${server}/crl.pem",
       subscribe   => Exec["renew crl.pem on ${server} because of revocation of ${name}"],

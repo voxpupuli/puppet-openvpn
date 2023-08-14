@@ -86,8 +86,8 @@ define openvpn::ca (
     require => File["${server_directory}/${name}/easy-rsa"],
   }
 
-  case $openvpn::easyrsa_version {
-    '2.0': {
+  if versioncmp($openvpn::easyrsa_version, '3') == -1 {
+    if versioncmp($openvpn::easyrsa_version, '2') == 1 or versioncmp($openvpn::easyrsa_version, '2') == 0 {
       if $ssl_key_algo != 'rsa' {
         fail('easy-rsa 2.0 supports only rsa keys.')
       }
@@ -139,8 +139,11 @@ define openvpn::ca (
         provider => 'shell',
         require  => Exec["generate server cert ${name}"],
       }
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x.")
     }
-    '3.0': {
+  } else {
+    if versioncmp($openvpn::easyrsa_version, '4') == -1 {
       file { "${server_directory}/${name}/easy-rsa/vars":
         ensure  => file,
         mode    => '0550',
@@ -226,9 +229,8 @@ define openvpn::ca (
         creates  => "${server_directory}/${name}/crl.pem",
         provider => 'shell',
       }
-    }
-    default: {
-      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x.")
     }
   }
 

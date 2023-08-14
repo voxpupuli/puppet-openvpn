@@ -98,15 +98,17 @@ define openvpn::client (
 
   if $expire {
     if is_integer($expire) {
-      case $openvpn::easyrsa_version {
-        '2.0': {
+      if versioncmp($openvpn::easyrsa_version, '3') == -1 {
+        if versioncmp($openvpn::easyrsa_version, '2') == 1 or versioncmp($openvpn::easyrsa_version, '2') == 0 {
           $env_expire = "KEY_EXPIRE=${expire}"
+        } else {
+          fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x.")
         }
-        '3.0': {
+      } else {
+        if versioncmp($openvpn::easyrsa_version, '4') == -1 {
           $env_expire = "EASYRSA_CERT_EXPIRE=${expire} EASYRSA_NO_VARS=1"
-        }
-        default: {
-          fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
+        } else {
+          fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x.")
         }
       }
     } else {
@@ -116,8 +118,8 @@ define openvpn::client (
     $env_expire = ''
   }
 
-  case $openvpn::easyrsa_version {
-    '2.0': {
+  if versioncmp($openvpn::easyrsa_version, '3') == -1 {
+    if versioncmp($openvpn::easyrsa_version, '2') == 1 or versioncmp($openvpn::easyrsa_version, '2') == 0 {
       exec { "generate certificate for ${name} in context of ${ca_name}":
         command  => ". ./vars && ${env_expire} ./pkitool ${name}",
         cwd      => "${server_directory}/${ca_name}/easy-rsa",
@@ -136,8 +138,11 @@ define openvpn::client (
         target  => "${server_directory}/${ca_name}/easy-rsa/keys/${name}.key",
         require => Exec["generate certificate for ${name} in context of ${ca_name}"],
       }
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x.")
     }
-    '3.0': {
+  } else {
+    if versioncmp($openvpn::easyrsa_version, '4') == -1 {
       exec { "generate certificate for ${name} in context of ${ca_name}":
         command  => ". ./vars && ${env_expire} ./easyrsa --batch build-client-full ${name} nopass",
         cwd      => "${server_directory}/${ca_name}/easy-rsa",
@@ -156,9 +161,8 @@ define openvpn::client (
         target  => "${server_directory}/${ca_name}/easy-rsa/keys/private/${name}.key",
         require => Exec["generate certificate for ${name} in context of ${ca_name}"],
       }
-    }
-    default: {
-      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x.")
     }
   }
 
