@@ -7,6 +7,7 @@
 # @param iroute Array of iroute combinations.
 # @param iroute_ipv6 Array of IPv6 iroute combinations.
 # @param route  Array of route combinations pushed to client.
+# @param route_ipv6  Array of route-ipv6 combinations pushed to client.
 # @param ifconfig IP configuration to push to the client.
 # @param ifconfig_ipv6 IPv6 configuration to push to the client.
 # @param dhcp_options DHCP options to push to the client.
@@ -29,6 +30,7 @@ define openvpn::client_specific_config (
   Array[String[1]] $iroute           = [],
   Array[String[1]] $iroute_ipv6      = [],
   Array[String[1]] $route            = [],
+  Array[String[1]] $route_ipv6       = [],
   Optional[String[1]] $ifconfig      = undef,
   Optional[String[1]] $ifconfig_ipv6 = undef,
   Array[String[1]]  $dhcp_options    = [],

@@ -57,6 +57,7 @@ describe 'openvpn::client_specific_config', type: :define do
             ifconfig: '10.10.10.2 255.255.255.0',
             ifconfig_ipv6: '2001:db8:0:123::2/64 2001:db8:0:123::1',
             route: ['10.200.100.0 255.255.255.0 10.10.10.1'],
+            route_ipv6: ['2001:db8:1::/64'],
             dhcp_options: ['DNS 8.8.8.8'],
             custom_options: { 'this' => 'that' },
             redirect_gateway: true
@@ -70,6 +71,7 @@ describe 'openvpn::client_specific_config', type: :define do
         it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^push "dhcp-option DNS 8.8.8.8"$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^push "redirect-gateway def1"$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^push "route 10.200.100.0 255.255.255.0 10.10.10.1"$}) }
+        it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^push "route-ipv6 2001:db8:1::/64"$}) }
         it { is_expected.to contain_file("#{server_directory}/test_server/client-configs/test_client").with_content(%r{^this that$}) }
       end
     end
