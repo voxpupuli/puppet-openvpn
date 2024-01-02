@@ -15,7 +15,7 @@
 
 * [`openvpn::ca`](#openvpnca): This define creates the openvpn ca and ssl certificates
 * [`openvpn::client`](#openvpnclient): This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
-* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in 
+* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in
 * [`openvpn::revoke`](#openvpnrevoke): This define creates a revocation on a certificate for a specified server.
 * [`openvpn::server`](#openvpnserver): This define creates the openvpn server instance which can run in server or client mode.
 
@@ -27,7 +27,7 @@ This module installs the openvpn service, configures vpn endpoints, generates cl
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 class { 'openvpn':
@@ -223,7 +223,7 @@ This define creates the openvpn ca and ssl certificates
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::ca {
@@ -424,7 +424,7 @@ This define creates client certs for a specified server as well as a tarball tha
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client {
@@ -750,7 +750,7 @@ All the parameters are explained in the openvpn documentation http://openvpn.net
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client_specific_config {
@@ -770,6 +770,7 @@ The following parameters are available in the `openvpn::client_specific_config` 
 * [`iroute`](#iroute)
 * [`iroute_ipv6`](#iroute_ipv6)
 * [`route`](#route)
+* [`route_ipv6`](#route_ipv6)
 * [`ifconfig`](#ifconfig)
 * [`ifconfig_ipv6`](#ifconfig_ipv6)
 * [`dhcp_options`](#dhcp_options)
@@ -805,6 +806,14 @@ Default value: `[]`
 Data type: `Array[String[1]]`
 
 Array of route combinations pushed to client.
+
+Default value: `[]`
+
+##### <a name="route_ipv6"></a>`route_ipv6`
+
+Data type: `Array[String[1]]`
+
+Array of route-ipv6 combinations pushed to client.
 
 Default value: `[]`
 
@@ -870,7 +879,7 @@ This define creates a revocation on a certificate for a specified server.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client {
@@ -879,7 +888,7 @@ openvpn::client {
 }
 ```
 
-##### 
+#####
 
 ```puppet
 openvpn::revoke {
