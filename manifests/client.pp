@@ -305,10 +305,22 @@ define openvpn::client (
     order   => '08',
   }
 
+  exec { "Create PEM file without text with OpenSSL for client ${name}":
+    cwd         => "${server_directory}/${server}/download-configs/",
+    command     => "openssl x509 -in ${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.crt > ${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.pem",
+    creates     => "${server_directory}/${name}/easy-rsa/keys/ca.pem",
+    provider    => 'shell',
+    refreshonly => true,
+    subscribe   => File["${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.crt"],
+  }
+
   concat::fragment { "${server_directory}/${server}/download-configs/${name}.ovpn/cert":
-    target => "${server_directory}/${server}/download-configs/${name}.ovpn",
-    source => "${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.crt",
-    order  => '09',
+    target  => "${server_directory}/${server}/download-configs/${name}.ovpn",
+    source  => "${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.pem",
+    order   => '09',
+    require => [
+      Exec["Create PEM file without text with OpenSSL for client ${name}"],
+    ],
   }
 
   concat::fragment { "${server_directory}/${server}/download-configs/${name}.ovpn/cert_close_tag":
