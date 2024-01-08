@@ -8,16 +8,17 @@ when 'RedHat'
     server_directory = '/etc/openvpn/server'
     client_directory = '/etc/openvpn/client'
     client_service = 'openvpn-client'
+    easy_rsa_version = '3.0.8'
   else
     server_directory = '/etc/openvpn'
     client_directory = '/etc/openvpn'
     client_service = 'openvpn'
+    easy_rsa_version = '3.0'
   end
   server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
   key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
   crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"
   index_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
-  easy_rsa_version = '3.0'
   renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
 when 'Debian'
   server_directory = '/etc/openvpn'
@@ -192,8 +193,8 @@ describe 'server defined type' do
   end
 end
 
-if easy_rsa_version == '3.0'
-  describe 'server defined type w/ easy-rsa 3.0' do
+if ['3.0', '3.0.8'].include?(easy_rsa_version)
+  describe "server defined type w/ #{fact('easyrsa')}" do
     dev = 'tun1'
     server_name = 'test_openvpn_server_ec_dn_mode'
     port = 1195

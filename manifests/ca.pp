@@ -86,8 +86,8 @@ define openvpn::ca (
     require => File["${server_directory}/${name}/easy-rsa"],
   }
 
-  case $openvpn::easyrsa_version {
-    '2.0': {
+  if versioncmp($openvpn::easyrsa_version, '3') == -1 {
+    if versioncmp($openvpn::easyrsa_version, '2') == 1 or versioncmp($openvpn::easyrsa_version, '2') == 0 {
       if $ssl_key_algo != 'rsa' {
         fail('easy-rsa 2.0 supports only rsa keys.')
       }
@@ -139,13 +139,23 @@ define openvpn::ca (
         provider => 'shell',
         require  => Exec["generate server cert ${name}"],
       }
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x.")
     }
-    '3.0': {
+  } else {
+    if versioncmp($openvpn::easyrsa_version, '4') == -1 {
+      if versioncmp($openvpn::easyrsa_version, '3.0.3') == 1 {
+        $default_easyrsa_openssl_conf = 'openssl-easyrsa.cnf'
+      } else {
+        $default_easyrsa_openssl_conf = 'openssl-1.0.cnf'
+      }
+
       file { "${server_directory}/${name}/easy-rsa/vars":
         ensure  => file,
         mode    => '0550',
         content => epp('openvpn/vars-30.epp',
           {
+            'easyrsa_config'   => $default_easyrsa_openssl_conf,
             'server_directory' => $server_directory,
             'openvpn_server'   => $name,
             'ssl_key_algo'     => $ssl_key_algo,
@@ -171,7 +181,7 @@ define openvpn::ca (
       if $openvpn::link_openssl_cnf {
         File["${server_directory}/${name}/easy-rsa/openssl.cnf"] {
           ensure => link,
-          target => "${server_directory}/${name}/easy-rsa/openssl-1.0.cnf",
+          target => "${server_directory}/${name}/easy-rsa/${default_easyrsa_openssl_conf}",
           before => Exec["initca ${name}"],
         }
       }
@@ -202,7 +212,7 @@ define openvpn::ca (
       }
 
       exec { "generate server cert ${name}":
-        command  => "./easyrsa build-server-full '${common_name}' nopass",
+        command  => "./easyrsa --batch build-server-full '${common_name}' nopass",
         cwd      => "${server_directory}/${name}/easy-rsa",
         creates  => "${server_directory}/${name}/easy-rsa/keys/private/${common_name}.key",
         provider => 'shell',
@@ -226,9 +236,8 @@ define openvpn::ca (
         creates  => "${server_directory}/${name}/crl.pem",
         provider => 'shell',
       }
-    }
-    default: {
-      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
+    } else {
+      fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x.")
     }
   }
 

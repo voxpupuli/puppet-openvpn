@@ -36,7 +36,7 @@ class openvpn (
   Boolean                              $link_openssl_cnf,
   Optional[Stdlib::Absolutepath]       $pam_module_path,
   Boolean                              $namespecific_rclink,
-  Pattern[/^[23]\.0$/]                 $default_easyrsa_ver,
+  Pattern[/^[23]\.\d(\.\d{1,2})?$/]    $default_easyrsa_ver,
   Stdlib::Unixpath                     $easyrsa_source,
   Variant[String[1], Array[String[1]]] $additional_packages,
   Optional[Stdlib::Absolutepath]       $ldap_auth_plugin_location,
