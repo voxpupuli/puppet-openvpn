@@ -144,11 +144,18 @@ define openvpn::ca (
     }
   } else {
     if versioncmp($openvpn::easyrsa_version, '4') == -1 {
+      if versioncmp($openvpn::easyrsa_version, '3.0.3') == 1 {
+        $default_easyrsa_openssl_conf = 'openssl-easyrsa.cnf'
+      } else {
+        $default_easyrsa_openssl_conf = 'openssl-1.0.cnf'
+      }
+
       file { "${server_directory}/${name}/easy-rsa/vars":
         ensure  => file,
         mode    => '0550',
         content => epp('openvpn/vars-30.epp',
           {
+            'easyrsa_config'   => $default_easyrsa_openssl_conf,
             'server_directory' => $server_directory,
             'openvpn_server'   => $name,
             'ssl_key_algo'     => $ssl_key_algo,
@@ -174,7 +181,7 @@ define openvpn::ca (
       if $openvpn::link_openssl_cnf {
         File["${server_directory}/${name}/easy-rsa/openssl.cnf"] {
           ensure => link,
-          target => "${server_directory}/${name}/easy-rsa/openssl-1.0.cnf",
+          target => "${server_directory}/${name}/easy-rsa/${default_easyrsa_openssl_conf}",
           before => Exec["initca ${name}"],
         }
       }
