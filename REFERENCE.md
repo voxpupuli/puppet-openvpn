@@ -7,17 +7,17 @@
 ### Classes
 
 * [`openvpn`](#openvpn): This module installs the openvpn service, configures vpn endpoints, generates client certificates, and generates client config files
-* [`openvpn::config`](#openvpnconfig): This class sets up the openvpn enviornment as well as the default config file
-* [`openvpn::install`](#openvpninstall): This module installs the openvpn service, configures vpn endpoints, generates client certificates, and generates client config files
-* [`openvpn::service`](#openvpnservice): This class maintains the openvpn service.
+* [`openvpn::config`](#openvpn--config): This class sets up the openvpn enviornment as well as the default config file
+* [`openvpn::install`](#openvpn--install): This module installs the openvpn service, configures vpn endpoints, generates client certificates, and generates client config files
+* [`openvpn::service`](#openvpn--service): This class maintains the openvpn service.
 
 ### Defined types
 
-* [`openvpn::ca`](#openvpnca): This define creates the openvpn ca and ssl certificates
-* [`openvpn::client`](#openvpnclient): This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
-* [`openvpn::client_specific_config`](#openvpnclient_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in 
-* [`openvpn::revoke`](#openvpnrevoke): This define creates a revocation on a certificate for a specified server.
-* [`openvpn::server`](#openvpnserver): This define creates the openvpn server instance which can run in server or client mode.
+* [`openvpn::ca`](#openvpn--ca): This define creates the openvpn ca and ssl certificates
+* [`openvpn::client`](#openvpn--client): This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
+* [`openvpn::client_specific_config`](#openvpn--client_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in 
+* [`openvpn::revoke`](#openvpn--revoke): This define creates a revocation on a certificate for a specified server.
+* [`openvpn::server`](#openvpn--server): This define creates the openvpn server instance which can run in server or client mode.
 
 ## Classes
 
@@ -39,95 +39,95 @@ class { 'openvpn':
 
 The following parameters are available in the `openvpn` class:
 
-* [`autostart_all`](#autostart_all)
-* [`manage_service`](#manage_service)
-* [`etc_directory`](#etc_directory)
-* [`group`](#group)
-* [`link_openssl_cnf`](#link_openssl_cnf)
-* [`pam_module_path`](#pam_module_path)
-* [`namespecific_rclink`](#namespecific_rclink)
-* [`default_easyrsa_ver`](#default_easyrsa_ver)
-* [`easyrsa_source`](#easyrsa_source)
-* [`additional_packages`](#additional_packages)
-* [`ldap_auth_plugin_location`](#ldap_auth_plugin_location)
-* [`client_defaults`](#client_defaults)
-* [`clients`](#clients)
-* [`client_specific_config_defaults`](#client_specific_config_defaults)
-* [`client_specific_configs`](#client_specific_configs)
-* [`revoke_defaults`](#revoke_defaults)
-* [`revokes`](#revokes)
-* [`server_defaults`](#server_defaults)
-* [`servers`](#servers)
-* [`server_directory`](#server_directory)
-* [`server_service_name`](#server_service_name)
+* [`autostart_all`](#-openvpn--autostart_all)
+* [`manage_service`](#-openvpn--manage_service)
+* [`etc_directory`](#-openvpn--etc_directory)
+* [`group`](#-openvpn--group)
+* [`link_openssl_cnf`](#-openvpn--link_openssl_cnf)
+* [`pam_module_path`](#-openvpn--pam_module_path)
+* [`namespecific_rclink`](#-openvpn--namespecific_rclink)
+* [`default_easyrsa_ver`](#-openvpn--default_easyrsa_ver)
+* [`easyrsa_source`](#-openvpn--easyrsa_source)
+* [`additional_packages`](#-openvpn--additional_packages)
+* [`ldap_auth_plugin_location`](#-openvpn--ldap_auth_plugin_location)
+* [`client_defaults`](#-openvpn--client_defaults)
+* [`clients`](#-openvpn--clients)
+* [`client_specific_config_defaults`](#-openvpn--client_specific_config_defaults)
+* [`client_specific_configs`](#-openvpn--client_specific_configs)
+* [`revoke_defaults`](#-openvpn--revoke_defaults)
+* [`revokes`](#-openvpn--revokes)
+* [`server_defaults`](#-openvpn--server_defaults)
+* [`servers`](#-openvpn--servers)
+* [`server_directory`](#-openvpn--server_directory)
+* [`server_service_name`](#-openvpn--server_service_name)
 
-##### <a name="autostart_all"></a>`autostart_all`
+##### <a name="-openvpn--autostart_all"></a>`autostart_all`
 
 Data type: `Boolean`
 
 Whether openvpn instances should be started automatically on boot.
 
-##### <a name="manage_service"></a>`manage_service`
+##### <a name="-openvpn--manage_service"></a>`manage_service`
 
 Data type: `Boolean`
 
 Whether the openvpn service should be managed by puppet.
 
-##### <a name="etc_directory"></a>`etc_directory`
+##### <a name="-openvpn--etc_directory"></a>`etc_directory`
 
 Data type: `Stdlib::Absolutepath`
 
 Path of the configuration directory.
 
-##### <a name="group"></a>`group`
+##### <a name="-openvpn--group"></a>`group`
 
 Data type: `String[1]`
 
 File group of the generated config files.
 
-##### <a name="link_openssl_cnf"></a>`link_openssl_cnf`
+##### <a name="-openvpn--link_openssl_cnf"></a>`link_openssl_cnf`
 
 Data type: `Boolean`
 
 Link easy-rsa/openssl.cnf to easy-rsa/openssl-1.0.0.cnf
 
-##### <a name="pam_module_path"></a>`pam_module_path`
+##### <a name="-openvpn--pam_module_path"></a>`pam_module_path`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Path to openvpn-auth-pam.so
 
-##### <a name="namespecific_rclink"></a>`namespecific_rclink`
+##### <a name="-openvpn--namespecific_rclink"></a>`namespecific_rclink`
 
 Data type: `Boolean`
 
 Enable namespecific rclink's (BSD-style)
 
-##### <a name="default_easyrsa_ver"></a>`default_easyrsa_ver`
+##### <a name="-openvpn--default_easyrsa_ver"></a>`default_easyrsa_ver`
 
 Data type: `Pattern[/^[23]\.0$/]`
 
 Expected version of easyrsa.
 
-##### <a name="easyrsa_source"></a>`easyrsa_source`
+##### <a name="-openvpn--easyrsa_source"></a>`easyrsa_source`
 
 Data type: `Stdlib::Unixpath`
 
 Location of easyrsa.
 
-##### <a name="additional_packages"></a>`additional_packages`
+##### <a name="-openvpn--additional_packages"></a>`additional_packages`
 
 Data type: `Variant[String[1], Array[String[1]]]`
 
 Additional packages
 
-##### <a name="ldap_auth_plugin_location"></a>`ldap_auth_plugin_location`
+##### <a name="-openvpn--ldap_auth_plugin_location"></a>`ldap_auth_plugin_location`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Path to the ldap auth pam module
 
-##### <a name="client_defaults"></a>`client_defaults`
+##### <a name="-openvpn--client_defaults"></a>`client_defaults`
 
 Data type: `Hash`
 
@@ -135,7 +135,7 @@ Hash of defaults for clients passed to openvpn::client defined type.
 
 Default value: `{}`
 
-##### <a name="clients"></a>`clients`
+##### <a name="-openvpn--clients"></a>`clients`
 
 Data type: `Hash`
 
@@ -143,7 +143,7 @@ Hash of clients passed to openvpn::client defined type.
 
 Default value: `{}`
 
-##### <a name="client_specific_config_defaults"></a>`client_specific_config_defaults`
+##### <a name="-openvpn--client_specific_config_defaults"></a>`client_specific_config_defaults`
 
 Data type: `Hash`
 
@@ -151,7 +151,7 @@ Hash of defaults for client specific configurations passed to openvpn::client_sp
 
 Default value: `{}`
 
-##### <a name="client_specific_configs"></a>`client_specific_configs`
+##### <a name="-openvpn--client_specific_configs"></a>`client_specific_configs`
 
 Data type: `Hash`
 
@@ -159,7 +159,7 @@ Hash of client specific configurations passed to openvpn::client_specific_config
 
 Default value: `{}`
 
-##### <a name="revoke_defaults"></a>`revoke_defaults`
+##### <a name="-openvpn--revoke_defaults"></a>`revoke_defaults`
 
 Data type: `Hash`
 
@@ -167,7 +167,7 @@ Hash of defaults for revokes passed to openvpn::revoke defined type.
 
 Default value: `{}`
 
-##### <a name="revokes"></a>`revokes`
+##### <a name="-openvpn--revokes"></a>`revokes`
 
 Data type: `Hash`
 
@@ -175,7 +175,7 @@ Hash of revokes passed to openvpn::revoke defined type.
 
 Default value: `{}`
 
-##### <a name="server_defaults"></a>`server_defaults`
+##### <a name="-openvpn--server_defaults"></a>`server_defaults`
 
 Data type: `Hash`
 
@@ -183,7 +183,7 @@ Hash of defaults for servers passed to openvpn::server defined type.
 
 Default value: `{}`
 
-##### <a name="servers"></a>`servers`
+##### <a name="-openvpn--servers"></a>`servers`
 
 Data type: `Hash`
 
@@ -191,33 +191,33 @@ Hash of servers passed to openvpn::server defined type.
 
 Default value: `{}`
 
-##### <a name="server_directory"></a>`server_directory`
+##### <a name="-openvpn--server_directory"></a>`server_directory`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Path of the server configuration. This is usually `/etc_directory/openvpn`, but RHEL/CentOS 8 uses `/etc_directory/openvpn/server`
 
-##### <a name="server_service_name"></a>`server_service_name`
+##### <a name="-openvpn--server_service_name"></a>`server_service_name`
 
 Data type: `String[1]`
 
 Name of the openvpn server service. This is usually `openvpn`, but RHEL/CentOS 8 uses `openvpn-server`.
 
-### <a name="openvpnconfig"></a>`openvpn::config`
+### <a name="openvpn--config"></a>`openvpn::config`
 
 This class sets up the openvpn enviornment as well as the default config file
 
-### <a name="openvpninstall"></a>`openvpn::install`
+### <a name="openvpn--install"></a>`openvpn::install`
 
 This module installs the openvpn service, configures vpn endpoints, generates client certificates, and generates client config files
 
-### <a name="openvpnservice"></a>`openvpn::service`
+### <a name="openvpn--service"></a>`openvpn::service`
 
 This class maintains the openvpn service.
 
 ## Defined types
 
-### <a name="openvpnca"></a>`openvpn::ca`
+### <a name="openvpn--ca"></a>`openvpn::ca`
 
 This define creates the openvpn ca and ssl certificates
 
@@ -237,28 +237,28 @@ openvpn::ca {
 
 The following parameters are available in the `openvpn::ca` defined type:
 
-* [`dn_mode`](#dn_mode)
-* [`country`](#country)
-* [`province`](#province)
-* [`city`](#city)
-* [`organization`](#organization)
-* [`email`](#email)
-* [`common_name`](#common_name)
-* [`group`](#group)
-* [`ssl_key_algo`](#ssl_key_algo)
-* [`ssl_key_size`](#ssl_key_size)
-* [`ssl_key_curve`](#ssl_key_curve)
-* [`key_expire`](#key_expire)
-* [`ca_expire`](#ca_expire)
-* [`digest`](#digest)
-* [`key_name`](#key_name)
-* [`key_ou`](#key_ou)
-* [`key_cn`](#key_cn)
-* [`tls_auth`](#tls_auth)
-* [`tls_static_key`](#tls_static_key)
-* [`crl_days`](#crl_days)
+* [`dn_mode`](#-openvpn--ca--dn_mode)
+* [`country`](#-openvpn--ca--country)
+* [`province`](#-openvpn--ca--province)
+* [`city`](#-openvpn--ca--city)
+* [`organization`](#-openvpn--ca--organization)
+* [`email`](#-openvpn--ca--email)
+* [`common_name`](#-openvpn--ca--common_name)
+* [`group`](#-openvpn--ca--group)
+* [`ssl_key_algo`](#-openvpn--ca--ssl_key_algo)
+* [`ssl_key_size`](#-openvpn--ca--ssl_key_size)
+* [`ssl_key_curve`](#-openvpn--ca--ssl_key_curve)
+* [`key_expire`](#-openvpn--ca--key_expire)
+* [`ca_expire`](#-openvpn--ca--ca_expire)
+* [`digest`](#-openvpn--ca--digest)
+* [`key_name`](#-openvpn--ca--key_name)
+* [`key_ou`](#-openvpn--ca--key_ou)
+* [`key_cn`](#-openvpn--ca--key_cn)
+* [`tls_auth`](#-openvpn--ca--tls_auth)
+* [`tls_static_key`](#-openvpn--ca--tls_static_key)
+* [`crl_days`](#-openvpn--ca--crl_days)
 
-##### <a name="dn_mode"></a>`dn_mode`
+##### <a name="-openvpn--ca--dn_mode"></a>`dn_mode`
 
 Data type: `Enum['org','cn_only']`
 
@@ -266,47 +266,47 @@ EasyRSA X509 DN mode.
 
 Default value: `'org'`
 
-##### <a name="country"></a>`country`
+##### <a name="-openvpn--ca--country"></a>`country`
 
 Data type: `Optional[String]`
 
 Country to be used for the SSL certificate
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="province"></a>`province`
+##### <a name="-openvpn--ca--province"></a>`province`
 
 Data type: `Optional[String]`
 
 Province to be used for the SSL certificate
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="city"></a>`city`
+##### <a name="-openvpn--ca--city"></a>`city`
 
 Data type: `Optional[String]`
 
 City to be used for the SSL certificate
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="organization"></a>`organization`
+##### <a name="-openvpn--ca--organization"></a>`organization`
 
 Data type: `Optional[String]`
 
 Organization to be used for the SSL certificate
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="email"></a>`email`
+##### <a name="-openvpn--ca--email"></a>`email`
 
 Data type: `Optional[String]`
 
 Email address to be used for the SSL certificate
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="common_name"></a>`common_name`
+##### <a name="-openvpn--ca--common_name"></a>`common_name`
 
 Data type: `String`
 
@@ -314,15 +314,15 @@ Common name to be used for the SSL certificate
 
 Default value: `'server'`
 
-##### <a name="group"></a>`group`
+##### <a name="-openvpn--ca--group"></a>`group`
 
 Data type: `Optional[String]`
 
 User to drop privileges to after startup
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ssl_key_algo"></a>`ssl_key_algo`
+##### <a name="-openvpn--ca--ssl_key_algo"></a>`ssl_key_algo`
 
 Data type: `Enum['rsa', 'ec', 'ed']`
 
@@ -330,7 +330,7 @@ SSL Key Algo. ec can enable elliptic curve support. ed uses ed25519 keys
 
 Default value: `'rsa'`
 
-##### <a name="ssl_key_size"></a>`ssl_key_size`
+##### <a name="-openvpn--ca--ssl_key_size"></a>`ssl_key_size`
 
 Data type: `Integer`
 
@@ -338,7 +338,7 @@ Length of SSL keys (in bits) generated by this module, used if ssl_key_algo is r
 
 Default value: `2048`
 
-##### <a name="ssl_key_curve"></a>`ssl_key_curve`
+##### <a name="-openvpn--ca--ssl_key_curve"></a>`ssl_key_curve`
 
 Data type: `String`
 
@@ -346,7 +346,7 @@ Define the named curve for the ssl keys, used if ssl_key_algo is ec, ed
 
 Default value: `'secp384r1'`
 
-##### <a name="key_expire"></a>`key_expire`
+##### <a name="-openvpn--ca--key_expire"></a>`key_expire`
 
 Data type: `Integer`
 
@@ -354,7 +354,7 @@ The number of days to certify the server certificate for
 
 Default value: `3650`
 
-##### <a name="ca_expire"></a>`ca_expire`
+##### <a name="-openvpn--ca--ca_expire"></a>`ca_expire`
 
 Data type: `Integer`
 
@@ -362,7 +362,7 @@ The number of days to certify the CA certificate for
 
 Default value: `3650`
 
-##### <a name="digest"></a>`digest`
+##### <a name="-openvpn--ca--digest"></a>`digest`
 
 Data type: `Enum['md5','sha1','sha256','sha224','sha384','sha512']`
 
@@ -370,47 +370,47 @@ Cryptographic digest to use
 
 Default value: `'sha512'`
 
-##### <a name="key_name"></a>`key_name`
+##### <a name="-openvpn--ca--key_name"></a>`key_name`
 
 Data type: `Optional[String]`
 
 Value for name_default variable in openssl.cnf and KEY_NAME in vars
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="key_ou"></a>`key_ou`
+##### <a name="-openvpn--ca--key_ou"></a>`key_ou`
 
 Data type: `Optional[String]`
 
 Value for organizationalUnitName_default variable in openssl.cnf and KEY_OU in vars
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="key_cn"></a>`key_cn`
+##### <a name="-openvpn--ca--key_cn"></a>`key_cn`
 
 Data type: `Optional[String]`
 
 Value for commonName_default variable in openssl.cnf and KEY_CN in vars
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="tls_auth"></a>`tls_auth`
-
-Data type: `Boolean`
-
-Determins if a tls key is generated
-
-Default value: ``false``
-
-##### <a name="tls_static_key"></a>`tls_static_key`
+##### <a name="-openvpn--ca--tls_auth"></a>`tls_auth`
 
 Data type: `Boolean`
 
 Determins if a tls key is generated
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="crl_days"></a>`crl_days`
+##### <a name="-openvpn--ca--tls_static_key"></a>`tls_static_key`
+
+Data type: `Boolean`
+
+Determins if a tls key is generated
+
+Default value: `false`
+
+##### <a name="-openvpn--ca--crl_days"></a>`crl_days`
 
 Data type: `Integer`
 
@@ -418,7 +418,7 @@ Data type: `Integer`
 
 Default value: `30`
 
-### <a name="openvpnclient"></a>`openvpn::client`
+### <a name="openvpn--client"></a>`openvpn::client`
 
 This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
 
@@ -438,56 +438,56 @@ openvpn::client {
 
 The following parameters are available in the `openvpn::client` defined type:
 
-* [`server`](#server)
-* [`compression`](#compression)
-* [`dev`](#dev)
-* [`mute`](#mute)
-* [`mute_replay_warnings`](#mute_replay_warnings)
-* [`nobind`](#nobind)
-* [`persist_key`](#persist_key)
-* [`persist_tun`](#persist_tun)
-* [`port`](#port)
-* [`proto`](#proto)
-* [`remote_host`](#remote_host)
-* [`cipher`](#cipher)
-* [`tls_cipher`](#tls_cipher)
-* [`resolv_retry`](#resolv_retry)
-* [`auth_retry`](#auth_retry)
-* [`verb`](#verb)
-* [`pam`](#pam)
-* [`authuserpass`](#authuserpass)
-* [`tls_auth`](#tls_auth)
-* [`tls_crypt`](#tls_crypt)
-* [`x509_name`](#x509_name)
-* [`setenv`](#setenv)
-* [`setenv_safe`](#setenv_safe)
-* [`up`](#up)
-* [`down`](#down)
-* [`sndbuf`](#sndbuf)
-* [`rcvbuf`](#rcvbuf)
-* [`shared_ca`](#shared_ca)
-* [`custom_options`](#custom_options)
-* [`expire`](#expire)
-* [`readme`](#readme)
-* [`pull`](#pull)
-* [`server_extca_enabled`](#server_extca_enabled)
-* [`remote_cert_tls`](#remote_cert_tls)
+* [`server`](#-openvpn--client--server)
+* [`compression`](#-openvpn--client--compression)
+* [`dev`](#-openvpn--client--dev)
+* [`mute`](#-openvpn--client--mute)
+* [`mute_replay_warnings`](#-openvpn--client--mute_replay_warnings)
+* [`nobind`](#-openvpn--client--nobind)
+* [`persist_key`](#-openvpn--client--persist_key)
+* [`persist_tun`](#-openvpn--client--persist_tun)
+* [`port`](#-openvpn--client--port)
+* [`proto`](#-openvpn--client--proto)
+* [`remote_host`](#-openvpn--client--remote_host)
+* [`cipher`](#-openvpn--client--cipher)
+* [`tls_cipher`](#-openvpn--client--tls_cipher)
+* [`resolv_retry`](#-openvpn--client--resolv_retry)
+* [`auth_retry`](#-openvpn--client--auth_retry)
+* [`verb`](#-openvpn--client--verb)
+* [`pam`](#-openvpn--client--pam)
+* [`authuserpass`](#-openvpn--client--authuserpass)
+* [`tls_auth`](#-openvpn--client--tls_auth)
+* [`tls_crypt`](#-openvpn--client--tls_crypt)
+* [`x509_name`](#-openvpn--client--x509_name)
+* [`setenv`](#-openvpn--client--setenv)
+* [`setenv_safe`](#-openvpn--client--setenv_safe)
+* [`up`](#-openvpn--client--up)
+* [`down`](#-openvpn--client--down)
+* [`sndbuf`](#-openvpn--client--sndbuf)
+* [`rcvbuf`](#-openvpn--client--rcvbuf)
+* [`shared_ca`](#-openvpn--client--shared_ca)
+* [`custom_options`](#-openvpn--client--custom_options)
+* [`expire`](#-openvpn--client--expire)
+* [`readme`](#-openvpn--client--readme)
+* [`pull`](#-openvpn--client--pull)
+* [`server_extca_enabled`](#-openvpn--client--server_extca_enabled)
+* [`remote_cert_tls`](#-openvpn--client--remote_cert_tls)
 
-##### <a name="server"></a>`server`
+##### <a name="-openvpn--client--server"></a>`server`
 
 Data type: `String`
 
 Name of the corresponding openvpn endpoint
 
-##### <a name="compression"></a>`compression`
+##### <a name="-openvpn--client--compression"></a>`compression`
 
 Data type: `Optional[String[1]]`
 
 Which compression algorithm to use. This parameter is deprecated in OpenVPN 2.5.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="dev"></a>`dev`
+##### <a name="-openvpn--client--dev"></a>`dev`
 
 Data type: `Enum['tap', 'tun']`
 
@@ -495,7 +495,7 @@ Device method
 
 Default value: `'tun'`
 
-##### <a name="mute"></a>`mute`
+##### <a name="-openvpn--client--mute"></a>`mute`
 
 Data type: `Integer`
 
@@ -503,39 +503,39 @@ Set log mute level
 
 Default value: `20`
 
-##### <a name="mute_replay_warnings"></a>`mute_replay_warnings`
+##### <a name="-openvpn--client--mute_replay_warnings"></a>`mute_replay_warnings`
 
 Data type: `Boolean`
 
 Silence duplicate packet warnings (common on wireless networks)
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="nobind"></a>`nobind`
+##### <a name="-openvpn--client--nobind"></a>`nobind`
 
 Data type: `Boolean`
 
 Whether or not to bind to a specific port number
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="persist_key"></a>`persist_key`
-
-Data type: `Boolean`
-
-Try to retain access to resources that may be unavailable because of privilege downgrades
-
-Default value: ``true``
-
-##### <a name="persist_tun"></a>`persist_tun`
+##### <a name="-openvpn--client--persist_key"></a>`persist_key`
 
 Data type: `Boolean`
 
 Try to retain access to resources that may be unavailable because of privilege downgrades
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="port"></a>`port`
+##### <a name="-openvpn--client--persist_tun"></a>`persist_tun`
+
+Data type: `Boolean`
+
+Try to retain access to resources that may be unavailable because of privilege downgrades
+
+Default value: `true`
+
+##### <a name="-openvpn--client--port"></a>`port`
 
 Data type: `String`
 
@@ -543,7 +543,7 @@ The port the openvpn server service is running on
 
 Default value: `'1194'`
 
-##### <a name="proto"></a>`proto`
+##### <a name="-openvpn--client--proto"></a>`proto`
 
 Data type: `Enum['tcp','udp']`
 
@@ -551,7 +551,7 @@ What IP protocol is being used.
 
 Default value: `'tcp'`
 
-##### <a name="remote_host"></a>`remote_host`
+##### <a name="-openvpn--client--remote_host"></a>`remote_host`
 
 Data type: `Variant[String, Array[String]]`
 
@@ -559,7 +559,7 @@ The IP or hostname of the openvpn server service.
 
 Default value: `$facts['networking']['fqdn']`
 
-##### <a name="cipher"></a>`cipher`
+##### <a name="-openvpn--client--cipher"></a>`cipher`
 
 Data type: `String`
 
@@ -567,7 +567,7 @@ Cipher to use for packet encryption
 
 Default value: `'AES-256-GCM'`
 
-##### <a name="tls_cipher"></a>`tls_cipher`
+##### <a name="-openvpn--client--tls_cipher"></a>`tls_cipher`
 
 Data type: `String`
 
@@ -575,7 +575,7 @@ TLS Ciphers to use
 
 Default value: `'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256'`
 
-##### <a name="resolv_retry"></a>`resolv_retry`
+##### <a name="-openvpn--client--resolv_retry"></a>`resolv_retry`
 
 Data type: `String`
 
@@ -583,7 +583,7 @@ How many seconds should the openvpn client try to resolve the server's hostname
 
 Default value: `'infinite'`
 
-##### <a name="auth_retry"></a>`auth_retry`
+##### <a name="-openvpn--client--auth_retry"></a>`auth_retry`
 
 Data type: `Enum['none', 'nointeract', 'interact']`
 
@@ -591,7 +591,7 @@ Controls how OpenVPN responds to username/password verification errors such as t
 
 Default value: `'none'`
 
-##### <a name="verb"></a>`verb`
+##### <a name="-openvpn--client--verb"></a>`verb`
 
 Data type: `String`
 
@@ -599,47 +599,47 @@ Level of logging verbosity
 
 Default value: `'3'`
 
-##### <a name="pam"></a>`pam`
+##### <a name="-openvpn--client--pam"></a>`pam`
 
 Data type: `Boolean`
 
 DEPRECATED: Boolean, Enable/Disable.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="authuserpass"></a>`authuserpass`
+##### <a name="-openvpn--client--authuserpass"></a>`authuserpass`
 
 Data type: `Boolean`
 
 Set if username and password required
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="tls_auth"></a>`tls_auth`
+##### <a name="-openvpn--client--tls_auth"></a>`tls_auth`
 
 Data type: `Boolean`
 
 Activates tls-auth to Add an additional layer of HMAC authentication on top of the TLS control channel to protect against DoS attacks. This has to be set to the same value as on the Server
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="tls_crypt"></a>`tls_crypt`
+##### <a name="-openvpn--client--tls_crypt"></a>`tls_crypt`
 
 Data type: `Boolean`
 
 Encrypt and authenticate all control channel packets with the key from keyfile. (See --tls-auth for more background.)
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="x509_name"></a>`x509_name`
+##### <a name="-openvpn--client--x509_name"></a>`x509_name`
 
 Data type: `Optional[String]`
 
 Common name of openvpn server to make an x509-name verification
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="setenv"></a>`setenv`
+##### <a name="-openvpn--client--setenv"></a>`setenv`
 
 Data type: `Hash`
 
@@ -647,7 +647,7 @@ Set a custom environmental variable name=value to pass to script.
 
 Default value: `{}`
 
-##### <a name="setenv_safe"></a>`setenv_safe`
+##### <a name="-openvpn--client--setenv_safe"></a>`setenv_safe`
 
 Data type: `Hash`
 
@@ -655,47 +655,47 @@ Set a custom environmental variable OPENVPN_name=value to pass to script. This d
 
 Default value: `{}`
 
-##### <a name="up"></a>`up`
+##### <a name="-openvpn--client--up"></a>`up`
 
 Data type: `Optional[String[1]]`
 
 Script which we want to run when openvpn client is connecting
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="down"></a>`down`
+##### <a name="-openvpn--client--down"></a>`down`
 
 Data type: `Optional[String[1]]`
 
 Script which we want to run when openvpn client is disconneting
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="sndbuf"></a>`sndbuf`
+##### <a name="-openvpn--client--sndbuf"></a>`sndbuf`
 
 Data type: `Optional[Integer]`
 
 Set the TCP/UDP socket send buffer size.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="rcvbuf"></a>`rcvbuf`
+##### <a name="-openvpn--client--rcvbuf"></a>`rcvbuf`
 
 Data type: `Optional[Integer]`
 
 Set the TCP/UDP socket receive buffer size.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="shared_ca"></a>`shared_ca`
+##### <a name="-openvpn--client--shared_ca"></a>`shared_ca`
 
 Data type: `Optional[String]`
 
 The name of an openssl::ca resource to use.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="custom_options"></a>`custom_options`
+##### <a name="-openvpn--client--custom_options"></a>`custom_options`
 
 Data type: `Hash`
 
@@ -703,47 +703,47 @@ Hash of additional options that you want to append to the configuration file.
 
 Default value: `{}`
 
-##### <a name="expire"></a>`expire`
+##### <a name="-openvpn--client--expire"></a>`expire`
 
 Data type: `Optional[Integer]`
 
 Set a custom expiry time to pass to script. Value is the number of days the certificate is valid for.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="readme"></a>`readme`
+##### <a name="-openvpn--client--readme"></a>`readme`
 
 Data type: `Optional[String]`
 
 Text to place in a README file which is included in download-configs archive.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="pull"></a>`pull`
+##### <a name="-openvpn--client--pull"></a>`pull`
 
 Data type: `Boolean`
 
 Allow server to push options like dns or routes
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="server_extca_enabled"></a>`server_extca_enabled`
+##### <a name="-openvpn--client--server_extca_enabled"></a>`server_extca_enabled`
 
 Data type: `Boolean`
 
 Turn this on if you are using an external CA solution, like FreeIPA. Use this in Combination with exported_ressourced, since they don't have Access to the Serverconfig
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="remote_cert_tls"></a>`remote_cert_tls`
+##### <a name="-openvpn--client--remote_cert_tls"></a>`remote_cert_tls`
 
 Data type: `Boolean`
 
 Enable or disable use of remote-cert-tls used with client configuration
 
-Default value: ``true``
+Default value: `true`
 
-### <a name="openvpnclient_specific_config"></a>`openvpn::client_specific_config`
+### <a name="openvpn--client_specific_config"></a>`openvpn::client_specific_config`
 
 This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy
 All the parameters are explained in the openvpn documentation http://openvpn.net/index.php/open-source/documentation/howto.html#policy
@@ -766,25 +766,25 @@ openvpn::client_specific_config {
 
 The following parameters are available in the `openvpn::client_specific_config` defined type:
 
-* [`server`](#server)
-* [`iroute`](#iroute)
-* [`iroute_ipv6`](#iroute_ipv6)
-* [`route`](#route)
-* [`ifconfig`](#ifconfig)
-* [`ifconfig_ipv6`](#ifconfig_ipv6)
-* [`dhcp_options`](#dhcp_options)
-* [`redirect_gateway`](#redirect_gateway)
-* [`custom_options`](#custom_options)
-* [`ensure`](#ensure)
-* [`manage_client_configs`](#manage_client_configs)
+* [`server`](#-openvpn--client_specific_config--server)
+* [`iroute`](#-openvpn--client_specific_config--iroute)
+* [`iroute_ipv6`](#-openvpn--client_specific_config--iroute_ipv6)
+* [`route`](#-openvpn--client_specific_config--route)
+* [`ifconfig`](#-openvpn--client_specific_config--ifconfig)
+* [`ifconfig_ipv6`](#-openvpn--client_specific_config--ifconfig_ipv6)
+* [`dhcp_options`](#-openvpn--client_specific_config--dhcp_options)
+* [`redirect_gateway`](#-openvpn--client_specific_config--redirect_gateway)
+* [`custom_options`](#-openvpn--client_specific_config--custom_options)
+* [`ensure`](#-openvpn--client_specific_config--ensure)
+* [`manage_client_configs`](#-openvpn--client_specific_config--manage_client_configs)
 
-##### <a name="server"></a>`server`
+##### <a name="-openvpn--client_specific_config--server"></a>`server`
 
 Data type: `String[1]`
 
 Name of the corresponding openvpn endpoint
 
-##### <a name="iroute"></a>`iroute`
+##### <a name="-openvpn--client_specific_config--iroute"></a>`iroute`
 
 Data type: `Array[String[1]]`
 
@@ -792,7 +792,7 @@ Array of iroute combinations.
 
 Default value: `[]`
 
-##### <a name="iroute_ipv6"></a>`iroute_ipv6`
+##### <a name="-openvpn--client_specific_config--iroute_ipv6"></a>`iroute_ipv6`
 
 Data type: `Array[String[1]]`
 
@@ -800,7 +800,7 @@ Array of IPv6 iroute combinations.
 
 Default value: `[]`
 
-##### <a name="route"></a>`route`
+##### <a name="-openvpn--client_specific_config--route"></a>`route`
 
 Data type: `Array[String[1]]`
 
@@ -808,23 +808,23 @@ Array of route combinations pushed to client.
 
 Default value: `[]`
 
-##### <a name="ifconfig"></a>`ifconfig`
+##### <a name="-openvpn--client_specific_config--ifconfig"></a>`ifconfig`
 
 Data type: `Optional[String[1]]`
 
 IP configuration to push to the client.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ifconfig_ipv6"></a>`ifconfig_ipv6`
+##### <a name="-openvpn--client_specific_config--ifconfig_ipv6"></a>`ifconfig_ipv6`
 
 Data type: `Optional[String[1]]`
 
 IPv6 configuration to push to the client.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="dhcp_options"></a>`dhcp_options`
+##### <a name="-openvpn--client_specific_config--dhcp_options"></a>`dhcp_options`
 
 Data type: `Array[String[1]]`
 
@@ -832,15 +832,15 @@ DHCP options to push to the client.
 
 Default value: `[]`
 
-##### <a name="redirect_gateway"></a>`redirect_gateway`
+##### <a name="-openvpn--client_specific_config--redirect_gateway"></a>`redirect_gateway`
 
 Data type: `Boolean`
 
 Redirect all traffic to gateway
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="custom_options"></a>`custom_options`
+##### <a name="-openvpn--client_specific_config--custom_options"></a>`custom_options`
 
 Data type: `Hash`
 
@@ -848,7 +848,7 @@ Hash of additional options to append to the configuration file.
 
 Default value: `{}`
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-openvpn--client_specific_config--ensure"></a>`ensure`
 
 Data type: `Enum['present', 'absent']`
 
@@ -856,15 +856,15 @@ Sets the client specific configuration file status (present or absent)
 
 Default value: `present`
 
-##### <a name="manage_client_configs"></a>`manage_client_configs`
+##### <a name="-openvpn--client_specific_config--manage_client_configs"></a>`manage_client_configs`
 
 Data type: `Boolean`
 
 Manage dependencies on Openvpn::Client ressources
 
-Default value: ``true``
+Default value: `true`
 
-### <a name="openvpnrevoke"></a>`openvpn::revoke`
+### <a name="openvpn--revoke"></a>`openvpn::revoke`
 
 This define creates a revocation on a certificate for a specified server.
 
@@ -892,15 +892,15 @@ openvpn::revoke {
 
 The following parameters are available in the `openvpn::revoke` defined type:
 
-* [`server`](#server)
+* [`server`](#-openvpn--revoke--server)
 
-##### <a name="server"></a>`server`
+##### <a name="-openvpn--revoke--server"></a>`server`
 
 Data type: `String`
 
 Name of the corresponding openvpn endpoint
 
-### <a name="openvpnserver"></a>`openvpn::server`
+### <a name="openvpn--server"></a>`openvpn::server`
 
 This define creates the openvpn server instance which can run in server or client mode.
 
@@ -942,114 +942,114 @@ openvpn::server { 'zurich':
 
 The following parameters are available in the `openvpn::server` defined type:
 
-* [`dn_mode`](#dn_mode)
-* [`country`](#country)
-* [`province`](#province)
-* [`city`](#city)
-* [`organization`](#organization)
-* [`email`](#email)
-* [`remote`](#remote)
-* [`remote_random_hostname`](#remote_random_hostname)
-* [`remote_random`](#remote_random)
-* [`common_name`](#common_name)
-* [`compression`](#compression)
-* [`dev`](#dev)
-* [`user`](#user)
-* [`group`](#group)
-* [`ipp`](#ipp)
-* [`duplicate_cn`](#duplicate_cn)
-* [`local`](#local)
-* [`logfile`](#logfile)
-* [`manage_logfile_directory`](#manage_logfile_directory)
-* [`logdirectory_user`](#logdirectory_user)
-* [`logdirectory_group`](#logdirectory_group)
-* [`port`](#port)
-* [`portshare`](#portshare)
-* [`proto`](#proto)
-* [`status_log`](#status_log)
-* [`status_version`](#status_version)
-* [`server`](#server)
-* [`server_ipv6`](#server_ipv6)
-* [`server_bridge`](#server_bridge)
-* [`push`](#push)
-* [`route`](#route)
-* [`route_ipv6`](#route_ipv6)
-* [`keepalive`](#keepalive)
-* [`ssl_key_algo`](#ssl_key_algo)
-* [`ssl_key_size`](#ssl_key_size)
-* [`ssl_key_curve`](#ssl_key_curve)
-* [`ecdh_curve`](#ecdh_curve)
-* [`topology`](#topology)
-* [`c2c`](#c2c)
-* [`tcp_nodelay`](#tcp_nodelay)
-* [`ccd_exclusive`](#ccd_exclusive)
-* [`pam`](#pam)
-* [`pam_module_arguments`](#pam_module_arguments)
-* [`management`](#management)
-* [`management_ip`](#management_ip)
-* [`management_port`](#management_port)
-* [`up`](#up)
-* [`down`](#down)
-* [`client_connect`](#client_connect)
-* [`client_disconnect`](#client_disconnect)
-* [`username_as_common_name`](#username_as_common_name)
-* [`client_cert_not_required`](#client_cert_not_required)
-* [`ldap_enabled`](#ldap_enabled)
-* [`ldap_server`](#ldap_server)
-* [`ldap_binddn`](#ldap_binddn)
-* [`ldap_bindpass`](#ldap_bindpass)
-* [`ldap_u_basedn`](#ldap_u_basedn)
-* [`ldap_u_filter`](#ldap_u_filter)
-* [`ldap_g_basedn`](#ldap_g_basedn)
-* [`ldap_gmember`](#ldap_gmember)
-* [`ldap_g_filter`](#ldap_g_filter)
-* [`ldap_memberatr`](#ldap_memberatr)
-* [`ldap_tls_enable`](#ldap_tls_enable)
-* [`ldap_tls_ca_cert_file`](#ldap_tls_ca_cert_file)
-* [`ldap_tls_ca_cert_dir`](#ldap_tls_ca_cert_dir)
-* [`ldap_tls_client_cert_file`](#ldap_tls_client_cert_file)
-* [`ldap_tls_client_key_file`](#ldap_tls_client_key_file)
-* [`verb`](#verb)
-* [`cipher`](#cipher)
-* [`tls_cipher`](#tls_cipher)
-* [`persist_key`](#persist_key)
-* [`persist_tun`](#persist_tun)
-* [`key_expire`](#key_expire)
-* [`crl_days`](#crl_days)
-* [`digest`](#digest)
-* [`ca_expire`](#ca_expire)
-* [`key_name`](#key_name)
-* [`key_ou`](#key_ou)
-* [`key_cn`](#key_cn)
-* [`tls_auth`](#tls_auth)
-* [`tls_crypt`](#tls_crypt)
-* [`tls_server`](#tls_server)
-* [`tls_client`](#tls_client)
-* [`server_poll_timeout`](#server_poll_timeout)
-* [`ping_timer_rem`](#ping_timer_rem)
-* [`sndbuf`](#sndbuf)
-* [`rcvbuf`](#rcvbuf)
-* [`shared_ca`](#shared_ca)
-* [`crl_verify`](#crl_verify)
-* [`crl_auto_renew`](#crl_auto_renew)
-* [`crl_renew_schedule_period`](#crl_renew_schedule_period)
-* [`crl_renew_schedule_repeat`](#crl_renew_schedule_repeat)
-* [`extca_enabled`](#extca_enabled)
-* [`extca_ca_cert_file`](#extca_ca_cert_file)
-* [`extca_ca_crl_file`](#extca_ca_crl_file)
-* [`extca_server_cert_file`](#extca_server_cert_file)
-* [`extca_server_key_file`](#extca_server_key_file)
-* [`extca_dh_file`](#extca_dh_file)
-* [`extca_tls_auth_key_file`](#extca_tls_auth_key_file)
-* [`autostart`](#autostart)
-* [`remote_cert_tls`](#remote_cert_tls)
-* [`nobind`](#nobind)
-* [`secret`](#secret)
-* [`scripts`](#scripts)
-* [`custom_options`](#custom_options)
-* [`fragment`](#fragment)
+* [`dn_mode`](#-openvpn--server--dn_mode)
+* [`country`](#-openvpn--server--country)
+* [`province`](#-openvpn--server--province)
+* [`city`](#-openvpn--server--city)
+* [`organization`](#-openvpn--server--organization)
+* [`email`](#-openvpn--server--email)
+* [`remote`](#-openvpn--server--remote)
+* [`remote_random_hostname`](#-openvpn--server--remote_random_hostname)
+* [`remote_random`](#-openvpn--server--remote_random)
+* [`common_name`](#-openvpn--server--common_name)
+* [`compression`](#-openvpn--server--compression)
+* [`dev`](#-openvpn--server--dev)
+* [`user`](#-openvpn--server--user)
+* [`group`](#-openvpn--server--group)
+* [`ipp`](#-openvpn--server--ipp)
+* [`duplicate_cn`](#-openvpn--server--duplicate_cn)
+* [`local`](#-openvpn--server--local)
+* [`logfile`](#-openvpn--server--logfile)
+* [`manage_logfile_directory`](#-openvpn--server--manage_logfile_directory)
+* [`logdirectory_user`](#-openvpn--server--logdirectory_user)
+* [`logdirectory_group`](#-openvpn--server--logdirectory_group)
+* [`port`](#-openvpn--server--port)
+* [`portshare`](#-openvpn--server--portshare)
+* [`proto`](#-openvpn--server--proto)
+* [`status_log`](#-openvpn--server--status_log)
+* [`status_version`](#-openvpn--server--status_version)
+* [`server`](#-openvpn--server--server)
+* [`server_ipv6`](#-openvpn--server--server_ipv6)
+* [`server_bridge`](#-openvpn--server--server_bridge)
+* [`push`](#-openvpn--server--push)
+* [`route`](#-openvpn--server--route)
+* [`route_ipv6`](#-openvpn--server--route_ipv6)
+* [`keepalive`](#-openvpn--server--keepalive)
+* [`ssl_key_algo`](#-openvpn--server--ssl_key_algo)
+* [`ssl_key_size`](#-openvpn--server--ssl_key_size)
+* [`ssl_key_curve`](#-openvpn--server--ssl_key_curve)
+* [`ecdh_curve`](#-openvpn--server--ecdh_curve)
+* [`topology`](#-openvpn--server--topology)
+* [`c2c`](#-openvpn--server--c2c)
+* [`tcp_nodelay`](#-openvpn--server--tcp_nodelay)
+* [`ccd_exclusive`](#-openvpn--server--ccd_exclusive)
+* [`pam`](#-openvpn--server--pam)
+* [`pam_module_arguments`](#-openvpn--server--pam_module_arguments)
+* [`management`](#-openvpn--server--management)
+* [`management_ip`](#-openvpn--server--management_ip)
+* [`management_port`](#-openvpn--server--management_port)
+* [`up`](#-openvpn--server--up)
+* [`down`](#-openvpn--server--down)
+* [`client_connect`](#-openvpn--server--client_connect)
+* [`client_disconnect`](#-openvpn--server--client_disconnect)
+* [`username_as_common_name`](#-openvpn--server--username_as_common_name)
+* [`client_cert_not_required`](#-openvpn--server--client_cert_not_required)
+* [`ldap_enabled`](#-openvpn--server--ldap_enabled)
+* [`ldap_server`](#-openvpn--server--ldap_server)
+* [`ldap_binddn`](#-openvpn--server--ldap_binddn)
+* [`ldap_bindpass`](#-openvpn--server--ldap_bindpass)
+* [`ldap_u_basedn`](#-openvpn--server--ldap_u_basedn)
+* [`ldap_u_filter`](#-openvpn--server--ldap_u_filter)
+* [`ldap_g_basedn`](#-openvpn--server--ldap_g_basedn)
+* [`ldap_gmember`](#-openvpn--server--ldap_gmember)
+* [`ldap_g_filter`](#-openvpn--server--ldap_g_filter)
+* [`ldap_memberatr`](#-openvpn--server--ldap_memberatr)
+* [`ldap_tls_enable`](#-openvpn--server--ldap_tls_enable)
+* [`ldap_tls_ca_cert_file`](#-openvpn--server--ldap_tls_ca_cert_file)
+* [`ldap_tls_ca_cert_dir`](#-openvpn--server--ldap_tls_ca_cert_dir)
+* [`ldap_tls_client_cert_file`](#-openvpn--server--ldap_tls_client_cert_file)
+* [`ldap_tls_client_key_file`](#-openvpn--server--ldap_tls_client_key_file)
+* [`verb`](#-openvpn--server--verb)
+* [`cipher`](#-openvpn--server--cipher)
+* [`tls_cipher`](#-openvpn--server--tls_cipher)
+* [`persist_key`](#-openvpn--server--persist_key)
+* [`persist_tun`](#-openvpn--server--persist_tun)
+* [`key_expire`](#-openvpn--server--key_expire)
+* [`crl_days`](#-openvpn--server--crl_days)
+* [`digest`](#-openvpn--server--digest)
+* [`ca_expire`](#-openvpn--server--ca_expire)
+* [`key_name`](#-openvpn--server--key_name)
+* [`key_ou`](#-openvpn--server--key_ou)
+* [`key_cn`](#-openvpn--server--key_cn)
+* [`tls_auth`](#-openvpn--server--tls_auth)
+* [`tls_crypt`](#-openvpn--server--tls_crypt)
+* [`tls_server`](#-openvpn--server--tls_server)
+* [`tls_client`](#-openvpn--server--tls_client)
+* [`server_poll_timeout`](#-openvpn--server--server_poll_timeout)
+* [`ping_timer_rem`](#-openvpn--server--ping_timer_rem)
+* [`sndbuf`](#-openvpn--server--sndbuf)
+* [`rcvbuf`](#-openvpn--server--rcvbuf)
+* [`shared_ca`](#-openvpn--server--shared_ca)
+* [`crl_verify`](#-openvpn--server--crl_verify)
+* [`crl_auto_renew`](#-openvpn--server--crl_auto_renew)
+* [`crl_renew_schedule_period`](#-openvpn--server--crl_renew_schedule_period)
+* [`crl_renew_schedule_repeat`](#-openvpn--server--crl_renew_schedule_repeat)
+* [`extca_enabled`](#-openvpn--server--extca_enabled)
+* [`extca_ca_cert_file`](#-openvpn--server--extca_ca_cert_file)
+* [`extca_ca_crl_file`](#-openvpn--server--extca_ca_crl_file)
+* [`extca_server_cert_file`](#-openvpn--server--extca_server_cert_file)
+* [`extca_server_key_file`](#-openvpn--server--extca_server_key_file)
+* [`extca_dh_file`](#-openvpn--server--extca_dh_file)
+* [`extca_tls_auth_key_file`](#-openvpn--server--extca_tls_auth_key_file)
+* [`autostart`](#-openvpn--server--autostart)
+* [`remote_cert_tls`](#-openvpn--server--remote_cert_tls)
+* [`nobind`](#-openvpn--server--nobind)
+* [`secret`](#-openvpn--server--secret)
+* [`scripts`](#-openvpn--server--scripts)
+* [`custom_options`](#-openvpn--server--custom_options)
+* [`fragment`](#-openvpn--server--fragment)
 
-##### <a name="dn_mode"></a>`dn_mode`
+##### <a name="-openvpn--server--dn_mode"></a>`dn_mode`
 
 Data type: `Enum['org','cn_only']`
 
@@ -1057,71 +1057,71 @@ EasyRSA X509 DN mode.
 
 Default value: `'org'`
 
-##### <a name="country"></a>`country`
+##### <a name="-openvpn--server--country"></a>`country`
 
 Data type: `Optional[String[1]]`
 
 Country to be used for the SSL certificate, mandatory for server mode.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="province"></a>`province`
+##### <a name="-openvpn--server--province"></a>`province`
 
 Data type: `Optional[String[1]]`
 
 Province to be used for the SSL certificate, mandatory for server mode.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="city"></a>`city`
+##### <a name="-openvpn--server--city"></a>`city`
 
 Data type: `Optional[String[1]]`
 
 City to be used for the SSL certificate, mandatory for server mode.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="organization"></a>`organization`
+##### <a name="-openvpn--server--organization"></a>`organization`
 
 Data type: `Optional[String[1]]`
 
 Organization to be used for the SSL certificate, mandatory for server mode.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="email"></a>`email`
+##### <a name="-openvpn--server--email"></a>`email`
 
 Data type: `Optional[String[1]]`
 
 Email address to be used for the SSL certificate, mandatory for server mode.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="remote"></a>`remote`
+##### <a name="-openvpn--server--remote"></a>`remote`
 
 Data type: `Optional[Array]`
 
 List of OpenVPN endpoints to connect to.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="remote_random_hostname"></a>`remote_random_hostname`
+##### <a name="-openvpn--server--remote_random_hostname"></a>`remote_random_hostname`
 
 Data type: `Boolean`
 
 OpenVPN will prepend a random string (6 bytes, 12 hex characters) to hostname to prevent DNS caching. For example, "foo.example.com" would be modified to "<random-chars>.foo.example.com".
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="remote_random"></a>`remote_random`
+##### <a name="-openvpn--server--remote_random"></a>`remote_random`
 
 Data type: `Boolean`
 
 When multiple ${remote} address/ports are specified, initially randomize the order of the list as a kind of basic load-balancing measure.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="common_name"></a>`common_name`
+##### <a name="-openvpn--server--common_name"></a>`common_name`
 
 Data type: `String`
 
@@ -1129,15 +1129,15 @@ Common name to be used for the SSL certificate
 
 Default value: `'server'`
 
-##### <a name="compression"></a>`compression`
+##### <a name="-openvpn--server--compression"></a>`compression`
 
 Data type: `Optional[String[1]]`
 
 Which compression algorithm to use. This parameter is deprecated in OpenVPN 2.5.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="dev"></a>`dev`
+##### <a name="-openvpn--server--dev"></a>`dev`
 
 Data type: `String`
 
@@ -1145,7 +1145,7 @@ TUN/TAP virtual network device
 
 Default value: `'tun0'`
 
-##### <a name="user"></a>`user`
+##### <a name="-openvpn--server--user"></a>`user`
 
 Data type: `String`
 
@@ -1153,31 +1153,31 @@ Group to drop privileges to after startup
 
 Default value: `'nobody'`
 
-##### <a name="group"></a>`group`
+##### <a name="-openvpn--server--group"></a>`group`
 
 Data type: `Optional[String]`
 
 User to drop privileges to after startup
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ipp"></a>`ipp`
+##### <a name="-openvpn--server--ipp"></a>`ipp`
 
 Data type: `Boolean`
 
 Persist ifconfig information to a file to retain client IP addresses between sessions
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="duplicate_cn"></a>`duplicate_cn`
+##### <a name="-openvpn--server--duplicate_cn"></a>`duplicate_cn`
 
 Data type: `Boolean`
 
 Allow multiple connections on one cn
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="local"></a>`local`
+##### <a name="-openvpn--server--local"></a>`local`
 
 Data type: `String`
 
@@ -1185,23 +1185,23 @@ Interface for openvpn to bind to.
 
 Default value: `$facts['networking']['ip']`
 
-##### <a name="logfile"></a>`logfile`
+##### <a name="-openvpn--server--logfile"></a>`logfile`
 
 Data type: `Variant[Boolean, String]`
 
 Logfile for this openvpn server
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="manage_logfile_directory"></a>`manage_logfile_directory`
+##### <a name="-openvpn--server--manage_logfile_directory"></a>`manage_logfile_directory`
 
 Data type: `Boolean`
 
 Manage the directory that the logfile is located in
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="logdirectory_user"></a>`logdirectory_user`
+##### <a name="-openvpn--server--logdirectory_user"></a>`logdirectory_user`
 
 Data type: `String[1]`
 
@@ -1209,7 +1209,7 @@ The owner user of the logfile directory
 
 Default value: `'nobody'`
 
-##### <a name="logdirectory_group"></a>`logdirectory_group`
+##### <a name="-openvpn--server--logdirectory_group"></a>`logdirectory_group`
 
 Data type: `String[1]`
 
@@ -1217,7 +1217,7 @@ The owner group of the logfile directory
 
 Default value: `'nobody'`
 
-##### <a name="port"></a>`port`
+##### <a name="-openvpn--server--port"></a>`port`
 
 Data type: `String`
 
@@ -1225,15 +1225,15 @@ The port the openvpn server service is running on#
 
 Default value: `'1194'`
 
-##### <a name="portshare"></a>`portshare`
+##### <a name="-openvpn--server--portshare"></a>`portshare`
 
 Data type: `Optional[String]`
 
 The address and port to which non openvpn request shall be forwared, e.g. 127.0.0.1 8443
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="proto"></a>`proto`
+##### <a name="-openvpn--server--proto"></a>`proto`
 
 Data type: `Enum['tcp', 'tcp4', 'tcp6', 'udp', 'udp4', 'udp6']`
 
@@ -1241,7 +1241,7 @@ What IP protocol is being used.
 
 Default value: `'tcp'`
 
-##### <a name="status_log"></a>`status_log`
+##### <a name="-openvpn--server--status_log"></a>`status_log`
 
 Data type: `String`
 
@@ -1249,7 +1249,7 @@ Logfile for periodic dumps of the vpn service status
 
 Default value: `"/var/log/openvpn/${name}-status.log"`
 
-##### <a name="status_version"></a>`status_version`
+##### <a name="-openvpn--server--status_version"></a>`status_version`
 
 Data type: `Enum['1', '2', '3', '']`
 
@@ -1257,31 +1257,31 @@ Choose the status file format version number.
 
 Default value: `''`
 
-##### <a name="server"></a>`server`
+##### <a name="-openvpn--server--server"></a>`server`
 
 Data type: `Optional[String[1]]`
 
 Network to assign client addresses out of. Required in tun mode, not in tap mode
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="server_ipv6"></a>`server_ipv6`
+##### <a name="-openvpn--server--server_ipv6"></a>`server_ipv6`
 
 Data type: `Optional[String[1]]`
 
 IPv6 network to assign client addresses out of
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="server_bridge"></a>`server_bridge`
+##### <a name="-openvpn--server--server_bridge"></a>`server_bridge`
 
 Data type: `Optional[String[1]]`
 
 Server configuration to comply with existing DHCP server
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="push"></a>`push`
+##### <a name="-openvpn--server--push"></a>`push`
 
 Data type: `Array`
 
@@ -1289,7 +1289,7 @@ Options to push out to the client. This can include routes, DNS servers, DNS sea
 
 Default value: `[]`
 
-##### <a name="route"></a>`route`
+##### <a name="-openvpn--server--route"></a>`route`
 
 Data type: `Array`
 
@@ -1297,7 +1297,7 @@ Add route to routing table after connection is established. Multiple routes can 
 
 Default value: `[]`
 
-##### <a name="route_ipv6"></a>`route_ipv6`
+##### <a name="-openvpn--server--route_ipv6"></a>`route_ipv6`
 
 Data type: `Array`
 
@@ -1305,15 +1305,15 @@ Add IPv6 route to routing table after connection is established. Multiple routes
 
 Default value: `[]`
 
-##### <a name="keepalive"></a>`keepalive`
+##### <a name="-openvpn--server--keepalive"></a>`keepalive`
 
 Data type: `Optional[String[1]]`
 
 Add keepalive directive (ping and ping-restart) to server. Should match the form "n m".
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ssl_key_algo"></a>`ssl_key_algo`
+##### <a name="-openvpn--server--ssl_key_algo"></a>`ssl_key_algo`
 
 Data type: `Enum['rsa', 'ec', 'ed']`
 
@@ -1321,7 +1321,7 @@ SSL Key Algo. ec can enable elliptic curve support. ed uses ed25519 keys
 
 Default value: `'rsa'`
 
-##### <a name="ssl_key_size"></a>`ssl_key_size`
+##### <a name="-openvpn--server--ssl_key_size"></a>`ssl_key_size`
 
 Data type: `Integer`
 
@@ -1329,7 +1329,7 @@ Length of SSL keys (in bits) generated by this module, used if ssl_key_algo is r
 
 Default value: `2048`
 
-##### <a name="ssl_key_curve"></a>`ssl_key_curve`
+##### <a name="-openvpn--server--ssl_key_curve"></a>`ssl_key_curve`
 
 Data type: `String`
 
@@ -1337,15 +1337,15 @@ Define the named curve for the ssl keys, used if ssl_key_algo is ec, ed
 
 Default value: `'secp384r1'`
 
-##### <a name="ecdh_curve"></a>`ecdh_curve`
+##### <a name="-openvpn--server--ecdh_curve"></a>`ecdh_curve`
 
 Data type: `Optional[String[1]]`
 
 Define the named curve for ECDH key exchange, used if ssl_key_algo is ec, ed
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="topology"></a>`topology`
+##### <a name="-openvpn--server--topology"></a>`topology`
 
 Data type: `String`
 
@@ -1353,39 +1353,39 @@ Define the network topology type
 
 Default value: `'net30'`
 
-##### <a name="c2c"></a>`c2c`
+##### <a name="-openvpn--server--c2c"></a>`c2c`
 
 Data type: `Boolean`
 
 Enable client to client visibility
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="tcp_nodelay"></a>`tcp_nodelay`
-
-Data type: `Boolean`
-
-Enable/Disable.
-
-Default value: ``false``
-
-##### <a name="ccd_exclusive"></a>`ccd_exclusive`
+##### <a name="-openvpn--server--tcp_nodelay"></a>`tcp_nodelay`
 
 Data type: `Boolean`
 
 Enable/Disable.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="pam"></a>`pam`
+##### <a name="-openvpn--server--ccd_exclusive"></a>`ccd_exclusive`
 
 Data type: `Boolean`
 
 Enable/Disable.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="pam_module_arguments"></a>`pam_module_arguments`
+##### <a name="-openvpn--server--pam"></a>`pam`
+
+Data type: `Boolean`
+
+Enable/Disable.
+
+Default value: `false`
+
+##### <a name="-openvpn--server--pam_module_arguments"></a>`pam_module_arguments`
 
 Data type: `String`
 
@@ -1393,15 +1393,15 @@ Arguments to pass to the PAM module. For FreeIPA, set this to "openvpn login USE
 
 Default value: `'login'`
 
-##### <a name="management"></a>`management`
+##### <a name="-openvpn--server--management"></a>`management`
 
 Data type: `Boolean`
 
 Enable management interface
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="management_ip"></a>`management_ip`
+##### <a name="-openvpn--server--management_ip"></a>`management_ip`
 
 Data type: `String`
 
@@ -1409,7 +1409,7 @@ IP address where the management interface will listen
 
 Default value: `'localhost'`
 
-##### <a name="management_port"></a>`management_port`
+##### <a name="-openvpn--server--management_port"></a>`management_port`
 
 Data type: `Variant[Stdlib::Port::Unprivileged,Enum['unix']]`
 
@@ -1417,183 +1417,183 @@ Port where the management interface will listen
 
 Default value: `7505`
 
-##### <a name="up"></a>`up`
+##### <a name="-openvpn--server--up"></a>`up`
 
 Data type: `Optional[String[1]]`
 
 Script which we want to run when openvpn server starts. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="down"></a>`down`
+##### <a name="-openvpn--server--down"></a>`down`
 
 Data type: `Optional[String[1]]`
 
 Script which we want to run when openvpn server stops. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="client_connect"></a>`client_connect`
+##### <a name="-openvpn--server--client_connect"></a>`client_connect`
 
 Data type: `Optional[String[1]]`
 
 Script which we want to run when a client connects. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="client_disconnect"></a>`client_disconnect`
+##### <a name="-openvpn--server--client_disconnect"></a>`client_disconnect`
 
 Data type: `Optional[String[1]]`
 
 Script which we want to run when a client disconnects. If the path to the scirpt does not contain a slash, it will be assumed to be in `openvpn/${name}/scripts` directory.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="username_as_common_name"></a>`username_as_common_name`
+##### <a name="-openvpn--server--username_as_common_name"></a>`username_as_common_name`
 
 Data type: `Boolean`
 
 If true then set username-as-common-name
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="client_cert_not_required"></a>`client_cert_not_required`
+##### <a name="-openvpn--server--client_cert_not_required"></a>`client_cert_not_required`
 
 Data type: `Boolean`
 
 If true then set client-cert-not-required
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="ldap_enabled"></a>`ldap_enabled`
+##### <a name="-openvpn--server--ldap_enabled"></a>`ldap_enabled`
 
 Data type: `Boolean`
 
 If ldap is enabled, do stuff
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="ldap_server"></a>`ldap_server`
+##### <a name="-openvpn--server--ldap_server"></a>`ldap_server`
 
 Data type: `Optional[String[1]]`
 
 URL of LDAP server. ie. ldap://URL:PORT
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_binddn"></a>`ldap_binddn`
+##### <a name="-openvpn--server--ldap_binddn"></a>`ldap_binddn`
 
 Data type: `Optional[String[1]]`
 
 LDAP DN to bind as#
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_bindpass"></a>`ldap_bindpass`
+##### <a name="-openvpn--server--ldap_bindpass"></a>`ldap_bindpass`
 
 Data type: `Optional[String[1]]`
 
 LDAP password for ldapbinddn
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_u_basedn"></a>`ldap_u_basedn`
+##### <a name="-openvpn--server--ldap_u_basedn"></a>`ldap_u_basedn`
 
 Data type: `Optional[String[1]]`
 
 Place in the LDAP tree to look for users
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_u_filter"></a>`ldap_u_filter`
+##### <a name="-openvpn--server--ldap_u_filter"></a>`ldap_u_filter`
 
 Data type: `Optional[String[1]]`
 
 User SearchFilter for LDAP accounts
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_g_basedn"></a>`ldap_g_basedn`
+##### <a name="-openvpn--server--ldap_g_basedn"></a>`ldap_g_basedn`
 
 Data type: `Optional[String[1]]`
 
 Place in the LDAP tree to look for groups
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_gmember"></a>`ldap_gmember`
+##### <a name="-openvpn--server--ldap_gmember"></a>`ldap_gmember`
 
 Data type: `Boolean`
 
 If defined use group block in ldap.conf
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="ldap_g_filter"></a>`ldap_g_filter`
+##### <a name="-openvpn--server--ldap_g_filter"></a>`ldap_g_filter`
 
 Data type: `Optional[String[1]]`
 
 Group SearchFilter for LDAP accounts
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_memberatr"></a>`ldap_memberatr`
+##### <a name="-openvpn--server--ldap_memberatr"></a>`ldap_memberatr`
 
 Data type: `Optional[String[1]]`
 
 Attribute for MemberAttribute. Used with ldapfilter
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_tls_enable"></a>`ldap_tls_enable`
+##### <a name="-openvpn--server--ldap_tls_enable"></a>`ldap_tls_enable`
 
 Data type: `Boolean`
 
 Enable TLS for the LDAP authentication
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="ldap_tls_ca_cert_file"></a>`ldap_tls_ca_cert_file`
+##### <a name="-openvpn--server--ldap_tls_ca_cert_file"></a>`ldap_tls_ca_cert_file`
 
 Data type: `Optional[String[1]]`
 
 LDAP TLS authentication: path to the CA certificate.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_tls_ca_cert_dir"></a>`ldap_tls_ca_cert_dir`
+##### <a name="-openvpn--server--ldap_tls_ca_cert_dir"></a>`ldap_tls_ca_cert_dir`
 
 Data type: `Optional[String[1]]`
 
 LDAP TLS authentication: path to the CA certificates.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_tls_client_cert_file"></a>`ldap_tls_client_cert_file`
+##### <a name="-openvpn--server--ldap_tls_client_cert_file"></a>`ldap_tls_client_cert_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 LDAP TLS authentication: path to the tls client certificate
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ldap_tls_client_key_file"></a>`ldap_tls_client_key_file`
+##### <a name="-openvpn--server--ldap_tls_client_key_file"></a>`ldap_tls_client_key_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 LDAP TLS authentication: path to the tls client key
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="verb"></a>`verb`
+##### <a name="-openvpn--server--verb"></a>`verb`
 
 Data type: `Optional[String]`
 
 Level of logging verbosity
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cipher"></a>`cipher`
+##### <a name="-openvpn--server--cipher"></a>`cipher`
 
 Data type: `String`
 
@@ -1601,7 +1601,7 @@ Cipher to use for packet encryption
 
 Default value: `'AES-256-GCM'`
 
-##### <a name="tls_cipher"></a>`tls_cipher`
+##### <a name="-openvpn--server--tls_cipher"></a>`tls_cipher`
 
 Data type: `String`
 
@@ -1609,23 +1609,23 @@ TLS Ciphers to use
 
 Default value: `'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256'`
 
-##### <a name="persist_key"></a>`persist_key`
+##### <a name="-openvpn--server--persist_key"></a>`persist_key`
 
 Data type: `Boolean`
 
 Try to retain access to resources that may be unavailable because of privilege downgrades
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="persist_tun"></a>`persist_tun`
+##### <a name="-openvpn--server--persist_tun"></a>`persist_tun`
 
 Data type: `Boolean`
 
 Try to retain access to resources that may be unavailable because of privilege downgrades
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="key_expire"></a>`key_expire`
+##### <a name="-openvpn--server--key_expire"></a>`key_expire`
 
 Data type: `Integer`
 
@@ -1633,7 +1633,7 @@ The number of days to certify the server certificate for
 
 Default value: `3650`
 
-##### <a name="crl_days"></a>`crl_days`
+##### <a name="-openvpn--server--crl_days"></a>`crl_days`
 
 Data type: `Integer[1]`
 
@@ -1641,7 +1641,7 @@ The number of days the client revocation list will be valid for after generating
 
 Default value: `30`
 
-##### <a name="digest"></a>`digest`
+##### <a name="-openvpn--server--digest"></a>`digest`
 
 Data type: `Enum['md5','sha1','sha256','sha224','sha384','sha512']`
 
@@ -1649,7 +1649,7 @@ Cryptographic digest to use
 
 Default value: `'sha512'`
 
-##### <a name="ca_expire"></a>`ca_expire`
+##### <a name="-openvpn--server--ca_expire"></a>`ca_expire`
 
 Data type: `Integer`
 
@@ -1657,119 +1657,119 @@ The number of days to certify the CA certificate for
 
 Default value: `3650`
 
-##### <a name="key_name"></a>`key_name`
+##### <a name="-openvpn--server--key_name"></a>`key_name`
 
 Data type: `Optional[String]`
 
 Value for name_default variable in openssl.cnf and  KEY_NAME in vars
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="key_ou"></a>`key_ou`
+##### <a name="-openvpn--server--key_ou"></a>`key_ou`
 
 Data type: `Optional[String]`
 
 Value for organizationalUnitName_default variable in openssl.cnf and KEY_OU in vars
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="key_cn"></a>`key_cn`
+##### <a name="-openvpn--server--key_cn"></a>`key_cn`
 
 Data type: `Optional[String]`
 
 Value for commonName_default variable in openssl.cnf and KEY_CN in vars
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="tls_auth"></a>`tls_auth`
+##### <a name="-openvpn--server--tls_auth"></a>`tls_auth`
 
 Data type: `Boolean`
 
 Activates tls-auth to Add an additional layer of HMAC authentication on top of the TLS control channel to protect against DoS attacks.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="tls_crypt"></a>`tls_crypt`
+##### <a name="-openvpn--server--tls_crypt"></a>`tls_crypt`
 
 Data type: `Boolean`
 
 Encrypt and authenticate all control channel packets with the key from keyfile. (See --tls-auth for more background.)
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="tls_server"></a>`tls_server`
+##### <a name="-openvpn--server--tls_server"></a>`tls_server`
 
 Data type: `Boolean`
 
 If proto not tcp it lets you choose if the parameter tls-server is set or not.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="tls_client"></a>`tls_client`
+##### <a name="-openvpn--server--tls_client"></a>`tls_client`
 
 Data type: `Boolean`
 
 Allows you to set this server up as a tls-client connection.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="server_poll_timeout"></a>`server_poll_timeout`
+##### <a name="-openvpn--server--server_poll_timeout"></a>`server_poll_timeout`
 
 Data type: `Optional[Integer]`
 
 Value for timeout before trying the next server.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ping_timer_rem"></a>`ping_timer_rem`
+##### <a name="-openvpn--server--ping_timer_rem"></a>`ping_timer_rem`
 
 Data type: `Boolean`
 
 Do not start clocking timeouts until a remote peer connects.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="sndbuf"></a>`sndbuf`
+##### <a name="-openvpn--server--sndbuf"></a>`sndbuf`
 
 Data type: `Optional[Integer]`
 
 Set the TCP/UDP socket send buffer size.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="rcvbuf"></a>`rcvbuf`
+##### <a name="-openvpn--server--rcvbuf"></a>`rcvbuf`
 
 Data type: `Optional[Integer]`
 
 Set the TCP/UDP socket receive buffer size.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="shared_ca"></a>`shared_ca`
+##### <a name="-openvpn--server--shared_ca"></a>`shared_ca`
 
 Data type: `Optional[String]`
 
 Name of a openssl::ca resource to use config with
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="crl_verify"></a>`crl_verify`
+##### <a name="-openvpn--server--crl_verify"></a>`crl_verify`
 
 Data type: `Boolean`
 
 Enable CRL checking. Disabling this is not recommended.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="crl_auto_renew"></a>`crl_auto_renew`
+##### <a name="-openvpn--server--crl_auto_renew"></a>`crl_auto_renew`
 
 Data type: `Boolean`
 
 Enables automatic renewing of crl.pem.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="crl_renew_schedule_period"></a>`crl_renew_schedule_period`
+##### <a name="-openvpn--server--crl_renew_schedule_period"></a>`crl_renew_schedule_period`
 
 Data type: `String`
 
@@ -1777,7 +1777,7 @@ Sets the "period" Parameter of the schedule for renewing the CRL. Since changing
 
 Default value: `'monthly'`
 
-##### <a name="crl_renew_schedule_repeat"></a>`crl_renew_schedule_repeat`
+##### <a name="-openvpn--server--crl_renew_schedule_repeat"></a>`crl_renew_schedule_repeat`
 
 Data type: `Integer`
 
@@ -1785,95 +1785,95 @@ Sets the "repeat" Parameter of the schedule for renewing the CRL. Since changing
 
 Default value: `2`
 
-##### <a name="extca_enabled"></a>`extca_enabled`
+##### <a name="-openvpn--server--extca_enabled"></a>`extca_enabled`
 
 Data type: `Boolean`
 
 Turn this on if you are using an external CA solution, like FreeIPA. Once enabled, you must configure the remaining extca_* parameters.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="extca_ca_cert_file"></a>`extca_ca_cert_file`
+##### <a name="-openvpn--server--extca_ca_cert_file"></a>`extca_ca_cert_file`
 
 Data type: `Optional[String]`
 
 External CA: Path to the CA certificate.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="extca_ca_crl_file"></a>`extca_ca_crl_file`
+##### <a name="-openvpn--server--extca_ca_crl_file"></a>`extca_ca_crl_file`
 
 Data type: `Optional[String]`
 
 External CA: Path to the CA's CRL file. For FreeIPA-based CAs, CRLs expire every four hours, which means you may need your own solution for maintaining a local copy of your CA's CRL. Otherwise, you can set crl_verify to false (not recommended).
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="extca_server_cert_file"></a>`extca_server_cert_file`
+##### <a name="-openvpn--server--extca_server_cert_file"></a>`extca_server_cert_file`
 
 Data type: `Optional[String]`
 
 External CA: Path to the external CA issued OpenVPN server certificate.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="extca_server_key_file"></a>`extca_server_key_file`
+##### <a name="-openvpn--server--extca_server_key_file"></a>`extca_server_key_file`
 
 Data type: `Optional[String]`
 
 External CA: Path to the key file that corresponds to $extca_server_cert_file
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="extca_dh_file"></a>`extca_dh_file`
+##### <a name="-openvpn--server--extca_dh_file"></a>`extca_dh_file`
 
 Data type: `Optional[String]`
 
 External CA: Path to your Dillie-Hellman parameter file. You will need to create one yourself. Make sure key-size matches the public key size of your CA-issued server certificate. Like this: openssl dhparam -out /path/to/dh.pem 2048 Note: This is only required if you are enabling $tls_server.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="extca_tls_auth_key_file"></a>`extca_tls_auth_key_file`
+##### <a name="-openvpn--server--extca_tls_auth_key_file"></a>`extca_tls_auth_key_file`
 
 Data type: `Optional[String]`
 
 External CA: If you are enabling $extca_enabled and $tls_auth, you will also need to create  the tls-auth key file and specify its location here. The file can be created like this: openvpn --genkey --secret /path/to/ta.key. Note: you will need to distribute this file to your clients as well.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="autostart"></a>`autostart`
+##### <a name="-openvpn--server--autostart"></a>`autostart`
 
 Data type: `Optional[Boolean]`
 
 Enable autostart for server if openvpn::autostart_all is false.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="remote_cert_tls"></a>`remote_cert_tls`
+##### <a name="-openvpn--server--remote_cert_tls"></a>`remote_cert_tls`
 
 Data type: `Boolean`
 
 Enable or disable use of remote-cert-tls for the session. Generally used with client configuration
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="nobind"></a>`nobind`
+##### <a name="-openvpn--server--nobind"></a>`nobind`
 
 Data type: `Boolean`
 
 Whether or not to bind to a specific port number.#
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="secret"></a>`secret`
+##### <a name="-openvpn--server--secret"></a>`secret`
 
 Data type: `Optional[String]`
 
 A pre-shared static key.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="scripts"></a>`scripts`
+##### <a name="-openvpn--server--scripts"></a>`scripts`
 
 Data type: `Hash[String, Hash]`
 
@@ -1893,7 +1893,7 @@ openvpn::server { 'test-site':
 
 Default value: `{}`
 
-##### <a name="custom_options"></a>`custom_options`
+##### <a name="-openvpn--server--custom_options"></a>`custom_options`
 
 Data type: `Hash`
 
@@ -1901,11 +1901,11 @@ Hash of additional options to append to the configuration file.
 
 Default value: `{}`
 
-##### <a name="fragment"></a>`fragment`
+##### <a name="-openvpn--server--fragment"></a>`fragment`
 
 Data type: `Variant[Boolean, Integer]`
 
 
 
-Default value: ``false``
+Default value: `false`
 

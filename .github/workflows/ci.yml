@@ -67,18 +67,10 @@ jobs:
       fail-fast: false
       matrix:
         setfile:
-          - name: CentOS 7
-            value: centos7-64vpnserver.ma{hostname=vpnserver}-centos7-64vpnclienta.a{hostname=vpnclienta}
           - name: CentOS 8
             value: centos8-64vpnserver.ma{hostname=vpnserver}-centos8-64vpnclienta.a{hostname=vpnclienta}
-          - name: Debian 9
-            value: debian9-64vpnserver.ma{hostname=vpnserver}-debian9-64vpnclienta.a{hostname=vpnclienta}
-          - name: Debian 10
-            value: debian10-64vpnserver.ma{hostname=vpnserver}-debian10-64vpnclienta.a{hostname=vpnclienta}
           - name: Debian 11
             value: debian11-64vpnserver.ma{hostname=vpnserver}-debian11-64vpnclienta.a{hostname=vpnclienta}
-          - name: Ubuntu 18.04
-            value: ubuntu1804-64vpnserver.ma{hostname=vpnserver}-ubuntu1804-64vpnclienta.a{hostname=vpnclienta}
           - name: Ubuntu 20.04
             value: ubuntu2004-64vpnserver.ma{hostname=vpnserver}-ubuntu2004-64vpnclienta.a{hostname=vpnclienta}
           - name: Ubuntu 22.04
