@@ -28,3 +28,10 @@ node /^localhost\./ {
     ensure => present,
   }
 }
+
+# changing the testing CI to out-of-the-box beaker requires a default node statement, so we just mimic what centos 6 requires
+node default {
+  package { ['tar', 'openvpn', $netcat_package_name]:
+    ensure => present,
+  }
+}
