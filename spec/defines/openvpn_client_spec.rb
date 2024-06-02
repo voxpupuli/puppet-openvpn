@@ -22,10 +22,10 @@ describe 'openvpn::client', type: :define do
 
       server_directory = case facts[:os]['family']
                          when 'CentOS', 'RedHat'
-                           if facts[:os]['release']['major'] == '8'
-                             '/etc/openvpn/server'
-                           else
+                           if facts[:os]['release']['major'] == '7'
                              '/etc/openvpn'
+                           else
+                             '/etc/openvpn/server'
                            end
                          else
                            '/etc/openvpn'
