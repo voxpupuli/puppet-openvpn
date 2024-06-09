@@ -31,7 +31,7 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "8"
+        "9"
       ]
     },
     {
@@ -47,17 +47,17 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 7.0.0 < 8.0.0"
+      "version_requirement": ">= 7.0.0 < 9.0.0"
     }
   ],
   "dependencies": [
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 4.1.0 < 8.0.0"
+      "version_requirement": ">= 4.1.0 < 10.0.0"
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.25.0 < 9.0.0"
+      "version_requirement": ">= 4.25.0 < 10.0.0"
     }
   ],
   "tags": [
