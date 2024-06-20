@@ -369,7 +369,7 @@ define openvpn::server (
       }
 
       $ca_common_name = $common_name
-      ::openvpn::ca { $name:
+      openvpn::ca { $name:
         dn_mode        => $dn_mode,
         country        => $country,
         province       => $province,
