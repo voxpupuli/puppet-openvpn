@@ -105,7 +105,7 @@ Enable namespecific rclink's (BSD-style)
 
 ##### <a name="-openvpn--default_easyrsa_ver"></a>`default_easyrsa_ver`
 
-Data type: `Pattern[/^[23]\.0$/]`
+Data type: `Pattern[/^[23]\.\d(\.\d{1,2})?$/]`
 
 Expected version of easyrsa.
 

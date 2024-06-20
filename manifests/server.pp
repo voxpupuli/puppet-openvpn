@@ -353,7 +353,11 @@ define openvpn::server (
 
   if !$remote {
     if !$shared_ca and !$extca_enabled {
-      if $dn_mode == 'org' or $openvpn::easyrsa_version == '2.0' {
+      if $dn_mode == 'org' or
+      (versioncmp($openvpn::easyrsa_version, '3') == -1 and
+        (versioncmp($openvpn::easyrsa_version, '2') == 1 or
+        versioncmp($openvpn::easyrsa_version, '2') == 0)
+      ) {
         # VPN Server Mode
         if $country == undef {
           fail('country has to be specified in server mode')
@@ -398,16 +402,19 @@ define openvpn::server (
           period => $crl_renew_schedule_period,
           repeat => $crl_renew_schedule_repeat,
         }
-        case $openvpn::easyrsa_version {
-          '2.0': {
+        if versioncmp($openvpn::easyrsa_version, '3') == -1 {
+          if versioncmp($openvpn::easyrsa_version, '2') == 1 or versioncmp($openvpn::easyrsa_version, '2') == 0 {
             exec { "renew crl.pem on ${name}":
               command  => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${server_directory}/${name}/crl.pem -config ${server_directory}/${name}/easy-rsa/openssl.cnf",
               cwd      => "${server_directory}/${name}/easy-rsa",
               provider => 'shell',
               schedule => "renew crl.pem schedule on ${name}",
             }
+          } else {
+            fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x .")
           }
-          '3.0': {
+        } else {
+          if versioncmp($openvpn::easyrsa_version, '4') == -1 {
             exec { "renew crl.pem on ${name}":
               command  => "./easyrsa gen-crl && cp ./keys/crl.pem ${server_directory}/${name}/crl.pem",
               cwd      => "${server_directory}/${name}/easy-rsa",
@@ -419,9 +426,8 @@ define openvpn::server (
               refreshonly => true,
               provider    => 'shell',
             }
-          }
-          default: {
-            fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0.")
+          } else {
+            fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect between 2.0.0 and 3.x.x .")
           }
         }
       }
