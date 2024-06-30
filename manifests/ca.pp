@@ -141,7 +141,11 @@ define openvpn::ca (
       }
     }
     '3.0': {
-      file { "${server_directory}/${name}/easy-rsa/vars":
+      $vars_file = "${server_directory}/${name}/easy-rsa/vars"
+      $environment = [
+        "EASYRSA_VARS_FILE=${vars_file}",
+      ]
+      file { $vars_file:
         ensure  => file,
         mode    => '0550',
         content => epp('openvpn/vars-30.epp',
@@ -185,28 +189,30 @@ define openvpn::ca (
         command     => './easyrsa --batch init-pki && ./easyrsa --batch build-ca nopass',
         cwd         => "${server_directory}/${name}/easy-rsa",
         creates     => "${server_directory}/${name}/easy-rsa/keys/ca.crt",
-        environment => $_initca_environment,
+        environment => $environment + $_initca_environment,
         provider    => 'shell',
-        require     => File["${server_directory}/${name}/easy-rsa/vars"],
+        require     => File[$vars_file],
       }
 
       if ($ssl_key_algo == 'rsa') {
         exec { "generate dh param ${name}":
-          command  => './easyrsa --batch gen-dh',
-          timeout  => 20000,
-          cwd      => "${server_directory}/${name}/easy-rsa",
-          creates  => "${server_directory}/${name}/easy-rsa/keys/dh.pem",
-          provider => 'shell',
-          require  => Exec["generate server cert ${name}"],
+          command     => './easyrsa --batch gen-dh',
+          timeout     => 20000,
+          cwd         => "${server_directory}/${name}/easy-rsa",
+          creates     => "${server_directory}/${name}/easy-rsa/keys/dh.pem",
+          environment => $environment,
+          provider    => 'shell',
+          require     => Exec["generate server cert ${name}"],
         }
       }
 
       exec { "generate server cert ${name}":
-        command  => "./easyrsa build-server-full '${common_name}' nopass",
-        cwd      => "${server_directory}/${name}/easy-rsa",
-        creates  => "${server_directory}/${name}/easy-rsa/keys/private/${common_name}.key",
-        provider => 'shell',
-        require  => Exec["initca ${name}"],
+        command     => "./easyrsa build-server-full '${common_name}' nopass",
+        cwd         => "${server_directory}/${name}/easy-rsa",
+        creates     => "${server_directory}/${name}/easy-rsa/keys/private/${common_name}.key",
+        environment => $environment,
+        provider    => 'shell',
+        require     => Exec["initca ${name}"],
       }
 
       file { "${server_directory}/${name}/easy-rsa/keys/ca.crt":
@@ -215,11 +221,12 @@ define openvpn::ca (
       }
 
       exec { "create crl.pem on ${name}":
-        command  => './easyrsa gen-crl',
-        cwd      => "${server_directory}/${name}/easy-rsa",
-        creates  => "${server_directory}/${name}/easy-rsa/keys/crl.pem",
-        provider => 'shell',
-        require  => Exec["generate server cert ${name}"],
+        command     => './easyrsa gen-crl',
+        cwd         => "${server_directory}/${name}/easy-rsa",
+        creates     => "${server_directory}/${name}/easy-rsa/keys/crl.pem",
+        environment => $environment,
+        provider    => 'shell',
+        require     => Exec["generate server cert ${name}"],
       }
       -> exec { "copy created crl.pem to ${name} keys directory":
         command  => "cp ${server_directory}/${name}/easy-rsa/keys/crl.pem ${server_directory}/${name}/crl.pem",
