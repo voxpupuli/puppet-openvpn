@@ -6,13 +6,13 @@ describe 'openvpn::client_specific_config', type: :define do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:pre_condition) do
-          'openvpn::server { "test_server":
-            country       => "CO",
-            province      => "ST",
-            city          => "Some City",
-            organization  => "example.org",
-            email         => "testemail@example.org"
-          }'
+        'openvpn::server { "test_server":
+           country       => "CO",
+           province      => "ST",
+           city          => "Some City",
+           organization  => "example.org",
+           email         => "testemail@example.org"
+        }'
       end
       let(:facts) do
         facts
