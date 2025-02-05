@@ -38,7 +38,6 @@ define openvpn::client_specific_config (
 ) {
   if $manage_client_configs {
     Openvpn::Server[$server]
-    -> Openvpn::Client[$name]
     -> Openvpn::Client_specific_config[$name]
   } else {
     Openvpn::Server[$server]
