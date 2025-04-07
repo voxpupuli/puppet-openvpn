@@ -4,15 +4,9 @@ require 'spec_helper_acceptance'
 
 case fact('osfamily')
 when 'RedHat'
-  if fact('os.release.major') =~ %r{8|9}
-    server_directory = '/etc/openvpn/server'
-    client_directory = '/etc/openvpn/client'
-    client_service = 'openvpn-client'
-  else
-    server_directory = '/etc/openvpn'
-    client_directory = '/etc/openvpn'
-    client_service = 'openvpn'
-  end
+  server_directory = '/etc/openvpn/server'
+  client_directory = '/etc/openvpn/client'
+  client_service = 'openvpn-client'
   server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
   key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
   crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"

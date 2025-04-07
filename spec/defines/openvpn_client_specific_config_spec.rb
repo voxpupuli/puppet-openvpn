@@ -31,11 +31,7 @@ describe 'openvpn::client_specific_config', type: :define do
 
       server_directory = case facts[:os]['family']
                          when 'CentOS', 'RedHat'
-                           if facts[:os]['release']['major'] =~ %r{8|9}
-                             '/etc/openvpn/server'
-                           else
-                             '/etc/openvpn'
-                           end
+                           '/etc/openvpn/server'
                          else
                            '/etc/openvpn'
                          end
