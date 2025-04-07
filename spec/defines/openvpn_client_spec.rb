@@ -37,7 +37,7 @@ describe 'openvpn::client', type: :define do
 
       case facts[:os]['family']
       when 'Ubuntu', 'Debian'
-        if facts[:os]['release']['major'] =~ %r{10|11|20.04|22.04}
+        if facts[:os]['release']['major'] =~ %r{11|12|20.04|22.04}
           context 'system with easyrsa3' do
             it {
               is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.crt").with(
@@ -261,7 +261,7 @@ describe 'openvpn::client', type: :define do
 
         case facts[:os]['family']
         when 'Ubuntu', 'Debian'
-          if facts[:os]['release']['major'] =~ %r{10|11|20.04|22.04}
+          if facts[:os]['release']['major'] =~ %r{11|12|20.04|22.04}
             context 'system with easyrsa3' do
               it {
                 is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.crt").with(

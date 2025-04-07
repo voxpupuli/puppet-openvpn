@@ -182,7 +182,7 @@ define openvpn::ca (
       }
 
       exec { "initca ${name}":
-        command     => './easyrsa --batch init-pki && ./easyrsa --batch build-ca nopass',
+        command     => "./easyrsa --batch --pki-dir=${server_directory}/${name}/easy-rsa/keys init-pki && ./easyrsa --batch build-ca nopass",
         cwd         => "${server_directory}/${name}/easy-rsa",
         creates     => "${server_directory}/${name}/easy-rsa/keys/ca.crt",
         environment => $_initca_environment,
