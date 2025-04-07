@@ -37,41 +37,29 @@ describe 'openvpn::client', type: :define do
 
       case facts[:os]['family']
       when 'Ubuntu', 'Debian'
-        if facts[:os]['release']['major'] =~ %r{11|12|20.04|22.04|24.04}
-          context 'system with easyrsa3' do
-            it {
-              is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.crt").with(
-                'ensure' => 'link',
-                'target' => "#{server_directory}/test_server/easy-rsa/keys/issued/test_client.crt"
-              )
-            }
+        context 'system with easyrsa3' do
+          it {
+            is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.crt").with(
+              'ensure' => 'link',
+              'target' => "#{server_directory}/test_server/easy-rsa/keys/issued/test_client.crt"
+            )
+          }
 
-            it {
-              is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.key").with(
-                'ensure' => 'link',
-                'target' => "#{server_directory}/test_server/easy-rsa/keys/private/test_client.key"
-              )
-            }
+          it {
+            is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.key").with(
+              'ensure' => 'link',
+              'target' => "#{server_directory}/test_server/easy-rsa/keys/private/test_client.key"
+            )
+          }
 
-            it {
-              is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/ca.crt").with(
-                'ensure' => 'link',
-                'target' => "#{server_directory}/test_server/easy-rsa/keys/ca.crt"
-              )
-            }
-          end
-        else
-          context 'system with easyrsa2' do
-            ['test_client.crt', 'test_client.key', 'ca.crt'].each do |file|
-              it {
-                is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/#{file}").with(
-                  'ensure' => 'link',
-                  'target' => "#{server_directory}/test_server/easy-rsa/keys/#{file}"
-                )
-              }
-            end
-          end
+          it {
+            is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/ca.crt").with(
+              'ensure' => 'link',
+              'target' => "#{server_directory}/test_server/easy-rsa/keys/ca.crt"
+            )
+          }
         end
+      end
       when 'CentOS', 'RedHat', %r{Archlinux}, %r{FreeBSD}
         context 'system with easyrsa3' do
           it {
@@ -261,41 +249,29 @@ describe 'openvpn::client', type: :define do
 
         case facts[:os]['family']
         when 'Ubuntu', 'Debian'
-          if facts[:os]['release']['major'] =~ %r{11|12|20.04|22.04|24.04}
-            context 'system with easyrsa3' do
-              it {
-                is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.crt").with(
-                  'ensure' => 'link',
-                  'target' => "#{server_directory}/my_already_existing_ca/easy-rsa/keys/issued/test_client.crt"
-                )
-              }
+          context 'system with easyrsa3' do
+            it {
+              is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.crt").with(
+                'ensure' => 'link',
+                'target' => "#{server_directory}/my_already_existing_ca/easy-rsa/keys/issued/test_client.crt"
+              )
+            }
 
-              it {
-                is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.key").with(
-                  'ensure' => 'link',
-                  'target' => "#{server_directory}/my_already_existing_ca/easy-rsa/keys/private/test_client.key"
-                )
-              }
+            it {
+              is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/test_client.key").with(
+                'ensure' => 'link',
+                'target' => "#{server_directory}/my_already_existing_ca/easy-rsa/keys/private/test_client.key"
+              )
+            }
 
-              it {
-                is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/ca.crt").with(
-                  'ensure' => 'link',
-                  'target' => "#{server_directory}/my_already_existing_ca/easy-rsa/keys/ca.crt"
-                )
-              }
-            end
-          else
-            context 'system with easyrsa2' do
-              ['test_client.crt', 'test_client.key', 'ca.crt'].each do |file|
-                it {
-                  is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/#{file}").with(
-                    'ensure' => 'link',
-                    'target' => "#{server_directory}/my_already_existing_ca/easy-rsa/keys/#{file}"
-                  )
-                }
-              end
-            end
+            it {
+              is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/keys/test_client/ca.crt").with(
+                'ensure' => 'link',
+                'target' => "#{server_directory}/my_already_existing_ca/easy-rsa/keys/ca.crt"
+              )
+            }
           end
+        end
         when 'CentOS', 'RedHat', %r{Archlinux}, %r{FreeBSD}
           context 'system with easyrsa3' do
             it {

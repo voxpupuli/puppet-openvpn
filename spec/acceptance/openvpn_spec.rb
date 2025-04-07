@@ -17,19 +17,12 @@ when 'Debian'
   server_directory = '/etc/openvpn'
   client_directory = '/etc/openvpn'
   client_service = 'openvpn'
-  if fact('os.release.major') =~ %r{11|12|20.04|22.04|24.04}
-    server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
-    key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
-    crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"
-    easy_rsa_version = '3.0'
-    renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
-  else
-    server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/server.crt"
-    key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
-    crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
-    easy_rsa_version = '2.0'
-    renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
-  end
+  server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
+  key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
+  crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"
+  easy_rsa_version = '3.0'
+  renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
+
   index_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys"
 else
   raise "Unknown OS family #{fact('osfamily')}"
