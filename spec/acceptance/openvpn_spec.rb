@@ -4,7 +4,7 @@ require 'spec_helper_acceptance'
 
 case fact('osfamily')
 when 'RedHat'
-  if fact('os.release.major') == '8'
+  if fact('os.release.major') =~ %r{8|9}
     server_directory = '/etc/openvpn/server'
     client_directory = '/etc/openvpn/client'
     client_service = 'openvpn-client'

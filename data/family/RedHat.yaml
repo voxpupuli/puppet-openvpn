@@ -5,3 +5,5 @@ openvpn::pam_module_path: '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
 openvpn::namespecific_rclink: false
 openvpn::default_easyrsa_ver: '3.0'
 openvpn::easyrsa_source: '/usr/share/easy-rsa/3'
+openvpn::server_directory: '/etc/openvpn/server'
+openvpn::server_service_name: 'openvpn-server'
