@@ -139,7 +139,7 @@ define openvpn::client (
     }
     '3.0': {
       exec { "generate certificate for ${name} in context of ${ca_name}":
-        command  => ". ./vars && ${env_expire} ./easyrsa --batch build-client-full ${name} nopass",
+        command  => "${env_expire} ./easyrsa --batch build-client-full ${name} nopass",
         cwd      => "${server_directory}/${ca_name}/easy-rsa",
         creates  => "${server_directory}/${ca_name}/easy-rsa/keys/issued/${name}.crt",
         provider => 'shell';

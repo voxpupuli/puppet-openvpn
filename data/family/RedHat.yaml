@@ -3,6 +3,6 @@ openvpn::group: 'nobody'
 openvpn::link_openssl_cnf: true
 openvpn::pam_module_path: '/usr/lib64/openvpn/plugin/lib/openvpn-auth-pam.so'
 openvpn::namespecific_rclink: false
-openvpn::easyrsa_source: '/usr/share/easy-rsa/3'
+openvpn::easyrsa_source: '/usr/share/easy-rsa/3/'
 openvpn::server_directory: '/etc/openvpn/server'
 openvpn::server_service_name: 'openvpn-server'

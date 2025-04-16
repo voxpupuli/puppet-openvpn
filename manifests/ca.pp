@@ -171,7 +171,7 @@ define openvpn::ca (
       if $openvpn::link_openssl_cnf {
         File["${server_directory}/${name}/easy-rsa/openssl.cnf"] {
           ensure => link,
-          target => "${server_directory}/${name}/easy-rsa/openssl-1.0.cnf",
+          target => "${server_directory}/${name}/easy-rsa/openssl-easyrsa.cnf",
           before => Exec["initca ${name}"],
         }
       }

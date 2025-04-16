@@ -9,7 +9,7 @@ Facter.add(:easyrsa) do
     operatingsystemrelease = Facter.value(:operatingsystemrelease)
 
     case operatingsystem
-    when %r{RedHat|CentOS|Amazon}
+    when %r{RedHat|CentOS|Amazon|Rocky|AlmaLinux|OracleLinux}
       binaryv2 = '/usr/share/easy-rsa/2.0/pkitool'
       binaryv3 = '/usr/share/easy-rsa/3/easyrsa'
     when %r{Ubuntu|Debian}
@@ -29,7 +29,7 @@ Facter.add(:easyrsa) do
     end
 
     if File.exist? binaryv3
-      data = Facter::Core::Execution.execute("#{binaryv3} --help")
+      data = Facter::Core::Execution.execute("#{binaryv3} help")
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
     elsif File.exist? binaryv2
       data = Facter::Core::Execution.execute("#{binaryv2} --help")
@@ -38,7 +38,7 @@ Facter.add(:easyrsa) do
       data = Facter::Core::Execution.execute('pkitool --help')
       version = '2.0' if data.gsub!(%r{pkitool 2.0}, '')
     elsif Facter::Util::Resolution.which('easyrsa')
-      data = Facter::Core::Execution.execute('easyrsa --help')
+      data = Facter::Core::Execution.execute('easyrsa help')
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
     end
     version = nil if version.nil?
