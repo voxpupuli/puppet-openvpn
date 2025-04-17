@@ -321,6 +321,7 @@ define openvpn::server (
 
   File {
     group => $group_to_set,
+    selinux_ignore_defaults => true,
   }
 
   file { "${server_directory}/${name}":

@@ -1,4 +1,4 @@
-if $facts['os']['name'] == 'CentOS' {
+if $facts['os']['family'] == 'RedHat' {
   package { 'epel-release':
     ensure => present,
   }
@@ -7,31 +7,24 @@ if $facts['os']['name'] == 'CentOS' {
 $netcat_package_name = $facts['os']['family'] ? {
   'Debian' => 'netcat-openbsd',
   'RedHat' => 'nc',
+  'Archlinux' => 'gnu-netcat',
   default  => 'netcat',
 }
 
-node /^vpnserver\./ {
+node /vpnserver/ {
   package { $netcat_package_name:
     ensure => present,
   }
 }
 
-node /^vpnclienta\./ {
-  package { ['tar','openvpn'] :
+node /vpnclient/ {
+  package { ['tar','openvpn']:
     ensure => present,
   }
 }
 
-# CentOS 6 in docker doesn't get a hostname - install all packages
-node /^localhost\./ {
-  package { ['tar', 'openvpn', $netcat_package_name]:
-    ensure => present,
-  }
-}
-
-# changing the testing CI to out-of-the-box beaker requires a default node statement, so we just mimic what centos 6 requires
 node default {
-  package { ['tar', 'openvpn', $netcat_package_name]:
+  package { $netcat_package_name:
     ensure => present,
   }
 }

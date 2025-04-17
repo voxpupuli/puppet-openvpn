@@ -60,6 +60,7 @@ define openvpn::ca (
 
   File {
     group => $group_to_set,
+    selinux_ignore_defaults => true,
   }
 
   $server_directory = $openvpn::server_directory
