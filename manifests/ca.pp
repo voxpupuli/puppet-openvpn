@@ -87,6 +87,14 @@ define openvpn::ca (
     require => File["${server_directory}/${name}/easy-rsa"],
   }
 
+  if $facts['os']['family'] == 'Archlinux' {
+    file { "${server_directory}/${name}/easy-rsa/easyrsa":
+      ensure  => link,
+      target  => '/bin/easyrsa',
+      require => File["${server_directory}/${name}/easy-rsa"],
+    }
+  }
+
   case $openvpn::easyrsa_version {
     '2.0': {
       if $ssl_key_algo != 'rsa' {
