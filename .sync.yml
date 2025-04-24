@@ -4,3 +4,4 @@ spec/spec_helper_acceptance.rb:
 .github/workflows/ci.yml:
   with:
     beaker_hosts: 'vpnserver:ma;vpnclienta:a'
+    beaker_hypervisor: 'vagrant_libvirt'
