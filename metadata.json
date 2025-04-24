@@ -62,7 +62,11 @@
       "operatingsystem": "Archlinux"
     },
     {
-      "operatingsystem": "FreeBSD"
+      "operatingsystem": "FreeBSD",
+      "operatingsystemrelease": [
+        "13",
+        "14"
+      ]
     },
     {
       "operatingsystem": "Solaris"
