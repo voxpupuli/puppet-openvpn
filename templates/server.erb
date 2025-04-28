@@ -30,19 +30,12 @@ dh <%= @extca_dh_file %>
 crl-verify <%= @extca_ca_crl_file %>
 <%   end -%>
 <% else -%>
-<%- if @_easyrsa_version == '2.0' -%>
-ca <%= @server_directory %>/<%= @ca_name %>/keys/ca.crt
-cert <%= @server_directory %>/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
-key <%= @server_directory %>/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
-<%- else -%>
+
 ca <%= @server_directory %>/<%= @ca_name %>/keys/ca.crt
 cert <%= @server_directory %>/<%= @ca_name %>/keys/issued/<%= @ca_common_name %>.crt
 key <%= @server_directory %>/<%= @ca_name %>/keys/private/<%= @ca_common_name %>.key
-<%- end -%>
 <%   unless @remote -%>
-<%- if @_easyrsa_version == '2.0' -%>
-dh <%= @server_directory %>/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
-<%- elsif @ssl_key_algo == 'rsa' -%>
+<%- if @ssl_key_algo == 'rsa' -%>
 dh <%= @server_directory %>/<%= @ca_name %>/keys/dh.pem
 <%- else -%>
 dh none

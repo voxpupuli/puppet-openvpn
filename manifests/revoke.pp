@@ -25,14 +25,13 @@ define openvpn::revoke (
   $server_directory = $openvpn::server_directory
 
   $revocation_command = $openvpn::easyrsa_version ? {
-    '2.0' => ". ./vars && ./revoke-full ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))'",
     '3.0' => ". ./vars && ./easyrsa --batch revoke ${name}; echo \"exit $?\" | grep -qE '(error 23|exit (0|2))'",
+    default => fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 3.0."),
   }
 
   $renew_command = $openvpn::easyrsa_version ? {
-    '2.0'   => ". ./vars && KEY_CN='' KEY_OU='' KEY_NAME='' KEY_ALTNAMES='' openssl ca -gencrl -out ${server_directory}/${server}/crl.pem -config ${server_directory}/${server}/easy-rsa/openssl.cnf",
     '3.0'   => './easyrsa gen-crl',
-    default => fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 2.0 or 3.0."),
+    default => fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 3.0."),
   }
 
   file { "${server_directory}/${server}/easy-rsa/revoked/${name}":
