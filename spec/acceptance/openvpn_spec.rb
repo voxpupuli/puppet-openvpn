@@ -335,6 +335,7 @@ if easy_rsa_version == '3.0'
         scp_to(hosts_as('vpnclienta'), "#{server_name}-vpnclienta.tar.gz", '/tmp')
         on(hosts_as('vpnclienta'), "tar xvfz /tmp/#{server_name}-vpnclienta.tar.gz -C #{client_directory}")
         on(hosts_as('vpnclienta'), "cp -a #{client_directory}/#{server_name}-vpnclienta/* #{client_directory}/")
+        on(hosts_as('vpnclienta'), "chown openvpn:network -R #{client_directory}/client/vpnclienta") if default[:platform].start_with?('archlinux')
         on(hosts_as('vpnclienta'), "systemctl enable #{client_service}@#{server_name}-vpnclienta")
         on(hosts_as('vpnclienta'), "systemctl restart #{client_service}@#{server_name}-vpnclienta")
       end

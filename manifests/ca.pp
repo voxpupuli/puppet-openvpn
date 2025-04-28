@@ -86,6 +86,14 @@ define openvpn::ca (
     require => File["${server_directory}/${name}/easy-rsa"],
   }
 
+  if $facts['os']['family'] == 'Archlinux' {
+    file { "${server_directory}/${name}/easy-rsa/easyrsa":
+      ensure  => link,
+      target  => '/bin/easyrsa',
+      require => File["${server_directory}/${name}/easy-rsa"],
+    }
+  }
+
   case $openvpn::easyrsa_version {
     '3.0': {
       file { "${server_directory}/${name}/easy-rsa/vars":
@@ -172,6 +180,38 @@ define openvpn::ca (
         command  => "cp ${server_directory}/${name}/easy-rsa/keys/crl.pem ${server_directory}/${name}/crl.pem",
         creates  => "${server_directory}/${name}/crl.pem",
         provider => 'shell',
+      }
+
+      if $facts['os']['family'] == 'Archlinux' {
+        file { [
+            "${server_directory}/${name}/easy-rsa/keys/issued",
+            "${server_directory}/${name}/easy-rsa/keys/issued/${common_name}.crt",
+          ]:
+            mode    => '0640',
+            owner   => 'openvpn',
+            group   => $openvpn::group,
+            require => Exec["generate server cert ${name}"],
+        }
+
+        file { [
+            "${server_directory}/${name}/easy-rsa/keys/private",
+            "${server_directory}/${name}/easy-rsa/keys/private/${common_name}.key",
+          ]:
+            mode    => '0640',
+            owner   => 'openvpn',
+            group   => $openvpn::group,
+            require => Exec["generate server cert ${name}"],
+        }
+
+        file { [
+            "${server_directory}/${name}/easy-rsa/keys",
+            "${server_directory}/${name}/easy-rsa/keys/dh.pem",
+          ]:
+            mode    => '0640',
+            owner   => 'openvpn',
+            group   => $openvpn::group,
+            require => Exec["generate dh param ${name}"],
+        }
       }
     }
     default: {

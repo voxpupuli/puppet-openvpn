@@ -9,6 +9,13 @@ class openvpn::install {
     ensure_packages($openvpn::additional_packages)
   }
 
+  if $facts['os']['family'] == 'Archlinux' {
+    File {
+      owner  => 'openvpn',
+      group  => $openvpn::group,
+    }
+  }
+
   file {
     ["${openvpn::etc_directory}/openvpn", "${openvpn::etc_directory}/openvpn/keys", '/var/log/openvpn',]:
       ensure  => directory,

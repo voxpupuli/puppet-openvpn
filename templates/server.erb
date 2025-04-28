@@ -74,8 +74,10 @@ tls-client
 <% if @compression -%>
 <%= @compression %>
 <% end -%>
+<% if @set_user_group %>
 group <%= @group_to_set %>
 user <%= @user %>
+<% end -%>
 <% if @logfile -%>
 log-append <%= @logfile %>
 <% end -%>
