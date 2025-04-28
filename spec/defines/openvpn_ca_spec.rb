@@ -12,7 +12,7 @@ describe 'openvpn::ca', type: :define do
 
       case facts[:os]['family']
       when 'RedHat'
-        server_directory = if facts[:os]['release']['major'] == '8'
+        server_directory = if facts[:os]['release']['major'] =~ %r{8|9}
                              '/etc/openvpn/server'
                            else
                              '/etc/openvpn'
