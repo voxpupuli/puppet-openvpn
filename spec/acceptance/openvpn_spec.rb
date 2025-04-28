@@ -14,10 +14,10 @@ when 'RedHat'
   easy_rsa_version = '3.0'
   renew_crl_cmd = "cd #{server_directory}/test_openvpn_server/easy-rsa && . ./vars && EASYRSA_REQ_CN='' EASYRSA_REQ_OU='' openssl ca -gencrl -out #{server_directory}/test_openvpn_server/crl.pem -config #{server_directory}/test_openvpn_server/easy-rsa/openssl.cnf"
 when 'Debian'
-  server_directory = '/etc/openvpn'
-  client_directory = '/etc/openvpn'
+  server_directory = '/etc/openvpn/server'
+  client_directory = '/etc/openvpn/client'
   client_service = 'openvpn'
-  if fact('os.release.major') =~ %r{10|11|20.04|22.04}
+  if fact('os.release.major') =~ %r{11|12|20.04|22.04}
     server_crt = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued/server.crt"
     key_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/private"
     crt_path = "#{server_directory}/test_openvpn_server/easy-rsa/keys/issued"
