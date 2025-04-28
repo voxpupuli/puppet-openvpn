@@ -55,7 +55,7 @@ define openvpn::revoke (
   }
 
   if ($openvpn::easyrsa_version == '3.0') {
-    exec { "copy renewed crl.pem to ${name} keys directory because of revocation of ${name}":
+    exec { "copy renewed crl.pem to ${server} keys directory because of revocation of ${name}":
       command     => "cp ${server_directory}/${server}/easy-rsa/keys/crl.pem ${server_directory}/${server}/crl.pem",
       subscribe   => Exec["renew crl.pem on ${server} because of revocation of ${name}"],
       provider    => 'shell',
