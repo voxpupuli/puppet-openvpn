@@ -12,11 +12,7 @@ describe 'openvpn::ca', type: :define do
 
       case facts[:os]['family']
       when 'RedHat'
-        server_directory = if facts[:os]['release']['major'] =~ %r{8|9}
-                             '/etc/openvpn/server'
-                           else
-                             '/etc/openvpn'
-                           end
+        server_directory = '/etc/openvpn/server'
 
         context 'creating a server with the minimum parameters' do
           let(:params) do
