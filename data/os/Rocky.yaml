@@ -1,0 +1,1 @@
+openvpn::pam_module_path: '/usr/lib64/openvpn/plugins/openvpn-auth-pam.so'

@@ -321,6 +321,7 @@ define openvpn::server (
 
   File {
     group => $group_to_set,
+    selinux_ignore_defaults => true,
   }
 
   file { "${server_directory}/${name}":
@@ -468,6 +469,12 @@ define openvpn::server (
 
   # Template might need script directory
   $_script_dir = "${server_directory}/${name}/scripts"
+
+  if $facts['os']['family'] == 'Archlinux' {
+    $set_user_group = false
+  } else {
+    $set_user_group = true
+  }
 
   file { "${server_directory}/${name}.conf":
     owner   => root,

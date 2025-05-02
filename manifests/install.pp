@@ -4,9 +4,16 @@
 class openvpn::install {
   include openvpn
 
-  ensure_packages(['openvpn'])
+  stdlib::ensure_packages(['openvpn'])
   if $openvpn::additional_packages {
-    ensure_packages($openvpn::additional_packages)
+    stdlib::ensure_packages($openvpn::additional_packages)
+  }
+
+  if $facts['os']['family'] == 'Archlinux' {
+    File {
+      owner  => 'openvpn',
+      group  => $openvpn::group,
+    }
   }
 
   file {
