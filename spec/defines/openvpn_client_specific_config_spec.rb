@@ -55,6 +55,7 @@ describe 'openvpn::client_specific_config' do
             ifconfig: '10.10.10.2 255.255.255.0',
             ifconfig_ipv6: '2001:db8:0:123::2/64 2001:db8:0:123::1',
             route: ['10.200.100.0 255.255.255.0 10.10.10.1'],
+            route_ipv6: ['2001:db8:1::/64'],
             dhcp_options: ['DNS 8.8.8.8'],
             custom_options: { 'this' => 'that' },
             redirect_gateway: true
@@ -70,6 +71,7 @@ describe 'openvpn::client_specific_config' do
             with_content(%r{ifconfig-push 10.10.10.2 255.255.255.0}).
             with_content(%r{ifconfig-ipv6-push 2001:db8:0:123::2/64 2001:db8:0:123::1}).
             with_content(%r{route 10.200.100.0 255.255.255.0 10.10.10.1}).
+            with_content(%r{push "route-ipv6 2001:db8:1::/64}).
             with_content(%r{dhcp-option DNS 8.8.8.8}).
             with_content(%r{this that}).
             with_content(%r{redirect-gateway})
