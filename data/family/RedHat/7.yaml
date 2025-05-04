@@ -1,2 +1,0 @@
-openvpn::additional_packages: ['easy-rsa']
-openvpn::ldap_auth_plugin_location: ~

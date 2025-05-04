@@ -2,35 +2,30 @@
 
 require 'spec_helper'
 
-describe 'openvpn', type: :class do
-  on_supported_os.each do |os, facts|
+describe 'openvpn' do
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
-      let(:pre_condition) { 'class { "openvpn" : manage_service => true }' }
+      let(:facts) do
+        os_facts.merge(
+          easyrsa: '3.0'
+        )
+      end
 
       it { is_expected.to compile.with_all_deps }
 
-      os_name = facts[:os]['name']
-      os_release = facts[:os]['release']['major']
-      case "#{os_name}-#{os_release}"
-      when %r{FreeBSD}
-        let(:facts) do
-          facts
-        end
+      it { is_expected.to create_class('openvpn') }
+      it { is_expected.to contain_class('openvpn::install') }
+      it { is_expected.to contain_class('openvpn::config') }
 
-        context 'system without systemd' do
-          it { is_expected.to create_class('openvpn') }
-          it { is_expected.to contain_class('openvpn::service') }
-        end
-      else
-        let(:facts) do
-          facts.merge(
-            service_provider: 'systemd'
-          )
-        end
-
+      if os_facts[:service_provider] == 'systemd'
         context 'system with systemd' do
           it { is_expected.to create_class('openvpn') }
           it { is_expected.not_to contain_class('openvpn::service') }
+        end
+      else
+        context 'system without systemd' do
+          it { is_expected.to create_class('openvpn') }
+          it { is_expected.to contain_class('openvpn::service') }
         end
       end
     end

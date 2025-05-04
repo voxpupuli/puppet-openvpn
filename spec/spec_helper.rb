@@ -10,7 +10,7 @@ ENV['COVERAGE'] ||= 'yes' if Dir.exist?(File.expand_path('../lib', __dir__))
 require 'voxpupuli/test/spec_helper'
 
 RSpec.configure do |c|
-  c.hiera_config = 'spec/fixtures/hiera/hiera.yaml'
+  c.facterdb_string_keys = false
 end
 
 add_mocked_facts!
@@ -21,3 +21,4 @@ if File.exist?(File.join(__dir__, 'default_module_facts.yml'))
     add_custom_fact name.to_sym, value
   end
 end
+Dir['./spec/support/spec/**/*.rb'].sort.each { |f| require f }

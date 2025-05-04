@@ -5,7 +5,7 @@ openvpn::group: 'nobody'
 openvpn::link_openssl_cnf: true
 openvpn::pam_module_path: ~
 openvpn::namespecific_rclink: false
-openvpn::default_easyrsa_ver: '2.0'
+openvpn::default_easyrsa_ver: '3.0'
 openvpn::easyrsa_source: '/usr/share/easy-rsa/'
 openvpn::additional_packages: ['easy-rsa']
 openvpn::ldap_auth_plugin_location: ~

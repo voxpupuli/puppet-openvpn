@@ -770,7 +770,6 @@ The following parameters are available in the `openvpn::client_specific_config` 
 * [`iroute`](#-openvpn--client_specific_config--iroute)
 * [`iroute_ipv6`](#-openvpn--client_specific_config--iroute_ipv6)
 * [`route`](#-openvpn--client_specific_config--route)
-* [`route_ipv6`](#-openvpn--client_specific_config--route_ipv6)
 * [`ifconfig`](#-openvpn--client_specific_config--ifconfig)
 * [`ifconfig_ipv6`](#-openvpn--client_specific_config--ifconfig_ipv6)
 * [`dhcp_options`](#-openvpn--client_specific_config--dhcp_options)
@@ -806,14 +805,6 @@ Default value: `[]`
 Data type: `Array[String[1]]`
 
 Array of route combinations pushed to client.
-
-Default value: `[]`
-
-##### <a name="-openvpn--client_specific_config--route_ipv6"></a>`route_ipv6`
-
-Data type: `Array[String[1]]`
-
-Array of route-ipv6 combinations pushed to client.
 
 Default value: `[]`
 
