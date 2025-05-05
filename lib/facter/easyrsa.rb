@@ -12,7 +12,7 @@ Facter.add(:easyrsa) do
       binaryv3 = '/usr/share/easy-rsa/3/easyrsa'
     when %r{Ubuntu|Debian}
       binaryv3 = case operatingsystemrelease
-                 when %r{|11|12|18.04|20.04|22.04|24.04}
+                 when %r{|11|12|22.04|24.04}
                    '/usr/share/easy-rsa/easyrsa'
                  else
                    '/usr/share/doc/openvpn/examples/easy-rsa/3.0/easyrsa'
