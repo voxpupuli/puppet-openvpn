@@ -3,28 +3,21 @@
 Facter.add(:easyrsa) do
   confine kernel: 'Linux'
   setcode do
-    binaryv3 = ''
-    operatingsystem = Facter.value(:operatingsystem)
-    operatingsystemrelease = Facter.value(:operatingsystemrelease)
+    binary = case Facter.value[:os]['family']
+             when 'RedHat'
+               '/usr/share/easy-rsa/3/easyrsa'
+             when 'Debian'
+               '/usr/share/easy-rsa/easyrsa'
+             when 'FreeBSD'
+               '/usr/local/share/easy-rsa/easyrsa'
+             when 'Solaris'
+               '/opt/local/bin/easyrsa'
+             else
+               ''
+             end
 
-    case operatingsystem
-    when %r{RedHat|CentOS|Amazon|Rocky|AlmaLinux|OracleLinux}
-      binaryv3 = '/usr/share/easy-rsa/3/easyrsa'
-    when %r{Ubuntu|Debian}
-      binaryv3 = case operatingsystemrelease
-                 when %r{|11|12|22.04|24.04}
-                   '/usr/share/easy-rsa/easyrsa'
-                 else
-                   '/usr/share/doc/openvpn/examples/easy-rsa/3.0/easyrsa'
-                 end
-    when %r{FreeBSD}
-      binaryv3 = '/usr/local/share/easy-rsa/easyrsa'
-    when %r{Solaris}
-      binaryv3 = '/opt/local/bin/easyrsa'
-    end
-
-    if File.exist? binaryv3
-      data = Facter::Core::Execution.execute("#{binaryv3} help")
+    if File.exist? binary
+      data = Facter::Core::Execution.execute("#{binary} help")
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
     elsif Facter::Util::Resolution.which('easyrsa')
       data = Facter::Core::Execution.execute('easyrsa help')
