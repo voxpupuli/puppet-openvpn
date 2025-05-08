@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v11.0.0](https://github.com/voxpupuli/puppet-openvpn/tree/v11.0.0) (2025-05-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.3.0...v11.0.0)
+
+Allow puppetlabs/concat version 9.x [\#479](https://github.com/voxpupuli/puppet-openvpn/issues/479)
+Add Puppet 8 support [\#478](https://github.com/voxpupuli/puppet-openvpn/issues/478)
+Allow puppetlabs/stdlib version 9.x [\#477](https://github.com/voxpupuli/puppet-openvpn/issues/477)
+
+**Breaking changes:**
+
+- Drop Ubuntu 20.04 support [\#475](https://github.com/voxpupuli/puppet-openvpn/pull/475) ([Valantin](https://github.com/Valantin))
+- Fix archlinux support [\#471](https://github.com/voxpupuli/puppet-openvpn/pull/471) ([Valantin](https://github.com/Valantin))
+- Move to EasyRSA 3 [\#470](https://github.com/voxpupuli/puppet-openvpn/pull/470) ([Valantin](https://github.com/Valantin))
+- Drop unsupported RedHat family OS [\#467](https://github.com/voxpupuli/puppet-openvpn/pull/467) ([Valantin](https://github.com/Valantin))
+- Drop CentOS and Redhat 7 support [\#456](https://github.com/voxpupuli/puppet-openvpn/pull/456) ([zilchms](https://github.com/zilchms))
+- Drop Debian 9 and 10 support [\#455](https://github.com/voxpupuli/puppet-openvpn/pull/455) ([zilchms](https://github.com/zilchms))
+- Drop Ubuntu 18.04 support [\#454](https://github.com/voxpupuli/puppet-openvpn/pull/454) ([zilchms](https://github.com/zilchms))
+- Drop Puppet 6 support [\#443](https://github.com/voxpupuli/puppet-openvpn/pull/443) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add freebsd release [\#472](https://github.com/voxpupuli/puppet-openvpn/pull/472) ([Valantin](https://github.com/Valantin))
+- Add Ubuntu 24.04 support [\#469](https://github.com/voxpupuli/puppet-openvpn/pull/469) ([Valantin](https://github.com/Valantin))
+- Add Debian 12 support [\#468](https://github.com/voxpupuli/puppet-openvpn/pull/468) ([Valantin](https://github.com/Valantin))
+- Add RedHat 9 family OS [\#466](https://github.com/voxpupuli/puppet-openvpn/pull/466) ([Valantin](https://github.com/Valantin))
+- Add OpenVox to metadata.json [\#464](https://github.com/voxpupuli/puppet-openvpn/pull/464) ([jstraw](https://github.com/jstraw))
+- Add `route_ipv6` client specific config support [\#451](https://github.com/voxpupuli/puppet-openvpn/pull/451) ([antondollmaier](https://github.com/antondollmaier))
+
 ## [v10.3.0](https://github.com/voxpupuli/puppet-openvpn/tree/v10.3.0) (2022-08-24)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-openvpn/compare/v10.2.1...v10.3.0)
