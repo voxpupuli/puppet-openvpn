@@ -478,6 +478,8 @@ describe 'openvpn::server' do
             'verb' => 'mute',
             'cipher' => 'DES-CBC',
             'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+            'data_ciphers' => 'AES-256-GCM',
+            'data_ciphers_fallback' => 'AES-128-GCM',
             'persist_key' => true,
             'persist_tun' => true,
             'duplicate_cn' => true,
@@ -517,6 +519,8 @@ describe 'openvpn::server' do
             with_content(%r{^verb mute$}).
             with_content(%r{^cipher DES-CBC$}).
             with_content(%r{^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$}).
+            with_content(%r{^data-ciphers\s+AES-256-GCM$}).
+            with_content(%r{^data-ciphers-fallback\s+AES-128-GCM$}).
             with_content(%r{^persist-key$}).
             with_content(%r{^persist-tun$}).
             with_content(%r{^up "/tmp/up"$}).
