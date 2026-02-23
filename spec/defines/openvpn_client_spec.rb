@@ -196,6 +196,8 @@ describe 'openvpn::client' do
             'persist_tun' => false,
             'cipher' => 'AES-256-GCM',
             'tls_cipher' => 'TLS-DHE-RSA-WITH-AES-256-CBC-SHA',
+            'data_ciphers' => 'AES-256-GCM',
+            'data_ciphers_fallback' => 'AES-128-GCM',
             'port' => '123',
             'proto' => 'udp',
             'remote_host' => %w[somewhere galaxy],
@@ -233,6 +235,8 @@ describe 'openvpn::client' do
             with_content(%r{^setenv_safe\s+FORWARD_COMPATIBLE\s+1$}).
             with_content(%r{^cipher\s+AES-256-GCM$}).
             with_content(%r{^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$}).
+            with_content(%r{^data-ciphers\s+AES-256-GCM$}).
+            with_content(%r{^data-ciphers-fallback\s+AES-128-GCM$}).
             with_content(%r{^tls-client$}).
             with_content(%r{^verify-x509-name\s+"test_server"\s+name$}).
             with_content(%r{^sndbuf\s+393216$}).

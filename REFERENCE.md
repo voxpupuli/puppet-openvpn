@@ -451,6 +451,8 @@ The following parameters are available in the `openvpn::client` defined type:
 * [`remote_host`](#-openvpn--client--remote_host)
 * [`cipher`](#-openvpn--client--cipher)
 * [`tls_cipher`](#-openvpn--client--tls_cipher)
+* [`data_ciphers`](#-openvpn--client--data_ciphers)
+* [`data_ciphers_fallback`](#-openvpn--client--data_ciphers_fallback)
 * [`resolv_retry`](#-openvpn--client--resolv_retry)
 * [`auth_retry`](#-openvpn--client--auth_retry)
 * [`verb`](#-openvpn--client--verb)
@@ -574,6 +576,22 @@ Data type: `String`
 TLS Ciphers to use
 
 Default value: `'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256'`
+
+##### <a name="-openvpn--client--data_ciphers"></a>`data_ciphers`
+
+Data type: `String`
+
+Ciphers to allow for packet encryption
+
+Default value: `'AES-256-GCM:AES-128-GCM'`
+
+##### <a name="-openvpn--client--data_ciphers_fallback"></a>`data_ciphers_fallback`
+
+Data type: `Optional[String]`
+
+Cipher to use if peer cipher config cannot be determined
+
+Default value: `undef`
 
 ##### <a name="-openvpn--client--resolv_retry"></a>`resolv_retry`
 
@@ -1030,6 +1048,8 @@ The following parameters are available in the `openvpn::server` defined type:
 * [`verb`](#-openvpn--server--verb)
 * [`cipher`](#-openvpn--server--cipher)
 * [`tls_cipher`](#-openvpn--server--tls_cipher)
+* [`data_ciphers`](#-openvpn--server--data_ciphers)
+* [`data_ciphers_fallback`](#-openvpn--server--data_ciphers_fallback)
 * [`persist_key`](#-openvpn--server--persist_key)
 * [`persist_tun`](#-openvpn--server--persist_tun)
 * [`key_expire`](#-openvpn--server--key_expire)
@@ -1626,6 +1646,22 @@ Data type: `String`
 TLS Ciphers to use
 
 Default value: `'TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256'`
+
+##### <a name="-openvpn--server--data_ciphers"></a>`data_ciphers`
+
+Data type: `String`
+
+Ciphers to allow for packet encryption
+
+Default value: `'AES-256-GCM:AES-128-GCM'`
+
+##### <a name="-openvpn--server--data_ciphers_fallback"></a>`data_ciphers_fallback`
+
+Data type: `Optional[String]`
+
+Cipher to use if peer cipher config cannot be determined
+
+Default value: `undef`
 
 ##### <a name="-openvpn--server--persist_key"></a>`persist_key`
 

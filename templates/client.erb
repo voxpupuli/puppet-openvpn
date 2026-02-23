@@ -28,6 +28,12 @@ cipher <%= @cipher %>
 <% if @tls_cipher != '' -%>
 tls-cipher <%= @tls_cipher %>
 <% end -%>
+<% if @data_ciphers != 'AES-256-GCM:AES-128-GCM' -%>
+data-ciphers <%= @data_ciphers %>
+<% end -%>
+<% if @data_ciphers_fallback -%>
+data-ciphers-fallback <%= @data_ciphers_fallback %>
+<% end -%>
 <% if @mute_replay_warnings -%>
 mute-replay-warnings
 <% end -%>
