@@ -1006,6 +1006,7 @@ The following parameters are available in the `openvpn::server` defined type:
 * [`management`](#-openvpn--server--management)
 * [`management_ip`](#-openvpn--server--management_ip)
 * [`management_port`](#-openvpn--server--management_port)
+* [`management_password`](#-openvpn--server--management_password)
 * [`up`](#-openvpn--server--up)
 * [`down`](#-openvpn--server--down)
 * [`client_connect`](#-openvpn--server--client_connect)
@@ -1434,6 +1435,14 @@ Data type: `Variant[Stdlib::Port::Unprivileged,Enum['unix']]`
 Port where the management interface will listen
 
 Default value: `7505`
+
+##### <a name="-openvpn--server--management_password"></a>`management_password`
+
+Data type: `Optional[Variant[Stdlib::Absolutepath,Enum['stdin']]]`
+
+Path to password file for management interface
+
+Default value: `undef`
 
 ##### <a name="-openvpn--server--up"></a>`up`
 

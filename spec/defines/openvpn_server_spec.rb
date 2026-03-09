@@ -466,6 +466,7 @@ describe 'openvpn::server' do
             'management' => true,
             'management_ip' => '1.3.3.7',
             'management_port' => 1337,
+            'management_password' => 'stdin',
             'common_name' => 'mylittlepony',
             'ca_expire' => 365,
             'crl_auto_renew' => true,
@@ -513,7 +514,7 @@ describe 'openvpn::server' do
             with_content(%r{^route-ipv6\s+2001:db8:abcd::/64$}).
             with_content(%r{^keepalive\s+10\s+120$}).
             with_content(%r{^topology\s+subnet$}).
-            with_content(%r{^management\s+1.3.3.7 1337$}).
+            with_content(%r{^management\s+1.3.3.7 1337 stdin$}).
             with_content(%r{^verb mute$}).
             with_content(%r{^cipher DES-CBC$}).
             with_content(%r{^tls-cipher\s+TLS-DHE-RSA-WITH-AES-256-CBC-SHA$}).

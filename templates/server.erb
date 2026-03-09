@@ -155,7 +155,7 @@ ccd-exclusive
 plugin <%= @pam_module_path %> "<%= @pam_module_arguments %>"
 <% end -%>
 <% if @management -%>
-management <%= @management_ip %> <%= @management_port %>
+management <%= @management_ip %> <%= @management_port %><%= " #{@management_password}" if @management_password %>
 <% end -%>
 <% if @up or @down or @client_connect or @client_disconnect -%>
 script-security 2
