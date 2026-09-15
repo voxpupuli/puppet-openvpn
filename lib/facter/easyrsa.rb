@@ -19,7 +19,7 @@ Facter.add(:easyrsa) do
     if File.exist? binary
       data = Facter::Core::Execution.execute("#{binary} help")
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
-    elsif Facter::Util::Resolution.which('easyrsa')
+    elsif Facter::Core::Execution.which('easyrsa')
       data = Facter::Core::Execution.execute('easyrsa help')
       version = '3.0' if data.gsub!(%r{Easy-RSA 3 usage}, '')
     end
