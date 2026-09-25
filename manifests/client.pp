@@ -35,6 +35,7 @@
 # @param pull Allow server to push options like dns or routes
 # @param server_extca_enabled Turn this on if you are using an external CA solution, like FreeIPA. Use this in Combination with exported_ressourced, since they don't have Access to the Serverconfig
 # @param remote_cert_tls Enable or disable use of remote-cert-tls used with client configuration
+# @param private_key_password Optional password to protect the generated private key. If set, the key is not generated with "nopass" but instead EASYRSA_PASSOUT is set accordingly.
 #
 # @example
 #   openvpn::client {
@@ -78,6 +79,7 @@ define openvpn::client (
   Boolean $pull                                        = false,
   Boolean $server_extca_enabled                        = false,
   Boolean $remote_cert_tls                             = true,
+  Optional[String] $private_key_password               = undef,
 ) {
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')
@@ -109,7 +111,7 @@ define openvpn::client (
     if is_integer($expire) {
       case $openvpn::easyrsa_version {
         '3.0': {
-          $env_expire = "EASYRSA_CERT_EXPIRE=${expire} EASYRSA_NO_VARS=1"
+          $env_expire = ['EASYRSA_NO_VARS=1', "EASYRSA_CERT_EXPIRE=${expire}"]
         }
         default: {
           fail("unexepected value for EasyRSA version, got '${openvpn::easyrsa_version}', expect 3.0.")
@@ -117,18 +119,27 @@ define openvpn::client (
       }
     } else {
       warning("Custom expiry time ignored: only integer is accepted but ${expire} is given.")
+      $env_expire = []
     }
   } else {
-    $env_expire = ''
+    $env_expire = []
   }
+
+  $env_passout = $private_key_password ? {
+    undef   => ['EASYRSA_NO_PASS=1'],
+    default => ["EASYRSA_PASSOUT=pass:${private_key_password}"],
+  }
+
+  $easyrsa_environment = $env_expire + $env_passout
 
   case $openvpn::easyrsa_version {
     '3.0': {
       exec { "generate certificate for ${name} in context of ${ca_name}":
-        command  => "${env_expire} ./easyrsa --batch build-client-full ${name} nopass",
-        cwd      => "${server_directory}/${ca_name}/easy-rsa",
-        creates  => "${server_directory}/${ca_name}/easy-rsa/keys/issued/${name}.crt",
-        provider => 'shell';
+        command     => "./easyrsa --batch build-client-full ${name}",
+        cwd         => "${server_directory}/${ca_name}/easy-rsa",
+        creates     => "${server_directory}/${ca_name}/easy-rsa/keys/issued/${name}.crt",
+        provider    => 'shell',
+        environment => $easyrsa_environment;
       }
 
       file { "${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.crt":
