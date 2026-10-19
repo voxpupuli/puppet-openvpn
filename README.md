@@ -26,6 +26,7 @@ Puppet module to manage OpenVPN servers and clients.
 * Debian
 * CentOS
 * RedHat
+* openSUSE
 * Solaris
 
 ## Dependencies

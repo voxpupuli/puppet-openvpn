@@ -71,6 +71,12 @@
     },
     {
       "operatingsystem": "Solaris"
+    },
+    {
+      "operatingsystem": "openSUSE",
+      "operatingsystemrelease": [
+        "15"
+      ]
     }
   ],
   "requirements": [
