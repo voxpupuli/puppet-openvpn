@@ -73,9 +73,10 @@
       "operatingsystem": "Solaris"
     },
     {
-      "operatingsystem": "openSUSE",
+      "operatingsystem": "SLES",
       "operatingsystemrelease": [
-        "15"
+        "15",
+        "16"
       ]
     }
   ],
