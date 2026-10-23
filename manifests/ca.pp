@@ -82,14 +82,26 @@ define openvpn::ca (
     mode   => '0750'
   })
 
-  file { "${server_directory}/${name}/easy-rsa" :
-    ensure             => directory,
-    recurse            => true,
-    links              => 'follow',
-    source_permissions => 'use',
-    group              => 0,
-    source             => "file:${openvpn::easyrsa_source}",
-    require            => File["${server_directory}/${name}"],
+  file { "${server_directory}/${name}/easy-rsa":
+    ensure  => directory,
+    mode    => '0750',
+    group   => 0,
+    require => $facts['os']['family'] ? {
+      'Suse'  => [
+        File["${server_directory}/${name}"],
+        Package['easy-rsa'],
+      ],
+      default => File["${server_directory}/${name}"],
+    },
+  }
+
+  if $facts['os']['family'] != 'Suse' {
+    File["${server_directory}/${name}/easy-rsa"] {
+      recurse            => true,
+      links              => 'follow',
+      source_permissions => 'use',
+      source             => "file:${openvpn::easyrsa_source}",
+    }
   }
 
   file { "${server_directory}/${name}/easy-rsa/revoked":
@@ -99,10 +111,26 @@ define openvpn::ca (
     require => File["${server_directory}/${name}/easy-rsa"],
   }
 
+  if $facts['os']['family'] == 'Suse' {
+    file { "${server_directory}/${name}/easy-rsa/x509-types":
+      ensure  => link,
+      target  => "${openvpn::easyrsa_source}/x509-types",
+      require => File["${server_directory}/${name}/easy-rsa"],
+    }
+  }
+
   if $facts['os']['family'] == 'Archlinux' {
     file { "${server_directory}/${name}/easy-rsa/easyrsa":
       ensure  => link,
       target  => '/bin/easyrsa',
+      require => File["${server_directory}/${name}/easy-rsa"],
+    }
+  }
+
+  if $facts['os']['family'] == 'Suse' {
+    file { "${server_directory}/${name}/easy-rsa/easyrsa":
+      ensure  => link,
+      target  => '/usr/bin/easyrsa',
       require => File["${server_directory}/${name}/easy-rsa"],
     }
   }
@@ -141,6 +169,14 @@ define openvpn::ca (
           ensure => link,
           target => "${server_directory}/${name}/easy-rsa/openssl-easyrsa.cnf",
           before => Exec["initca ${name}"],
+        }
+      }
+
+      if $facts['os']['family'] == 'Suse' {
+        file { "${server_directory}/${name}/easy-rsa/openssl-easyrsa.cnf":
+          ensure  => link,
+          target  => "${openvpn::easyrsa_source}/openssl-easyrsa.cnf",
+          require => File["${server_directory}/${name}/easy-rsa"],
         }
       }
 

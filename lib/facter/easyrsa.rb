@@ -8,6 +8,8 @@ Facter.add(:easyrsa) do
                '/usr/share/easy-rsa/3/easyrsa'
              when 'Debian'
                '/usr/share/easy-rsa/easyrsa'
+             when 'Suse'
+               '/usr/bin/easyrsa'
              when 'FreeBSD'
                '/usr/local/share/easy-rsa/easyrsa'
              when 'Solaris'
