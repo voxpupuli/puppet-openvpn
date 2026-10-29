@@ -15,7 +15,7 @@
 
 * [`openvpn::ca`](#openvpn--ca): This define creates the openvpn ca and ssl certificates
 * [`openvpn::client`](#openvpn--client): This define creates client certs for a specified server as well as a tarball that can be directly imported into clients
-* [`openvpn::client_specific_config`](#openvpn--client_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in 
+* [`openvpn::client_specific_config`](#openvpn--client_specific_config): This feature is explained here: http://openvpn.net/index.php/open-source/documentation/howto.html#policy All the parameters are explained in
 * [`openvpn::revoke`](#openvpn--revoke): This define creates a revocation on a certificate for a specified server. There may not be an openvpn::client resource with the same name.
 * [`openvpn::server`](#openvpn--server): This define creates the openvpn server instance which can run in server or client mode.
 
@@ -27,7 +27,7 @@ This module installs the openvpn service, configures vpn endpoints, generates cl
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 class { 'openvpn':
@@ -249,7 +249,7 @@ This define creates the openvpn ca and ssl certificates
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::ca {
@@ -450,7 +450,7 @@ This define creates client certs for a specified server as well as a tarball tha
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client {
@@ -776,7 +776,7 @@ All the parameters are explained in the openvpn documentation http://openvpn.net
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client_specific_config {
@@ -905,7 +905,7 @@ This define creates a revocation on a certificate for a specified server. There 
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 openvpn::client {
@@ -914,7 +914,7 @@ openvpn::client {
 }
 ```
 
-##### 
+#####
 
 ```puppet
 openvpn::revoke {
@@ -1952,4 +1952,3 @@ Data type: `Variant[Boolean, Integer]`
 
 
 Default value: `false`
-
