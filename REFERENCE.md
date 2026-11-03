@@ -498,6 +498,7 @@ The following parameters are available in the `openvpn::client` defined type:
 * [`pull`](#-openvpn--client--pull)
 * [`server_extca_enabled`](#-openvpn--client--server_extca_enabled)
 * [`remote_cert_tls`](#-openvpn--client--remote_cert_tls)
+* [`custom_easyrsa_options`](#-openvpn--client--custom_easyrsa_options)
 
 ##### <a name="-openvpn--client--server"></a>`server`
 
@@ -768,6 +769,14 @@ Data type: `Boolean`
 Enable or disable use of remote-cert-tls used with client configuration
 
 Default value: `true`
+
+##### <a name="-openvpn--client--custom_easyrsa_options"></a>`custom_easyrsa_options`
+
+Data type: `Array`
+
+Add custom options to the easyrsa command
+
+Default value: `[]`
 
 ### <a name="openvpn--client_specific_config"></a>`openvpn::client_specific_config`
 
