@@ -35,6 +35,7 @@
 # @param pull Allow server to push options like dns or routes
 # @param server_extca_enabled Turn this on if you are using an external CA solution, like FreeIPA. Use this in Combination with exported_ressourced, since they don't have Access to the Serverconfig
 # @param remote_cert_tls Enable or disable use of remote-cert-tls used with client configuration
+# @param certificate_created_notify Resource (reference) to notify only when this client's certificate is actually (re-)generated, as opposed to any other change managed by this define (e.g. shared server settings that end up in every client's .ovpn file). Useful for hooking external automation to genuine certificate-creation events.
 #
 # @example
 #   openvpn::client {
@@ -78,6 +79,7 @@ define openvpn::client (
   Boolean $pull                                        = false,
   Boolean $server_extca_enabled                        = false,
   Boolean $remote_cert_tls                             = true,
+  $certificate_created_notify                          = undef,
 ) {
   if $pam {
     warning('Using $pam is deprecated. Use $authuserpass instead!')
@@ -128,7 +130,8 @@ define openvpn::client (
         command  => "${env_expire} ./easyrsa --batch build-client-full ${name} nopass",
         cwd      => "${server_directory}/${ca_name}/easy-rsa",
         creates  => "${server_directory}/${ca_name}/easy-rsa/keys/issued/${name}.crt",
-        provider => 'shell';
+        provider => 'shell',
+        notify   => $certificate_created_notify;
       }
 
       file { "${server_directory}/${server}/download-configs/${name}/keys/${name}/${name}.crt":
