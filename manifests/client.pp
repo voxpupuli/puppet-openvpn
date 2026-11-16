@@ -125,17 +125,26 @@ define openvpn::client (
     $env_expire = []
   }
 
+  # Keep using the "nopass" build-client-full argument for the unprotected-key case, rather than
+  # the EASYRSA_NO_PASS environment variable: EASYRSA_NO_PASS is only honored by easy-rsa >= 3.1.2
+  # (e.g. not by the easy-rsa packages shipped by Debian 11/12 or Ubuntu 22.04), whereas "nopass"
+  # and EASYRSA_PASSOUT (below) are both supported by every easy-rsa 3.x release.
   $env_passout = $private_key_password ? {
-    undef   => ['EASYRSA_NO_PASS=1'],
+    undef   => [],
     default => ["EASYRSA_PASSOUT=pass:${private_key_password}"],
   }
 
   $easyrsa_environment = $env_expire + $env_passout
 
+  $easyrsa_build_client_full_opts = $private_key_password ? {
+    undef   => ' nopass',
+    default => '',
+  }
+
   case $openvpn::easyrsa_version {
     '3.0': {
       exec { "generate certificate for ${name} in context of ${ca_name}":
-        command     => "./easyrsa --batch build-client-full ${name}",
+        command     => "./easyrsa --batch build-client-full ${name}${easyrsa_build_client_full_opts}",
         cwd         => "${server_directory}/${ca_name}/easy-rsa",
         creates     => "${server_directory}/${ca_name}/easy-rsa/keys/issued/${name}.crt",
         provider    => 'shell',
