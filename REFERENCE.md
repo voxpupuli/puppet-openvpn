@@ -772,10 +772,9 @@ Default value: `true`
 
 ##### <a name="-openvpn--client--certificate_created_notify"></a>`certificate_created_notify`
 
-Resource (reference) to notify only when this client's certificate is actually (re-)generated, as
-opposed to any other change managed by this define (e.g. shared server settings that end up in
-every client's .ovpn file). Useful for hooking external automation to genuine
-certificate-creation events.
+Data type: `Any`
+
+Resource (reference) to notify only when this client's certificate is actually (re-)generated, as opposed to any other change managed by this define (e.g. shared server settings that end up in every client's .ovpn file). Useful for hooking external automation to genuine certificate-creation events.
 
 Default value: `undef`
 
