@@ -245,6 +245,30 @@ describe 'openvpn::client' do
         it { is_expected.to contain_file("#{server_directory}/test_server/download-configs/test_client/README").with_content(%r{^readme text$}) }
       end
 
+      context 'without private_key_password' do
+        let(:params) { { 'server' => 'test_server' } }
+
+        it {
+          is_expected.to contain_exec('generate certificate for test_client in context of test_server')
+            .with_command(%r{build-client-full test_client nopass$})
+        }
+
+        it {
+          is_expected.to contain_exec('generate certificate for test_client in context of test_server')
+            .without_environment(%r{EASYRSA_PASSOUT})
+        }
+      end
+
+      context 'with private_key_password' do
+        let(:params) { { 'server' => 'test_server', 'private_key_password' => 'secret123' } }
+
+        it {
+          is_expected.to contain_exec('generate certificate for test_client in context of test_server')
+            .with_command(%r{build-client-full test_client$})
+            .with_environment(%r{EASYRSA_PASSOUT=pass:secret123})
+        }
+      end
+
       context 'with extca' do
         let(:pre_condition) do
           'openvpn::server { "text_server_extca":
