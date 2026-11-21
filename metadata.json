@@ -71,6 +71,13 @@
     },
     {
       "operatingsystem": "Solaris"
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "15",
+        "16"
+      ]
     }
   ],
   "requirements": [

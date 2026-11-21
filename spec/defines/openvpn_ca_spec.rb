@@ -44,6 +44,13 @@ describe 'openvpn::ca' do
 
         it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/easyrsa").with_ensure('link') } if os_facts[:os]['family'] == 'Archlinux'
 
+        if os_facts[:os]['family'] == 'Suse'
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/easyrsa").with(ensure: 'link', target: '/usr/bin/easyrsa') }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/openssl-easyrsa.cnf").with(ensure: 'link', target: '/etc/easy-rsa/openssl-easyrsa.cnf') }
+          it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/x509-types").with(ensure: 'link', target: '/etc/easy-rsa/x509-types') }
+        end
+
         it { is_expected.to contain_file("#{server_directory}/test_server/easy-rsa/vars").with_mode('0550') }
 
         it {
